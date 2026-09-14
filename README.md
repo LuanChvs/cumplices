@@ -3,7 +3,7 @@
 Quatro jogos rápidos pra casais jogarem juntos no mesmo celular ou computador.
 Sem cadastro, sem servidor, sem instalar nada.
 
-🔗 **[Jogar agora](https://SEU-USUARIO.github.io/NOME-DO-REPO/)**
+🔗 **[Jogar agora](https://luanchvs.github.io/cumplices/#/sintonia)**
 
 ## Os jogos
 
