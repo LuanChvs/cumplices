@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>Cúmplices — jogos para dois</title>
+<meta name="description" content="Quatro jogos rápidos pra jogar em dupla: roleta de sintonia, stop eletrônico, verdade ou desafio e quiz do casal.">
+<meta name="theme-color" content="#161022">
+
+<!-- Ícones -->
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<!-- Open Graph (WhatsApp, Telegram, Instagram, Facebook) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cúmplices — jogos para dois">
+<meta property="og:description" content="Quatro jogos rápidos pra jogar em dupla: roleta de sintonia, stop eletrônico, verdade ou desafio e quiz do casal.">
+<meta property="og:image" content="https://SEU-USUARIO.github.io/NOME-DO-REPO/og/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://SEU-USUARIO.github.io/NOME-DO-REPO/">
+<meta property="og:locale" content="pt_BR">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cúmplices — jogos para dois">
+<meta name="twitter:description" content="Quatro jogos rápidos pra jogar em dupla.">
+<meta name="twitter:image" content="https://SEU-USUARIO.github.io/NOME-DO-REPO/og/preview.png">
+
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#161022;
+    --bg-soft:#1c1530;
+    --panel:#241b38;
+    --panel-2:#2c2140;
+    --line:rgba(245,240,232,0.09);
+    --text:#f5f0e8;
+    --text-dim:#b9a9cc;
+    --rose:#e79fc4;
+    --gold:#f2c14e;
+    --teal:#6fd6c4;
+    --lav:#a78bfa;
+    --coral:#f2946b;
+    --sage:#8fd48a;
+    --danger:#e3667a;
+    --r-lg:28px;
+    --r-md:18px;
+    --r-sm:10px;
+    --font-d:'Fraunces', serif;
+    --font-b:'Plus Jakarta Sans', sans-serif;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(60vw 60vw at 85% -10%, rgba(231,159,196,0.10), transparent 60%),
+      radial-gradient(70vw 70vw at -10% 110%, rgba(111,214,196,0.08), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-b);
+    line-height:1.55;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  h1,h2,h3{font-family:var(--font-d); margin:0; font-weight:600;}
+  p{margin:0;}
+  .container{max-width:760px; margin:0 auto; padding:0 20px;}
+  ::selection{background:var(--rose); color:#211430;}
+  :focus-visible{outline:2px solid var(--gold); outline-offset:3px; border-radius:6px;}
+
+  .topbar{
+    position:sticky; top:0; z-index:5;
+    backdrop-filter:blur(10px);
+    background:rgba(22,16,34,0.72);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:760px; margin:0 auto; padding:16px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .brand{
+    font-family:var(--font-d); font-style:italic; font-weight:600;
+    font-size:1.3rem; text-decoration:none; letter-spacing:0.01em;
+  }
+  .brand span{color:var(--rose);}
+  .top-context{
+    font-size:0.85rem; color:var(--text-dim); text-decoration:none;
+    display:flex; align-items:center; gap:6px;
+  }
+  .top-context:hover{color:var(--text);}
+
+  main{padding-bottom:64px;}
+
+  .hero{padding:56px 0 28px;}
+  .hero h1{font-size:clamp(2.3rem, 7vw, 3.6rem); line-height:1.05; max-width:11ch;}
+  .hero p{margin-top:16px; color:var(--text-dim); font-size:1.08rem; max-width:42ch;}
+
+  .game-list{padding:20px 0 40px; display:flex; flex-direction:column; gap:22px;}
+  .game-row{display:flex;}
+  .game-row.right{justify-content:flex-end;}
+  .game-card{
+    text-decoration:none; color:var(--text);
+    display:flex; gap:16px; align-items:flex-start;
+    max-width:min(480px, 86%);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--r-lg);
+    padding:20px 22px;
+    transition:transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .game-row.right .game-card{border-top-right-radius:8px;}
+  .game-row:not(.right) .game-card{border-top-left-radius:8px;}
+  .game-card:hover{transform:translateY(-2px); border-color:rgba(245,240,232,0.22);}
+  .badge{
+    flex:none; width:52px; height:52px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(245,240,232,0.06);
+  }
+  .badge svg{width:26px; height:26px;}
+  .game-card h2{font-size:1.32rem; font-weight:600;}
+  .game-card .sub{color:var(--text-dim); font-size:0.92rem; margin-top:4px;}
+  .game-card .go{
+    margin-top:10px; font-size:0.82rem; font-weight:600;
+    color:var(--gold);
+  }
+
+  .home-footer{padding:20px 0 50px; color:var(--text-dim); font-size:0.85rem;}
+
+  .stage-head{padding:34px 0 6px;}
+  .stage-head h1{font-size:clamp(1.9rem, 5vw, 2.6rem);}
+  .stage-head p{color:var(--text-dim); margin-top:10px; max-width:52ch;}
+  .panel{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--r-lg); padding:26px; margin:26px 0;
+  }
+  .panel + .panel{margin-top:0;}
+  .field-label{font-size:0.82rem; color:var(--text-dim); font-weight:600; display:block; margin-bottom:10px;}
+  .field-hint{font-size:0.82rem; color:var(--text-dim); line-height:1.5; margin-top:12px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    border:1px solid var(--line); background:var(--panel-2); color:var(--text);
+    padding:9px 15px; border-radius:100px; font-size:0.9rem; cursor:pointer;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .chip:hover{border-color:rgba(245,240,232,0.3);}
+  .chip.selected{background:var(--gold); color:#241706; border-color:var(--gold); font-weight:600;}
+  .text-input{
+    width:100%; padding:12px 14px; border-radius:var(--r-sm);
+    border:1px solid var(--line); background:var(--bg-soft); color:var(--text);
+    font-size:1rem; font-family:var(--font-b);
+  }
+  .row-2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media (max-width:520px){.row-2{grid-template-columns:1fr;}}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:14px 24px; border-radius:100px; border:none; cursor:pointer;
+    font-size:1rem; font-weight:700; font-family:var(--font-b);
+    transition:transform .12s ease, filter .12s ease;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--gold); color:#241706;}
+  .btn-primary:hover{filter:brightness(1.06);}
+  .btn-ghost{background:transparent; color:var(--text); border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:rgba(245,240,232,0.35);}
+  .btn-block{width:100%;}
+  .btn[disabled]{opacity:0.45; cursor:not-allowed;}
+  .btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+
+  .wheel-stage{display:flex; flex-direction:column; align-items:center; padding:10px 0 6px;}
+  .wheel-ring{
+    width:min(280px, 70vw); height:min(280px, 70vw); border-radius:50%;
+    background:conic-gradient(var(--rose) 0 60deg, var(--gold) 60deg 120deg, var(--teal) 120deg 180deg, var(--lav) 180deg 240deg, var(--coral) 240deg 300deg, var(--sage) 300deg 360deg);
+    position:relative; margin:6px auto 26px;
+    box-shadow:0 0 0 8px var(--bg-soft), 0 20px 50px -18px rgba(0,0,0,0.6);
+    transition:transform 2.6s cubic-bezier(.13,.62,.15,1);
+  }
+  .wheel-ring::after{
+    content:""; position:absolute; inset:22%; border-radius:50%;
+    background:var(--panel); box-shadow:inset 0 0 0 1px var(--line);
+  }
+  .wheel-pointer{
+    width:0; height:0; margin:0 auto -6px;
+    border-left:11px solid transparent; border-right:11px solid transparent;
+    border-top:16px solid var(--gold); position:relative; z-index:2;
+  }
+  .category-ring{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
+    max-width:460px; margin:0 auto; width:100%;
+  }
+  .cat-chip{
+    border-radius:var(--r-md); border:1px solid var(--line); background:var(--panel-2);
+    padding:12px 8px; text-align:center; font-size:0.86rem; font-weight:600;
+    transition:background .12s ease, transform .12s ease, box-shadow .12s ease;
+  }
+  .cat-chip.lit{background:var(--gold); color:#241706; transform:translateY(-2px); box-shadow:0 8px 20px -8px rgba(242,193,78,0.7);}
+  .sintonia-actions{display:flex; justify-content:center; margin-top:28px;}
+  .question-card{
+    background:var(--panel-2); border-radius:var(--r-lg); padding:28px 24px;
+    text-align:center; margin-top:22px;
+  }
+  .question-card .cat-name{font-size:0.82rem; font-weight:700; letter-spacing:0.01em; color:var(--gold);}
+  .question-card p{font-family:var(--font-d); font-size:1.3rem; margin-top:12px; line-height:1.35;}
+  .question-card .btn-row{justify-content:center;}
+
+  .btn-ok{background:var(--sage); color:#0d2412;}
+  .btn-miss{background:var(--panel-2); color:var(--text); border:1px solid var(--line);}
+
+  .player-row{display:flex; gap:8px; margin-bottom:10px; align-items:center;}
+  .player-row input{flex:1;}
+  .player-remove{
+    flex:none; width:44px; height:44px; border-radius:10px; border:1px solid var(--line);
+    background:var(--panel-2); color:var(--text-dim); cursor:pointer; font-size:1.1rem; line-height:1;
+  }
+  .player-remove:hover{color:var(--text);}
+  .add-player-btn{margin-top:2px;}
+
+  .deck-wrap{display:flex; flex-direction:column; align-items:center; gap:16px; padding:6px 0;}
+  .theme-card{
+    width:min(240px,70vw); min-height:140px; border-radius:var(--r-md);
+    background:var(--panel-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:18px; font-family:var(--font-d); font-weight:600;
+  }
+  .theme-card.face-down{color:var(--text-dim); font-size:2.4rem;}
+  .theme-card.revealed{font-size:1.4rem; animation:cardpop .3s ease;}
+  @keyframes cardpop{ from{transform:scale(0.9); opacity:0.3;} to{transform:scale(1); opacity:1;} }
+
+  .mode-badge{
+    display:inline-block; font-size:0.78rem; padding:5px 12px; border-radius:100px;
+    background:var(--panel-2); border:1px solid var(--line);
+    color:var(--text-dim); font-weight:600;
+  }
+
+  .score-row{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:16px 0 4px;}
+  .score-chip{
+    padding:8px 14px; border-radius:100px; background:var(--panel-2); border:1px solid var(--line);
+    font-size:0.85rem; font-weight:600; display:flex; gap:7px; align-items:center; color:var(--text-dim);
+  }
+  .score-chip .dot{width:9px; height:9px; border-radius:50%; flex:none;}
+  .score-chip.active{color:var(--text); border-color:currentColor;}
+
+  .timer-wrap{margin:18px 0 6px;}
+  .timer-bar-track{height:8px; border-radius:100px; background:var(--panel-2); overflow:hidden;}
+  .timer-bar-fill{height:100%; background:var(--gold); border-radius:100px; transition:width .2s linear, background .3s ease;}
+  .timer-big{
+    text-align:center; font-family:var(--font-d); font-weight:700;
+    font-size:clamp(2.6rem, 11vw, 3.6rem); margin:10px 0 2px; font-variant-numeric:tabular-nums;
+  }
+  .timer-note{text-align:center; color:var(--text-dim); font-size:0.82rem; margin-bottom:6px;}
+  .turn-banner{text-align:center; font-size:0.95rem; color:var(--text-dim); margin-bottom:6px;}
+  .turn-banner b{color:var(--text);}
+
+  .letter-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(44px,1fr));
+    gap:8px; margin-top:22px;
+  }
+  .letter-btn{
+    aspect-ratio:1; border-radius:12px; border:1px solid var(--line);
+    background:var(--panel-2); color:var(--text); font-family:var(--font-d); font-weight:700;
+    font-size:1.1rem; cursor:pointer; transition:transform .1s ease, opacity .15s ease;
+  }
+  .letter-btn:active{transform:scale(0.9);}
+  .letter-btn.used{opacity:0.4; cursor:default; pointer-events:none;}
+
+  .recap-row{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:20px 0;}
+  .recap-chip{
+    display:flex; align-items:center; gap:6px; padding:6px 11px; border-radius:10px;
+    background:var(--panel-2); border:1px solid var(--line); font-size:0.82rem;
+  }
+  .recap-chip .dot{width:9px; height:9px; border-radius:50%; flex:none;}
+
+  .end-stats{display:flex; gap:20px; justify-content:center; margin:22px 0; flex-wrap:wrap;}
+  .end-stat{text-align:center;}
+  .end-stat b{display:block; font-family:var(--font-d); font-size:2rem;}
+  .end-stat span{font-size:0.8rem; color:var(--text-dim);}
+
+  .vd-card{
+    min-height:220px; border-radius:var(--r-lg);
+    background:var(--panel-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:32px 26px; cursor:pointer; user-select:none;
+    transition:transform .12s ease;
+  }
+  .vd-card:active{transform:scale(0.99);}
+  .vd-card .kicker{font-size:0.8rem; font-weight:700; letter-spacing:0.02em; margin-bottom:12px;}
+  .vd-card.truth .kicker{color:var(--teal);}
+  .vd-card.dare .kicker{color:var(--coral);}
+  .vd-card p{font-family:var(--font-d); font-size:1.35rem; line-height:1.35;}
+  .vd-hint{text-align:center; color:var(--text-dim); font-size:0.85rem; margin-top:14px;}
+  .vd-pick{display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap;}
+
+  .quiz-progress{color:var(--text-dim); font-size:0.85rem; margin-bottom:10px;}
+  .quiz-q{
+    background:var(--panel-2); border-radius:var(--r-lg); padding:30px 24px;
+    text-align:center;
+  }
+  .quiz-q p{font-family:var(--font-d); font-size:1.4rem; line-height:1.35;}
+  .quiz-score{display:flex; justify-content:center; gap:30px; margin:24px 0;}
+  .quiz-score .who{text-align:center;}
+  .quiz-score b{font-family:var(--font-d); font-size:2.1rem; display:block;}
+  .quiz-score span{font-size:0.8rem; color:var(--text-dim);}
+  .quiz-buttons{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:22px;}
+  @media (max-width:480px){.quiz-buttons{grid-template-columns:1fr;}}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition-duration:0.01ms !important; animation-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="#/" class="brand">Cúmplices<span>.</span></a>
+    <a href="#/" class="top-context" id="topContext"></a>
+  </div>
+</div>
+<main class="container" id="view"></main>
+
+<!-- ===== DADOS (separados por jogo) ===== -->
+<script src="data/sintonia.js"></script>
+<script src="data/verdades-desafios.js"></script>
+<script src="data/quiz-perguntas.js"></script>
+<script src="data/stop-temas.js"></script>
+
+<script>
+/* =========================================================
+   DADOS — puxados dos arquivos em /data
+   Pra adicionar/editar conteúdo, mexa só nos arquivos acima.
+========================================================= */
+const SINTONIA = window.DATA.sintonia;
+const VERDADES = window.DATA.verdades;
+const DESAFIOS = window.DATA.desafios;
+const QUIZ_PERGUNTAS = window.DATA.quizPerguntas;
+const STOP_TEMAS = window.DATA.stopTemas;
+const STOP_LETRAS = window.DATA.stopLetras;
+
+const PLAYER_COLORS = ["rose","gold","teal","lav","coral","sage"];
+
+const STOP_MODOS = [
+  {
+    id:'ate-morte',
+    nome:'Até a morte',
+    desc:'Um cronômetro único pra rodada inteira. Ele não reinicia quando alguém aperta uma letra — só diminui. Cada letra apertada deixa menos tempo pra quem vier depois. Se acabar na sua vez, você perde.',
+    tempos:[60,90,120,180],
+    tempoLabels:["1 min","1min30","2 min","3 min"],
+    tempoPadrao:90,
+    tempoLabelCampo:'Tempo total da rodada',
+    tempoNota:'Cronômetro único — não reinicia.'
+  },
+  {
+    id:'repassa',
+    nome:'Passa ou repassa',
+    desc:'O cronômetro reinicia toda vez que uma letra é apertada. Você recebe o tempo cheio pra pensar na sua palavra — mas se ele acabar antes de você apertar uma letra, você perde a rodada.',
+    tempos:[30,45,60,90],
+    tempoLabels:["30s","45s","1 min","1min30"],
+    tempoPadrao:45,
+    tempoLabelCampo:'Tempo por vez',
+    tempoNota:'Reinicia a cada letra apertada.'
+  }
+];
+function modoPorId(id){ return STOP_MODOS.find(m=>m.id===id) || STOP_MODOS[0]; }
+
+/* =========================================================
+   ÍCONES
+========================================================= */
+const ICONS = {
+  sintonia:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><line x1="24" y1="7" x2="24" y2="14"/><line x1="24" y1="34" x2="24" y2="41"/><line x1="7" y1="24" x2="14" y2="24"/><line x1="34" y1="24" x2="41" y2="24"/><circle cx="24" cy="24" r="4" fill="currentColor" stroke="none"/></svg>`,
+  stop:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><path d="M24 14v10l7 5"/></svg>`,
+  vd:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M8 14h20a5 5 0 0 1 5 5v6a5 5 0 0 1-5 5H20l-6 5v-5H8a5 5 0 0 1-5-5v-6a5 5 0 0 1 5-5Z" transform="translate(0,-2)"/></svg>`,
+  quiz:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><path d="M19 19a5 5 0 0 1 9-3c1.5 2-0.5 3.5-2 4.5S24 23 24 26"/><circle cx="24" cy="32" r="0.6" fill="currentColor"/></svg>`
+};
+
+/* =========================================================
+   HELPERS
+========================================================= */
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function el(html){ const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; }
+
+/* =========================================================
+   ROUTER
+========================================================= */
+const view = document.getElementById('view');
+const topContext = document.getElementById('topContext');
+const routes = {
+  '/': { title:'', render: renderHome },
+  '/sintonia': { title:'Sintonia', render: renderSintonia },
+  '/stop': { title:'Stop do casal', render: renderStop },
+  '/verdade-ou-desafio': { title:'Verdade ou desafio', render: renderVD },
+  '/quiz': { title:'Quem conhece melhor', render: renderQuiz }
+};
+
+function router(){
+  const hash = location.hash.replace('#','') || '/';
+  const route = routes[hash] || routes['/'];
+  view.innerHTML = '';
+  topContext.textContent = hash === '/' ? '' : '← início';
+  view.appendChild(route.render());
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', router);
+window.addEventListener('DOMContentLoaded', router);
+
+/* =========================================================
+   HOME
+========================================================= */
+function renderHome(){
+  const wrap = el(`
+    <div>
+      <section class="hero">
+        <h1>Jogos pra jogar em dupla <span style="color:var(--coral); font-size:0.5em; font-style:italic; font-weight:400;">(ou +)</span>.</h1>
+        <p>Quatro jogos rápidos pra tirar o celular de um lugar comum e colocar num sofá, numa mesa de bar ou numa noite qualquer da semana. Escolham um e comecem.</p>
+      </section>
+      <section class="game-list">
+        <div class="game-row">
+          ${gameCardHTML('sintonia','Sintonia','Girem a roleta, caiam numa categoria e respondam juntos a mesma pergunta ao mesmo tempo.','rose')}
+        </div>
+        <div class="game-row right">
+          ${gameCardHTML('stop','Stop do casal','Uma carta define o tema. Falem uma palavra do tema, apertem a letra inicial e passem a vez. Dois modos de cronômetro: único ou reiniciando.','gold')}
+        </div>
+        <div class="game-row">
+          ${gameCardHTML('verdade-ou-desafio','Verdade ou desafio','Um baralho de perguntas sinceras e desafios bobos pra fazer rir e se conhecer um pouco mais.','teal')}
+        </div>
+        <div class="game-row right">
+          ${gameCardHTML('quiz','Quem conhece melhor','Perguntas sobre o outro pra descobrir quem realmente presta atenção.','lav')}
+        </div>
+      </section>
+      <p class="home-footer">Feito para jogar de qualquer lugar, no celular ou no computador.</p>
+    </div>
+  `);
+  return wrap;
+}
+function gameCardHTML(route,title,sub,iconKey){
+  const iconMap = {sintonia:'sintonia', stop:'stop', 'verdade-ou-desafio':'vd', quiz:'quiz'};
+  return `
+    <a class="game-card" href="#/${route}">
+      <div class="badge" style="color:var(--${iconKey})">${ICONS[iconMap[route]]}</div>
+      <div>
+        <h2>${title}</h2>
+        <p class="sub">${sub}</p>
+        <p class="go">Jogar</p>
+      </div>
+    </a>
+  `;
+}
+
+/* =========================================================
+   SINTONIA
+========================================================= */
+function renderSintonia(){
+  const wrap = el(`
+    <div>
+      <section class="stage-head">
+        <h1>Sintonia</h1>
+        <p>Girem a roleta. Quando ela parar, leiam a pergunta em voz alta e respondam ao mesmo tempo, na contagem de três. Ver se combinam é a graça.</p>
+      </section>
+      <div class="panel">
+        <div class="wheel-stage">
+          <div class="wheel-pointer"></div>
+          <div class="wheel-ring" id="wheelRing"></div>
+          <div class="category-ring" id="catRing"></div>
+        </div>
+        <div class="sintonia-actions">
+          <button class="btn btn-primary" id="spinBtn">Girar a roleta</button>
+        </div>
+        <div id="questionSlot"></div>
+      </div>
+    </div>
+  `);
+
+  const catRing = wrap.querySelector('#catRing');
+  const wheelRing = wrap.querySelector('#wheelRing');
+  const spinBtn = wrap.querySelector('#spinBtn');
+  const questionSlot = wrap.querySelector('#questionSlot');
+  let rotation = 0;
+  let spinning = false;
+
+  SINTONIA.forEach((cat,i)=>{
+    const chip = document.createElement('div');
+    chip.className = 'cat-chip';
+    chip.textContent = cat.nome;
+    chip.dataset.i = i;
+    catRing.appendChild(chip);
+  });
+
+  function lightUp(i){
+    catRing.querySelectorAll('.cat-chip').forEach((c,ci)=>{
+      c.classList.toggle('lit', ci===i);
+    });
+  }
+
+  function askQuestion(catIndex){
+    const cat = SINTONIA[catIndex];
+    const q = pick(cat.perguntas);
+    questionSlot.innerHTML = `
+      <div class="question-card">
+        <p class="cat-name">${cat.nome}</p>
+        <p>${q}</p>
+        <div class="btn-row">
+          <button class="btn btn-ghost" id="newQBtn">Nova pergunta</button>
+          <button class="btn btn-primary" id="spinAgainBtn">Girar de novo</button>
+        </div>
+      </div>
+    `;
+    questionSlot.querySelector('#newQBtn').addEventListener('click', ()=>askQuestion(catIndex));
+    questionSlot.querySelector('#spinAgainBtn').addEventListener('click', ()=>{
+      questionSlot.innerHTML = '';
+      spinBtn.disabled = false;
+    });
+  }
+
+  function spin(){
+    if(spinning) return;
+    spinning = true;
+    spinBtn.disabled = true;
+    questionSlot.innerHTML = '';
+    const target = Math.floor(Math.random()*SINTONIA.length);
+
+    rotation += 720 + Math.random()*180;
+    wheelRing.style.transform = `rotate(${rotation}deg)`;
+
+    const totalSteps = 18 + target;
+    let step = 0;
+    let idx = 0;
+    function tick(){
+      lightUp(idx % SINTONIA.length);
+      idx++;
+      step++;
+      if(step >= totalSteps){
+        spinning = false;
+        askQuestion(target);
+        return;
+      }
+      const progress = step / totalSteps;
+      const delay = 55 + Math.pow(progress,2.2) * 260;
+      setTimeout(tick, delay);
+    }
+    tick();
+  }
+  spinBtn.addEventListener('click', spin);
+
+  return wrap;
+}
+
+/* =========================================================
+   STOP DO CASAL
+========================================================= */
+function renderStop(){
+  const wrap = el(`<div></div>`);
+  const scoreState = { losses:{}, roundNumber:0 };
+  let deck = [];
+  let deckPos = 0;
+
+  function freshDeck(){ deck = shuffle(STOP_TEMAS); deckPos = 0; }
+  function drawCard(){
+    if(deckPos >= deck.length) freshDeck();
+    return deck[deckPos++];
+  }
+  freshDeck();
+  showSetup();
+  return wrap;
+
+  function showSetup(){
+    scoreState.losses = {};
+    scoreState.roundNumber = 0;
+
+    let playerNames = ['Jogador 1','Jogador 2'];
+    let temaEscolhido = null;
+    let modoEscolhido = 'ate-morte';
+    let tempoEscolhido = modoPorId(modoEscolhido).tempoPadrao;
+
+    wrap.innerHTML = `
+      <section class="stage-head">
+        <h1>Stop do casal</h1>
+        <p>Uma carta define o tema. O jogador da vez fala uma palavra que caiba no tema, aperta a letra inicial dela e passa a vez. Letras já apertadas saem do jogo. Se o cronômetro acabar na sua vez, você perde a rodada.</p>
+      </section>
+
+      <div class="panel">
+        <label class="field-label">Modo de jogo</label>
+        <div class="chip-row" id="modoChips"></div>
+        <p class="field-hint" id="modoDesc"></p>
+      </div>
+
+      <div class="panel">
+        <label class="field-label">Tema da rodada</label>
+        <div class="deck-wrap">
+          <div class="theme-card face-down" id="themeCard">?</div>
+          <button class="btn btn-ghost" id="drawBtn">Comprar carta</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <label class="field-label" id="tempoFieldLabel"></label>
+        <div class="chip-row" id="tempoChips"></div>
+      </div>
+
+      <div class="panel">
+        <label class="field-label">Quem vai jogar</label>
+        <div id="playersWrap"></div>
+        <button type="button" class="btn btn-ghost add-player-btn" id="addPlayerBtn">+ Adicionar jogador</button>
+        <div class="btn-row">
+          <button class="btn btn-primary btn-block" id="startBtn" disabled>Comprem uma carta pra começar</button>
+        </div>
+      </div>
+    `;
+
+    const themeCard = wrap.querySelector('#themeCard');
+    const drawBtn = wrap.querySelector('#drawBtn');
+    const modoChips = wrap.querySelector('#modoChips');
+    const modoDesc = wrap.querySelector('#modoDesc');
+    const tempoFieldLabel = wrap.querySelector('#tempoFieldLabel');
+    const tempoChips = wrap.querySelector('#tempoChips');
+    const playersWrap = wrap.querySelector('#playersWrap');
+    const addPlayerBtn = wrap.querySelector('#addPlayerBtn');
+    const startBtn = wrap.querySelector('#startBtn');
+
+    drawBtn.addEventListener('click', ()=>{
+      temaEscolhido = drawCard();
+      themeCard.className = 'theme-card revealed';
+      themeCard.textContent = temaEscolhido;
+      drawBtn.textContent = 'Comprar outra carta';
+      updateStartBtn();
+    });
+
+    STOP_MODOS.forEach(m=>{
+      const c = document.createElement('button');
+      c.type = 'button';
+      c.className = 'chip' + (m.id === modoEscolhido ? ' selected' : '');
+      c.textContent = m.nome;
+      c.dataset.modo = m.id;
+      c.addEventListener('click', ()=>{
+        modoEscolhido = m.id;
+        modoChips.querySelectorAll('.chip').forEach(x=>x.classList.toggle('selected', x.dataset.modo === m.id));
+        const cfg = modoPorId(modoEscolhido);
+        modoDesc.textContent = cfg.desc;
+        tempoEscolhido = cfg.tempoPadrao;
+        renderTempoChips();
+      });
+      modoChips.appendChild(c);
+    });
+    modoDesc.textContent = modoPorId(modoEscolhido).desc;
+
+    function renderTempoChips(){
+      const cfg = modoPorId(modoEscolhido);
+      tempoFieldLabel.textContent = cfg.tempoLabelCampo;
+      tempoChips.innerHTML = '';
+      cfg.tempos.forEach((s,si)=>{
+        const c = document.createElement('button');
+        c.type = 'button';
+        c.className = 'chip' + (s === tempoEscolhido ? ' selected' : '');
+        c.textContent = cfg.tempoLabels[si];
+        c.addEventListener('click', ()=>{
+          tempoEscolhido = s;
+          tempoChips.querySelectorAll('.chip').forEach(x=>x.classList.remove('selected'));
+          c.classList.add('selected');
+        });
+        tempoChips.appendChild(c);
+      });
+    }
+    renderTempoChips();
+
+    function renderPlayers(){
+      playersWrap.innerHTML = '';
+      playerNames.forEach((name,i)=>{
+        const row = document.createElement('div');
+        row.className = 'player-row';
+        row.innerHTML = `
+          <input class="text-input" data-i="${i}" value="${name}" placeholder="Jogador ${i+1}">
+          ${playerNames.length > 2 ? '<button type="button" class="player-remove" data-remove="'+i+'">×</button>' : ''}
+        `;
+        playersWrap.appendChild(row);
+      });
+      playersWrap.querySelectorAll('input').forEach(inp=>{
+        inp.addEventListener('input', ()=>{ playerNames[+inp.dataset.i] = inp.value; });
+      });
+      playersWrap.querySelectorAll('[data-remove]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          playerNames.splice(+btn.dataset.remove, 1);
+          renderPlayers();
+        });
+      });
+      addPlayerBtn.style.display = playerNames.length >= 6 ? 'none' : '';
+    }
+    addPlayerBtn.addEventListener('click', ()=>{
+      playerNames.push('Jogador ' + (playerNames.length + 1));
+      renderPlayers();
+    });
+    renderPlayers();
+
+    function updateStartBtn(){
+      startBtn.disabled = !temaEscolhido;
+      startBtn.textContent = temaEscolhido ? 'Começar rodada' : 'Comprem uma carta pra começar';
+    }
+
+    startBtn.addEventListener('click', ()=>{
+      const names = playerNames.map(n=>n.trim()).filter(Boolean);
+      if(names.length < 2) return;
+      names.forEach((n,i)=>{ if(!(i in scoreState.losses)) scoreState.losses[i] = 0; });
+      startRound(temaEscolhido, tempoEscolhido, names, modoEscolhido);
+    });
+  }
+
+  function startRound(tema, totalTime, players, modo){
+    scoreState.roundNumber++;
+    const startIndex = (scoreState.roundNumber - 1) % players.length;
+    const state = {
+      tema, totalTime, players, modo,
+      timeLeft: totalTime,
+      startedAt: Date.now(),
+      used: {},
+      history: [],
+      turnIndex: startIndex,
+      timer: null,
+      ended: false
+    };
+    renderRound(state);
+  }
+
+  function colorFor(i){ return PLAYER_COLORS[i % PLAYER_COLORS.length]; }
+
+  function renderRound(state){
+    const cfg = modoPorId(state.modo);
+    wrap.innerHTML = `
+      <section class="stage-head">
+        <h1>Tema: ${state.tema}</h1>
+      </section>
+      <div class="panel">
+        <div style="display:flex; justify-content:center; margin-bottom:14px;">
+          <span class="mode-badge">Modo: ${cfg.nome}</span>
+        </div>
+        <div class="score-row" id="scoreRow"></div>
+        <p class="turn-banner">Na vez de <b id="turnName"></b> — fale uma palavra do tema e aperte a letra inicial</p>
+        <div class="timer-wrap">
+          <div class="timer-bar-track"><div class="timer-bar-fill" id="timerFill" style="width:100%"></div></div>
+        </div>
+        <div class="timer-big" id="timerBig"></div>
+        <p class="timer-note">${cfg.tempoNota}</p>
+        <div class="letter-grid" id="letterGrid"></div>
+      </div>
+    `;
+    const scoreRow = wrap.querySelector('#scoreRow');
+    const turnName = wrap.querySelector('#turnName');
+    const timerFill = wrap.querySelector('#timerFill');
+    const timerBig = wrap.querySelector('#timerBig');
+    const letterGrid = wrap.querySelector('#letterGrid');
+
+    STOP_LETRAS.forEach(l=>{
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'letter-btn';
+      b.textContent = l;
+      b.addEventListener('click', ()=>pressLetter(l, b));
+      letterGrid.appendChild(b);
+    });
+
+    function drawScoreRow(){
+      scoreRow.innerHTML = state.players.map((name,i)=>{
+        const active = i === state.turnIndex;
+        return `<span class="score-chip${active?' active':''}" style="color:var(--${colorFor(i)})">
+          <span class="dot" style="background:var(--${colorFor(i)})"></span>${name} · ${scoreState.losses[i]||0}
+        </span>`;
+      }).join('');
+      turnName.textContent = state.players[state.turnIndex];
+      turnName.style.color = 'var(--' + colorFor(state.turnIndex) + ')';
+    }
+
+    function formatTime(s){
+      const m = Math.floor(s/60);
+      const ss = Math.floor(s%60).toString().padStart(2,'0');
+      return m + ':' + ss;
+    }
+
+    function drawTimer(){
+      timerBig.textContent = formatTime(state.timeLeft);
+      const pct = Math.max(0, (state.timeLeft/state.totalTime)*100);
+      timerFill.style.width = pct + '%';
+      timerFill.style.background = pct <= 20 ? 'var(--danger)' : 'var(--gold)';
+    }
+
+    function tick(){
+      state.timeLeft -= 0.2;
+      if(state.timeLeft <= 0){
+        state.timeLeft = 0;
+        drawTimer();
+        clearInterval(state.timer);
+        return endRound(state, state.turnIndex);
+      }
+      drawTimer();
+    }
+
+    function pressLetter(letter, btn){
+      if(state.ended || (letter in state.used)) return;
+      state.used[letter] = state.turnIndex;
+      state.history.push({letter, player: state.turnIndex});
+      btn.classList.add('used');
+      btn.style.background = 'var(--' + colorFor(state.turnIndex) + ')';
+      btn.style.opacity = '0.5';
+
+      state.turnIndex = (state.turnIndex + 1) % state.players.length;
+
+      if(state.modo === 'repassa'){
+        state.timeLeft = state.totalTime;
+        drawTimer();
+      }
+
+      drawScoreRow();
+
+      if(Object.keys(state.used).length >= STOP_LETRAS.length){
+        clearInterval(state.timer);
+        return endRound(state, null);
+      }
+    }
+
+    drawScoreRow();
+    drawTimer();
+    state.timer = setInterval(tick, 200);
+  }
+
+  function endRound(state, loserIndex){
+    state.ended = true;
+    if(loserIndex !== null) scoreState.losses[loserIndex] = (scoreState.losses[loserIndex]||0) + 1;
+    const usedCount = Object.keys(state.used).length;
+    const elapsed = Math.round((Date.now() - state.startedAt) / 1000);
+    const cfg = modoPorId(state.modo);
+
+    wrap.innerHTML = `
+      <section class="stage-head">
+        <h1>${loserIndex !== null ? state.players[loserIndex] + ' perdeu a rodada' : 'Alfabeto inteiro eliminado!'}</h1>
+        <p>${loserIndex !== null
+          ? (state.modo === 'ate-morte'
+              ? 'O tempo total da rodada acabou enquanto era a vez dele(a).'
+              : 'O tempo da vez dele(a) acabou antes de apertar uma letra disponível.')
+          : 'A dupla sobreviveu ao tema "'+state.tema+'" até a última letra disponível.'}</p>
+      </section>
+      <div class="panel">
+        <div style="display:flex; justify-content:center; margin-bottom:12px;">
+          <span class="mode-badge">Modo: ${cfg.nome}</span>
+        </div>
+        <div class="score-row" id="scoreRowEnd"></div>
+        <div class="end-stats">
+          <div class="end-stat"><b>${usedCount}</b><span>letras eliminadas</span></div>
+          <div class="end-stat"><b>${elapsed}s</b><span>duração da rodada</span></div>
+        </div>
+        <div class="recap-row">
+          ${state.history.map(h=>`<span class="recap-chip"><span class="dot" style="background:var(--${colorFor(h.player)})"></span>${h.letter} · ${state.players[h.player]}</span>`).join('') || '<span class="recap-chip">Nenhuma letra foi eliminada</span>'}
+        </div>
+        <div class="btn-row" style="justify-content:center;">
+          <button class="btn btn-primary" id="nextRoundBtn">Próxima rodada</button>
+          <button class="btn btn-ghost" id="backSetupBtn">Trocar modo, jogadores ou tempo</button>
+        </div>
+      </div>
+    `;
+    wrap.querySelector('#scoreRowEnd').innerHTML = state.players.map((name,i)=>
+      `<span class="score-chip" style="color:var(--${colorFor(i)})"><span class="dot" style="background:var(--${colorFor(i)})"></span>${name} · ${scoreState.losses[i]||0}</span>`
+    ).join('');
+    wrap.querySelector('#nextRoundBtn').addEventListener('click', ()=>{
+      startRound(drawCard(), state.totalTime, state.players, state.modo);
+    });
+    wrap.querySelector('#backSetupBtn').addEventListener('click', showSetup);
+  }
+}
+
+/* =========================================================
+   VERDADE OU DESAFIO
+========================================================= */
+function renderVD(){
+  const wrap = el(`
+    <div>
+      <section class="stage-head">
+        <h1>Verdade ou desafio</h1>
+        <p>Escolham verdade ou desafio, ou deixem o acaso decidir. Sem julgamento — o combinado é responder ou topar.</p>
+      </section>
+      <div class="panel">
+        <div class="vd-card" id="vdCard">
+          <p>Toquem em verdade, desafio ou surpresa pra começar.</p>
+        </div>
+        <p class="vd-hint">Toque no cartão pra pegar outra carta do mesmo tipo.</p>
+        <div class="vd-pick">
+          <button class="btn btn-ghost" id="btnTruth">Verdade</button>
+          <button class="btn btn-ghost" id="btnDare">Desafio</button>
+          <button class="btn btn-primary" id="btnRandom">Surpreenda-me</button>
+        </div>
+      </div>
+    </div>
+  `);
+  const card = wrap.querySelector('#vdCard');
+  let lastType = null;
+
+  function draw(type){
+    lastType = type;
+    const isTruth = type === 'truth';
+    const text = isTruth ? pick(VERDADES) : pick(DESAFIOS);
+    card.className = 'vd-card ' + (isTruth ? 'truth' : 'dare');
+    card.innerHTML = `
+      <div>
+        <p class="kicker">${isTruth ? 'Verdade' : 'Desafio'}</p>
+        <p>${text}</p>
+      </div>
+    `;
+  }
+  card.addEventListener('click', ()=>{
+    if(lastType) draw(lastType);
+  });
+  wrap.querySelector('#btnTruth').addEventListener('click', ()=>draw('truth'));
+  wrap.querySelector('#btnDare').addEventListener('click', ()=>draw('dare'));
+  wrap.querySelector('#btnRandom').addEventListener('click', ()=>draw(Math.random()<0.5?'truth':'dare'));
+  return wrap;
+}
+
+/* =========================================================
+   QUIZ — QUEM CONHECE MELHOR
+========================================================= */
+function renderQuiz(){
+  const wrap = el(`<div></div>`);
+  startRound();
+  return wrap;
+
+  function startRound(){
+    const order = shuffle(QUIZ_PERGUNTAS);
+    const state = { order, idx:0, score:{p1:0,p2:0}, turn:0, names:['Jogador 1','Jogador 2'] };
+    draw(state);
+  }
+
+  function draw(state){
+    const q = state.order[state.idx];
+    wrap.innerHTML = `
+      <section class="stage-head">
+        <h1>Quem conhece melhor</h1>
+        <p>Leiam a pergunta em voz alta. Quem está respondendo tenta acertar sobre o outro — a dupla decide se acertou.</p>
+      </section>
+      <div class="panel">
+        <p class="quiz-progress">Pergunta ${state.idx+1} de ${state.order.length} · vez de ${state.names[state.turn % 2]}</p>
+        <div class="quiz-q"><p>${q}</p></div>
+        <div class="quiz-score">
+          <div class="who"><b>${state.score.p1}</b><span>${state.names[0]}</span></div>
+          <div class="who"><b>${state.score.p2}</b><span>${state.names[1]}</span></div>
+        </div>
+        <div class="quiz-buttons">
+          <button class="btn btn-ok" id="rightBtn">Acertou</button>
+          <button class="btn btn-miss" id="wrongBtn">Errou</button>
+        </div>
+      </div>
+    `;
+    wrap.querySelector('#rightBtn').addEventListener('click', ()=>advance(state,true));
+    wrap.querySelector('#wrongBtn').addEventListener('click', ()=>advance(state,false));
+  }
+
+  function advance(state, correct){
+    if(correct){
+      if(state.turn % 2 === 0) state.score.p1++; else state.score.p2++;
+    }
+    state.idx++;
+    state.turn++;
+    if(state.idx >= state.order.length){ return finish(state); }
+    draw(state);
+  }
+
+  function finish(state){
+    const winner = state.score.p1 === state.score.p2
+      ? 'Empate — vocês se conhecem igualmente bem.'
+      : (state.score.p1 > state.score.p2 ? state.names[0] : state.names[1]) + ' conhece melhor o outro dessa vez.';
+    wrap.innerHTML = `
+      <section class="stage-head">
+        <h1>Resultado</h1>
+        <p>${winner}</p>
+      </section>
+      <div class="panel">
+        <div class="quiz-score">
+          <div class="who"><b>${state.score.p1}</b><span>${state.names[0]}</span></div>
+          <div class="who"><b>${state.score.p2}</b><span>${state.names[1]}</span></div>
+        </div>
+        <div class="btn-row" style="justify-content:center;">
+          <button class="btn btn-primary" id="restartBtn">Jogar outra rodada</button>
+        </div>
+      </div>
+    `;
+    wrap.querySelector('#restartBtn').addEventListener('click', startRound);
+  }
+}
+</script>
+</body>
+</html>

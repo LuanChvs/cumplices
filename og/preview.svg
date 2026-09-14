@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="glow1" cx="85%" cy="-10%" r="60%">
+      <stop offset="0%" stop-color="#e79fc4" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#e79fc4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="-10%" cy="110%" r="70%">
+      <stop offset="0%" stop-color="#6fd6c4" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#6fd6c4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#161022"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- marca -->
+  <text x="100" y="170"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-style="italic" font-weight="600" font-size="48"
+        fill="#f5f0e8">Cúmplices<tspan fill="#e79fc4">.</tspan></text>
+
+  <!-- headline -->
+  <text x="100" y="345"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="600" font-size="96" letter-spacing="-1"
+        fill="#f5f0e8">Jogos pra jogar</text>
+
+  <!-- linha 2 com "(ou +)" discreto -->
+  <text x="100" y="450"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="600" font-size="96" letter-spacing="-1"
+        fill="#f5f0e8">em dupla<tspan fill="#f2946b" font-size="52" font-weight="400" font-style="italic"> (ou +)</tspan></text>
+
+  <!-- rodapé -->
+  <text x="100" y="540"
+        font-family="Helvetica, Arial, sans-serif"
+        font-size="26"
+        fill="#b9a9cc">Sintonia · Stop do casal · Verdade ou desafio · Quem conhece melhor</text>
+</svg>
