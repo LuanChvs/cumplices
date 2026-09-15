@@ -228,8 +228,7 @@ function renderStop(){
         startedAt: Date.now(),
         used: {},
         history: [],
-        turnIndex: startIndex,
-        timer: null
+        turnIndex: startIndex
       });
     
       startGame(state);
