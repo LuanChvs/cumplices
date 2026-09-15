@@ -215,17 +215,25 @@ function renderStop(){
   
     function startRound(tema, totalTime, players, modo){
       scoreState.roundNumber++;
-      const startIndex = (scoreState.roundNumber - 1) % players.length;
-      const state = {
-        tema, totalTime, players, modo,
+    
+      const startIndex =
+        (scoreState.roundNumber - 1) % players.length;
+    
+      const state = createGameState({
+        tema,
+        totalTime,
+        players,
+        modo,
         timeLeft: totalTime,
         startedAt: Date.now(),
         used: {},
         history: [],
         turnIndex: startIndex,
-        timer: null,
-        ended: false
-      };
+        timer: null
+      });
+    
+      startGame(state);
+    
       renderRound(state);
     }
   
@@ -289,17 +297,20 @@ function renderStop(){
         timerFill.style.width = pct + '%';
         timerFill.style.background = pct <= 20 ? 'var(--danger)' : 'var(--gold)';
       }
-  
-      function tick(){
-        state.timeLeft -= 0.2;
-        if(state.timeLeft <= 0){
+      const gameTimer = createGameTimer({
+        duration: state.totalTime,
+      
+        onTick: (timeLeft) => {
+          state.timeLeft = timeLeft;
+          drawTimer();
+        },
+      
+        onEnd: () => {
           state.timeLeft = 0;
           drawTimer();
-          clearInterval(state.timer);
-          return endRound(state, state.turnIndex);
+          endRound(state, state.turnIndex);
         }
-        drawTimer();
-      }
+      });
   
       function pressLetter(letter, btn){
         if(state.ended || (letter in state.used)) return;
@@ -312,6 +323,8 @@ function renderStop(){
         state.turnIndex = (state.turnIndex + 1) % state.players.length;
   
         if(state.modo === 'repassa'){
+          gameTimer.restart(state.totalTime);
+        
           state.timeLeft = state.totalTime;
           drawTimer();
         }
@@ -319,18 +332,21 @@ function renderStop(){
         drawScoreRow();
   
         if(Object.keys(state.used).length >= STOP_LETRAS.length){
-          clearInterval(state.timer);
+          gameTimer.cancel();
           return endRound(state, null);
         }
       }
   
       drawScoreRow();
+
+      state.timeLeft = state.totalTime;
       drawTimer();
-      state.timer = setInterval(tick, 200);
+
+      gameTimer.start();
     }
   
     function endRound(state, loserIndex){
-      state.ended = true;
+      endGame(state);
       if(loserIndex !== null) scoreState.losses[loserIndex] = (scoreState.losses[loserIndex]||0) + 1;
       const usedCount = Object.keys(state.used).length;
       const elapsed = Math.round((Date.now() - state.startedAt) / 1000);
