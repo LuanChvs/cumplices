@@ -21,7 +21,10 @@ function renderStop(){
       scoreState.losses = {};
       scoreState.roundNumber = 0;
   
-      let playerNames = ['Jogador 1','Jogador 2'];
+      let playerNames = storageGet(
+        'players',
+        ['Jogador 1', 'Jogador 2']
+      );
       let temaEscolhido = null;
       let modoEscolhido = 'ate-morte';
       let tempoEscolhido = modoPorId(modoEscolhido).tempoPadrao;
@@ -128,18 +131,23 @@ function renderStop(){
           playersWrap.appendChild(row);
         });
         playersWrap.querySelectorAll('input').forEach(inp=>{
-          inp.addEventListener('input', ()=>{ playerNames[+inp.dataset.i] = inp.value; });
-        });
-        playersWrap.querySelectorAll('[data-remove]').forEach(btn=>{
-          btn.addEventListener('click', ()=>{
-            playerNames.splice(+btn.dataset.remove, 1);
-            renderPlayers();
+            inp.addEventListener('input', ()=>{
+              playerNames[+inp.dataset.i] = inp.value;
+              storageSet('players', playerNames);
+            });
           });
+        playersWrap.querySelectorAll('[data-remove]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+            playerNames.splice(+btn.dataset.remove, 1);
+            storageSet('players', playerNames);
+            renderPlayers();
+        });
         });
         addPlayerBtn.style.display = playerNames.length >= 6 ? 'none' : '';
       }
       addPlayerBtn.addEventListener('click', ()=>{
         playerNames.push('Jogador ' + (playerNames.length + 1));
+        storageSet('players', playerNames);
         renderPlayers();
       });
       renderPlayers();
