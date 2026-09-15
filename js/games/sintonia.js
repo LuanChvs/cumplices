@@ -14,9 +14,7 @@ function renderSintonia(){
             <div class="wheel-ring" id="wheelRing"></div>
             <div class="category-ring" id="catRing"></div>
           </div>
-          <div class="sintonia-actions">
-            <button class="btn btn-primary" id="spinBtn">Girar a roleta</button>
-          </div>
+          <div class="sintonia-actions" id="spinButtonSlot"></div>
           <div id="questionSlot"></div>
         </div>
       </div>
@@ -24,10 +22,21 @@ function renderSintonia(){
   
     const catRing = wrap.querySelector('#catRing');
     const wheelRing = wrap.querySelector('#wheelRing');
-    const spinBtn = wrap.querySelector('#spinBtn');
+    const spinButtonSlot = wrap.querySelector('#spinButtonSlot');
     const questionSlot = wrap.querySelector('#questionSlot');
-    let rotation = 0;
-    let spinning = false;
+    
+    const spinBtn = uiButton({
+      text: 'Girar a roleta',
+      className: 'btn btn-primary'
+    });
+    
+    spinButtonSlot.appendChild(spinBtn);
+
+    const game = createGameState({
+      rotation: 0,
+      spinning: false,
+      currentCategory: null
+    });
   
     SINTONIA.forEach((cat,i)=>{
       const chip = document.createElement('div');
@@ -59,36 +68,91 @@ function renderSintonia(){
       questionSlot.querySelector('#newQBtn').addEventListener('click', ()=>askQuestion(catIndex));
       questionSlot.querySelector('#spinAgainBtn').addEventListener('click', ()=>{
         questionSlot.innerHTML = '';
-        spinBtn.disabled = false;
+        game.ended = false;
+        spin();
       });
     }
   
     function spin(){
-      if(spinning) return;
-      spinning = true;
+      if(game.spinning) return;
+    
+      game.spinning = true;
+      startGame(game);
+    
       spinBtn.disabled = true;
       questionSlot.innerHTML = '';
-      const target = Math.floor(Math.random()*SINTONIA.length);
-  
-      rotation += 720 + Math.random()*180;
-      wheelRing.style.transform = `rotate(${rotation}deg)`;
-  
-      const totalSteps = 18 + target;
-      let step = 0;
-      let idx = 0;
-      function tick(){
-        lightUp(idx % SINTONIA.length);
-        idx++;
-        step++;
-        if(step >= totalSteps){
-          spinning = false;
-          askQuestion(target);
-          return;
+    
+      const target = Math.floor(Math.random() * SINTONIA.length);
+      game.currentCategory = target;
+    
+      /*
+        Cada categoria ocupa 60° da roleta.
+        0° começa no topo, exatamente onde está o ponteiro.
+    
+        Levamos o centro da categoria sorteada até o ponteiro:
+          categoria 0 → 30°
+          categoria 1 → 90°
+          categoria 2 → 150°
+          ...
+      */
+      const segmentAngle = 360 / SINTONIA.length;
+      const targetAngle = target * segmentAngle + segmentAngle / 2;
+    
+      /*
+        Garante que a roleta sempre avance pelo menos
+        uma volta completa antes de parar.
+      */
+      const currentRotation = game.rotation;
+      const nextFullRotation =
+        Math.ceil((currentRotation + 360) / 360) * 360;
+    
+      game.rotation = nextFullRotation + targetAngle;
+    
+      wheelRing.style.transform =
+        `rotate(${game.rotation}deg)`;
+    
+      /*
+        A animação das categorias acompanha exatamente
+        a trajetória da roleta.
+      */
+        const animationDuration = 4200; // 4,2 segundos
+        const totalSteps = 30;
+        
+        let step = 0;
+        const startTime = performance.now();
+        
+        function tick(now){
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / animationDuration, 1);
+        
+          const easedProgress =
+            1 - Math.pow(1 - progress, 3);
+        
+          const simulatedRotation =
+            currentRotation +
+            (game.rotation - currentRotation) * easedProgress;
+        
+          const normalized =
+            ((simulatedRotation % 360) + 360) % 360;
+        
+          const currentIndex =
+            Math.floor(normalized / segmentAngle) %
+            SINTONIA.length;
+        
+          lightUp(currentIndex);
+        
+          if(progress >= 1){
+            game.spinning = false;
+            endGame(game);
+            askQuestion(target);
+            return;
+          }
+        
+          requestAnimationFrame(tick);
         }
-        const progress = step / totalSteps;
-        const delay = 55 + Math.pow(progress,2.2) * 260;
-        setTimeout(tick, delay);
-      }
+        
+        requestAnimationFrame(tick);
+    
       tick();
     }
     spinBtn.addEventListener('click', spin);

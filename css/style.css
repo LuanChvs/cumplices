@@ -145,7 +145,7 @@
     background:conic-gradient(var(--rose) 0 60deg, var(--gold) 60deg 120deg, var(--teal) 120deg 180deg, var(--lav) 180deg 240deg, var(--coral) 240deg 300deg, var(--sage) 300deg 360deg);
     position:relative; margin:6px auto 26px;
     box-shadow:0 0 0 8px var(--bg-soft), 0 20px 50px -18px rgba(0,0,0,0.6);
-    transition:transform 2.6s cubic-bezier(.13,.62,.15,1);
+    transition: transform 4.2s cubic-bezier(.12,.8,.18,1);
   }
   .wheel-ring::after{
     content:""; position:absolute; inset:22%; border-radius:50%;
