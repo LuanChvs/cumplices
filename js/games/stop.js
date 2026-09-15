@@ -21,13 +21,35 @@ function renderStop(){
       scoreState.losses = {};
       scoreState.roundNumber = 0;
   
-      let playerNames = storageGet(
+      const savedPlayers = storageGet(
         'players',
         ['Jogador 1', 'Jogador 2']
       );
+      
+      const savedStopPrefs = storageGet(
+        'stop.preferences',
+        {}
+      );
+      
+      let playerNames = Array.isArray(savedPlayers) && savedPlayers.length >= 2
+        ? savedPlayers
+        : ['Jogador 1', 'Jogador 2'];
+      
       let temaEscolhido = null;
-      let modoEscolhido = 'ate-morte';
-      let tempoEscolhido = modoPorId(modoEscolhido).tempoPadrao;
+      
+      let modoEscolhido = STOP_MODOS.some(
+        m => m.id === savedStopPrefs.modo
+      )
+        ? savedStopPrefs.modo
+        : 'ate-morte';
+      
+      const modoInicial = modoPorId(modoEscolhido);
+      
+      let tempoEscolhido = modoInicial.tempos.includes(
+        savedStopPrefs.tempo
+      )
+        ? savedStopPrefs.tempo
+        : modoInicial.tempoPadrao;
   
       wrap.innerHTML = `
         <section class="stage-head">
@@ -89,13 +111,30 @@ function renderStop(){
         c.textContent = m.nome;
         c.dataset.modo = m.id;
         c.addEventListener('click', ()=>{
-          modoEscolhido = m.id;
-          modoChips.querySelectorAll('.chip').forEach(x=>x.classList.toggle('selected', x.dataset.modo === m.id));
-          const cfg = modoPorId(modoEscolhido);
-          modoDesc.textContent = cfg.desc;
-          tempoEscolhido = cfg.tempoPadrao;
-          renderTempoChips();
-        });
+            modoEscolhido = m.id;
+          
+            modoChips
+              .querySelectorAll('.chip')
+              .forEach(x =>
+                x.classList.toggle(
+                  'selected',
+                  x.dataset.modo === m.id
+                )
+              );
+          
+            const cfg = modoPorId(modoEscolhido);
+          
+            modoDesc.textContent = cfg.desc;
+          
+            tempoEscolhido = cfg.tempoPadrao;
+          
+            storageSet('stop.preferences', {
+              modo: modoEscolhido,
+              tempo: tempoEscolhido
+            });
+          
+            renderTempoChips();
+          });
         modoChips.appendChild(c);
       });
       modoDesc.textContent = modoPorId(modoEscolhido).desc;
@@ -111,8 +150,17 @@ function renderStop(){
           c.textContent = cfg.tempoLabels[si];
           c.addEventListener('click', ()=>{
             tempoEscolhido = s;
-            tempoChips.querySelectorAll('.chip').forEach(x=>x.classList.remove('selected'));
+          
+            tempoChips
+              .querySelectorAll('.chip')
+              .forEach(x => x.classList.remove('selected'));
+          
             c.classList.add('selected');
+          
+            storageSet('stop.preferences', {
+              modo: modoEscolhido,
+              tempo: tempoEscolhido
+            });
           });
           tempoChips.appendChild(c);
         });
