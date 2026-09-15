@@ -14,19 +14,38 @@ function renderVD(){
             <p>Toquem em verdade, desafio ou surpresa pra começar.</p>
           </div>
           <p class="vd-hint">Toque no cartão pra pegar outra carta do mesmo tipo.</p>
-          <div class="vd-pick">
-            <button class="btn btn-ghost" id="btnTruth">Verdade</button>
-            <button class="btn btn-ghost" id="btnDare">Desafio</button>
-            <button class="btn btn-primary" id="btnRandom">Surpreenda-me</button>
-          </div>
+          <div class="vd-pick" id="vdPick"></div>
         </div>
       </div>
     `);
+    const vdPick = wrap.querySelector('#vdPick');
+
+    const btnTruth = uiButton({
+      text: 'Verdade',
+      className: 'btn btn-ghost'
+    });
+
+    const btnDare = uiButton({
+      text: 'Desafio',
+      className: 'btn btn-ghost'
+    });
+
+    const btnRandom = uiButton({
+      text: 'Surpreenda-me',
+      className: 'btn btn-primary'
+    });
+
+    vdPick.append(btnTruth, btnDare, btnRandom);
+    
     const card = wrap.querySelector('#vdCard');
-    let lastType = null;
+    const game = createGameState({
+      lastType: null
+    });
+    
+    startGame(game);
   
     function draw(type){
-      lastType = type;
+      game.lastType = type;
       const isTruth = type === 'truth';
       const text = isTruth ? pick(VERDADES) : pick(DESAFIOS);
       card.className = 'vd-card ' + (isTruth ? 'truth' : 'dare');
@@ -38,11 +57,11 @@ function renderVD(){
       `;
     }
     card.addEventListener('click', ()=>{
-      if(lastType) draw(lastType);
+      if(game.lastType) draw(game.lastType);
     });
-    wrap.querySelector('#btnTruth').addEventListener('click', ()=>draw('truth'));
-    wrap.querySelector('#btnDare').addEventListener('click', ()=>draw('dare'));
-    wrap.querySelector('#btnRandom').addEventListener('click', ()=>draw(Math.random()<0.5?'truth':'dare'));
+    btnTruth.addEventListener('click', ()=>draw('truth'));
+    btnDare.addEventListener('click', ()=>draw('dare'));
+    btnRandom.addEventListener('click', ()=>draw(Math.random()<0.5?'truth':'dare'));
     return wrap;
   }
   
