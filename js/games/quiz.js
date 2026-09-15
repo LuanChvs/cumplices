@@ -86,10 +86,12 @@ function renderQuiz() {
     });
 
     rightBtn.addEventListener('click', () => {
+      sound.correct();
       advance(state, true);
     });
 
     wrongBtn.addEventListener('click', () => {
+      sound.wrong();
       advance(state, false);
     });
 
@@ -131,7 +133,7 @@ function renderQuiz() {
               ? state.names[0]
               : state.names[1]
           ) + ' conhece melhor o outro dessa vez.';
-
+    sound.victory();
     wrap.innerHTML = `
       <div id="gameHeader" aria-live="polite"></div>
 

@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'cumplices-v3';
+const CACHE_VERSION = 'cumplices-v4';
 const CACHE_NAME = CACHE_VERSION;
 
 const APP_FILES = [
@@ -29,6 +29,13 @@ const APP_FILES = [
   './data/verdades-desafios.js',
   './data/quiz-perguntas.js',
   './data/stop-temas.js',
+
+  './sounds/click.mp3',
+  './sounds/correct.mp3',
+  './sounds/wrong.mp3',
+  './sounds/timer.mp3',
+  './sounds/elimination.mp3',
+  './sounds/victory.mp3',
 
   './manifest.json',
 

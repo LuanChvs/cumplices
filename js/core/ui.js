@@ -18,8 +18,12 @@ function uiButton({
     button.setAttribute(name, value);
   });
 
+  button.addEventListener('click', () => {
+    sound.click();
+  });
+
   return button;
-}
+} 
 
 
 function uiPanel({

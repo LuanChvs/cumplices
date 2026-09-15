@@ -35,6 +35,10 @@ function renderStop() {
   return wrap;
 
 
+  /* =========================================================
+     CONFIGURAÇÃO
+  ========================================================= */
+
   function showSetup() {
     scoreState.losses = {};
     scoreState.roundNumber = 0;
@@ -115,12 +119,7 @@ function renderStop() {
             ?
           </div>
 
-          <button
-            class="btn btn-ghost"
-            id="drawBtn"
-          >
-            Comprar carta
-          </button>
+          <div id="drawButtonSlot"></div>
         </div>
       </div>
 
@@ -145,29 +144,23 @@ function renderStop() {
 
         <div id="playersWrap"></div>
 
-        <button
-          type="button"
-          class="btn btn-ghost add-player-btn"
-          id="addPlayerBtn"
-        >
-          + Adicionar jogador
-        </button>
+        <div id="addPlayerButtonSlot"></div>
 
-        <div class="btn-row">
-          <button
-            class="btn btn-primary btn-block"
-            id="startBtn"
-            disabled
-          >
-            Comprem uma carta pra começar
-          </button>
-        </div>
+        <div
+          class="btn-row"
+          id="startButtonSlot"
+        ></div>
       </div>
     `;
 
 
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
     const gameHeader =
       wrap.querySelector('#gameHeader');
+
 
     gameHeader.appendChild(
       createGameHeader({
@@ -177,32 +170,57 @@ function renderStop() {
     );
 
 
+    /* =========================================================
+       ELEMENTOS
+    ========================================================= */
+
     const themeCard =
       wrap.querySelector('#themeCard');
 
-    const drawBtn =
-      wrap.querySelector('#drawBtn');
+
+    const drawButtonSlot =
+      wrap.querySelector('#drawButtonSlot');
+
 
     const modoChips =
       wrap.querySelector('#modoChips');
 
+
     const modoDesc =
       wrap.querySelector('#modoDesc');
+
 
     const tempoFieldLabel =
       wrap.querySelector('#tempoFieldLabel');
 
+
     const tempoChips =
       wrap.querySelector('#tempoChips');
+
 
     const playersWrap =
       wrap.querySelector('#playersWrap');
 
-    const addPlayerBtn =
-      wrap.querySelector('#addPlayerBtn');
 
-    const startBtn =
-      wrap.querySelector('#startBtn');
+    const addPlayerButtonSlot =
+      wrap.querySelector('#addPlayerButtonSlot');
+
+
+    const startButtonSlot =
+      wrap.querySelector('#startButtonSlot');
+
+
+    /* =========================================================
+       BOTÃO — COMPRAR CARTA
+    ========================================================= */
+
+    const drawBtn = uiButton({
+      text: 'Comprar carta',
+      className: 'btn btn-ghost'
+    });
+
+
+    drawButtonSlot.appendChild(drawBtn);
 
 
     drawBtn.addEventListener('click', () => {
@@ -220,6 +238,10 @@ function renderStop() {
       updateStartBtn();
     });
 
+
+    /* =========================================================
+       MODOS
+    ========================================================= */
 
     STOP_MODOS.forEach(m => {
       const c =
@@ -241,6 +263,8 @@ function renderStop() {
 
 
       c.addEventListener('click', () => {
+        sound.click();
+
         modoEscolhido = m.id;
 
 
@@ -287,6 +311,10 @@ function renderStop() {
       modoPorId(modoEscolhido).desc;
 
 
+    /* =========================================================
+       TEMPO
+    ========================================================= */
+
     function renderTempoChips() {
       const cfg =
         modoPorId(modoEscolhido);
@@ -318,6 +346,8 @@ function renderStop() {
 
 
         c.addEventListener('click', () => {
+          sound.click();
+
           tempoEscolhido = s;
 
 
@@ -353,6 +383,10 @@ function renderStop() {
     renderTempoChips();
 
 
+    /* =========================================================
+       JOGADORES
+    ========================================================= */
+
     function renderPlayers() {
       playersWrap.innerHTML = '';
 
@@ -380,6 +414,7 @@ function renderStop() {
                   type="button"
                   class="player-remove"
                   data-remove="${i}"
+                  aria-label="Remover jogador ${i + 1}"
                 >
                   ×
                 </button>
@@ -418,6 +453,8 @@ function renderStop() {
           btn.addEventListener(
             'click',
             () => {
+              sound.click();
+
               playerNames.splice(
                 +btn.dataset.remove,
                 1
@@ -434,14 +471,31 @@ function renderStop() {
         });
 
 
-      addPlayerBtn.style.display =
+      addPlayerButton.style.display =
         playerNames.length >= 6
           ? 'none'
           : '';
     }
 
 
-    addPlayerBtn.addEventListener(
+    /* =========================================================
+       BOTÃO — ADICIONAR JOGADOR
+    ========================================================= */
+
+    const addPlayerButton =
+      uiButton({
+        text: '+ Adicionar jogador',
+        className:
+          'btn btn-ghost add-player-btn'
+      });
+
+
+    addPlayerButtonSlot.appendChild(
+      addPlayerButton
+    );
+
+
+    addPlayerButton.addEventListener(
       'click',
       () => {
         playerNames.push(
@@ -459,7 +513,23 @@ function renderStop() {
     );
 
 
-    renderPlayers();
+    /* =========================================================
+       BOTÃO — COMEÇAR
+    ========================================================= */
+
+    const startBtn =
+      uiButton({
+        text: 'Comprem uma carta pra começar',
+        className:
+          'btn btn-primary btn-block'
+      });
+
+
+    startBtn.disabled = true;
+
+    startButtonSlot.appendChild(
+      startBtn
+    );
 
 
     function updateStartBtn() {
@@ -502,8 +572,15 @@ function renderStop() {
         );
       }
     );
+
+
+    renderPlayers();
   }
 
+
+  /* =========================================================
+     INÍCIO DA RODADA
+  ========================================================= */
 
   function startRound(
     tema,
@@ -547,6 +624,10 @@ function renderStop() {
   }
 
 
+  /* =========================================================
+     RODADA
+  ========================================================= */
+
   function renderRound(state) {
     const cfg =
       modoPorId(state.modo);
@@ -573,7 +654,10 @@ function renderStop() {
           id="scoreRow"
         ></div>
 
-        <p class="turn-banner" aria-live="polite">
+        <p
+          class="turn-banner"
+          aria-live="polite"
+        >
           Na vez de
           <b id="turnName"></b>
           — fale uma palavra do tema e
@@ -593,6 +677,7 @@ function renderStop() {
         <div
           class="timer-big"
           id="timerBig"
+          aria-live="polite"
         ></div>
 
         <p class="timer-note">
@@ -607,33 +692,49 @@ function renderStop() {
     `;
 
 
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
     const gameHeader =
       wrap.querySelector('#gameHeader');
 
 
     gameHeader.appendChild(
       createGameHeader({
-        title: `Stop do casal`,
+        title: 'Stop do casal',
         description: `Tema: ${state.tema}`
       })
     );
 
 
+    /* =========================================================
+       ELEMENTOS
+    ========================================================= */
+
     const scoreRow =
       wrap.querySelector('#scoreRow');
+
 
     const turnName =
       wrap.querySelector('#turnName');
 
+
     const timerFill =
       wrap.querySelector('#timerFill');
+
 
     const timerBig =
       wrap.querySelector('#timerBig');
 
+
     const letterGrid =
       wrap.querySelector('#letterGrid');
 
+
+    /* =========================================================
+       LETRAS
+    ========================================================= */
 
     STOP_LETRAS.forEach(l => {
       const b =
@@ -643,14 +744,25 @@ function renderStop() {
       b.className = 'letter-btn';
       b.textContent = l;
 
+      b.setAttribute(
+        'aria-label',
+        `Usar letra ${l}`
+      );
+
+
       b.addEventListener(
         'click',
         () => pressLetter(l, b)
       );
 
+
       letterGrid.appendChild(b);
     });
 
+
+    /* =========================================================
+       PLACAR
+    ========================================================= */
 
     function drawScoreRow() {
       scoreRow.innerHTML =
@@ -672,7 +784,8 @@ function renderStop() {
                   style="background:var(--${color})"
                 ></span>
 
-                ${name} · ${scoreState.losses[i] || 0}
+                ${name} ·
+                ${scoreState.losses[i] || 0}
               </span>
             `;
           })
@@ -689,6 +802,10 @@ function renderStop() {
         ')';
     }
 
+
+    /* =========================================================
+       TEMPO
+    ========================================================= */
 
     function formatTime(s) {
       const m =
@@ -755,6 +872,10 @@ function renderStop() {
       });
 
 
+    /* =========================================================
+       LETRA PRESSIONADA
+    ========================================================= */
+
     function pressLetter(
       letter,
       btn
@@ -765,6 +886,9 @@ function renderStop() {
       ) {
         return;
       }
+
+
+      sound.click();
 
 
       state.used[letter] =
@@ -779,10 +903,12 @@ function renderStop() {
 
       btn.classList.add('used');
 
+
       btn.style.background =
         'var(--' +
         colorFor(state.turnIndex) +
         ')';
+
 
       btn.style.opacity = '0.5';
 
@@ -798,8 +924,10 @@ function renderStop() {
           state.totalTime
         );
 
+
         state.timeLeft =
           state.totalTime;
+
 
         drawTimer();
       }
@@ -814,6 +942,7 @@ function renderStop() {
       ) {
         gameTimer.cancel();
 
+
         return endRound(
           state,
           null
@@ -824,14 +953,21 @@ function renderStop() {
 
     drawScoreRow();
 
+
     state.timeLeft =
       state.totalTime;
 
+
     drawTimer();
+
 
     gameTimer.start();
   }
 
+
+  /* =========================================================
+     FIM DA RODADA
+  ========================================================= */
 
   function endRound(
     state,
@@ -926,25 +1062,16 @@ function renderStop() {
 
         <div
           class="btn-row"
+          id="endButtonSlot"
           style="justify-content:center;"
-        >
-          <button
-            class="btn btn-primary"
-            id="nextRoundBtn"
-          >
-            Próxima rodada
-          </button>
-
-          <button
-            class="btn btn-ghost"
-            id="backSetupBtn"
-          >
-            Trocar modo, jogadores ou tempo
-          </button>
-        </div>
+        ></div>
       </div>
     `;
 
+
+    /* =========================================================
+       HEADER DO RESULTADO
+    ========================================================= */
 
     const gameHeader =
       wrap.querySelector('#gameHeader');
@@ -968,6 +1095,10 @@ function renderStop() {
       })
     );
 
+
+    /* =========================================================
+       PLACAR FINAL
+    ========================================================= */
 
     wrap
       .querySelector('#scoreRowEnd')
@@ -995,26 +1126,50 @@ function renderStop() {
           .join('');
 
 
-    wrap
-      .querySelector('#nextRoundBtn')
-      .addEventListener(
-        'click',
-        () => {
-          startRound(
-            drawCard(),
-            state.totalTime,
-            state.players,
-            state.modo
-          );
-        }
-      );
+    /* =========================================================
+       BOTÕES DO RESULTADO
+    ========================================================= */
+
+    const endButtonSlot =
+      wrap.querySelector('#endButtonSlot');
 
 
-    wrap
-      .querySelector('#backSetupBtn')
-      .addEventListener(
-        'click',
-        showSetup
-      );
+    const nextRoundBtn =
+      uiButton({
+        text: 'Próxima rodada',
+        className: 'btn btn-primary'
+      });
+
+
+    const backSetupBtn =
+      uiButton({
+        text: 'Trocar modo, jogadores ou tempo',
+        className: 'btn btn-ghost'
+      });
+
+
+    endButtonSlot.append(
+      nextRoundBtn,
+      backSetupBtn
+    );
+
+
+    nextRoundBtn.addEventListener(
+      'click',
+      () => {
+        startRound(
+          drawCard(),
+          state.totalTime,
+          state.players,
+          state.modo
+        );
+      }
+    );
+
+
+    backSetupBtn.addEventListener(
+      'click',
+      showSetup
+    );
   }
 }
