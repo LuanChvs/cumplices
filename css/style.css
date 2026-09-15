@@ -1341,3 +1341,151 @@ main {
     animation-iteration-count: 1 !important;
   }
 }
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  padding: 0;
+
+  border: 1px solid transparent;
+  border-radius: 50%;
+
+  background: transparent;
+  color: var(--text-dim);
+
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  transition:
+    color .15s ease,
+    background .15s ease,
+    border-color .15s ease,
+    transform .12s ease;
+}
+
+
+.sound-toggle:hover {
+  color: var(--text);
+
+  background: rgba(245, 240, 232, 0.05);
+
+  border-color: var(--line);
+}
+
+
+.sound-toggle:active {
+  transform: scale(0.92);
+}
+/* =========================================================
+   JOGO DA VELHA
+========================================================= */
+
+.tic-board {
+  width: min(420px, 100%);
+
+  margin: 24px auto 0;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 8px;
+
+  aspect-ratio: 1 / 1;
+}
+
+
+.tic-cell {
+  width: 100%;
+  aspect-ratio: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+
+  background: var(--panel-2);
+  color: var(--text);
+
+  font-family: var(--font-d);
+  font-size: clamp(2.8rem, 12vw, 4.8rem);
+  font-weight: 600;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform .12s ease,
+    background .15s ease,
+    border-color .15s ease,
+    color .15s ease;
+}
+
+
+.tic-cell:hover:not(:disabled) {
+  border-color: rgba(245, 240, 232, 0.25);
+
+  background: rgba(245, 240, 232, 0.055);
+
+  transform: translateY(-1px);
+}
+
+
+.tic-cell:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+
+.tic-cell.x {
+  color: var(--rose);
+}
+
+
+.tic-cell.o {
+  color: var(--teal);
+}
+
+
+.tic-cell:disabled {
+  cursor: default;
+}
+
+
+.tic-cell.filled {
+  cursor: default;
+}
+
+
+.tic-cell:disabled:not(.filled) {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   JOGO DA VELHA — RESPONSIVO
+========================================================= */
+
+@media (max-width: 480px) {
+  .tic-board {
+    gap: 6px;
+  }
+
+  .tic-cell {
+    border-radius: 14px;
+  }
+}

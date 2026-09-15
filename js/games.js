@@ -41,5 +41,14 @@ const games = {
       color: 'lav',
       icon: ICONS.quiz,
       render: renderQuiz
+    },
+    jogoDaVelha: {
+      id: 'jogo-da-velha',
+      title: 'Jogo da Velha',
+      route: '/jogo-da-velha',
+      description: 'O clássico de três em linha, com dois modos: Clássico e Mate ou Morra.',
+      color: 'lav',
+      icon: ICONS.jogoDaVelha,
+      render: renderJogoDaVelha
     }
   };

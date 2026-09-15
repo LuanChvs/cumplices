@@ -42,12 +42,35 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="topbar">
-  <div class="topbar-inner">
-    <a href="#/" class="brand">Cúmplices<span>.</span></a>
-    <a href="#/" class="top-context" id="topContext"></a>
+  <div class="topbar">
+    <div class="topbar-inner">
+  
+      <a href="#/" class="brand">
+        Cúmplices<span>.</span>
+      </a>
+  
+      <div class="topbar-actions">
+  
+        <a
+          href="#/"
+          class="top-context"
+          id="topContext"
+        ></a>
+  
+        <button
+          type="button"
+          class="sound-toggle"
+          id="soundToggle"
+          aria-label="Desligar sons"
+          title="Desligar sons"
+        >
+          <span id="soundIcon" aria-hidden="true">🔊</span>
+        </button>
+  
+      </div>
+  
+    </div>
   </div>
-</div>
 <main class="container" id="view"></main>
 
 <!-- ===== DADOS ===== -->
@@ -55,6 +78,7 @@
 <script src="data/verdades-desafios.js"></script>
 <script src="data/quiz-perguntas.js"></script>
 <script src="data/stop-temas.js"></script>
+<script src="data/jogo-da-velha.js"></script>
 
 <!-- ===== CONFIGURAÇÃO ===== -->
 <script src="js/config.js"></script>
@@ -71,6 +95,7 @@
 <script src="js/games/stop.js"></script>
 <script src="js/games/verdade.js"></script>
 <script src="js/games/quiz.js"></script>
+<script src="js/games/jogo-da-velha.js"></script>
 
 <script src="js/games.js"></script>
 

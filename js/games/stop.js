@@ -13,6 +13,8 @@ function renderStop() {
   let deck = [];
   let deckPos = 0;
 
+  let activeTimer = null;
+
 
   function freshDeck() {
     deck = shuffle(STOP_TEMAS);
@@ -29,6 +31,20 @@ function renderStop() {
   }
 
 
+  /*
+    Limpeza usada pelo Router quando
+    o usuário sai do Stop.
+  */
+  wrap.cleanup = () => {
+    if (activeTimer) {
+      activeTimer.cancel();
+      activeTimer = null;
+    }
+
+    sound.timerStop();
+  };
+
+
   freshDeck();
   showSetup();
 
@@ -40,6 +56,19 @@ function renderStop() {
   ========================================================= */
 
   function showSetup() {
+    /*
+      Caso a configuração seja reaberta
+      internamente, garantimos que não exista
+      nenhum timer antigo.
+    */
+    if (activeTimer) {
+      activeTimer.cancel();
+      activeTimer = null;
+    }
+
+    sound.timerStop();
+
+
     scoreState.losses = {};
     scoreState.roundNumber = 0;
 
@@ -211,32 +240,38 @@ function renderStop() {
 
 
     /* =========================================================
-       BOTÃO — COMPRAR CARTA
+       COMPRAR CARTA
     ========================================================= */
 
-    const drawBtn = uiButton({
-      text: 'Comprar carta',
-      className: 'btn btn-ghost'
-    });
+    const drawBtn =
+      uiButton({
+        text: 'Comprar carta',
+        className: 'btn btn-ghost'
+      });
 
 
-    drawButtonSlot.appendChild(drawBtn);
+    drawButtonSlot.appendChild(
+      drawBtn
+    );
 
 
-    drawBtn.addEventListener('click', () => {
-      temaEscolhido = drawCard();
+    drawBtn.addEventListener(
+      'click',
+      () => {
+        temaEscolhido = drawCard();
 
-      themeCard.className =
-        'theme-card revealed';
+        themeCard.className =
+          'theme-card revealed';
 
-      themeCard.textContent =
-        temaEscolhido;
+        themeCard.textContent =
+          temaEscolhido;
 
-      drawBtn.textContent =
-        'Comprar outra carta';
+        drawBtn.textContent =
+          'Comprar outra carta';
 
-      updateStartBtn();
-    });
+        updateStartBtn();
+      }
+    );
 
 
     /* =========================================================
@@ -262,45 +297,48 @@ function renderStop() {
       c.dataset.modo = m.id;
 
 
-      c.addEventListener('click', () => {
-        sound.click();
+      c.addEventListener(
+        'click',
+        () => {
+          sound.click();
 
-        modoEscolhido = m.id;
-
-
-        modoChips
-          .querySelectorAll('.chip')
-          .forEach(x => {
-            x.classList.toggle(
-              'selected',
-              x.dataset.modo === m.id
-            );
-          });
+          modoEscolhido = m.id;
 
 
-        const cfg =
-          modoPorId(modoEscolhido);
+          modoChips
+            .querySelectorAll('.chip')
+            .forEach(x => {
+              x.classList.toggle(
+                'selected',
+                x.dataset.modo === m.id
+              );
+            });
 
 
-        modoDesc.textContent =
-          cfg.desc;
+          const cfg =
+            modoPorId(modoEscolhido);
 
 
-        tempoEscolhido =
-          cfg.tempoPadrao;
+          modoDesc.textContent =
+            cfg.desc;
 
 
-        storageSet(
-          'stop.preferences',
-          {
-            modo: modoEscolhido,
-            tempo: tempoEscolhido
-          }
-        );
+          tempoEscolhido =
+            cfg.tempoPadrao;
 
 
-        renderTempoChips();
-      });
+          storageSet(
+            'stop.preferences',
+            {
+              modo: modoEscolhido,
+              tempo: tempoEscolhido
+            }
+          );
+
+
+          renderTempoChips();
+        }
+      );
 
 
       modoChips.appendChild(c);
@@ -327,56 +365,61 @@ function renderStop() {
       tempoChips.innerHTML = '';
 
 
-      cfg.tempos.forEach((s, si) => {
-        const c =
-          document.createElement('button');
+      cfg.tempos.forEach(
+        (s, si) => {
+          const c =
+            document.createElement('button');
 
-        c.type = 'button';
+          c.type = 'button';
 
-        c.className =
-          'chip' +
-          (
-            s === tempoEscolhido
-              ? ' selected'
-              : ''
-          );
+          c.className =
+            'chip' +
+            (
+              s === tempoEscolhido
+                ? ' selected'
+                : ''
+            );
 
-        c.textContent =
-          cfg.tempoLabels[si];
-
-
-        c.addEventListener('click', () => {
-          sound.click();
-
-          tempoEscolhido = s;
+          c.textContent =
+            cfg.tempoLabels[si];
 
 
-          tempoChips
-            .querySelectorAll('.chip')
-            .forEach(x => {
-              x.classList.remove(
+          c.addEventListener(
+            'click',
+            () => {
+              sound.click();
+
+              tempoEscolhido = s;
+
+
+              tempoChips
+                .querySelectorAll('.chip')
+                .forEach(x => {
+                  x.classList.remove(
+                    'selected'
+                  );
+                });
+
+
+              c.classList.add(
                 'selected'
               );
-            });
 
 
-          c.classList.add(
-            'selected'
-          );
-
-
-          storageSet(
-            'stop.preferences',
-            {
-              modo: modoEscolhido,
-              tempo: tempoEscolhido
+              storageSet(
+                'stop.preferences',
+                {
+                  modo: modoEscolhido,
+                  tempo: tempoEscolhido
+                }
+              );
             }
           );
-        });
 
 
-        tempoChips.appendChild(c);
-      });
+          tempoChips.appendChild(c);
+        }
+      );
     }
 
 
@@ -391,41 +434,43 @@ function renderStop() {
       playersWrap.innerHTML = '';
 
 
-      playerNames.forEach((name, i) => {
-        const row =
-          document.createElement('div');
+      playerNames.forEach(
+        (name, i) => {
+          const row =
+            document.createElement('div');
 
-        row.className =
-          'player-row';
-
-
-        row.innerHTML = `
-          <input
-            class="text-input"
-            data-i="${i}"
-            value="${name}"
-            placeholder="Jogador ${i + 1}"
-          >
-
-          ${
-            playerNames.length > 2
-              ? `
-                <button
-                  type="button"
-                  class="player-remove"
-                  data-remove="${i}"
-                  aria-label="Remover jogador ${i + 1}"
-                >
-                  ×
-                </button>
-              `
-              : ''
-          }
-        `;
+          row.className =
+            'player-row';
 
 
-        playersWrap.appendChild(row);
-      });
+          row.innerHTML = `
+            <input
+              class="text-input"
+              data-i="${i}"
+              value="${name}"
+              placeholder="Jogador ${i + 1}"
+            >
+
+            ${
+              playerNames.length > 2
+                ? `
+                  <button
+                    type="button"
+                    class="player-remove"
+                    data-remove="${i}"
+                    aria-label="Remover jogador ${i + 1}"
+                  >
+                    ×
+                  </button>
+                `
+                : ''
+            }
+          `;
+
+
+          playersWrap.appendChild(row);
+        }
+      );
 
 
       playersWrap
@@ -437,6 +482,7 @@ function renderStop() {
               playerNames[
                 +inp.dataset.i
               ] = inp.value;
+
 
               storageSet(
                 'players',
@@ -455,15 +501,18 @@ function renderStop() {
             () => {
               sound.click();
 
+
               playerNames.splice(
                 +btn.dataset.remove,
                 1
               );
 
+
               storageSet(
                 'players',
                 playerNames
               );
+
 
               renderPlayers();
             }
@@ -479,7 +528,7 @@ function renderStop() {
 
 
     /* =========================================================
-       BOTÃO — ADICIONAR JOGADOR
+       ADICIONAR JOGADOR
     ========================================================= */
 
     const addPlayerButton =
@@ -503,10 +552,12 @@ function renderStop() {
           (playerNames.length + 1)
         );
 
+
         storageSet(
           'players',
           playerNames
         );
+
 
         renderPlayers();
       }
@@ -514,18 +565,20 @@ function renderStop() {
 
 
     /* =========================================================
-       BOTÃO — COMEÇAR
+       COMEÇAR RODADA
     ========================================================= */
 
     const startBtn =
       uiButton({
-        text: 'Comprem uma carta pra começar',
+        text:
+          'Comprem uma carta pra começar',
         className:
           'btn btn-primary btn-block'
       });
 
 
     startBtn.disabled = true;
+
 
     startButtonSlot.appendChild(
       startBtn
@@ -535,6 +588,7 @@ function renderStop() {
     function updateStartBtn() {
       startBtn.disabled =
         !temaEscolhido;
+
 
       startBtn.textContent =
         temaEscolhido
@@ -557,11 +611,13 @@ function renderStop() {
         }
 
 
-        names.forEach((n, i) => {
-          if (!(i in scoreState.losses)) {
-            scoreState.losses[i] = 0;
+        names.forEach(
+          (n, i) => {
+            if (!(i in scoreState.losses)) {
+              scoreState.losses[i] = 0;
+            }
           }
-        });
+        );
 
 
         startRound(
@@ -633,10 +689,28 @@ function renderStop() {
       modoPorId(state.modo);
 
 
+    let lastTimerWarning =
+      null;
+
+
+    /*
+      Se por algum motivo existir
+      um timer anterior, encerramos.
+    */
+    if (activeTimer) {
+      activeTimer.cancel();
+      activeTimer = null;
+    }
+
+
+    sound.timerStop();
+
+
     wrap.innerHTML = `
       <div id="gameHeader"></div>
 
       <div class="panel">
+
         <div
           style="
             display:flex;
@@ -649,10 +723,12 @@ function renderStop() {
           </span>
         </div>
 
+
         <div
           class="score-row"
           id="scoreRow"
         ></div>
+
 
         <p
           class="turn-banner"
@@ -664,6 +740,7 @@ function renderStop() {
           aperte a letra inicial
         </p>
 
+
         <div class="timer-wrap">
           <div class="timer-bar-track">
             <div
@@ -674,20 +751,24 @@ function renderStop() {
           </div>
         </div>
 
+
         <div
           class="timer-big"
           id="timerBig"
           aria-live="polite"
         ></div>
 
+
         <p class="timer-note">
           ${cfg.tempoNota}
         </p>
+
 
         <div
           class="letter-grid"
           id="letterGrid"
         ></div>
+
       </div>
     `;
 
@@ -740,9 +821,14 @@ function renderStop() {
       const b =
         document.createElement('button');
 
+
       b.type = 'button';
-      b.className = 'letter-btn';
+
+      b.className =
+        'letter-btn';
+
       b.textContent = l;
+
 
       b.setAttribute(
         'aria-label',
@@ -771,8 +857,10 @@ function renderStop() {
             const active =
               i === state.turnIndex;
 
+
             const color =
               colorFor(i);
+
 
             return `
               <span
@@ -781,7 +869,10 @@ function renderStop() {
               >
                 <span
                   class="dot"
-                  style="background:var(--${color})"
+                  style="
+                    background:
+                      var(--${color})
+                  "
                 ></span>
 
                 ${name} ·
@@ -811,10 +902,12 @@ function renderStop() {
       const m =
         Math.floor(s / 60);
 
+
       const ss =
         Math.floor(s % 60)
           .toString()
           .padStart(2, '0');
+
 
       return m + ':' + ss;
     }
@@ -843,8 +936,44 @@ function renderStop() {
         pct <= 20
           ? 'var(--danger)'
           : 'var(--gold)';
+
+
+      const secondsLeft =
+        Math.ceil(state.timeLeft);
+
+
+      /*
+        Nos últimos 10 segundos,
+        toca o áudio contínuo em loop.
+
+        Não chamamos o som a cada segundo.
+      */
+      if (
+        secondsLeft <= 10 &&
+        secondsLeft > 0
+      ) {
+        if (lastTimerWarning === null) {
+          lastTimerWarning =
+            secondsLeft;
+
+          sound.timer();
+        }
+      }
+      else if (secondsLeft > 10) {
+        /*
+          Permite que o alerta volte
+          quando o cronômetro for reiniciado.
+        */
+        lastTimerWarning = null;
+
+        sound.timerStop();
+      }
     }
 
+
+    /* =========================================================
+       TIMER
+    ========================================================= */
 
     const gameTimer =
       createGameTimer({
@@ -862,7 +991,13 @@ function renderStop() {
         onEnd: () => {
           state.timeLeft = 0;
 
+          sound.timerStop();
+
           drawTimer();
+
+          sound.elimination();
+
+          activeTimer = null;
 
           endRound(
             state,
@@ -870,6 +1005,10 @@ function renderStop() {
           );
         }
       });
+
+
+    activeTimer =
+      gameTimer;
 
 
     /* =========================================================
@@ -919,6 +1058,10 @@ function renderStop() {
         ) % state.players.length;
 
 
+      /*
+        No Passa ou Repassa,
+        o cronômetro reinicia.
+      */
       if (state.modo === 'repassa') {
         gameTimer.restart(
           state.totalTime
@@ -929,6 +1072,11 @@ function renderStop() {
           state.totalTime;
 
 
+        lastTimerWarning = null;
+
+        sound.timerStop();
+
+
         drawTimer();
       }
 
@@ -936,11 +1084,20 @@ function renderStop() {
       drawScoreRow();
 
 
+      /*
+        Todas as letras foram usadas.
+      */
       if (
         Object.keys(state.used).length >=
         STOP_LETRAS.length
       ) {
         gameTimer.cancel();
+
+        activeTimer = null;
+
+        sound.timerStop();
+
+        sound.victory();
 
 
         return endRound(
@@ -976,6 +1133,15 @@ function renderStop() {
     endGame(state);
 
 
+    if (activeTimer) {
+      activeTimer.cancel();
+      activeTimer = null;
+    }
+
+
+    sound.timerStop();
+
+
     if (loserIndex !== null) {
       scoreState.losses[loserIndex] =
         (
@@ -1005,6 +1171,7 @@ function renderStop() {
       <div id="gameHeader"></div>
 
       <div class="panel">
+
         <div
           style="
             display:flex;
@@ -1017,22 +1184,28 @@ function renderStop() {
           </span>
         </div>
 
+
         <div
           class="score-row"
           id="scoreRowEnd"
         ></div>
 
+
         <div class="end-stats">
+
           <div class="end-stat">
             <b>${usedCount}</b>
             <span>letras eliminadas</span>
           </div>
 
+
           <div class="end-stat">
             <b>${elapsed}s</b>
             <span>duração da rodada</span>
           </div>
+
         </div>
+
 
         <div class="recap-row">
           ${
@@ -1052,6 +1225,7 @@ function renderStop() {
                 </span>
               `)
               .join('') ||
+
             `
               <span class="recap-chip">
                 Nenhuma letra foi eliminada
@@ -1060,11 +1234,13 @@ function renderStop() {
           }
         </div>
 
+
         <div
           class="btn-row"
           id="endButtonSlot"
           style="justify-content:center;"
         ></div>
+
       </div>
     `;
 
@@ -1108,6 +1284,7 @@ function renderStop() {
             const color =
               colorFor(i);
 
+
             return `
               <span
                 class="score-chip"
@@ -1115,7 +1292,10 @@ function renderStop() {
               >
                 <span
                   class="dot"
-                  style="background:var(--${color})"
+                  style="
+                    background:
+                      var(--${color})
+                  "
                 ></span>
 
                 ${name} ·
@@ -1131,7 +1311,9 @@ function renderStop() {
     ========================================================= */
 
     const endButtonSlot =
-      wrap.querySelector('#endButtonSlot');
+      wrap.querySelector(
+        '#endButtonSlot'
+      );
 
 
     const nextRoundBtn =
@@ -1143,7 +1325,8 @@ function renderStop() {
 
     const backSetupBtn =
       uiButton({
-        text: 'Trocar modo, jogadores ou tempo',
+        text:
+          'Trocar modo, jogadores ou tempo',
         className: 'btn btn-ghost'
       });
 

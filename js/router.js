@@ -5,6 +5,8 @@
 const view = document.getElementById('view');
 const topContext = document.getElementById('topContext');
 
+let currentViewCleanup = null;
+
 
 const routes = {
   '/': {
@@ -23,22 +25,54 @@ Object.values(games).forEach(game => {
 
 
 function router() {
+  /*
+    Limpa recursos da tela anterior
+    antes de trocar a view.
+  */
+  if (typeof currentViewCleanup === 'function') {
+    currentViewCleanup();
+    currentViewCleanup = null;
+  }
+
+
   const hash =
     location.hash.replace('#', '') || '/';
+
 
   const route =
     routes[hash] || routes['/'];
 
+
   view.innerHTML = '';
+
 
   topContext.textContent =
     hash === '/'
       ? ''
       : '← início';
 
+
+  const renderedView =
+    route.render();
+
+
   view.appendChild(
-    route.render()
+    renderedView
   );
+
+
+  /*
+    Alguns jogos podem expor uma
+    função de limpeza própria.
+  */
+  if (
+    renderedView &&
+    typeof renderedView.cleanup === 'function'
+  ) {
+    currentViewCleanup =
+      renderedView.cleanup;
+  }
+
 
   window.scrollTo(0, 0);
 }

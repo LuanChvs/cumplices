@@ -16,7 +16,7 @@ const STOP_MODOS = [
     id:'ate-morte',
     nome:'Até a morte',
     desc:'Um cronômetro único pra rodada inteira. Ele não reinicia quando alguém aperta uma letra — só diminui. Cada letra apertada deixa menos tempo pra quem vier depois. Se acabar na sua vez, você perde.',
-    tempos:[60,90,120,180],
+    tempos:[60.2,90.2,120.2,180.2],
     tempoLabels:["1 min","1min30","2 min","3 min"],
     tempoPadrao:90,
     tempoLabelCampo:'Tempo total da rodada',
@@ -26,8 +26,8 @@ const STOP_MODOS = [
     id:'repassa',
     nome:'Passa ou repassa',
     desc:'O cronômetro reinicia toda vez que uma letra é apertada. Você recebe o tempo cheio pra pensar na sua palavra — mas se ele acabar antes de você apertar uma letra, você perde a rodada.',
-    tempos:[30,45,60,90],
-    tempoLabels:["30s","45s","1 min","1min30"],
+    tempos:[10.2,30.2,45.2,60.2,90.2],
+    tempoLabels:["10s", "30s","45s","1 min","1min30"],
     tempoPadrao:45,
     tempoLabelCampo:'Tempo por vez',
     tempoNota:'Reinicia a cada letra apertada.'
@@ -41,5 +41,17 @@ const ICONS = {
     sintonia:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><line x1="24" y1="7" x2="24" y2="14"/><line x1="24" y1="34" x2="24" y2="41"/><line x1="7" y1="24" x2="14" y2="24"/><line x1="34" y1="24" x2="41" y2="24"/><circle cx="24" cy="24" r="4" fill="currentColor" stroke="none"/></svg>`,
     stop:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><path d="M24 14v10l7 5"/></svg>`,
     vd:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M8 14h20a5 5 0 0 1 5 5v6a5 5 0 0 1-5 5H20l-6 5v-5H8a5 5 0 0 1-5-5v-6a5 5 0 0 1 5-5Z" transform="translate(0,-2)"/></svg>`,
-    quiz:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><path d="M19 19a5 5 0 0 1 9-3c1.5 2-0.5 3.5-2 4.5S24 23 24 26"/><circle cx="24" cy="32" r="0.6" fill="currentColor"/></svg>`
-  };
+    quiz:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><path d="M19 19a5 5 0 0 1 9-3c1.5 2-0.5 3.5-2 4.5S24 23 24 26"/><circle cx="24" cy="32" r="0.6" fill="currentColor"/></svg>`,
+    jogoDaVelha: `
+    <svg
+      viewBox="0 0 48 48"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.4"
+    >
+      <path d="M16 8v32"/>
+      <path d="M32 8v32"/>
+      <path d="M8 16h32"/>
+      <path d="M8 32h32"/>
+    </svg>
+  `};
