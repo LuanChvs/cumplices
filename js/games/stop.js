@@ -573,7 +573,7 @@ function renderStop() {
           id="scoreRow"
         ></div>
 
-        <p class="turn-banner">
+        <p class="turn-banner" aria-live="polite">
           Na vez de
           <b id="turnName"></b>
           — fale uma palavra do tema e

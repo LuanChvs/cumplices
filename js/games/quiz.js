@@ -39,7 +39,7 @@ function renderQuiz() {
       <div id="gameHeader"></div>
 
       <div class="panel">
-        <p class="quiz-progress">
+        <p class="quiz-progress" aria-live="polite">
           Pergunta ${state.idx + 1} de ${state.order.length}
           · vez de ${state.names[state.turn % 2]}
         </p>
@@ -133,7 +133,7 @@ function renderQuiz() {
           ) + ' conhece melhor o outro dessa vez.';
 
     wrap.innerHTML = `
-      <div id="gameHeader"></div>
+      <div id="gameHeader" aria-live="polite"></div>
 
       <div class="panel">
         <div class="quiz-score">
