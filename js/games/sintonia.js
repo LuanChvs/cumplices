@@ -67,19 +67,18 @@ function renderSintonia() {
 
 
   function perguntasDaCategoria(cat) {
-    const extras =
-      preferences.resenha &&
-      Array.isArray(cat.perguntasResenha)
-        ? cat.perguntasResenha
-        : [];
-
-    return cat.perguntas.concat(extras);
+    return cat.perguntas.filter(pergunta =>
+      Array.isArray(pergunta.modos)
+        ? pergunta.modos.includes(preferences.resenha ? 'resenha' : 'casal')
+        : true
+    );
   }
 
 
   function askQuestion(catIndex) {
     const cat = SINTONIA[catIndex];
-    const q = pick(perguntasDaCategoria(cat));
+    const perguntas = perguntasDaCategoria(cat);
+    const q = pick(perguntas).texto;
 
     questionSlot.innerHTML = `
       <div class="question-card">
