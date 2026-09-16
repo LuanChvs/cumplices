@@ -2399,6 +2399,7 @@ main {
       "info board captured";
 
     align-items: stretch;
+    justify-content: center;
 
     gap: clamp(10px, 1.6vw, 18px);
 
