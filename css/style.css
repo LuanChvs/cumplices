@@ -52,6 +52,7 @@
   color-scheme: dark;
 }
 
+
 /* =========================================================
    TEMA — DIURNO
 ========================================================= */
@@ -93,6 +94,9 @@ html,
 body {
   margin: 0;
   padding: 0;
+
+  width: 100%;
+  min-width: 0;
 }
 
 body {
@@ -118,6 +122,8 @@ body {
 
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+
+  overflow-x: hidden;
 }
 
 [data-theme="light"] body {
@@ -146,6 +152,14 @@ input {
 
 button {
   -webkit-tap-highlight-color: transparent;
+  max-width: 100%;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
 }
 
 h1,
@@ -162,8 +176,16 @@ p {
 }
 
 main {
+  width: 100%;
+  min-width: 0;
+
   padding-bottom: 64px;
 }
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .container {
   width: 100%;
@@ -171,6 +193,8 @@ main {
 
   margin: 0 auto;
   padding: 0 20px;
+
+  min-width: 0;
 }
 
 
@@ -199,6 +223,8 @@ main {
   top: 0;
   z-index: 5;
 
+  width: 100%;
+
   background: color-mix(
     in srgb,
     var(--bg) 78%,
@@ -210,6 +236,7 @@ main {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+
 [data-theme="light"] .topbar {
   background: rgba(255, 248, 234, 0.42);
 
@@ -231,6 +258,8 @@ main {
   justify-content: space-between;
 
   gap: 12px;
+
+  min-width: 0;
 }
 
 .brand {
@@ -244,6 +273,8 @@ main {
   letter-spacing: 0.01em;
 
   text-decoration: none;
+
+  min-width: 0;
 }
 
 .brand span {
@@ -262,11 +293,22 @@ main {
   transition:
     color .18s ease,
     transform .18s ease;
+
+  min-width: 0;
 }
 
 .top-context:hover {
   color: var(--text);
   transform: translateX(-2px);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  min-width: 0;
 }
 
 
@@ -307,10 +349,15 @@ main {
   gap: 22px;
 
   padding: 20px 0 40px;
+
+  min-width: 0;
 }
 
 .game-row {
   display: flex;
+
+  width: 100%;
+  min-width: 0;
 }
 
 .game-row.right {
@@ -345,6 +392,8 @@ main {
     transform .18s ease,
     border-color .18s ease,
     background .18s ease;
+
+  min-width: 0;
 }
 
 .game-row.right .game-card {
@@ -385,6 +434,8 @@ main {
 
 .game-card h2 {
   font-size: 1.32rem;
+
+  overflow-wrap: anywhere;
 }
 
 .game-card .sub {
@@ -393,6 +444,8 @@ main {
   color: var(--text-dim);
 
   font-size: 0.92rem;
+
+  overflow-wrap: anywhere;
 }
 
 .game-card .go {
@@ -419,11 +472,15 @@ main {
 
 .stage-head {
   padding: 34px 0 6px;
+
+  min-width: 0;
 }
 
 .stage-head h1 {
   font-size: clamp(1.9rem, 5vw, 2.6rem);
   line-height: 1.1;
+
+  overflow-wrap: anywhere;
 }
 
 .stage-head p {
@@ -432,6 +489,8 @@ main {
   margin-top: 10px;
 
   color: var(--text-dim);
+
+  overflow-wrap: anywhere;
 }
 
 
@@ -440,6 +499,9 @@ main {
 ========================================================= */
 
 .panel {
+  width: 100%;
+  min-width: 0;
+
   margin: 26px 0;
   padding: 26px;
 
@@ -480,6 +542,7 @@ main {
 
 .text-input {
   width: 100%;
+  min-width: 0;
 
   padding: 12px 14px;
 
@@ -520,6 +583,12 @@ main {
   grid-template-columns: 1fr 1fr;
 
   gap: 14px;
+
+  min-width: 0;
+}
+
+.row-2 > * {
+  min-width: 0;
 }
 
 
@@ -532,9 +601,13 @@ main {
   flex-wrap: wrap;
 
   gap: 8px;
+
+  min-width: 0;
 }
 
 .chip {
+  max-width: 100%;
+
   padding: 9px 15px;
 
   border: 1px solid var(--line);
@@ -551,6 +624,8 @@ main {
     background .15s ease,
     border-color .15s ease,
     transform .12s ease;
+
+  overflow-wrap: anywhere;
 }
 
 .chip:hover {
@@ -583,6 +658,7 @@ main {
   gap: 8px;
 
   min-height: 48px;
+  max-width: 100%;
 
   padding: 14px 24px;
 
@@ -601,6 +677,8 @@ main {
     border-color .15s ease,
     background .15s ease,
     opacity .15s ease;
+
+  white-space: normal;
 }
 
 .btn:active {
@@ -611,6 +689,7 @@ main {
   background: var(--gold);
   color: #241706;
 }
+
 [data-theme="light"] .btn-primary {
   background: rgba(255, 248, 234, 0.72);
 
@@ -628,6 +707,7 @@ main {
 .btn-primary:hover {
   filter: brightness(1.06);
 }
+
 [data-theme="light"] .btn-primary:hover {
   background: rgba(255, 248, 234, 0.92);
 
@@ -648,6 +728,7 @@ main {
 
   color: var(--text);
 }
+
 [data-theme="light"] .btn-ghost {
   background: rgba(255, 248, 234, 0.38);
 
@@ -663,6 +744,7 @@ main {
   border-color: var(--line-strong);
   background: rgba(255, 248, 234, 0.42);
 }
+
 [data-theme="light"] .btn-ghost:hover {
   background: rgba(255, 248, 234, 0.52);
 
@@ -674,6 +756,7 @@ main {
 
   border-color: rgba(60, 43, 35, 0.22);
 }
+
 .btn-ok {
   background: var(--sage);
   color: #0d2412;
@@ -713,6 +796,8 @@ main {
   gap: 12px;
 
   margin-top: 18px;
+
+  min-width: 0;
 }
 
 
@@ -724,6 +809,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  width: 100%;
+  min-width: 0;
 
   padding: 10px 0 6px;
 }
@@ -795,9 +883,13 @@ main {
   margin: 0 auto;
 
   gap: 10px;
+
+  min-width: 0;
 }
 
 .cat-chip {
+  min-width: 0;
+
   padding: 12px 8px;
 
   border: 1px solid var(--line);
@@ -809,6 +901,8 @@ main {
 
   font-size: 0.86rem;
   font-weight: 600;
+
+  overflow-wrap: anywhere;
 
   transition:
     background .12s ease,
@@ -844,6 +938,8 @@ main {
   background: var(--panel-2);
 
   text-align: center;
+
+  min-width: 0;
 }
 
 .question-card .cat-name {
@@ -862,6 +958,8 @@ main {
 
   font-size: 1.3rem;
   line-height: 1.35;
+
+  overflow-wrap: anywhere;
 }
 
 .question-card .btn-row {
@@ -880,10 +978,13 @@ main {
   gap: 8px;
 
   margin-bottom: 10px;
+
+  min-width: 0;
 }
 
 .player-row input {
   flex: 1;
+  min-width: 0;
 }
 
 .player-remove {
@@ -927,6 +1028,8 @@ main {
   gap: 16px;
 
   padding: 6px 0;
+
+  min-width: 0;
 }
 
 .theme-card {
@@ -948,6 +1051,8 @@ main {
 
   font-family: var(--font-d);
   font-weight: 600;
+
+  overflow-wrap: anywhere;
 }
 
 .theme-card.face-down {
@@ -965,6 +1070,8 @@ main {
 .mode-badge {
   display: inline-block;
 
+  max-width: 100%;
+
   padding: 5px 12px;
 
   border: 1px solid var(--line);
@@ -975,6 +1082,8 @@ main {
 
   font-size: 0.78rem;
   font-weight: 600;
+
+  overflow-wrap: anywhere;
 }
 
 
@@ -990,6 +1099,8 @@ main {
   gap: 10px;
 
   margin: 16px 0 4px;
+
+  min-width: 0;
 }
 
 .score-chip {
@@ -997,6 +1108,8 @@ main {
   align-items: center;
 
   gap: 7px;
+
+  max-width: 100%;
 
   padding: 8px 14px;
 
@@ -1039,6 +1152,8 @@ main {
 
 .timer-wrap {
   margin: 18px 0 6px;
+
+  min-width: 0;
 }
 
 .timer-bar-track {
@@ -1116,9 +1231,12 @@ main {
   gap: 8px;
 
   margin-top: 22px;
+
+  min-width: 0;
 }
 
 .letter-btn {
+  width: 100%;
   aspect-ratio: 1;
 
   border: 1px solid var(--line);
@@ -1167,6 +1285,8 @@ main {
   gap: 8px;
 
   margin: 20px 0;
+
+  min-width: 0;
 }
 
 .recap-chip {
@@ -1174,6 +1294,8 @@ main {
   align-items: center;
 
   gap: 6px;
+
+  max-width: 100%;
 
   padding: 6px 11px;
 
@@ -1249,6 +1371,8 @@ main {
   transition:
     transform .12s ease,
     border-color .15s ease;
+
+  min-width: 0;
 }
 
 .vd-card:hover {
@@ -1281,6 +1405,8 @@ main {
 
   font-size: 1.35rem;
   line-height: 1.35;
+
+  overflow-wrap: anywhere;
 }
 
 .vd-hint {
@@ -1324,6 +1450,8 @@ main {
   background: var(--panel-2);
 
   text-align: center;
+
+  min-width: 0;
 }
 
 .quiz-q p {
@@ -1331,6 +1459,8 @@ main {
 
   font-size: 1.4rem;
   line-height: 1.35;
+
+  overflow-wrap: anywhere;
 }
 
 .quiz-score {
@@ -1340,6 +1470,8 @@ main {
   gap: 30px;
 
   margin: 24px 0;
+
+  min-width: 0;
 }
 
 .quiz-score .who {
@@ -1370,6 +1502,8 @@ main {
   gap: 12px;
 
   margin-top: 22px;
+
+  min-width: 0;
 }
 
 
@@ -1391,64 +1525,6 @@ main {
 
 
 /* =========================================================
-   RESPONSIVIDADE
-========================================================= */
-
-@media (max-width: 520px) {
-  .row-2 {
-    grid-template-columns: 1fr;
-  }
-
-  .panel {
-    padding: 22px;
-  }
-
-  .game-card {
-    max-width: 92%;
-
-    padding: 18px;
-  }
-
-  .badge {
-    width: 48px;
-    height: 48px;
-  }
-}
-
-
-@media (max-width: 480px) {
-  .quiz-buttons {
-    grid-template-columns: 1fr;
-  }
-
-  .btn-row > .btn {
-    flex: 1 1 auto;
-  }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
-.topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-/* =========================================================
    JOGO DA VELHA
 ========================================================= */
 
@@ -1464,7 +1540,6 @@ main {
 
   aspect-ratio: 1 / 1;
 }
-
 
 .tic-cell {
   width: 100%;
@@ -1496,7 +1571,6 @@ main {
     color .15s ease;
 }
 
-
 .tic-cell:hover:not(:disabled) {
   border-color: var(--line-strong);
 
@@ -1505,26 +1579,21 @@ main {
   transform: translateY(-1px);
 }
 
-
 .tic-cell:active:not(:disabled) {
   transform: scale(0.97);
 }
-
 
 .tic-cell.x {
   color: var(--rose);
 }
 
-
 .tic-cell.o {
   color: var(--teal);
 }
 
-
 .tic-cell:disabled {
   cursor: default;
 }
-
 
 .tic-cell.filled {
   cursor: default;
@@ -1532,10 +1601,13 @@ main {
 
 .tic-cell.selected {
   border-color: var(--gold);
+
   background: rgba(242, 193, 78, 0.12);
+
   box-shadow:
     0 0 0 3px rgba(242, 193, 78, 0.12),
     0 8px 20px -10px rgba(242, 193, 78, 0.5);
+
   transform: translateY(-2px);
 }
 
@@ -1552,19 +1624,6 @@ main {
 }
 
 
-/* =========================================================
-   JOGO DA VELHA — RESPONSIVO
-========================================================= */
-
-@media (max-width: 480px) {
-  .tic-board {
-    gap: 6px;
-  }
-
-  .tic-cell {
-    border-radius: 14px;
-  }
-}
 /* =========================================================
    CONFIGURAÇÕES
 ========================================================= */
@@ -1598,7 +1657,9 @@ main {
 
 .settings-toggle:hover {
   color: var(--text);
+
   background: rgba(245,240,232,.05);
+
   border-color: var(--line);
 }
 
@@ -1660,6 +1721,8 @@ main {
 
   display: flex;
   flex-direction: column;
+
+  max-width: 100%;
 }
 
 .settings-drawer.open {
@@ -1668,7 +1731,7 @@ main {
 
 
 /* =========================================================
-   HEADER
+   SETTINGS — HEADER
 ========================================================= */
 
 .settings-header {
@@ -1676,9 +1739,13 @@ main {
   align-items: flex-start;
   justify-content: space-between;
 
+  gap: 12px;
+
   padding: 26px 22px 20px;
 
   border-bottom: 1px solid var(--line);
+
+  min-width: 0;
 }
 
 .settings-kicker {
@@ -1704,8 +1771,9 @@ main {
   font-weight: 600;
 }
 
-
 .settings-close {
+  flex: none;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1734,24 +1802,29 @@ main {
 
 .settings-close:hover {
   color: var(--text);
+
   background: rgba(245,240,232,.05);
+
   border-color: var(--line-strong);
 }
 
 
 /* =========================================================
-   BODY
+   SETTINGS — BODY
 ========================================================= */
 
 .settings-body {
   padding: 8px 22px 28px;
 
   overflow-y: auto;
+  overflow-x: hidden;
+
+  min-width: 0;
 }
 
 
 /* =========================================================
-   SECTION
+   SETTINGS — SECTION
 ========================================================= */
 
 .settings-section {
@@ -1764,10 +1837,10 @@ main {
   border-bottom: 0;
 }
 
-
 .settings-label {
   display: flex;
   flex-direction: column;
+
   gap: 4px;
 
   margin-bottom: 12px;
@@ -1786,14 +1859,17 @@ main {
 
 
 /* =========================================================
-   THEME OPTIONS
+   SETTINGS — THEME OPTIONS
 ========================================================= */
 
 .settings-options {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
 
   gap: 8px;
+
+  min-width: 0;
 }
 
 .settings-option {
@@ -1803,6 +1879,7 @@ main {
   gap: 10px;
 
   min-height: 62px;
+  min-width: 0;
 
   padding: 11px 12px;
 
@@ -1824,15 +1901,19 @@ main {
 
 .settings-option:hover {
   border-color: var(--line-strong);
+
   transform: translateY(-1px);
 }
 
 .settings-option.active {
   border-color: var(--gold);
+
   background: rgba(242,193,78,.08);
 }
 
 .settings-option-icon {
+  flex: none;
+
   font-size: 1.25rem;
 }
 
@@ -1854,11 +1935,12 @@ main {
 
 
 /* =========================================================
-   SWITCH ROW
+   SETTINGS — SWITCH ROW
 ========================================================= */
 
 .settings-switch-row {
   width: 100%;
+  min-width: 0;
 
   display: flex;
   align-items: center;
@@ -1910,7 +1992,7 @@ main {
 
 
 /* =========================================================
-   SWITCH
+   SETTINGS — SWITCH
 ========================================================= */
 
 .settings-switch {
@@ -1952,54 +2034,44 @@ main {
 
 .settings-switch.active span {
   transform: translateX(18px);
+
   background: #161022;
 }
 
 
 /* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-
-  .settings-drawer {
-    width: 100%;
-  }
-
-  .settings-header {
-    padding:
-      calc(20px + env(safe-area-inset-top))
-      18px
-      18px;
-  }
-
-  .settings-body {
-    padding:
-      8px
-      18px
-      calc(28px + env(safe-area-inset-bottom));
-  }
-
-}
-/* =========================================================
    XADREZ
 ========================================================= */
+
 .chess-page {
+  width: 100%;
+  min-width: 0;
+
   padding-bottom: 40px;
 }
+
 .chess-layout {
   display: grid;
+
   grid-template-columns: 1fr;
+
   gap: 18px;
+
   margin-top: 20px;
+
+  width: 100%;
+  max-width: 100%;
+
+  min-width: 0;
 }
 
 .chess-board-panel {
   width: 100%;
   min-width: 0;
 }
+
 .chess-board-frame {
-  width: 560px;
+  width: min(560px, 100%);
   max-width: 100%;
 
   margin: 0 auto;
@@ -2015,7 +2087,10 @@ main {
     0 16px 36px -24px rgba(0, 0, 0, .45);
 
   box-sizing: border-box;
+
+  min-width: 0;
 }
+
 [data-theme="light"] .chess-board-frame {
   background: rgba(255, 248, 234, 0.38);
 
@@ -2038,6 +2113,8 @@ main {
   font-weight: 600;
 
   text-align: center;
+
+  min-width: 0;
 }
 
 .chess-files span,
@@ -2058,6 +2135,7 @@ main {
   gap: 4px;
 
   width: 100%;
+  min-width: 0;
 }
 
 .chess-ranks {
@@ -2075,6 +2153,7 @@ main {
 
   text-align: center;
 }
+
 .chess-board {
   display: grid;
 
@@ -2085,6 +2164,7 @@ main {
     repeat(8, minmax(0, 1fr));
 
   width: 100%;
+
   aspect-ratio: 1 / 1;
 
   min-width: 0;
@@ -2118,6 +2198,9 @@ main {
   transition:
     filter .12s ease,
     transform .12s ease;
+
+  min-width: 0;
+  min-height: 0;
 }
 
 .chess-square.light {
@@ -2175,6 +2258,8 @@ main {
   align-items: center;
   justify-content: center;
 
+  max-width: 100%;
+
   font-family: serif;
   font-size: clamp(1.8rem, 8vw, 4.1rem);
   line-height: 1;
@@ -2230,11 +2315,15 @@ main {
 
 .chess-captured {
   display: grid;
+
   gap: 16px;
+
+  min-width: 0;
 }
 
 .chess-captured-group {
   min-height: 44px;
+  min-width: 0;
 }
 
 .chess-label,
@@ -2252,6 +2341,7 @@ main {
   flex-wrap: wrap;
 
   min-height: 34px;
+  min-width: 0;
 
   gap: 2px;
 }
@@ -2263,14 +2353,19 @@ main {
 .chess-status {
   display: flex;
   flex-direction: column;
+
   gap: 2px;
 
   margin-bottom: 14px;
+
+  min-width: 0;
 }
 
 .chess-status strong {
   font-family: var(--font-d);
   font-size: 1.15rem;
+
+  overflow-wrap: anywhere;
 }
 
 .chess-turn-text {
@@ -2278,6 +2373,8 @@ main {
 
   font-size: .86rem;
   line-height: 1.5;
+
+  overflow-wrap: anywhere;
 }
 
 .chess-actions {
@@ -2286,6 +2383,8 @@ main {
 
 .chess-moves-section {
   margin-top: 26px;
+
+  min-width: 0;
 }
 
 .chess-moves-section h2 {
@@ -2306,6 +2405,7 @@ main {
   padding-left: 26px;
 
   overflow-y: auto;
+  overflow-x: hidden;
 
   color: var(--text-dim);
 
@@ -2314,6 +2414,8 @@ main {
 
 .chess-moves li {
   padding: 4px 0;
+
+  overflow-wrap: anywhere;
 }
 
 .chess-moves li span {
@@ -2328,7 +2430,7 @@ main {
 
 
 /* =========================================================
-   MODAL
+   MODAL DO XADREZ
 ========================================================= */
 
 .chess-overlay {
@@ -2355,6 +2457,7 @@ main {
 
 .chess-modal {
   width: min(360px, 100%);
+  max-height: calc(100vh - 40px);
 
   padding: 26px;
 
@@ -2367,6 +2470,8 @@ main {
     0 24px 60px -24px rgba(0, 0, 0, .45);
 
   text-align: center;
+
+  overflow-y: auto;
 
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -2392,10 +2497,13 @@ main {
   gap: 8px;
 
   margin-top: 20px;
+
+  min-width: 0;
 }
 
 .chess-promo-btn {
   min-height: 64px;
+  min-width: 0;
 
   padding: 8px;
 
@@ -2427,24 +2535,244 @@ main {
 
 
 /* =========================================================
+   RESPONSIVIDADE GERAL — TABLET
+========================================================= */
+
+@media (min-width: 521px) and (max-width: 899px) {
+
+  .container {
+    max-width: 900px;
+
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .topbar-inner {
+    max-width: 900px;
+
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .panel {
+    padding: 24px;
+  }
+
+  .game-card {
+    max-width: min(520px, 88%);
+  }
+
+  .hero {
+    padding-top: 48px;
+  }
+
+  .wheel-ring {
+    width: min(320px, 48vw);
+    height: min(320px, 48vw);
+  }
+
+  .tic-board {
+    width: min(460px, 70vw);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE GERAL — MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .topbar-inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .row-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 22px;
+  }
+
+  .game-card {
+    max-width: 92%;
+
+    padding: 18px;
+
+    gap: 12px;
+  }
+
+  .badge {
+    width: 48px;
+    height: 48px;
+  }
+
+  .badge svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .stage-head {
+    padding-top: 28px;
+  }
+
+  .hero {
+    padding-top: 42px;
+  }
+
+  .category-ring {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .question-card {
+    padding: 24px 18px;
+  }
+
+  .vd-card {
+    min-height: 190px;
+
+    padding: 26px 20px;
+  }
+
+  .quiz-q {
+    padding: 26px 18px;
+  }
+
+  .tic-board {
+    width: min(420px, 100%);
+    gap: 6px;
+  }
+
+  .tic-cell {
+    border-radius: 14px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE PEQUENO
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .quiz-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-row > .btn {
+    flex: 1 1 auto;
+  }
+
+  .settings-drawer {
+    width: 100%;
+  }
+
+  .settings-header {
+    padding:
+      calc(20px + env(safe-area-inset-top))
+      18px
+      18px;
+  }
+
+  .settings-body {
+    padding:
+      8px
+      18px
+      calc(28px + env(safe-area-inset-bottom));
+  }
+}
+
+
+/* =========================================================
+   MOBILE MUITO PEQUENO
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .topbar-inner {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+
+  .game-card {
+    max-width: 100%;
+  }
+
+  .game-card h2 {
+    font-size: 1.18rem;
+  }
+
+  .game-card .sub {
+    font-size: .84rem;
+  }
+
+  .badge {
+    width: 44px;
+    height: 44px;
+  }
+
+  .btn {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .category-ring {
+    gap: 7px;
+  }
+
+  .cat-chip {
+    padding-left: 6px;
+    padding-right: 6px;
+
+    font-size: .8rem;
+  }
+
+  .settings-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
    XADREZ — DESKTOP
 ========================================================= */
 
 @media (min-width: 900px) {
+
+  .container:has(.chess-page) {
+    max-width: 1160px;
+  }
+
   .chess-layout {
     display: grid;
 
     grid-template-columns:
-      220px
-      560px
-      220px;
+      minmax(0, 220px)
+      minmax(0, 560px)
+      minmax(0, 220px);
 
-      grid-template-areas:
+    grid-template-areas:
       "info board captured";
 
     gap: 18px;
 
-    width: max-content;
+    width: min(100%, 1036px);
     max-width: 100%;
 
     margin: 0 auto;
@@ -2452,20 +2780,66 @@ main {
     align-items: stretch;
   }
 
-  .chess-captured {
-    grid-area: captured;
+  .chess-info {
+    grid-area: info;
 
-    width: 220px;
+    width: 100%;
     height: 100%;
 
     margin: 0;
+
+    min-width: 0;
   }
 
   .chess-board-panel {
     grid-area: board;
 
-    width: 560px;
+    width: 100%;
     min-width: 0;
+
+    margin: 0;
+  }
+
+  .chess-board-frame {
+    width: 100%;
+    max-width: 560px;
+
+    margin: 0 auto;
+  }
+
+  .chess-captured {
+    grid-area: captured;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+
+    min-width: 0;
+  }
+}
+
+
+/* =========================================================
+   XADREZ — TABLET PORTRAIT
+========================================================= */
+
+@media (min-width: 521px) and (max-width: 899px) and (orientation: portrait) {
+
+  .chess-layout {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    grid-template-areas:
+      "info"
+      "board"
+      "captured";
+
+    gap: 22px;
+
+    width: 100%;
+    max-width: 100%;
 
     margin: 0;
   }
@@ -2473,54 +2847,74 @@ main {
   .chess-info {
     grid-area: info;
 
-    width: 220px;
-    height: 100%;
+    width: 100%;
+    height: auto;
 
     margin: 0;
   }
-}
 
-/* =========================================================
-   XADREZ — MOBILE
-========================================================= */
+  .chess-board-panel {
+    grid-area: board;
 
-@media (max-width: 520px) {
+    width: 100%;
+    min-width: 0;
+
+    margin: 0;
+  }
+
+  .chess-board-frame {
+    width: min(680px, 100%);
+
+    margin: 0 auto;
+
+    padding: 12px;
+  }
+
+  .chess-captured {
+    grid-area: captured;
+
+    width: 100%;
+    height: auto;
+
+    margin: 0;
+  }
+
   .chess-files {
-    padding: 0 22px;
+    padding-left: 32px;
+    padding-right: 32px;
+
+    font-size: .75rem;
   }
 
   .chess-board-row {
-    grid-template-columns: 16px minmax(0, 1fr) 16px;
-    gap: 3px;
+    grid-template-columns:
+      20px
+      minmax(0, 1fr)
+      20px;
+
+    gap: 5px;
+  }
+
+  .chess-ranks {
+    font-size: .75rem;
   }
 
   .chess-piece {
-    font-size: clamp(1.65rem, 10vw, 3.5rem);
+    font-size: clamp(2.2rem, 7vw, 4.6rem);
   }
 
-  .chess-square.light {
-    background: #ead9b7;
-  }
-
-  .chess-square.dark {
-    background: #8a6851;
-  }
-}
-/* =========================================================
-   XADREZ — PÁGINA DESKTOP MAIS LARGA
-========================================================= */
-
-@media (min-width: 900px) {
-  .container:has(.chess-page) {
-    max-width: 1160px;
+  .chess-piece-row .chess-piece {
+    font-size: 1.9rem;
   }
 }
 
+
 /* =========================================================
-   XADREZ — MOBILE
+   XADREZ — MOBILE PORTRAIT
 ========================================================= */
 
-@media (max-width: 899px) {
+@media (max-width: 520px) and (orientation: portrait) {
+
   .chess-layout {
     display: grid;
 
@@ -2539,15 +2933,6 @@ main {
     margin: 0;
   }
 
-  .chess-captured {
-    grid-area: captured;
-
-    width: 100%;
-    height: auto;
-
-    margin: 0;
-  }
-
   .chess-info {
     grid-area: info;
 
@@ -2557,15 +2942,23 @@ main {
     margin: 0;
   }
 
+  .chess-captured {
+    grid-area: captured;
+
+    width: 100%;
+    height: auto;
+
+    margin: 0;
+  }
+
   .chess-board-panel {
     grid-area: board;
-  
-    width: calc(100% + 12px);
-  
+
+    width: 100%;
+
     min-width: 0;
-  
-    margin-left: -6px;
-    margin-right: -6px;
+
+    margin: 0;
   }
 
   .chess-board-frame {
@@ -2573,5 +2966,284 @@ main {
     max-width: 560px;
 
     margin: 0 auto;
+
+    padding: 8px;
+  }
+
+  .chess-files {
+    padding: 0 22px;
+  }
+
+  .chess-board-row {
+    grid-template-columns:
+      16px
+      minmax(0, 1fr)
+      16px;
+
+    gap: 3px;
+  }
+
+  .chess-piece {
+    font-size: clamp(1.65rem, 10vw, 3.5rem);
+  }
+
+  .chess-square.light {
+    background: #ead9b7;
+  }
+
+  .chess-square.dark {
+    background: #8a6851;
+  }
+}
+
+
+/* =========================================================
+   XADREZ — LANDSCAPE
+   Celular / tablet deitado
+   Layout horizontal adaptável
+========================================================= */
+
+@media (max-width: 899px) and (orientation: landscape) {
+
+  .container:has(.chess-page) {
+    max-width: 100%;
+
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .chess-layout {
+    display: grid;
+
+    /*
+      O tabuleiro recebe a maior parte do espaço,
+      enquanto os painéis laterais se adaptam.
+    */
+    grid-template-columns:
+      minmax(0, 0.72fr)
+      minmax(0, 1.7fr)
+      minmax(0, 0.72fr);
+
+    grid-template-areas:
+      "info board captured";
+
+    gap: clamp(8px, 2vw, 18px);
+
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+
+    align-items: stretch;
+  }
+
+  .chess-info {
+    grid-area: info;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+
+    min-width: 0;
+  }
+
+  .chess-board-panel {
+    grid-area: board;
+
+    width: 100%;
+    min-width: 0;
+
+    margin: 0;
+  }
+
+  .chess-board-frame {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0 auto;
+
+    padding: clamp(5px, 1vw, 10px);
+  }
+
+  .chess-captured {
+    grid-area: captured;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+
+    min-width: 0;
+  }
+
+  .chess-files {
+    padding-left: clamp(18px, 3vw, 28px);
+    padding-right: clamp(18px, 3vw, 28px);
+
+    font-size: clamp(.58rem, 1.5vw, .7rem);
+  }
+
+  .chess-board-row {
+    grid-template-columns:
+      clamp(12px, 2vw, 18px)
+      minmax(0, 1fr)
+      clamp(12px, 2vw, 18px);
+
+    gap: clamp(2px, .7vw, 4px);
+  }
+
+  .chess-ranks {
+    font-size: clamp(.58rem, 1.5vw, .7rem);
+  }
+
+  .chess-piece {
+    font-size: clamp(
+      1.35rem,
+      7vw,
+      4.1rem
+    );
+  }
+
+  .chess-piece-row {
+    gap: 1px;
+  }
+
+  .chess-piece-row .chess-piece {
+    font-size: clamp(
+      .9rem,
+      3.5vw,
+      1.65rem
+    );
+  }
+
+  .chess-label,
+  .chess-status-label {
+    font-size: clamp(
+      .65rem,
+      1.5vw,
+      .78rem
+    );
+  }
+
+  .chess-turn-text {
+    font-size: clamp(
+      .68rem,
+      1.6vw,
+      .86rem
+    );
+  }
+
+  .chess-moves-section {
+    margin-top: clamp(14px, 3vw, 26px);
+  }
+
+  .chess-moves {
+    max-height: 30vh;
+
+    font-size: clamp(
+      .65rem,
+      1.5vw,
+      .8rem
+    );
+  }
+}
+
+
+/* =========================================================
+   LANDSCAPE GERAL — TELAS BAIXAS
+========================================================= */
+
+@media (max-height: 520px) and (orientation: landscape) {
+
+  main {
+    padding-bottom: 36px;
+  }
+
+  .hero {
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+
+  .stage-head {
+    padding-top: 24px;
+  }
+
+  .panel {
+    margin-top: 18px;
+    margin-bottom: 18px;
+  }
+
+  .settings-header {
+    padding-top: 16px;
+    padding-bottom: 14px;
+  }
+
+  .settings-body {
+    padding-top: 4px;
+  }
+
+  .chess-page {
+    padding-bottom: 20px;
+  }
+
+  .chess-modal {
+    max-height: calc(100vh - 20px);
+
+    padding: 18px;
+  }
+}
+
+
+/* =========================================================
+   LANDSCAPE — TABLET / TELAS INTERMEDIÁRIAS
+========================================================= */
+
+@media (min-width: 900px) and (max-width: 1199px) and (orientation: landscape) {
+
+  .container {
+    max-width: 1000px;
+  }
+
+  .topbar-inner {
+    max-width: 1000px;
+  }
+}
+
+
+/* =========================================================
+   SAFE AREA — CELULARES COM NOTCH / BARRA INFERIOR
+========================================================= */
+
+@media (max-width: 520px) {
+
+  main {
+    padding-bottom:
+      calc(64px + env(safe-area-inset-bottom));
+  }
+
+  .topbar-inner {
+    padding-top:
+      calc(16px + env(safe-area-inset-top));
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+
+    transition-duration: 0.01ms !important;
+
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
   }
 }
