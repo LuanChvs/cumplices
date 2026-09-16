@@ -542,138 +542,215 @@
 }
 
 /* =========================================================
-   MODO JOGO — ADAPTAÇÃO REAL À ALTURA
-   Somente Quem Sou Eu.
+   MODO JOGO — VIEWPORT DO QUEM SOU EU
+   Somente este jogo usa estas regras.
 ========================================================= */
 
 @media (max-width: 899px) {
-  body.game-mode.game-mode-fullscreen .whoami-round-screen {
-    min-height: 100dvh;
-    height: auto;
-    padding-top: max(8px, env(safe-area-inset-top));
-    padding-right: max(10px, env(safe-area-inset-right));
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
-    padding-left: max(10px, env(safe-area-inset-left));
+  /* O modo jogo respeita a área útil sem criar um bloqueio global. */
+  body.game-mode.game-mode-fullscreen:has(.whoami-round-screen) main,
+  body.game-mode.game-mode-fullscreen:has(.whoami-result-screen) main {
+    padding-bottom: 0;
   }
 
-  body.game-mode.game-mode-fullscreen .whoami-round-main {
-    flex: 1 1 auto;
+  body.game-mode.game-mode-fullscreen:has(.whoami-round-screen),
+  body.game-mode.game-mode-fullscreen:has(.whoami-result-screen) {
+    height: auto;
+    overflow: auto;
+  }
+
+  body.game-mode.game-mode-fullscreen:has(.whoami-round-screen) #view,
+  body.game-mode.game-mode-fullscreen:has(.whoami-result-screen) #view {
+    height: auto;
     min-height: 0;
-    width: 100%;
-    padding: 0 clamp(2px, 2vw, 18px);
+    max-height: none;
     overflow: visible;
   }
 
-  body.game-mode.game-mode-fullscreen .whoami-round-kicker {
-    margin-bottom: clamp(3px, 1vh, 8px);
-    font-size: clamp(.56rem, 1.8vh, .72rem);
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-name {
+  body.game-mode.game-mode-fullscreen .whoami-round-screen,
+  body.game-mode.game-mode-fullscreen .whoami-result-screen {
     width: 100%;
-    font-size: clamp(1.45rem, min(8vw, 9vh), 5.5rem);
-    line-height: .95;
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-timer-wrap {
-    width: min(94%, 560px);
-    margin-top: clamp(6px, 2vh, 20px);
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-timer {
-    font-size: clamp(1.15rem, min(5vw, 5.5vh), 2.8rem);
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-timer-track {
-    height: clamp(3px, .8vh, 7px);
-    margin-top: clamp(4px, 1vh, 8px);
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-action-btn {
+    height: calc(100dvh - 16px);
     min-height: 0;
-    height: clamp(38px, 7vh, 56px);
-    padding: 4px 10px;
-    border-radius: clamp(12px, 2vw, 18px);
-    font-size: clamp(.72rem, 2vw, .95rem);
-    line-height: 1.1;
+    max-height: calc(100dvh - 16px);
+    margin: 8px 0;
   }
 
-  body.game-mode.game-mode-fullscreen .whoami-action-btn span {
-    margin-bottom: 0;
-    font-size: clamp(.78rem, 2.4vw, 1rem);
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-add-time {
-    margin-top: 1px;
-    min-height: 0;
-    padding: 2px 8px;
-    font-size: clamp(.56rem, 1.6vw, .74rem);
-    line-height: 1;
+  body.game-mode.game-mode-fullscreen .whoami-round-screen {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    align-items: stretch;
+    gap: 0;
+    padding-top: max(5px, env(safe-area-inset-top));
+    padding-right: max(8px, env(safe-area-inset-right));
+    padding-bottom: max(5px, env(safe-area-inset-bottom));
+    padding-left: max(8px, env(safe-area-inset-left));
   }
 
   body.game-mode.game-mode-fullscreen .whoami-round-top {
+    min-height: 0;
     gap: 6px;
   }
 
   body.game-mode.game-mode-fullscreen .whoami-round-label {
-    font-size: clamp(.58rem, 1.7vw, .74rem);
+    font-size: clamp(.55rem, 1.7vw, .72rem);
   }
 
-  body.game-mode.game-mode-fullscreen .mode-badge {
-    font-size: clamp(.56rem, 1.7vw, .72rem);
+  body.game-mode.game-mode-fullscreen .whoami-round-main {
+    min-width: 0;
+    min-height: 0;
+    width: min(100%, 1100px);
+    padding: 0 clamp(2px, 1.2vw, 16px);
+    overflow: hidden;
   }
-}
 
-@media (max-width: 899px) and (max-height: 600px) {
-  body.game-mode.game-mode-fullscreen .whoami-round-screen {
-    padding-top: max(4px, env(safe-area-inset-top));
-    padding-bottom: max(4px, env(safe-area-inset-bottom));
+  body.game-mode.game-mode-fullscreen .whoami-round-kicker {
+    margin-bottom: clamp(2px, 1vh, 7px);
+    font-size: clamp(.48rem, 1.4vh, .68rem);
   }
 
   body.game-mode.game-mode-fullscreen .whoami-name {
-    font-size: clamp(1.3rem, min(7vw, 8vh), 4.5rem);
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    font-size: clamp(
+      1.15rem,
+      min(7.5vw, 8.5vh),
+      5rem
+    );
+    line-height: .92;
   }
 
   body.game-mode.game-mode-fullscreen .whoami-timer-wrap {
-    margin-top: 5px;
+    width: min(88vw, 500px);
+    margin-top: clamp(4px, 1.8vh, 18px);
   }
 
   body.game-mode.game-mode-fullscreen .whoami-timer {
-    font-size: clamp(1rem, min(4.5vw, 5vh), 2.2rem);
+    font-size: clamp(
+      1rem,
+      min(4.5vw, 4.8vh),
+      2.6rem
+    );
+    letter-spacing: .02em;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-timer-track {
+    height: clamp(3px, .7vh, 6px);
+    margin-top: clamp(3px, .8vh, 7px);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-round-actions {
+    width: min(100%, 680px);
+    min-height: 0;
   }
 
   body.game-mode.game-mode-fullscreen .whoami-action-btn {
-    height: clamp(34px, 7vh, 48px);
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-add-time {
-    font-size: .55rem;
-    padding-top: 1px;
-    padding-bottom: 1px;
-  }
-}
-
-@media (max-width: 380px) and (max-height: 700px) {
-  body.game-mode.game-mode-fullscreen .whoami-round-screen {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-name {
-    font-size: clamp(1.2rem, min(7vw, 7.5vh), 3.8rem);
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-timer-wrap {
-    width: 96%;
-    margin-top: 4px;
-  }
-
-  body.game-mode.game-mode-fullscreen .whoami-action-btn {
-    height: 36px;
-    font-size: .68rem;
+    min-height: 0;
+    height: clamp(32px, 6.5vh, 54px);
+    border-radius: clamp(9px, 1.8vw, 17px);
+    font-size: clamp(.6rem, 1.9vw, .9rem);
+    line-height: 1;
+    padding: 3px 8px;
   }
 
   body.game-mode.game-mode-fullscreen .whoami-action-btn span {
-    font-size: .76rem;
+    margin-bottom: 0;
+    font-size: clamp(.66rem, 2.2vw, 1rem);
+    line-height: 1;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-add-time {
+    min-height: 0;
+    height: clamp(16px, 3.5vh, 28px);
+    margin: 0 auto;
+    padding: 1px 6px;
+    font-size: clamp(.5rem, 1.5vw, .7rem);
+    line-height: 1;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-result-screen {
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-right: max(8px, env(safe-area-inset-right));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    padding-left: max(8px, env(safe-area-inset-left));
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-result-card {
+    width: min(100%, 540px);
+    max-height: calc(100dvh - 24px);
+    overflow: hidden;
+    padding: clamp(10px, 2.5vh, 24px) clamp(10px, 3vw, 32px);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-result-icon {
+    margin-bottom: clamp(3px, .8vh, 9px);
+    font-size: clamp(1.4rem, 4.5vh, 2.6rem);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-result-card h2 {
+    font-size: clamp(1.15rem, 3.8vw, 2.1rem);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-result-card > p:not(.whoami-kicker) {
+    margin-top: 3px;
+    font-size: clamp(.62rem, 1.6vw, .84rem);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-result-answer {
+    margin: clamp(7px, 1.7vh, 16px) 0;
+    padding: clamp(7px, 1.3vh, 13px);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-result-answer strong {
+    font-size: clamp(.92rem, 3.2vw, 1.2rem);
+  }
+}
+
+@media (max-width: 899px) and (max-height: 500px) {
+  body.game-mode.game-mode-fullscreen .whoami-round-screen {
+    height: calc(100dvh - 10px);
+    max-height: calc(100dvh - 10px);
+    margin: 5px 0;
+    padding-top: max(3px, env(safe-area-inset-top));
+    padding-bottom: max(3px, env(safe-area-inset-bottom));
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-round-top {
+    gap: 3px;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-round-label {
+    font-size: .52rem;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-name {
+    font-size: clamp(
+      .95rem,
+      min(7vw, 7.5vh),
+      3.8rem
+    );
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-timer-wrap {
+    margin-top: clamp(3px, 1.2vh, 8px);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-timer {
+    font-size: clamp(.9rem, 4vw, 2rem);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-action-btn {
+    height: clamp(28px, 6.5vh, 42px);
+    font-size: clamp(.54rem, 1.6vw, .76rem);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-action-btn span {
+    font-size: clamp(.6rem, 1.9vw, .84rem);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-add-time {
+    height: 14px;
+    font-size: .48rem;
   }
 }
