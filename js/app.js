@@ -248,3 +248,29 @@ savePreferences();
 updateThemeOptions();
 updateSoundSetting();
 updateResenhaSetting();
+
+/* =========================================================
+   MODO JOGO — INTEGRAÇÃO
+========================================================= */
+
+function closeGameNavigation() {
+
+  document.body.classList.remove(
+    'game-nav-open'
+  );
+
+  const gameNavToggle =
+    document.getElementById(
+      'gameNavToggle'
+    );
+
+  if (gameNavToggle) {
+
+    gameNavToggle.setAttribute(
+      'aria-expanded',
+      'false'
+    );
+
+  }
+
+}

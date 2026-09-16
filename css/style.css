@@ -2876,6 +2876,393 @@ main {
   }
 }
 
+/* =========================================================
+   STOP — LAYOUT RESPONSIVO DE TELA CHEIA
+========================================================= */
+
+/*
+   Objetivo:
+   - O STOP ocupa toda a área disponível.
+   - Retrato: aproveita a altura e largura da tela.
+   - Paisagem: aproveita toda a largura.
+   - O teclado de letras recebe prioridade.
+   - Evita deixar grandes espaços vazios.
+*/
+
+
+/* =========================================================
+   BASE
+========================================================= */
+
+.stop-page,
+.stop-game,
+.stop-container {
+  width: 100%;
+  max-width: none;
+}
+
+
+/* =========================================================
+   CELULAR — RETRATO
+========================================================= */
+
+@media (max-width: 520px) and (orientation: portrait) {
+
+  .stop-page,
+  .stop-game,
+  .stop-container {
+    width: 100%;
+    min-height: calc(100dvh - 70px);
+  }
+
+  /* Container principal do jogo */
+  .stop-game {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px 12px 18px;
+  }
+
+  /* Cabeçalho / tema */
+  .deck-wrap {
+    gap: 12px;
+    padding: 4px 0;
+  }
+
+  .theme-card {
+    width: min(260px, 72vw);
+    min-height: 120px;
+  }
+
+  /* Placar */
+  .score-row {
+    gap: 7px;
+    margin: 12px 0 4px;
+  }
+
+  .score-chip {
+    padding: 7px 11px;
+    font-size: .8rem;
+  }
+
+  /* Cronômetro */
+  .timer-wrap {
+    margin: 12px 0 4px;
+  }
+
+  .timer-big {
+    margin: 6px 0 2px;
+    font-size: clamp(3rem, 15vw, 4.5rem);
+  }
+
+  .turn-banner {
+    margin-bottom: 5px;
+    font-size: .9rem;
+  }
+
+  /* =======================================================
+     TECLADO — PRIORIDADE NO CELULAR
+  ======================================================= */
+
+  .letter-grid {
+    width: 100%;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .letter-btn {
+    width: 100%;
+    min-height: 58px;
+    aspect-ratio: auto;
+    border-radius: 13px;
+    font-size: 1.25rem;
+  }
+}
+
+
+/* =========================================================
+   CELULAR — PAISAGEM
+========================================================= */
+
+@media (max-width: 899px) and (orientation: landscape) {
+
+  .stop-page,
+  .stop-game,
+  .stop-container {
+    width: 100%;
+    min-height: calc(100dvh - 60px);
+  }
+
+  .stop-game {
+    display: grid;
+    grid-template-columns: minmax(180px, 28%) 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 20px;
+    row-gap: 8px;
+    padding: 10px 14px 14px;
+    align-items: center;
+  }
+
+  /* Área inicial / tema */
+  .deck-wrap {
+    gap: 8px;
+    padding: 2px 0;
+  }
+
+  .theme-card {
+    width: min(220px, 100%);
+    min-height: 100px;
+  }
+
+  /* Placar */
+  .score-row {
+    gap: 6px;
+    margin: 8px 0 2px;
+  }
+
+  .score-chip {
+    padding: 6px 9px;
+    font-size: .75rem;
+  }
+
+  /* Cronômetro */
+  .timer-wrap {
+    margin: 8px 0 4px;
+  }
+
+  .timer-big {
+    margin: 4px 0 0;
+    font-size: clamp(2.4rem, 8vw, 3.5rem);
+  }
+
+  .turn-banner {
+    margin-bottom: 3px;
+    font-size: .82rem;
+  }
+
+  /* =======================================================
+     TECLADO — OCUPA O MÁXIMO POSSÍVEL DA DIREITA
+  ======================================================= */
+
+  .letter-grid {
+    width: 100%;
+    grid-template-columns: repeat(10, minmax(34px, 1fr));
+    gap: 7px;
+    margin-top: 8px;
+  }
+
+  .letter-btn {
+    width: 100%;
+    min-height: 44px;
+    aspect-ratio: auto;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+}
+
+
+/* =========================================================
+   TABLET — RETRATO
+========================================================= */
+
+@media (min-width: 521px) and (max-width: 899px) and (orientation: portrait) {
+
+  .stop-page,
+  .stop-game,
+  .stop-container {
+    width: 100%;
+    min-height: calc(100dvh - 70px);
+  }
+
+  .stop-game {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 24px 24px;
+  }
+
+  .deck-wrap {
+    gap: 14px;
+    padding: 4px 0;
+  }
+
+  .theme-card {
+    width: min(300px, 55vw);
+    min-height: 150px;
+  }
+
+  .score-row {
+    gap: 10px;
+    margin: 16px 0 6px;
+  }
+
+  .timer-wrap {
+    margin: 18px 0 8px;
+  }
+
+  .timer-big {
+    font-size: clamp(3.5rem, 10vw, 5rem);
+  }
+
+  /* =======================================================
+     TECLADO
+  ======================================================= */
+
+  .letter-grid {
+    width: 100%;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .letter-btn {
+    width: 100%;
+    min-height: 64px;
+    aspect-ratio: auto;
+    border-radius: 14px;
+    font-size: 1.35rem;
+  }
+}
+
+
+/* =========================================================
+   TABLET — PAISAGEM
+========================================================= */
+
+@media (min-width: 900px) and (max-width: 1199px) and (orientation: landscape) {
+
+  .stop-page,
+  .stop-game,
+  .stop-container {
+    width: 100%;
+    min-height: calc(100dvh - 70px);
+  }
+
+  .stop-game {
+    display: grid;
+    grid-template-columns: minmax(220px, 27%) minmax(0, 1fr);
+    gap: 24px;
+    padding: 18px 24px 24px;
+    align-items: center;
+  }
+
+  .deck-wrap {
+    gap: 12px;
+  }
+
+  .theme-card {
+    width: min(260px, 100%);
+    min-height: 140px;
+  }
+
+  .score-row {
+    gap: 8px;
+  }
+
+  .timer-wrap {
+    margin: 14px 0 6px;
+  }
+
+  .timer-big {
+    font-size: clamp(3rem, 7vw, 4.5rem);
+  }
+
+  .letter-grid {
+    width: 100%;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 9px;
+    margin-top: 12px;
+  }
+
+  .letter-btn {
+    min-height: 52px;
+    aspect-ratio: auto;
+    border-radius: 12px;
+    font-size: 1.15rem;
+  }
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 1200px) and (orientation: landscape) {
+
+  .stop-page,
+  .stop-game,
+  .stop-container {
+    width: 100%;
+    min-height: calc(100dvh - 70px);
+  }
+
+  .stop-game {
+    display: grid;
+    grid-template-columns: minmax(260px, 28%) minmax(0, 1fr);
+    gap: 32px;
+    padding: 24px 32px 30px;
+    align-items: center;
+  }
+
+  .letter-grid {
+    width: 100%;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .letter-btn {
+    min-height: 56px;
+    aspect-ratio: auto;
+    font-size: 1.15rem;
+  }
+}
+
+
+/* =========================================================
+   TELAS MUITO BAIXAS
+   Ex.: celular deitado
+========================================================= */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+  .stop-game {
+    padding-top: 6px;
+    padding-bottom: 8px;
+  }
+
+  .deck-wrap {
+    gap: 5px;
+  }
+
+  .theme-card {
+    min-height: 75px;
+  }
+
+  .score-row {
+    margin: 4px 0;
+  }
+
+  .timer-wrap {
+    margin: 4px 0;
+  }
+
+  .timer-big {
+    font-size: clamp(2rem, 7vh, 2.8rem);
+  }
+
+  .letter-grid {
+    gap: 5px;
+    margin-top: 5px;
+  }
+
+  .letter-btn {
+    min-height: 38px;
+    font-size: .9rem;
+    border-radius: 8px;
+  }
+}
 
 /* =========================================================
    REDUÇÃO DE MOVIMENTO
@@ -2911,4 +3298,310 @@ main {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+/* =========================================================
+   MODO JOGO — ESTRUTURA GLOBAL
+========================================================= */
+
+/*
+   O jogo passa a ocupar toda a viewport.
+   A topbar continua existindo, mas fica recolhida.
+*/
+
+body.game-mode {
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   VIEW EM MODO JOGO
+========================================================= */
+
+body.game-mode #view {
+  width: 100%;
+  max-width: none;
+  min-height: 100dvh;
+  margin: 0;
+}
+
+
+/*
+   Remove o espaço visual que normalmente
+   seria ocupado pela navegação.
+*/
+
+body.game-mode .container {
+  width: 100%;
+  max-width: none;
+}
+
+
+/* =========================================================
+   TOPBAR — MODO JOGO
+========================================================= */
+
+body.game-mode .topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 900;
+
+  transform: translateY(-100%);
+
+  transition:
+    transform .22s ease,
+    opacity .22s ease;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   TOPBAR ABERTA SOBRE O JOGO
+========================================================= */
+
+body.game-mode.game-nav-open .topbar {
+
+  transform: translateY(0);
+
+  opacity: 1;
+
+  pointer-events: auto;
+
+}
+
+
+/*
+   Uma leve transparência quando aberta.
+   O jogo continua visível por baixo.
+*/
+
+body.game-mode.game-nav-open .topbar {
+
+  background:
+    color-mix(
+      in srgb,
+      var(--bg) 82%,
+      transparent
+    );
+
+  backdrop-filter: blur(14px);
+
+  -webkit-backdrop-filter: blur(14px);
+
+}
+
+
+/* =========================================================
+   BOTÃO PARA REABRIR A NAVEGAÇÃO
+========================================================= */
+
+.game-nav-toggle {
+
+  position: fixed;
+
+  top: 10px;
+  right: 10px;
+
+  z-index: 950;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--line);
+
+  border-radius: 50%;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--panel) 70%,
+      transparent
+    );
+
+  color: var(--text-dim);
+
+  backdrop-filter: blur(10px);
+
+  -webkit-backdrop-filter: blur(10px);
+
+  font-size: 1.15rem;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform: translateY(-4px);
+
+  transition:
+    opacity .2s ease,
+    transform .2s ease,
+    background .2s ease,
+    color .2s ease;
+}
+
+
+/*
+   O botão só existe visualmente
+   enquanto estamos em um jogo.
+*/
+
+body.game-mode .game-nav-toggle {
+
+  opacity: 1;
+
+  pointer-events: auto;
+
+  transform: translateY(0);
+
+}
+
+
+/*
+   Quando a topbar está aberta,
+   o botão deixa de ficar por cima dela.
+*/
+
+body.game-mode.game-nav-open .game-nav-toggle {
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform: translateY(-4px);
+
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+
+  .game-nav-toggle:hover {
+
+    border-color:
+      var(--line-strong);
+
+    background:
+      var(--panel-2);
+
+    color:
+      var(--text);
+
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 899px) {
+
+  body.game-mode #view {
+
+    min-height: 100dvh;
+
+  }
+
+  body.game-mode .game-nav-toggle {
+
+    top:
+      max(
+        8px,
+        env(safe-area-inset-top)
+      );
+
+    right: 10px;
+
+  }
+
+  /*
+     Quando a navegação abre no celular,
+     respeita a área segura do aparelho.
+  */
+
+  body.game-mode.game-nav-open .topbar {
+
+    padding-top:
+      env(safe-area-inset-top);
+
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR — RETRATO
+========================================================= */
+
+@media (max-width: 520px) and (orientation: portrait) {
+
+  body.game-mode #view {
+
+    min-height: 100dvh;
+
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR / TABLET — PAISAGEM
+========================================================= */
+
+@media (max-width: 899px) and (orientation: landscape) {
+
+  body.game-mode #view {
+
+    min-height: 100dvh;
+
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 521px) and (max-width: 1199px) {
+
+  body.game-mode .game-nav-toggle {
+
+    width: 42px;
+    height: 42px;
+
+  }
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  body.game-mode .topbar,
+  body.game-mode .game-nav-toggle {
+
+    transition: none;
+
+  }
+
 }

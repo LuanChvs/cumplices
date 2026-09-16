@@ -42,22 +42,23 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="topbar">
-    <div class="topbar-inner">
-  
-      <a href="#/" class="brand">
-        Cúmplices<span>.</span>
-      </a>
-  
-      <div class="topbar-actions">
-  
-        <a
-          href="#/"
-          class="top-context"
-          id="topContext"
-        ></a>
-  
-        <button
+<!-- ===== TOPBAR ===== -->
+<div class="topbar" id="topbar">
+  <div class="topbar-inner">
+
+    <a href="#/" class="brand">
+      Cúmplices<span>.</span>
+    </a>
+
+    <div class="topbar-actions">
+
+      <a
+        href="#/"
+        class="top-context"
+        id="topContext"
+      ></a>
+
+      <button
         type="button"
         class="settings-toggle"
         id="settingsToggle"
@@ -66,11 +67,23 @@
       >
         <span aria-hidden="true">⚙</span>
       </button>
-  
-      </div>
-  
+
     </div>
+
   </div>
+</div>
+
+<!-- ===== NAVEGAÇÃO RECOLHIDA DO MODO JOGO ===== -->
+<button
+  type="button"
+  class="game-nav-toggle"
+  id="gameNavToggle"
+  aria-label="Abrir navegação"
+  aria-expanded="false"
+  title="Abrir navegação"
+>
+  <span aria-hidden="true">⌄</span>
+</button>
   <!-- ===== CONFIGURAÇÕES ===== -->
 <div
 class="settings-overlay"
