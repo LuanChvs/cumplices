@@ -47,6 +47,23 @@ const themeOptions =
 ========================================================= */
 
 function openSettings() {
+
+  /*
+    Se estiver em modo jogo com a navegação
+    aberta, recolhe antes de mostrar o painel.
+  */
+
+  if (
+    typeof closeGameNavigation ===
+    'function'
+  ) {
+    closeGameNavigation();
+  }
+
+  document.body.classList.add(
+    'settings-open'
+  );
+
   settingsDrawer.classList.add('open');
   settingsOverlay.classList.add('open');
 
@@ -62,6 +79,11 @@ function openSettings() {
 }
 
 function closeSettings() {
+
+  document.body.classList.remove(
+    'settings-open'
+  );
+
   settingsDrawer.classList.remove('open');
   settingsOverlay.classList.remove('open');
 

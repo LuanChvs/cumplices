@@ -16,6 +16,15 @@ const topbar =
 
 let currentViewCleanup = null;
 
+/*
+  Tempo (em ms) que a topbar fica aberta
+  antes de se fechar sozinha no modo jogo.
+*/
+
+const NAV_AUTO_CLOSE_MS = 5000;
+
+let navAutoCloseTimer = null;
+
 
 /* =========================================================
    ROTAS
@@ -62,19 +71,10 @@ function setGameMode(enabled, fullscreen) {
   const body =
     document.body;
 
-  /*
-    Modo jogo genérico.
-  */
-
   body.classList.toggle(
     'game-mode',
     enabled === true
   );
-
-  /*
-    Modo jogo em tela cheia
-    (só o Xadrez usa).
-  */
 
   body.classList.toggle(
     'game-mode-fullscreen',
@@ -92,6 +92,8 @@ function setGameMode(enabled, fullscreen) {
     body.classList.remove(
       'game-nav-open'
     );
+
+    clearNavAutoClose();
 
   }
 
@@ -120,6 +122,8 @@ function openGameNavigation() {
 
   updateGameNavToggleState();
 
+  scheduleNavAutoClose();
+
 }
 
 
@@ -128,6 +132,8 @@ function closeGameNavigation() {
   document.body.classList.remove(
     'game-nav-open'
   );
+
+  clearNavAutoClose();
 
   updateGameNavToggleState();
 
@@ -193,6 +199,43 @@ function updateGameNavToggleState() {
 
 
 /* =========================================================
+   AUTO-FECHAR A NAVEGAÇÃO
+========================================================= */
+
+function scheduleNavAutoClose() {
+
+  clearNavAutoClose();
+
+  navAutoCloseTimer = setTimeout(
+    () => {
+
+      navAutoCloseTimer = null;
+
+      closeGameNavigation();
+
+    },
+    NAV_AUTO_CLOSE_MS
+  );
+
+}
+
+
+function clearNavAutoClose() {
+
+  if (navAutoCloseTimer) {
+
+    clearTimeout(
+      navAutoCloseTimer
+    );
+
+    navAutoCloseTimer = null;
+
+  }
+
+}
+
+
+/* =========================================================
    EVENTOS DO BOTÃO
 ========================================================= */
 
@@ -236,6 +279,58 @@ if (topbar) {
   );
 
 }
+
+
+/* =========================================================
+   FECHAR NAVEGAÇÃO AO CLICAR FORA
+========================================================= */
+
+document.addEventListener(
+  'pointerdown',
+  (event) => {
+
+    if (
+      !document.body.classList.contains(
+        'game-nav-open'
+      )
+    ) {
+      return;
+    }
+
+    const target =
+      event.target;
+
+    if (!target || !target.closest) {
+      return;
+    }
+
+    /*
+      Cliques dentro da topbar
+      não fecham aqui (quem trata
+      é o listener de links acima).
+    */
+
+    if (target.closest('.topbar')) {
+      return;
+    }
+
+    /*
+      Cliques no próprio botão
+      também são ignorados.
+    */
+
+    if (
+      target.closest(
+        '.game-nav-toggle'
+      )
+    ) {
+      return;
+    }
+
+    closeGameNavigation();
+
+  }
+);
 
 
 /* =========================================================
