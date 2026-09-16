@@ -66,9 +66,20 @@ function renderSintonia() {
   }
 
 
+  function perguntasDaCategoria(cat) {
+    const extras =
+      preferences.resenha &&
+      Array.isArray(cat.perguntasResenha)
+        ? cat.perguntasResenha
+        : [];
+
+    return cat.perguntas.concat(extras);
+  }
+
+
   function askQuestion(catIndex) {
     const cat = SINTONIA[catIndex];
-    const q = pick(cat.perguntas);
+    const q = pick(perguntasDaCategoria(cat));
 
     questionSlot.innerHTML = `
       <div class="question-card">
@@ -122,31 +133,12 @@ function renderSintonia() {
 
     game.currentCategory = target;
 
-    /*
-      Cada categoria ocupa 60° da roleta.
-
-      0° começa no topo, exatamente onde está
-      o ponteiro.
-
-      Levamos o centro da categoria sorteada
-      até o ponteiro:
-        categoria 0 → 30°
-        categoria 1 → 90°
-        categoria 2 → 150°
-        ...
-    */
-
     const segmentAngle =
       360 / SINTONIA.length;
 
     const targetAngle =
       target * segmentAngle +
       segmentAngle / 2;
-
-    /*
-      Garante que a roleta avance pelo menos
-      uma volta completa antes de parar.
-    */
 
     const currentRotation = game.rotation;
 
@@ -160,12 +152,6 @@ function renderSintonia() {
 
     wheelRing.style.transform =
       `rotate(${game.rotation}deg)`;
-
-
-    /*
-      A animação das categorias acompanha
-      exatamente a trajetória da roleta.
-    */
 
     const animationDuration = 4200;
     const startTime = performance.now();
