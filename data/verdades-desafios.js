@@ -37,3 +37,31 @@ window.DATA.desafios = [
   "Faça uma massagem de um minuto na mão do seu par.",
   "Recrie, em câmera lenta, a primeira vez que vocês se abraçaram."
 ];
+
+/*
+  Conteúdo extra para o Modo Resenha.
+  O conteúdo padrão acima continua disponível;
+  estas cartas entram apenas quando Resenha está ligado.
+*/
+
+window.DATA.verdadesResenha = [
+  "Qual pessoa famosa você teria coragem de chamar para um encontro?",
+  "Qual foi o maior mico que você já pagou em público?",
+  "Qual opinião sua costuma gerar discussão entre seus amigos?",
+  "Qual foi a coisa mais impulsiva que você já fez numa festa?",
+  "Qual hábito estranho seu seus amigos provavelmente já conhecem?",
+  "Qual foi a desculpa mais esfarrapada que você já usou para não sair?",
+  "Com qual pessoa famosa você gostaria de passar uma noite inteira conversando?",
+  "Qual foi a situação mais constrangedora que você já viveu com um amigo?"
+];
+
+window.DATA.desafiosResenha = [
+  "Imite uma pessoa famosa até alguém descobrir quem é.",
+  "Faça um discurso de 20 segundos defendendo uma opinião completamente absurda.",
+  "Escolha alguém do grupo e faça uma propaganda exagerada sobre essa pessoa.",
+  "Conte uma história falsa sobre você com três detalhes absurdos e deixe os outros descobrirem.",
+  "Faça uma pose de capa de revista e mantenha por 10 segundos.",
+  "Invente um apelido ridículo para alguém do grupo e explique a origem.",
+  "Finja que está apresentando um prêmio para a pessoa à sua esquerda.",
+  "Faça uma narração dramática do que uma pessoa do grupo está fazendo agora."
+];
