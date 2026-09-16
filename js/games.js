@@ -59,6 +59,7 @@ const games = {
         'Uma partida clássica para dois, com roque, en passant e promoção.',
       color: 'gold',
       icon: ICONS.xadrez,
-      render: renderXadrez
+      render: renderXadrez,
+      fullscreen: true
     }
   };
