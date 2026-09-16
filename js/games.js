@@ -50,5 +50,15 @@ const games = {
       color: 'lav',
       icon: ICONS.jogoDaVelha,
       render: renderJogoDaVelha
+    },
+    xadrez: {
+      id: 'xadrez',
+      title: 'Xadrez',
+      route: '/xadrez',
+      description:
+        'Uma partida clássica para dois, com roque, en passant e promoção.',
+      color: 'gold',
+      icon: ICONS.xadrez,
+      render: renderXadrez
     }
   };

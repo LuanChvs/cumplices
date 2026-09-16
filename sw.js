@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'cumplices-v5';
+const CACHE_VERSION = 'cumplices-v6';
 const CACHE_NAME = CACHE_VERSION;
 
 const APP_FILES = [
@@ -25,6 +25,7 @@ const APP_FILES = [
   './js/games/verdade.js',
   './js/games/quiz.js',
   './js/games/jogo-da-velha.js',
+  './js/games/xadrez.js',
 
   './data/sintonia.js',
   './data/verdades-desafios.js',

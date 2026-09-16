@@ -54,4 +54,19 @@ const ICONS = {
       <path d="M8 16h32"/>
       <path d="M8 32h32"/>
     </svg>
-  `};
+  `,
+  xadrez: `
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M8 4h8l-1 4 3 4v3H6v-3l3-4-1-4Z"/>
+    <path d="M7 15h10"/>
+    <path d="M6 19h12"/>
+  </svg>
+`};
