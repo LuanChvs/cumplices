@@ -26,3 +26,20 @@ window.DATA.quizPerguntas = [
   "Qual é a habilidade que ele(a) mais gostaria de ter?",
   "Qual é o cheiro que faz ele(a) lembrar de alguém especial?"
 ];
+
+/*
+  Conteúdo extra para o Modo Resenha.
+  As perguntas acima continuam disponíveis;
+  estas entram apenas quando Resenha está ligado.
+*/
+
+window.DATA.quizPerguntasResenha = [
+  "Qual é a comida que seu amigo mais pediria em um rodízio?",
+  "Qual é a maior vergonha que seu amigo provavelmente já passou?",
+  "Qual celebridade seu amigo adoraria conhecer pessoalmente?",
+  "Qual é o tipo de rolê que seu amigo nunca recusaria?",
+  "Qual seria o emprego mais improvável para seu amigo?",
+  "Qual é a mania do seu amigo que mais chama atenção?",
+  "Qual música faria seu amigo levantar e cantar junto numa festa?",
+  "Se seu amigo pudesse viajar amanhã com tudo pago, para onde ele iria?"
+];
