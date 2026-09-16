@@ -228,8 +228,8 @@ function updateResenhaSetting() {
 
   resenhaSettingTitle.textContent =
     enabled
-      ? 'Modo Resenha ligado'
-      : 'Modo Resenha desligado';
+      ? '🍺 Modo Resenha ligado'
+      : '🍺 Modo Resenha desligado';
 
   resenhaSettingDescription.textContent =
     enabled
@@ -246,10 +246,21 @@ function updateResenhaSetting() {
     String(enabled)
   );
 
-  brandMode.classList.toggle(
-    'visible',
+  brandMode.style.display =
     enabled
-  );
+      ? 'inline-block'
+      : 'none';
+
+  brandMode.style.marginLeft = '6px';
+  brandMode.style.color = 'var(--rose)';
+  brandMode.style.fontFamily = 'var(--font-b)';
+  brandMode.style.fontSize = '.54rem';
+  brandMode.style.fontStyle = 'normal';
+  brandMode.style.fontWeight = '600';
+  brandMode.style.letterSpacing = '.02em';
+  brandMode.style.lineHeight = '1';
+  brandMode.style.opacity = '.72';
+  brandMode.style.verticalAlign = 'baseline';
 }
 
 resenhaSetting.addEventListener(
