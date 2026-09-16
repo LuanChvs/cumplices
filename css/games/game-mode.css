@@ -1,0 +1,102 @@
+/* =========================================================
+   MODO JOGO — VIEWPORT MOBILE
+   Mantém a experiência de jogo presa à tela visível.
+========================================================= */
+
+@media (max-width: 899px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  body.game-mode {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body.game-mode main.container {
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  body.game-mode #view {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  body.game-mode .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform .22s ease,
+      opacity .22s ease;
+  }
+
+  body.game-mode.game-nav-open .topbar {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  body.game-mode .game-nav-toggle {
+    position: fixed;
+    top: max(8px, env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
+    z-index: 950;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--panel) 72%, transparent);
+    color: var(--text-dim);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  body.game-mode.game-nav-open .game-nav-toggle {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+  }
+
+  body.game-mode.game-mode-fullscreen #view {
+    overflow: hidden;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-curtain-screen,
+  body.game-mode.game-mode-fullscreen .whoami-round-screen,
+  body.game-mode.game-mode-fullscreen .whoami-result-screen {
+    width: 100%;
+    height: 100dvh;
+    min-height: 0;
+    max-height: 100dvh;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-round-screen {
+    box-sizing: border-box;
+  }
+}
