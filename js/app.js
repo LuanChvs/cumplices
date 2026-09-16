@@ -38,6 +38,9 @@ const resenhaSettingDescription =
 const resenhaSwitch =
   document.getElementById('resenhaSwitch');
 
+const brandMode =
+  document.getElementById('brandMode');
+
 const themeOptions =
   document.querySelectorAll('[data-theme-choice]');
 
@@ -241,6 +244,11 @@ function updateResenhaSetting() {
   resenhaSetting.setAttribute(
     'aria-pressed',
     String(enabled)
+  );
+
+  brandMode.classList.toggle(
+    'visible',
+    enabled
   );
 }
 
