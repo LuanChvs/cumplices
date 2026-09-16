@@ -19,12 +19,14 @@ function renderQuemSouEu() {
 
   let timer = null;
   let countdownTimer = null;
+  let lastTimerWarning = null;
 
   renderModeChoice();
 
   wrap.cleanup = () => {
     stopTimer();
     stopCountdown();
+    sound.timerStop();
   };
 
   return wrap;
@@ -32,6 +34,7 @@ function renderQuemSouEu() {
   function renderModeChoice() {
     stopTimer();
     stopCountdown();
+    sound.timerStop();
     state.status = 'setup';
 
     wrap.innerHTML = `
@@ -67,13 +70,11 @@ function renderQuemSouEu() {
     });
 
     themeBtn.addEventListener('click', () => {
-      sound.click();
       state.mode = 'theme';
       renderThemeChoice();
     });
 
     freeBtn.addEventListener('click', () => {
-      sound.click();
       state.mode = 'free';
       renderFreeName();
     });
@@ -161,14 +162,10 @@ function renderQuemSouEu() {
 
     continueBtn.disabled = !state.theme;
 
-    backBtn.addEventListener('click', () => {
-      sound.click();
-      renderModeChoice();
-    });
+    backBtn.addEventListener('click', renderModeChoice);
 
     continueBtn.addEventListener('click', () => {
       if (!state.theme) return;
-      sound.click();
       renderTimeChoice();
     });
 
@@ -227,16 +224,12 @@ function renderQuemSouEu() {
       continueBtn.disabled = state.customName.length === 0;
     });
 
-    backBtn.addEventListener('click', () => {
-      sound.click();
-      renderModeChoice();
-    });
+    backBtn.addEventListener('click', renderModeChoice);
 
     continueBtn.addEventListener('click', () => {
       state.customName = input.value.trim();
 
       if (!state.customName) return;
-      sound.click();
       renderTimeChoice();
     });
 
@@ -322,8 +315,6 @@ function renderQuemSouEu() {
     prepareBtn.disabled = state.time === null;
 
     backBtn.addEventListener('click', () => {
-      sound.click();
-
       if (state.mode === 'theme') {
         renderThemeChoice();
       } else {
@@ -333,7 +324,6 @@ function renderQuemSouEu() {
 
     prepareBtn.addEventListener('click', () => {
       if (state.time === null) return;
-      sound.click();
       prepareRound();
     });
 
@@ -352,6 +342,7 @@ function renderQuemSouEu() {
   function renderCurtain() {
     stopTimer();
     stopCountdown();
+    sound.timerStop();
 
     wrap.innerHTML = `
       <div class="whoami-curtain-screen">
@@ -398,6 +389,7 @@ function renderQuemSouEu() {
         countdown.classList.remove('whoami-countdown-pop');
         void countdown.offsetWidth;
         countdown.classList.add('whoami-countdown-pop');
+        sound.click();
         return;
       }
 
@@ -425,6 +417,8 @@ function renderQuemSouEu() {
   function renderRound() {
     stopTimer();
     state.status = 'round';
+    lastTimerWarning = null;
+    sound.timerStop();
 
     wrap.innerHTML = `
       <div class="whoami-round-screen">
@@ -471,12 +465,12 @@ function renderQuemSouEu() {
     wrap.querySelector('#whoamiNameDisplay').textContent = state.currentName;
 
     wrap.querySelector('#whoamiWrong').addEventListener('click', () => {
-      sound.click();
+      sound.wrong();
       wrongAnswer();
     });
 
     wrap.querySelector('#whoamiRight').addEventListener('click', () => {
-      sound.click();
+      sound.correct();
       endRound('acertou');
     });
 
@@ -486,6 +480,8 @@ function renderQuemSouEu() {
       if (state.remainingTime === Infinity) return;
 
       state.remainingTime += 15;
+      lastTimerWarning = null;
+      sound.timerStop();
       renderTimerValues();
     });
 
@@ -543,16 +539,30 @@ function renderQuemSouEu() {
     if (fill) {
       fill.style.width = `${percentage}%`;
     }
+
+    const secondsLeft = Math.ceil(state.remainingTime);
+
+    if (secondsLeft <= 10 && secondsLeft > 0) {
+      if (lastTimerWarning === null) {
+        lastTimerWarning = secondsLeft;
+        sound.timer();
+      }
+    } else if (secondsLeft > 10) {
+      lastTimerWarning = null;
+      sound.timerStop();
+    }
   }
 
   function timeUp() {
     state.status = 'timeup';
     sound.timerStop();
+    sound.elimination();
     renderResult('tempo');
   }
 
   function endRound(result) {
     stopTimer();
+    sound.timerStop();
     state.status = result;
     renderResult(result);
   }
@@ -598,19 +608,15 @@ function renderQuemSouEu() {
     });
 
     againBtn.addEventListener('click', () => {
-      sound.click();
-
       if (state.mode === 'theme') {
         renderNextThemeRound();
       } else {
+        state.customName = '';
         renderFreeName();
       }
     });
 
-    setupBtn.addEventListener('click', () => {
-      sound.click();
-      renderModeChoice();
-    });
+    setupBtn.addEventListener('click', renderModeChoice);
 
     actions.append(againBtn, setupBtn);
   }
