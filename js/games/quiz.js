@@ -11,10 +11,17 @@ function renderQuiz() {
 
 
   function startRound() {
-    const perguntas =
+    const modo =
       preferences.resenha
-        ? QUIZ_PERGUNTAS.concat(QUIZ_PERGUNTAS_RESENHA)
-        : QUIZ_PERGUNTAS;
+        ? 'resenha'
+        : 'casal';
+
+    const perguntas =
+      QUIZ_PERGUNTAS.filter(pergunta =>
+        Array.isArray(pergunta.modos)
+          ? pergunta.modos.includes(modo)
+          : true
+      );
 
     const order = shuffle(perguntas);
 
@@ -50,7 +57,7 @@ function renderQuiz() {
         </p>
 
         <div class="quiz-q">
-          <p>${q}</p>
+          <p>${q.texto}</p>
         </div>
 
         <div class="quiz-score">
