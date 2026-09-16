@@ -316,7 +316,7 @@
   max-width: 100%;
   margin: 0;
   overflow-wrap: anywhere;
-  font-size: clamp(3rem, 10vw, 7rem);
+  font-size: clamp(4rem, 16vw, 12rem);
   line-height: 1.02;
 }
 
@@ -350,21 +350,26 @@
 }
 
 /* ---------------------------------------------------------
-   AÇÕES — lado a lado por padrão (flexbox)
+   AÇÕES — "Acertei" e "+15s" SEMPRE lado a lado
 --------------------------------------------------------- */
 
 .whoami-round-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+
+  gap: 12px;
+
   width: min(100%, 760px);
   margin: 0 auto;
 }
 
-.whoami-round-actions > .whoami-action-btn,
-.whoami-round-actions > .whoami-add-time {
-  flex: 1 1 0;
-  min-width: 0;
+.whoami-round-actions > * {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: none !important;
 }
 
 .whoami-action-btn {
@@ -414,6 +419,8 @@
   font-size: .9rem;
   font-weight: 700;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
   transition:
     background .15s ease,
@@ -614,9 +621,9 @@
     min-width: 0;
     margin: 0;
     font-size: clamp(
-      2.4rem,
-      min(13vw, 15vh),
-      7rem
+      3.4rem,
+      min(22vw, 26vh),
+      12rem
     );
     line-height: .95;
     overflow-wrap: anywhere;
@@ -640,37 +647,44 @@
   }
 
   /* ---------------------------------------------------------
-     AÇÕES — flexbox lado a lado, mesmo tamanho
-     Se um botão não existir, o outro ocupa 100%.
+     AÇÕES — lado a lado com !important (blinda contra CSS antigo)
   --------------------------------------------------------- */
 
   body.game-mode .whoami-round-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+
     grid-row: 3;
-    display: flex;
-    flex-wrap: nowrap;
+
     gap: clamp(8px, 2vw, 14px);
-    align-items: center;
+
     width: 100%;
     min-width: 0;
+
     margin: 0;
   }
 
-  body.game-mode .whoami-round-actions > .whoami-action-btn,
-  body.game-mode .whoami-round-actions > .whoami-add-time {
-    flex: 1 1 0;
-    min-width: 0;
+  body.game-mode .whoami-round-actions > * {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    width: auto !important;
+    max-width: none !important;
   }
 
-  body.game-mode .whoami-action-btn {
-    width: 100%;
-    min-width: 0;
+  body.game-mode .whoami-action-btn,
+  body.game-mode .whoami-add-time {
     min-height: 0;
     height: clamp(44px, 7.5vh, 56px);
     padding: 4px 12px;
     border-radius: 100px;
-    font-size: clamp(.78rem, 2vw, .92rem);
     font-weight: 700;
     line-height: 1;
+  }
+
+  body.game-mode .whoami-action-btn {
+    font-size: clamp(.78rem, 2vw, .92rem);
   }
 
   body.game-mode .whoami-action-btn span {
@@ -684,24 +698,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    min-width: 0;
-    min-height: 0;
-    height: clamp(44px, 7.5vh, 56px);
-    margin: 0;
-    padding: 4px 12px;
-    border: 1px solid var(--line);
-    border-radius: 100px;
-    background: transparent;
-    color: var(--text-dim);
-    font: inherit;
+
     font-size: clamp(.74rem, 1.9vw, .88rem);
-    font-weight: 700;
-    line-height: 1;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    cursor: pointer;
   }
 
   body.game-mode .whoami-result-screen {
@@ -774,9 +776,9 @@
 
   body.game-mode .whoami-name {
     font-size: clamp(
-      1.6rem,
-      min(9vw, 11vh),
-      4rem
+      2.2rem,
+      min(15vw, 20vh),
+      7rem
     );
     line-height: .9;
   }
@@ -799,21 +801,18 @@
     gap: 8px;
   }
 
-  body.game-mode .whoami-action-btn {
-    height: clamp(32px, 7vh, 44px);
-    padding: 2px 12px;
-    border-radius: 100px;
-    font-size: clamp(.68rem, 1.8vw, .82rem);
-  }
-
-  body.game-mode .whoami-action-btn span {
-    font-size: 1em;
-  }
-
+  body.game-mode .whoami-action-btn,
   body.game-mode .whoami-add-time {
     height: clamp(32px, 7vh, 44px);
     padding: 2px 12px;
     border-radius: 100px;
+  }
+
+  body.game-mode .whoami-action-btn {
+    font-size: clamp(.68rem, 1.8vw, .82rem);
+  }
+
+  body.game-mode .whoami-add-time {
     font-size: clamp(.62rem, 1.5vw, .74rem);
   }
 }

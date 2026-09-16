@@ -419,6 +419,8 @@ function renderQuemSouEu() {
     lastTimerWarning = null;
     sound.timerStop();
 
+    const showAddTime = state.time !== Infinity;
+
     wrap.innerHTML = `
       <div class="whoami-round-screen">
         <div class="whoami-round-top">
@@ -443,21 +445,34 @@ function renderQuemSouEu() {
         </div>
 
         <div class="whoami-round-actions">
-          <button type="button" class="whoami-action-btn whoami-action-right" id="whoamiRight">
+          <button
+            type="button"
+            class="whoami-action-btn whoami-action-right"
+            id="whoamiRight"
+          >
             <span>✓</span>
             Acertou
           </button>
-        </div>
 
-        ${state.time !== Infinity ? `
-          <button type="button" class="whoami-add-time" id="whoamiAddTime">
-            +15 segundos
-          </button>
-        ` : ''}
+          ${showAddTime ? `
+            <button
+              type="button"
+              class="whoami-add-time"
+              id="whoamiAddTime"
+            >
+              +15 segundos
+            </button>
+          ` : ''}
+        </div>
       </div>
     `;
 
-    wrap.querySelector('#whoamiNameDisplay').textContent = state.currentName;
+    /*
+      Auto-fit do nome — usa o helper
+      que reduz a fonte se estourar.
+    */
+
+    renderWhoamiName(state.currentName);
 
     wrap.querySelector('#whoamiRight').addEventListener('click', () => {
       sound.correct();
@@ -481,7 +496,6 @@ function renderQuemSouEu() {
       startTimer();
     }
   }
-
   function startTimer() {
     stopTimer();
 
@@ -686,7 +700,9 @@ function renderQuemSouEu() {
     const rest = seconds % 60;
     return `${String(minutes).padStart(2, '0')}:${String(rest).padStart(2, '0')}`;
   }
-}/* =========================================================
+}
+
+/* =========================================================
    AUTO-FIT DO NOME — Quem sou eu
    Cola no FINAL do js/games/quem-sou-eu.js
 ========================================================= */
