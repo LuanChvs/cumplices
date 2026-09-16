@@ -70,6 +70,25 @@ function renderVD() {
   startGame(game);
 
 
+  function cardsDoTipo(type) {
+    const base =
+      type === 'truth'
+        ? VERDADES
+        : DESAFIOS;
+
+    const extras =
+      preferences.resenha
+        ? (
+            type === 'truth'
+              ? VERDADES_RESENHA
+              : DESAFIOS_RESENHA
+          )
+        : [];
+
+    return base.concat(extras);
+  }
+
+
   function draw(type) {
     game.lastType = type;
 
@@ -77,9 +96,7 @@ function renderVD() {
       type === 'truth';
 
     const text =
-      isTruth
-        ? pick(VERDADES)
-        : pick(DESAFIOS);
+      pick(cardsDoTipo(type));
 
     card.className =
       'vd-card ' +
