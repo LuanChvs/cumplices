@@ -549,6 +549,24 @@
 ========================================================= */
 
 @media (max-width: 899px) {
+  /*
+     O documento inteiro deixa de rolar apenas quando o Quem Sou Eu
+     está realmente em tela de rodada ou resultado.
+  */
+  body.game-mode.game-mode-fullscreen:has(.whoami-round-screen),
+  body.game-mode.game-mode-fullscreen:has(.whoami-result-screen) {
+    overflow: hidden;
+    height: 100dvh;
+  }
+
+  body.game-mode.game-mode-fullscreen:has(.whoami-round-screen) #view,
+  body.game-mode.game-mode-fullscreen:has(.whoami-result-screen) #view {
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+
   body.game-mode.game-mode-fullscreen .whoami-round-screen,
   body.game-mode.game-mode-fullscreen .whoami-result-screen {
     position: fixed;
