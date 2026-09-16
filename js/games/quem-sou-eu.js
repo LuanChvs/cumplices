@@ -397,8 +397,7 @@ function renderQuemSouEu() {
       openCurtain();
     }, 1000);
 
-    const countdown = wrap.querySelector('#whoamiCountdown');
-    countdown?.classList.add('whoami-countdown-pop');
+    wrap.querySelector('#whoamiCountdown')?.classList.add('whoami-countdown-pop');
   }
 
   function openCurtain() {
@@ -444,10 +443,6 @@ function renderQuemSouEu() {
         </div>
 
         <div class="whoami-round-actions">
-          <button type="button" class="whoami-action-btn whoami-action-wrong" id="whoamiWrong">
-            <span>✕</span>
-            Errou
-          </button>
           <button type="button" class="whoami-action-btn whoami-action-right" id="whoamiRight">
             <span>✓</span>
             Acertou
@@ -463,11 +458,6 @@ function renderQuemSouEu() {
     `;
 
     wrap.querySelector('#whoamiNameDisplay').textContent = state.currentName;
-
-    wrap.querySelector('#whoamiWrong').addEventListener('click', () => {
-      sound.wrong();
-      wrongAnswer();
-    });
 
     wrap.querySelector('#whoamiRight').addEventListener('click', () => {
       sound.correct();
@@ -490,15 +480,6 @@ function renderQuemSouEu() {
     if (state.time !== Infinity) {
       startTimer();
     }
-  }
-
-  function wrongAnswer() {
-    const wrong = wrap.querySelector('#whoamiWrong');
-    if (!wrong) return;
-
-    wrong.classList.remove('is-pressed');
-    void wrong.offsetWidth;
-    wrong.classList.add('is-pressed');
   }
 
   function startTimer() {
