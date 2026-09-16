@@ -118,14 +118,28 @@
 ========================================================= */
 
 .whoami-curtain-screen {
-  position: relative;
-  min-height: calc(100dvh - 30px);
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   isolation: isolate;
-  background: #12090e;
+  background: #f2d7df;
+}
+
+.whoami-curtain-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      55% 70% at 50% 50%,
+      rgba(255,255,255,.34),
+      transparent 72%
+    );
+  z-index: 1;
 }
 
 .whoami-curtain-panel {
@@ -133,66 +147,84 @@
   z-index: 2;
   top: 0;
   bottom: 0;
-  width: 52%;
+  width: 51%;
   background:
     repeating-linear-gradient(
       90deg,
-      rgba(255,255,255,.035) 0 3px,
-      transparent 3px 11px
+      rgba(255,255,255,.12) 0 3px,
+      transparent 3px 14px
     ),
-    linear-gradient(90deg, #320e19 0%, #581425 46%, #2c0a15 100%);
-  box-shadow: 0 0 45px rgba(0,0,0,.35);
-  transition: transform .65s cubic-bezier(.76,0,.24,1);
+    linear-gradient(
+      90deg,
+      #d890ad 0%,
+      #edb4c7 45%,
+      #c9799a 100%
+    );
+  box-shadow: 0 0 35px rgba(87, 38, 59, .12);
+  transition: transform .72s cubic-bezier(.76,0,.24,1);
+}
+
+.whoami-curtain-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,.13),
+    transparent 30%,
+    rgba(89,37,60,.09) 75%,
+    transparent
+  );
 }
 
 .whoami-curtain-left {
   left: 0;
   transform-origin: left center;
-  border-right: 1px solid rgba(255,255,255,.07);
+  border-right: 1px solid rgba(255,255,255,.28);
 }
 
 .whoami-curtain-right {
   right: 0;
   transform-origin: right center;
-  border-left: 1px solid rgba(255,255,255,.07);
+  border-left: 1px solid rgba(255,255,255,.28);
 }
 
 .whoami-curtain-screen.is-opening .whoami-curtain-left {
-  transform: translateX(-96%);
+  transform: translateX(-101%);
 }
 
 .whoami-curtain-screen.is-opening .whoami-curtain-right {
-  transform: translateX(96%);
+  transform: translateX(101%);
 }
 
 .whoami-curtain-content {
   position: relative;
-  z-index: 3;
-  width: min(90%, 520px);
-  padding: 34px 26px;
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: var(--r-lg);
-  background: rgba(16,8,13,.72);
-  backdrop-filter: blur(6px);
+  z-index: 4;
+  width: min(88%, 500px);
+  padding: 28px 24px;
   text-align: center;
-  box-shadow: 0 16px 50px rgba(0,0,0,.25);
 }
 
 .whoami-curtain-icon {
-  margin-bottom: 15px;
-  font-size: 3rem;
+  margin-bottom: 14px;
+  font-size: 2.6rem;
   line-height: 1;
+  filter: drop-shadow(0 5px 12px rgba(87,38,59,.10));
+}
+
+.whoami-curtain-content .whoami-kicker {
+  color: #8e4d68;
 }
 
 .whoami-curtain-content h2 {
   margin-bottom: 8px;
-  color: #fff;
+  color: #5f3447;
   font-size: clamp(1.6rem, 5vw, 2.2rem);
 }
 
 .whoami-curtain-content > p:not(.whoami-kicker) {
   margin-bottom: 22px;
-  color: rgba(255,255,255,.72);
+  color: #7d5363;
 }
 
 .whoami-start-btn {
@@ -200,20 +232,20 @@
 }
 
 .whoami-countdown {
-  color: #fff;
+  color: #5f3447;
   font-size: clamp(5rem, 18vw, 9rem);
   font-weight: 800;
   line-height: .9;
-  text-shadow: 0 8px 30px rgba(0,0,0,.35);
-}
-
-.whoami-countdown-pop {
-  animation: whoamiCountdownPop .75s ease;
+  text-shadow: 0 8px 25px rgba(87,38,59,.10);
 }
 
 .whoami-countdown-label {
   margin-top: 16px;
-  color: rgba(255,255,255,.72);
+  color: #7d5363;
+}
+
+.whoami-countdown-pop {
+  animation: whoamiCountdownPop .75s ease;
 }
 
 @keyframes whoamiCountdownPop {
@@ -236,10 +268,14 @@
 ========================================================= */
 
 .whoami-round-screen {
-  min-height: calc(100dvh - 30px);
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  padding: clamp(20px, 4vw, 34px);
+  padding:
+    max(20px, env(safe-area-inset-top))
+    max(18px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(18px, env(safe-area-inset-left));
 }
 
 .whoami-round-top {
@@ -313,8 +349,7 @@
 
 .whoami-round-actions {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
   width: min(100%, 760px);
   margin: 0 auto;
 }
@@ -340,26 +375,12 @@
   font-size: 1.25rem;
 }
 
-.whoami-action-wrong {
-  background: rgba(236,0,0,.08);
-}
-
 .whoami-action-right {
   background: rgba(62,180,120,.10);
 }
 
 .whoami-action-btn:hover {
   transform: translateY(-1px);
-}
-
-.whoami-action-btn.is-pressed {
-  animation: whoamiWrongShake .28s ease;
-}
-
-@keyframes whoamiWrongShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
 }
 
 .whoami-add-time {
@@ -458,26 +479,28 @@
     flex: 1 1 0;
   }
 
-  .whoami-curtain-screen,
-  .whoami-round-screen,
-  .whoami-result-screen {
-    min-height: calc(100dvh - 20px);
-  }
-
   .whoami-curtain-content {
-    padding: 28px 20px;
+    width: min(92%, 480px);
+    padding: 24px 18px;
   }
 
   .whoami-round-screen {
-    padding: 16px;
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
   }
 
-  .whoami-round-actions {
-    gap: 10px;
+  .whoami-name {
+    font-size: clamp(2.6rem, 12vw, 5rem);
+  }
+
+  .whoami-timer-wrap {
+    margin-top: 28px;
   }
 
   .whoami-action-btn {
-    min-height: 68px;
+    min-height: 64px;
   }
 
   .whoami-result-actions {
