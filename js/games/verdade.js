@@ -71,21 +71,21 @@ function renderVD() {
 
 
   function cardsDoTipo(type) {
-    const base =
+    const cards =
       type === 'truth'
         ? VERDADES
         : DESAFIOS;
 
-    const extras =
+    const modo =
       preferences.resenha
-        ? (
-            type === 'truth'
-              ? VERDADES_RESENHA
-              : DESAFIOS_RESENHA
-          )
-        : [];
+        ? 'resenha'
+        : 'casal';
 
-    return base.concat(extras);
+    return cards.filter(cardItem =>
+      Array.isArray(cardItem.modos)
+        ? cardItem.modos.includes(modo)
+        : true
+    );
   }
 
 
@@ -96,7 +96,7 @@ function renderVD() {
       type === 'truth';
 
     const text =
-      pick(cardsDoTipo(type));
+      pick(cardsDoTipo(type)).texto;
 
     card.className =
       'vd-card ' +
