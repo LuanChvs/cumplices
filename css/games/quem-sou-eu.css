@@ -754,3 +754,163 @@
     font-size: .48rem;
   }
 }
+
+/* =========================================================
+   AJUSTE FINAL — CAIXA REAL DA VIEWPORT
+========================================================= */
+
+@media (max-width: 899px) {
+  body.game-mode.game-mode-fullscreen .whoami-round-screen {
+    box-sizing: border-box;
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+    height: calc(100dvh - 16px);
+    max-height: calc(100dvh - 16px);
+    margin: 8px;
+    padding: max(5px, env(safe-area-inset-top))
+      max(7px, env(safe-area-inset-right))
+      max(5px, env(safe-area-inset-bottom))
+      max(7px, env(safe-area-inset-left));
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "top top"
+      "main main"
+      "action add";
+    align-items: stretch;
+    gap: 0;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-round-top {
+    grid-area: top;
+    width: 100%;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-round-main {
+    grid-area: main;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 0 clamp(2px, 1vw, 12px);
+    overflow: visible;
+    justify-content: center;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-round-kicker {
+    margin-bottom: clamp(2px, 1vh, 8px);
+    font-size: clamp(.46rem, 1.45vh, .68rem);
+    line-height: 1;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-name {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    font-size: clamp(.9rem, min(7vw, 9vh), 4.8rem);
+    line-height: .9;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-timer-wrap {
+    width: min(90%, 500px);
+    margin-top: clamp(5px, 2vh, 18px);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-timer {
+    font-size: clamp(.85rem, min(4.5vw, 5vh), 2.5rem);
+    line-height: 1;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-timer-track {
+    height: clamp(2px, .65vh, 6px);
+    margin-top: clamp(3px, .8vh, 7px);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-round-actions {
+    grid-area: action;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding-right: clamp(3px, 1vw, 8px);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-action-btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    height: clamp(30px, 7vh, 54px);
+    padding: 2px clamp(6px, 1.5vw, 10px);
+    border-radius: clamp(9px, 2vw, 16px);
+    font-size: clamp(.56rem, 1.8vw, .9rem);
+    line-height: 1;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-action-btn span {
+    margin: 0 0 1px;
+    font-size: clamp(.62rem, 2vw, 1rem);
+    line-height: 1;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-add-time {
+    grid-area: add;
+    align-self: center;
+    width: auto;
+    min-width: 0;
+    min-height: 0;
+    height: auto;
+    margin: 0 0 0 clamp(4px, 1vw, 8px);
+    padding: 4px clamp(4px, 1vw, 8px);
+    font-size: clamp(.5rem, 1.6vw, .72rem);
+    line-height: 1;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 899px) and (max-height: 500px) {
+  body.game-mode.game-mode-fullscreen .whoami-round-screen {
+    width: calc(100vw - 10px);
+    max-width: calc(100vw - 10px);
+    height: calc(100dvh - 10px);
+    max-height: calc(100dvh - 10px);
+    margin: 5px;
+    padding: 3px 5px;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-round-main {
+    padding: 0 2px;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-name {
+    font-size: clamp(.78rem, min(6.5vw, 8vh), 3.8rem);
+    line-height: .88;
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-timer-wrap {
+    width: min(88%, 440px);
+    margin-top: clamp(3px, 1.2vh, 8px);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-timer {
+    font-size: clamp(.72rem, min(4vw, 4.5vh), 1.9rem);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-action-btn {
+    height: clamp(26px, 6.5vh, 40px);
+    padding: 1px 5px;
+    font-size: clamp(.5rem, 1.5vw, .72rem);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-action-btn span {
+    font-size: clamp(.56rem, 1.8vw, .82rem);
+  }
+
+  body.game-mode.game-mode-fullscreen .whoami-add-time {
+    margin-left: 4px;
+    padding: 3px 4px;
+    font-size: .46rem;
+  }
+}
