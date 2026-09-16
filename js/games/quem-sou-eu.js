@@ -686,4 +686,59 @@ function renderQuemSouEu() {
     const rest = seconds % 60;
     return `${String(minutes).padStart(2, '0')}:${String(rest).padStart(2, '0')}`;
   }
+}/* =========================================================
+   AUTO-FIT DO NOME — Quem sou eu
+   Cola no FINAL do js/games/quem-sou-eu.js
+========================================================= */
+
+function fitWhoamiName(el) {
+  if (!el) return;
+
+  el.style.fontSize = '';
+
+  const computed =
+    parseFloat(getComputedStyle(el).fontSize);
+
+  const maxSize = computed;
+
+  const parent = el.parentElement;
+  if (!parent) return;
+
+  const maxWidth = parent.clientWidth;
+  if (!maxWidth) return;
+
+  const minSize = Math.max(18, maxSize * 0.35);
+
+  let size = maxSize;
+  el.style.fontSize = size + 'px';
+
+  while (
+    el.scrollWidth > maxWidth &&
+    size > minSize
+  ) {
+    size -= 1;
+    el.style.fontSize = size + 'px';
+  }
 }
+
+function renderWhoamiName(name) {
+  const el = document.querySelector('.whoami-name');
+  if (!el) return;
+
+  el.textContent = name;
+
+  requestAnimationFrame(() => {
+    fitWhoamiName(el);
+  });
+}
+
+let whoamiResizeTimer = null;
+
+window.addEventListener('resize', () => {
+  clearTimeout(whoamiResizeTimer);
+
+  whoamiResizeTimer = setTimeout(() => {
+    const el = document.querySelector('.whoami-name');
+    if (el) fitWhoamiName(el);
+  }, 120);
+});
