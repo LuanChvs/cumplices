@@ -255,7 +255,7 @@ function updateResenhaSetting() {
   brandMode.style.color = 'var(--rose)';
   brandMode.style.fontFamily = 'var(--font-b)';
   brandMode.style.fontSize = '.54rem';
-  brandMode.style.fontStyle = 'normal';
+  brandMode.style.fontStyle = 'italic';
   brandMode.style.fontWeight = '600';
   brandMode.style.letterSpacing = '.02em';
   brandMode.style.lineHeight = '1';
