@@ -6,6 +6,7 @@ const SINTONIA = window.DATA.sintonia;
 const VERDADES = window.DATA.verdades;
 const DESAFIOS = window.DATA.desafios;
 const QUIZ_PERGUNTAS = window.DATA.quizPerguntas;
+const QUEM_SOU_EU = window.DATA.quemSouEu;
 const STOP_TEMAS = window.DATA.stopTemas;
 const STOP_LETRAS = window.DATA.stopLetras;
 
@@ -68,5 +69,22 @@ const ICONS = {
     <path d="M8 4h8l-1 4 3 4v3H6v-3l3-4-1-4Z"/>
     <path d="M7 15h10"/>
     <path d="M6 19h12"/>
+  </svg>
+`,
+  quemSouEu: `
+  <svg
+    viewBox="0 0 48 48"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M14 19c0-5 4-9 10-9s10 4 10 9v3c0 5-4 9-10 9s-10-4-10-9v-3Z"/>
+    <path d="M14 19h20"/>
+    <path d="M18 31v6"/>
+    <path d="M30 31v6"/>
+    <path d="M16 37h16"/>
   </svg>
 `};
