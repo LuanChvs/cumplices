@@ -5,6 +5,46 @@
 function renderJogoDaVelha() {
     const wrap = el(`<div></div>`);
   
+  
+    /*
+      =========================================================
+      ESTADO DA SESSÃO
+      =========================================================
+  
+      O placar continua enquanto o usuário estiver
+      dentro desta tela do Jogo da Velha.
+  
+      Ao sair para outro jogo e voltar, a sessão começa
+      novamente do zero.
+    */
+  
+    const sessionScore = {
+      0: 0,
+      1: 0
+    };
+  
+  
+    /*
+      Nomes persistidos no localStorage.
+    */
+  
+    let playerNames = storageGet(
+      'jogo-da-velha.players',
+      ['Jogador 1', 'Jogador 2']
+    );
+  
+  
+    if (
+      !Array.isArray(playerNames) ||
+      playerNames.length !== 2
+    ) {
+      playerNames = [
+        'Jogador 1',
+        'Jogador 2'
+      ];
+    }
+  
+  
     let selectedMode =
       JOGO_DA_VELHA_CONFIG.modes.classic.id;
   
@@ -24,6 +64,33 @@ function renderJogoDaVelha() {
         <div id="gameHeader"></div>
   
         <div class="panel">
+  
+          <label class="field-label">
+            Quem vai jogar
+          </label>
+  
+          <div class="player-row">
+            <input
+              class="text-input"
+              id="player1Name"
+              value=""
+              placeholder="Jogador 1"
+              autocomplete="off"
+              maxlength="30"
+            >
+          </div>
+  
+          <div class="player-row">
+            <input
+              class="text-input"
+              id="player2Name"
+              value=""
+              placeholder="Jogador 2"
+              autocomplete="off"
+              maxlength="30"
+            >
+          </div>
+  
           <label class="field-label">
             Modo de jogo
           </label>
@@ -42,6 +109,7 @@ function renderJogoDaVelha() {
             class="btn-row"
             id="startButtonSlot"
           ></div>
+  
         </div>
       `;
   
@@ -66,6 +134,14 @@ function renderJogoDaVelha() {
          ELEMENTOS
       ========================================================= */
   
+      const player1Input =
+        wrap.querySelector('#player1Name');
+  
+  
+      const player2Input =
+        wrap.querySelector('#player2Name');
+  
+  
       const modeChips =
         wrap.querySelector('#modeChips');
   
@@ -78,6 +154,48 @@ function renderJogoDaVelha() {
         wrap.querySelector('#startButtonSlot');
   
   
+      player1Input.value =
+        playerNames[0];
+  
+  
+      player2Input.value =
+        playerNames[1];
+  
+  
+      /* =========================================================
+         PERSISTÊNCIA DOS NOMES
+      ========================================================= */
+  
+      player1Input.addEventListener(
+        'input',
+        () => {
+          playerNames[0] =
+            player1Input.value;
+  
+          savePlayerNames();
+        }
+      );
+  
+  
+      player2Input.addEventListener(
+        'input',
+        () => {
+          playerNames[1] =
+            player2Input.value;
+  
+          savePlayerNames();
+        }
+      );
+  
+  
+      function savePlayerNames() {
+        storageSet(
+          'jogo-da-velha.players',
+          playerNames
+        );
+      }
+  
+  
       /* =========================================================
          BOTÃO COMEÇAR
       ========================================================= */
@@ -85,7 +203,8 @@ function renderJogoDaVelha() {
       const startGameBtn =
         uiButton({
           text: 'Começar',
-          className: 'btn btn-primary btn-block'
+          className:
+            'btn btn-primary btn-block'
         });
   
   
@@ -175,8 +294,34 @@ function renderJogoDaVelha() {
       startGameBtn.addEventListener(
         'click',
         () => {
+          const names = [
+            player1Input.value.trim(),
+            player2Input.value.trim()
+          ];
+  
+  
+          /*
+            Evita iniciar com nome vazio.
+          */
+  
+          if (
+            !names[0] ||
+            !names[1]
+          ) {
+            return;
+          }
+  
+  
+          playerNames =
+            names;
+  
+  
+          savePlayerNames();
+  
+  
           startMatch(
-            getSelectedMode()
+            getSelectedMode(),
+            names
           );
         }
       );
@@ -184,13 +329,28 @@ function renderJogoDaVelha() {
   
   
     /* =========================================================
-       INÍCIO DO JOGO
+       INÍCIO DA PARTIDA
     ========================================================= */
   
-    function startMatch(mode) {
+    function startMatch(
+      mode,
+      names = playerNames
+    ) {
+      const players =
+        JOGO_DA_VELHA_CONFIG.players
+          .map((player, index) => ({
+            ...player,
+            name:
+              names[index] ||
+              player.name
+          }));
+  
+  
       const state =
         createGameState({
           mode: mode.id,
+  
+          players,
   
           board: Array(
             JOGO_DA_VELHA_CONFIG.boardSize ** 2
@@ -198,12 +358,18 @@ function renderJogoDaVelha() {
   
           turn: 0,
   
-          phase:
-            mode.phase,
+          phase: 'placement',
   
           winner: null,
   
-          moves: 0
+          moves: 0,
+  
+          pieces: {
+            0: [],
+            1: []
+          },
+  
+          selectedCell: null
         });
   
   
@@ -265,8 +431,10 @@ function renderJogoDaVelha() {
   
           <div
             class="btn-row"
-            id="restartButtonSlot"
-            style="justify-content:center;"
+            id="actionButtonSlot"
+            style="
+              justify-content:center;
+            "
           ></div>
   
         </div>
@@ -278,7 +446,9 @@ function renderJogoDaVelha() {
       ========================================================= */
   
       const gameHeader =
-        wrap.querySelector('#gameHeader');
+        wrap.querySelector(
+          '#gameHeader'
+        );
   
   
       gameHeader.appendChild(
@@ -294,47 +464,55 @@ function renderJogoDaVelha() {
       ========================================================= */
   
       const playersRow =
-        wrap.querySelector('#playersRow');
+        wrap.querySelector(
+          '#playersRow'
+        );
   
   
       const turnBanner =
-        wrap.querySelector('#turnBanner');
+        wrap.querySelector(
+          '#turnBanner'
+        );
   
   
       const board =
-        wrap.querySelector('#ticBoard');
+        wrap.querySelector(
+          '#ticBoard'
+        );
   
   
-      const restartButtonSlot =
-        wrap.querySelector('#restartButtonSlot');
+      const actionButtonSlot =
+        wrap.querySelector(
+          '#actionButtonSlot'
+        );
   
   
       /* =========================================================
          BOTÃO REINICIAR
       ========================================================= */
   
-      const restartBtn =
+      const actionBtn =
         uiButton({
           text: 'Reiniciar',
           className: 'btn btn-ghost'
         });
   
   
-      restartButtonSlot.appendChild(
-        restartBtn
+      actionButtonSlot.appendChild(
+        actionBtn
       );
   
   
       /* =========================================================
-         PLACAR / JOGADORES
+         PLACAR / INSTRUÇÃO
       ========================================================= */
   
       function drawPlayers() {
         playersRow.innerHTML = '';
   
   
-        JOGO_DA_VELHA_CONFIG.players
-          .forEach((player, index) => {
+        state.players.forEach(
+          (player, index) => {
             const active =
               state.turn === index &&
               state.winner === null;
@@ -372,15 +550,26 @@ function renderJogoDaVelha() {
                 "
               ></span>
   
-              ${player.name} · ${player.symbol}
+              ${player.name} ·
+              ${player.symbol} ·
+              ${sessionScore[index]}
             `;
   
   
-            playersRow.appendChild(chip);
-          });
+            playersRow.appendChild(
+              chip
+            );
+          }
+        );
   
   
-        if (state.winner === 'draw') {
+        /* =======================================================
+           RESULTADO
+        ======================================================= */
+  
+        if (
+          state.winner === 'draw'
+        ) {
           turnBanner.textContent =
             'Empate!';
   
@@ -393,9 +582,11 @@ function renderJogoDaVelha() {
         }
   
   
-        if (state.winner !== null) {
+        if (
+          state.winner !== null
+        ) {
           const winner =
-            JOGO_DA_VELHA_CONFIG.players[
+            state.players[
               state.winner
             ];
   
@@ -412,14 +603,40 @@ function renderJogoDaVelha() {
         }
   
   
+        /* =======================================================
+           MATE OU MORRA — MOVIMENTO
+        ======================================================= */
+  
         const currentPlayer =
-          JOGO_DA_VELHA_CONFIG.players[
+          state.players[
             state.turn
           ];
   
   
-        turnBanner.textContent =
-          `É a vez de ${currentPlayer.name} (${currentPlayer.symbol})`;
+        if (
+          state.mode === 'mate-ou-morra' &&
+          state.phase === 'movement'
+        ) {
+          if (
+            state.selectedCell === null
+          ) {
+            turnBanner.textContent =
+              `${currentPlayer.name}: escolha uma peça ${currentPlayer.symbol}.`;
+          } else {
+            turnBanner.textContent =
+              `${currentPlayer.name}: escolha uma casa vazia para mover ${currentPlayer.symbol}.`;
+          }
+        }
+  
+  
+        /*
+          COLOCAÇÃO / CLÁSSICO
+        */
+  
+        else {
+          turnBanner.textContent =
+            `É a vez de ${currentPlayer.name} (${currentPlayer.symbol})`;
+        }
   
   
         turnBanner.style.color =
@@ -428,7 +645,7 @@ function renderJogoDaVelha() {
   
   
       /* =========================================================
-         RENDER DO TABULEIRO
+         TABULEIRO
       ========================================================= */
   
       function drawBoard() {
@@ -466,14 +683,68 @@ function renderJogoDaVelha() {
             }
   
   
-            cell.disabled =
-              Boolean(value) ||
-              state.winner !== null;
+            /*
+              Destaque da peça selecionada.
+            */
+  
+            if (
+              state.mode === 'mate-ou-morra' &&
+              state.phase === 'movement' &&
+              state.selectedCell === index
+            ) {
+              cell.classList.add(
+                'selected'
+              );
+            }
+  
+  
+            /*
+              =====================================================
+              CLÁSSICO
+              =====================================================
+            */
+  
+            if (
+              state.mode === 'classic'
+            ) {
+              cell.disabled =
+                Boolean(value) ||
+                state.winner !== null;
+            }
+  
+  
+            /*
+              =====================================================
+              MATE OU MORRA — COLOCAÇÃO
+              =====================================================
+            */
+  
+            else if (
+              state.phase === 'placement'
+            ) {
+              cell.disabled =
+                Boolean(value) ||
+                state.winner !== null;
+            }
+  
+  
+            /*
+              =====================================================
+              MATE OU MORRA — MOVIMENTO
+              =====================================================
+            */
+  
+            else {
+              cell.disabled =
+                state.winner !== null;
+            }
   
   
             cell.addEventListener(
               'click',
-              () => playCell(index)
+              () => {
+                playCell(index);
+              }
             );
   
   
@@ -484,12 +755,36 @@ function renderJogoDaVelha() {
   
   
       /* =========================================================
-         JOGADA — MODO CLÁSSICO
+         JOGADA
       ========================================================= */
   
       function playCell(index) {
         if (
-          state.winner !== null ||
+          state.winner !== null
+        ) {
+          return;
+        }
+  
+  
+        if (
+          state.mode === 'classic'
+        ) {
+          playClassic(index);
+  
+          return;
+        }
+  
+  
+        playMateOuMorra(index);
+      }
+  
+  
+      /* =========================================================
+         CLÁSSICO
+      ========================================================= */
+  
+      function playClassic(index) {
+        if (
           state.board[index]
         ) {
           return;
@@ -500,7 +795,7 @@ function renderJogoDaVelha() {
   
   
         const player =
-          JOGO_DA_VELHA_CONFIG.players[
+          state.players[
             state.turn
           ];
   
@@ -512,16 +807,17 @@ function renderJogoDaVelha() {
         state.moves++;
   
   
-        const winner =
+        if (
           checkWinner(
             state.board,
             player.symbol
-          );
-  
-  
-        if (winner) {
+          )
+        ) {
           state.winner =
             state.turn;
+  
+  
+          sessionScore[state.turn]++;
   
   
           endGame(state);
@@ -531,6 +827,8 @@ function renderJogoDaVelha() {
   
           drawBoard();
           drawPlayers();
+  
+          showEndActions();
   
   
           return;
@@ -551,15 +849,14 @@ function renderJogoDaVelha() {
           drawBoard();
           drawPlayers();
   
+          showEndActions();
+  
   
           return;
         }
   
   
-        state.turn =
-          state.turn === 0
-            ? 1
-            : 0;
+        changeTurn();
   
   
         drawBoard();
@@ -568,14 +865,339 @@ function renderJogoDaVelha() {
   
   
       /* =========================================================
+         MATE OU MORRA
+      ========================================================= */
+  
+      function playMateOuMorra(index) {
+        const player =
+          state.players[
+            state.turn
+          ];
+  
+  
+        /* =======================================================
+           FASE 1 — COLOCAÇÃO
+        ======================================================= */
+  
+        if (
+          state.phase === 'placement'
+        ) {
+          if (
+            state.board[index] !== null
+          ) {
+            return;
+          }
+  
+  
+          if (
+            state.pieces[state.turn]
+              .length >= 3
+          ) {
+            return;
+          }
+  
+  
+          sound.click();
+  
+  
+          state.board[index] =
+            player.symbol;
+  
+  
+          state.pieces[
+            state.turn
+          ].push(index);
+  
+  
+          state.moves++;
+  
+  
+          /*
+            Verifica vitória imediatamente.
+          */
+  
+          if (
+            checkWinner(
+              state.board,
+              player.symbol
+            )
+          ) {
+            state.winner =
+              state.turn;
+  
+  
+            sessionScore[state.turn]++;
+  
+  
+            endGame(state);
+  
+            sound.victory();
+  
+  
+            drawBoard();
+            drawPlayers();
+  
+            showEndActions();
+  
+  
+            return;
+          }
+  
+  
+          /*
+            Os dois jogadores
+            chegaram a 3 peças.
+          */
+  
+          if (
+            state.pieces[0].length === 3 &&
+            state.pieces[1].length === 3
+          ) {
+            state.phase =
+              'movement';
+          }
+  
+  
+          changeTurn();
+  
+  
+          drawBoard();
+          drawPlayers();
+  
+  
+          return;
+        }
+  
+  
+        /* =======================================================
+           FASE 2 — MOVIMENTO
+        ======================================================= */
+  
+        /*
+          PRIMEIRO CLIQUE:
+          escolher uma peça própria.
+        */
+  
+        if (
+          state.selectedCell === null
+        ) {
+          if (
+            state.board[index] !==
+            player.symbol
+          ) {
+            return;
+          }
+  
+  
+          sound.click();
+  
+  
+          state.selectedCell =
+            index;
+  
+  
+          drawBoard();
+          drawPlayers();
+  
+  
+          return;
+        }
+  
+  
+        /*
+          Clicar novamente na mesma peça
+          cancela a seleção.
+        */
+  
+        if (
+          state.selectedCell === index
+        ) {
+          sound.click();
+  
+  
+          state.selectedCell =
+            null;
+  
+  
+          drawBoard();
+          drawPlayers();
+  
+  
+          return;
+        }
+  
+  
+        /*
+          SEGUNDO CLIQUE:
+          destino precisa estar vazio.
+        */
+  
+        if (
+          state.board[index] !== null
+        ) {
+          return;
+        }
+  
+  
+        sound.click();
+  
+  
+        const from =
+          state.selectedCell;
+  
+  
+        state.board[from] =
+          null;
+  
+  
+        state.board[index] =
+          player.symbol;
+  
+  
+        /*
+          Atualiza a posição da peça.
+        */
+  
+        const pieceList =
+          state.pieces[state.turn];
+  
+  
+        const pieceIndex =
+          pieceList.indexOf(from);
+  
+  
+        if (
+          pieceIndex !== -1
+        ) {
+          pieceList[pieceIndex] =
+            index;
+        }
+  
+  
+        state.selectedCell =
+          null;
+  
+  
+        /*
+          Verifica vitória.
+        */
+  
+        if (
+          checkWinner(
+            state.board,
+            player.symbol
+          )
+        ) {
+          state.winner =
+            state.turn;
+  
+  
+          sessionScore[state.turn]++;
+  
+  
+          endGame(state);
+  
+          sound.victory();
+  
+  
+          drawBoard();
+          drawPlayers();
+  
+          showEndActions();
+  
+  
+          return;
+        }
+  
+  
+        changeTurn();
+  
+  
+        drawBoard();
+        drawPlayers();
+      }
+  
+  
+      /* =========================================================
+         TROCA DE TURNO
+      ========================================================= */
+  
+      function changeTurn() {
+        state.turn =
+          state.turn === 0
+            ? 1
+            : 0;
+      }
+  
+  
+      /* =========================================================
+         AÇÕES DO FIM
+      ========================================================= */
+  
+      function showEndActions() {
+        actionButtonSlot.innerHTML = '';
+  
+  
+        const replayBtn =
+          uiButton({
+            text: 'Jogar novamente',
+            className:
+              'btn btn-primary'
+          });
+  
+  
+        const modeBtn =
+          uiButton({
+            text: 'Escolher outro modo',
+            className:
+              'btn btn-ghost'
+          });
+  
+  
+        actionButtonSlot.append(
+          replayBtn,
+          modeBtn
+        );
+  
+  
+        replayBtn.addEventListener(
+          'click',
+          () => {
+            startMatch(
+              getModeById(
+                state.mode
+              ),
+              state.players.map(
+                player => player.name
+              )
+            );
+          }
+        );
+  
+  
+        modeBtn.addEventListener(
+          'click',
+          () => {
+            showModeSelection();
+          }
+        );
+      }
+  
+  
+      /* =========================================================
          REINICIAR
       ========================================================= */
   
-      restartBtn.addEventListener(
+      actionBtn.addEventListener(
         'click',
         () => {
           startMatch(
-            getModeById(state.mode)
+            getModeById(
+              state.mode
+            ),
+            state.players.map(
+              player => player.name
+            )
           );
         }
       );
@@ -594,7 +1216,8 @@ function renderJogoDaVelha() {
       board,
       symbol
     ) {
-      return JOGO_DA_VELHA_CONFIG.winLines
+      return JOGO_DA_VELHA_CONFIG
+        .winLines
         .some(line => {
           return line.every(
             index =>

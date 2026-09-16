@@ -58,19 +58,154 @@
         ></a>
   
         <button
-          type="button"
-          class="sound-toggle"
-          id="soundToggle"
-          aria-label="Desligar sons"
-          title="Desligar sons"
-        >
-          <span id="soundIcon" aria-hidden="true">🔊</span>
-        </button>
+        type="button"
+        class="settings-toggle"
+        id="settingsToggle"
+        aria-label="Abrir configurações"
+        title="Configurações"
+      >
+        <span aria-hidden="true">⚙</span>
+      </button>
   
       </div>
   
     </div>
   </div>
+  <!-- ===== CONFIGURAÇÕES ===== -->
+<div
+class="settings-overlay"
+id="settingsOverlay"
+aria-hidden="true"
+></div>
+
+<aside
+class="settings-drawer"
+id="settingsDrawer"
+aria-hidden="true"
+aria-label="Configurações"
+>
+<div class="settings-header">
+  <div>
+    <span class="settings-kicker">Preferências</span>
+    <h2>Configurações</h2>
+  </div>
+
+  <button
+    type="button"
+    class="settings-close"
+    id="settingsClose"
+    aria-label="Fechar configurações"
+    title="Fechar"
+  >
+    ×
+  </button>
+</div>
+
+<div class="settings-body">
+
+  <section class="settings-section">
+    <div class="settings-label">
+      <strong>Aparência</strong>
+      <span>Escolha como o Cúmplices aparece.</span>
+    </div>
+
+    <div class="settings-options" id="themeOptions">
+
+      <button
+        type="button"
+        class="settings-option"
+        data-theme-choice="dark"
+      >
+        <span class="settings-option-icon">🌙</span>
+        <span>
+          <strong>Noturno</strong>
+          <small>Mais escuro e discreto</small>
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="settings-option"
+        data-theme-choice="light"
+      >
+        <span class="settings-option-icon">☀️</span>
+        <span>
+          <strong>Diurno</strong>
+          <small>Mais claro e leve</small>
+        </span>
+      </button>
+
+    </div>
+  </section>
+
+
+  <section class="settings-section">
+    <div class="settings-label">
+      <strong>Sons</strong>
+      <span>Efeitos sonoros durante os jogos.</span>
+    </div>
+
+    <button
+      type="button"
+      class="settings-switch-row"
+      id="soundSetting"
+    >
+      <span>
+        <strong id="soundSettingTitle">
+          Sons ligados
+        </strong>
+
+        <small id="soundSettingDescription">
+          Efeitos sonoros ativados
+        </small>
+      </span>
+
+      <span
+        class="settings-switch"
+        id="soundSwitch"
+        aria-hidden="true"
+      >
+        <span></span>
+      </span>
+    </button>
+  </section>
+
+
+  <section class="settings-section">
+    <div class="settings-label">
+      <strong>Modo Resenha</strong>
+      <span>
+        Adapta o conteúdo para jogar com amigos.
+      </span>
+    </div>
+
+    <button
+      type="button"
+      class="settings-switch-row"
+      id="resenhaSetting"
+    >
+      <span>
+        <strong id="resenhaSettingTitle">
+          Modo Resenha desligado
+        </strong>
+
+        <small id="resenhaSettingDescription">
+          Conteúdos para casais continuam disponíveis
+        </small>
+      </span>
+
+      <span
+        class="settings-switch"
+        id="resenhaSwitch"
+        aria-hidden="true"
+      >
+        <span></span>
+      </span>
+    </button>
+  </section>
+
+</div>
+</aside>
 <main class="container" id="view"></main>
 
 <!-- ===== DADOS ===== -->
@@ -84,6 +219,7 @@
 <script src="js/config.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/core/storage.js"></script>
+<script src="js/core/preferences.js"></script>
 <script src="js/core/game.js"></script>
 <script src="js/core/ui.js"></script>
 <script src="js/core/navigation.js"></script>
