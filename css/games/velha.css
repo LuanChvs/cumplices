@@ -1,0 +1,98 @@
+/* =========================================================
+   TIC-TAC-TOE
+========================================================= */
+
+.tic-board {
+  width: min(420px, 100%);
+
+  margin: 24px auto 0;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 8px;
+
+  aspect-ratio: 1 / 1;
+}
+
+.tic-cell {
+  width: 100%;
+  aspect-ratio: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+
+  background: var(--panel-2);
+  color: var(--text);
+
+  font-family: var(--font-d);
+  font-size: clamp(2.8rem, 12vw, 4.8rem);
+  font-weight: 600;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform .12s ease,
+    background .15s ease,
+    border-color .15s ease,
+    color .15s ease;
+}
+
+.tic-cell:hover:not(:disabled) {
+  border-color: var(--line-strong);
+  background: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+.tic-cell:active:not(:disabled) {
+  transform: scale(.97);
+}
+
+.tic-cell.x {
+  color: var(--rose);
+}
+
+.tic-cell.o {
+  color: var(--teal);
+}
+
+.tic-cell:disabled {
+  cursor: default;
+}
+
+.tic-cell.filled {
+  cursor: default;
+}
+
+.tic-cell.selected {
+  border-color: var(--gold);
+
+  background: rgba(242, 193, 78, .12);
+
+  box-shadow:
+    0 0 0 3px rgba(242, 193, 78, .12),
+    0 8px 20px -10px rgba(242, 193, 78, .5);
+
+  transform: translateY(-2px);
+}
+
+.tic-cell.selected.x {
+  color: var(--rose);
+}
+
+.tic-cell.selected.o {
+  color: var(--teal);
+}
+
+.tic-cell:disabled:not(.filled) {
+  opacity: 1;
+}
+
+@media (max-width: 480px) { .tic-board { gap: 6px; } .tic-cell { border-radius: 14px; } }

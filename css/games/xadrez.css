@@ -1,0 +1,955 @@
+/* =========================================================
+   XADREZ — BASE
+========================================================= */
+
+.chess-page {
+  padding-bottom: 40px;
+}
+
+.chess-layout {
+  display: grid;
+
+  grid-template-columns: 1fr;
+
+  gap: 18px;
+
+  width: 100%;
+  min-width: 0;
+
+  margin-top: 20px;
+}
+
+.chess-board-panel {
+  width: 100%;
+  min-width: 0;
+}
+
+.chess-board-frame {
+  width: min(560px, 100%);
+  max-width: 100%;
+
+  margin: 0 auto;
+
+  padding: clamp(5px, 1.4vw, 10px);
+
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+
+  background: var(--panel);
+
+  box-shadow:
+    0 16px 36px -24px rgba(0, 0, 0, .45);
+
+  box-sizing: border-box;
+}
+
+[data-theme="light"] .chess-board-frame {
+  background: rgba(255, 248, 234, .38);
+  border-color: rgba(60, 43, 35, .11);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+
+/* =========================================================
+   XADREZ — COORDENADAS
+========================================================= */
+
+.chess-files {
+  display: grid;
+
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+
+  padding:
+    clamp(2px, 0.7vw, 4px)
+    clamp(14px, 5vw, 28px);
+
+  color: var(--text-dim);
+
+  font-size: clamp(.56rem, 1.5vw, .7rem);
+  font-weight: 600;
+
+  text-align: center;
+}
+
+.chess-files span,
+.chess-ranks span {
+  user-select: none;
+}
+
+.chess-board-row {
+  display: grid;
+
+  grid-template-columns:
+    clamp(12px, 3vw, 18px)
+    minmax(0, 1fr)
+    clamp(12px, 3vw, 18px);
+
+  align-items: stretch;
+
+  gap: clamp(2px, .8vw, 4px);
+
+  width: 100%;
+  min-width: 0;
+}
+
+.chess-ranks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  width: 100%;
+  height: 100%;
+
+  color: var(--text-dim);
+
+  font-size: clamp(.56rem, 1.5vw, .7rem);
+  font-weight: 600;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   XADREZ — TABULEIRO
+========================================================= */
+
+.chess-board {
+  display: grid;
+
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-rows: repeat(8, minmax(0, 1fr));
+
+  width: 100%;
+  max-width: 100%;
+
+  aspect-ratio: 1 / 1;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+
+  border:
+    clamp(1px, .35vw, 2px)
+    solid
+    var(--line);
+
+  border-radius:
+    clamp(10px, 2vw, var(--r-md));
+
+  box-shadow:
+    0 18px 40px -24px rgba(0, 0, 0, .45);
+}
+
+.chess-square {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  padding: 0;
+  border: 0;
+
+  font: inherit;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  transition:
+    filter .12s ease,
+    transform .12s ease;
+}
+
+.chess-square.light {
+  background: #ead9b7;
+}
+
+.chess-square.dark {
+  background: #8a6851;
+}
+
+[data-theme="light"] .chess-square.light {
+  background: #f3e3c4;
+}
+
+[data-theme="light"] .chess-square.dark {
+  background: #b58a61;
+}
+
+.chess-square:hover {
+  filter: brightness(1.05);
+}
+
+.chess-square:active {
+  transform: scale(.98);
+}
+
+.chess-square.selected {
+  box-shadow:
+    inset 0 0 0 3px var(--gold);
+}
+
+.chess-square.last {
+  background-image:
+    linear-gradient(
+      rgba(242, 193, 78, .22),
+      rgba(242, 193, 78, .22)
+    );
+}
+
+.chess-square.check {
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(227, 102, 122, .48),
+      rgba(227, 102, 122, .10) 60%,
+      transparent 72%
+    );
+}
+
+
+/* =========================================================
+   XADREZ — PEÇAS
+========================================================= */
+
+/*
+   A peça agora é dimensionada pela largura disponível
+   do próprio tabuleiro, e não apenas pela viewport.
+
+   Isso evita que as peças ultrapassem as casas em
+   celulares e layouts de paisagem.
+*/
+
+.chess-piece {
+  position: relative;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /*
+     A peça nunca deve ocupar 100% da casa.
+     Mantemos uma margem visual para evitar que
+     caracteres Unicode ultrapassem o quadrado.
+  */
+  width: 84%;
+  height: 84%;
+
+  max-width: 84%;
+  max-height: 84%;
+
+  font-family: serif;
+
+  /*
+     O tamanho acompanha a viewport, mas fica
+     limitado pelo tamanho da casa através
+     do próprio width/height.
+  */
+  font-size: clamp(
+    1rem,
+    6.1vw,
+    3.7rem
+  );
+
+  line-height: .82;
+
+  user-select: none;
+
+  text-align: center;
+
+  overflow: visible;
+
+  transform-origin: center;
+
+  text-shadow:
+    0 2px 2px rgba(0, 0, 0, .18);
+}
+
+.chess-piece.w {
+  color: #fffaf0;
+
+  text-shadow:
+    0 1px 0 rgba(58, 42, 33, .55),
+    0 2px 3px rgba(58, 42, 33, .28);
+}
+
+.chess-piece.b {
+  color: #33252a;
+
+  text-shadow:
+    0 1px 1px rgba(255, 248, 236, .18);
+}
+
+.chess-square.light .chess-piece.w {
+  filter:
+    drop-shadow(
+      0 1px 1px rgba(55, 38, 30, .48)
+    );
+}
+
+
+/* =========================================================
+   XADREZ — INDICADORES
+========================================================= */
+
+.chess-dot {
+  position: absolute;
+
+  width: 18%;
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: rgba(58, 43, 32, .30);
+}
+
+.chess-ring {
+  position: absolute;
+
+  width: 74%;
+  aspect-ratio: 1;
+
+  border:
+    clamp(2px, .45vw, 3px)
+    solid
+    rgba(58, 43, 32, .28);
+
+  border-radius: 50%;
+}
+
+
+/* =========================================================
+   XADREZ — INFORMAÇÕES / CAPTURADAS
+========================================================= */
+
+.chess-captured {
+  display: grid;
+
+  min-width: 0;
+
+  gap: 16px;
+}
+
+.chess-captured-group {
+  min-height: 44px;
+}
+
+.chess-label,
+.chess-status-label {
+  margin-bottom: 8px;
+
+  color: var(--text-dim);
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.chess-piece-row {
+  display: flex;
+  flex-wrap: wrap;
+
+  min-height: 34px;
+
+  gap: 2px;
+}
+
+.chess-piece-row .chess-piece {
+  width: auto;
+  height: auto;
+
+  max-width: none;
+  max-height: none;
+
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.chess-status {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+  margin-bottom: 14px;
+}
+
+.chess-status strong {
+  font-family: var(--font-d);
+  font-size: 1.15rem;
+
+  overflow-wrap: anywhere;
+}
+
+.chess-turn-text {
+  color: var(--text-dim);
+  font-size: .86rem;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+.chess-actions {
+  margin-top: 18px;
+}
+
+
+/* =========================================================
+   XADREZ — MOVIMENTOS
+========================================================= */
+
+.chess-moves-section {
+  margin-top: 26px;
+}
+
+.chess-moves-section h2 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.chess-moves {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  max-height: 260px;
+
+  margin: 0;
+  padding-left: 26px;
+
+  overflow-y: auto;
+
+  color: var(--text-dim);
+  font-size: .8rem;
+}
+
+.chess-moves li {
+  padding: 4px 0;
+}
+
+.chess-moves li span {
+  display: inline;
+}
+
+.chess-moves li span + span {
+  margin-left: 8px;
+  color: var(--text);
+}
+
+
+/* =========================================================
+   XADREZ — MODAL
+========================================================= */
+
+.chess-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    max(20px, env(safe-area-inset-top))
+    max(20px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(20px, env(safe-area-inset-left));
+
+  background: rgba(0, 0, 0, .42);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.chess-overlay.hidden {
+  display: none;
+}
+
+.chess-modal {
+  width: min(360px, 100%);
+
+  padding: 26px;
+
+  background: var(--panel);
+
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+
+  box-shadow:
+    0 24px 60px -24px rgba(0, 0, 0, .45);
+
+  text-align: center;
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.chess-modal h2 {
+  font-size: 1.4rem;
+}
+
+.chess-modal p {
+  margin-top: 8px;
+
+  color: var(--text-dim);
+  font-size: .88rem;
+}
+
+.chess-promo {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.chess-promo-btn {
+  min-height: 64px;
+
+  padding: 8px;
+
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+
+  background: var(--panel-2);
+  color: var(--text);
+
+  font-family: serif;
+  font-size: 2rem;
+
+  cursor: pointer;
+
+  transition:
+    transform .12s ease,
+    border-color .15s ease,
+    background .15s ease;
+}
+
+.chess-promo-btn:hover {
+  border-color: var(--line-strong);
+  background: var(--panel);
+}
+
+.chess-promo-btn:active {
+  transform: scale(.97);
+}
+
+
+/* =========================================================
+   XADREZ — DESKTOP
+========================================================= */
+
+/*
+   900px ou mais:
+   INFO | TABULEIRO | CAPTURADAS
+
+   As colunas laterais podem diminuir de 220px
+   para 120px quando necessário, enquanto o
+   tabuleiro ocupa o espaço restante.
+*/
+
+@media (min-width: 900px) {
+
+  .container:has(.chess-page) {
+    width: 100%;
+    max-width: 1160px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .chess-layout {
+    grid-template-columns:
+      minmax(120px, 220px)
+      minmax(0, 560px)
+      minmax(120px, 220px);
+
+    grid-template-areas:
+      "info board captured";
+
+    align-items: stretch;
+    justify-content: center;
+
+    gap: clamp(10px, 1.6vw, 18px);
+
+    width: 100%;
+    max-width: 1160px;
+
+    margin: 20px auto 0;
+  }
+
+  .chess-info {
+    grid-area: info;
+
+    width: 100%;
+    max-width: 220px;
+
+    min-width: 0;
+  }
+
+  .chess-board-panel {
+    grid-area: board;
+
+    width: 100%;
+    min-width: 0;
+  }
+
+  .chess-captured {
+    grid-area: captured;
+
+    width: 100%;
+    max-width: 220px;
+
+    min-width: 0;
+  }
+
+  .chess-board-frame {
+    width: min(560px, 100%);
+  }
+}
+
+
+/* =========================================================
+   XADREZ — TABLET RETRATO
+========================================================= */
+
+@media (min-width: 521px) and (max-width: 899px) and (orientation: portrait) {
+
+  .container:has(.chess-page) {
+    max-width: 760px;
+  }
+
+  .chess-layout {
+    grid-template-columns: 1fr;
+
+    grid-template-areas:
+      "info"
+      "board"
+      "captured";
+
+    gap: 18px;
+  }
+
+  .chess-info {
+    grid-area: info;
+  }
+
+  .chess-board-panel {
+    grid-area: board;
+  }
+
+  .chess-captured {
+    grid-area: captured;
+  }
+
+  .chess-board-frame {
+    width: min(680px, 100%);
+  }
+}
+
+
+/* =========================================================
+   XADREZ — CELULAR RETRATO
+========================================================= */
+
+@media (max-width: 520px) and (orientation: portrait) {
+
+  .container:has(.chess-page) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .chess-layout {
+    grid-template-columns: 1fr;
+
+    grid-template-areas:
+      "info"
+      "captured"
+      "board";
+
+    gap: 16px;
+  }
+
+  .chess-info {
+    grid-area: info;
+  }
+
+  .chess-captured {
+    grid-area: captured;
+  }
+
+  .chess-board-panel {
+    grid-area: board;
+  }
+
+  .chess-board-frame {
+    width: 100%;
+
+    padding: 5px;
+
+    border-radius: 18px;
+  }
+
+  .chess-files {
+    padding-left: 13px;
+    padding-right: 13px;
+
+    font-size: .58rem;
+  }
+
+  .chess-board-row {
+    grid-template-columns:
+      12px
+      minmax(0, 1fr)
+      12px;
+
+    gap: 2px;
+  }
+
+  .chess-ranks {
+    font-size: .58rem;
+  }
+
+  .chess-piece {
+    /*
+       Em celular, a casa é a referência visual.
+       A peça fica propositalmente menor para que
+       nenhuma peça ultrapasse o quadrado.
+    */
+    width: 82%;
+    height: 82%;
+
+    font-size: clamp(
+      1.05rem,
+      8.8vw,
+      2.9rem
+    );
+
+    line-height: .78;
+  }
+
+  .chess-square.selected {
+    box-shadow:
+      inset 0 0 0 2px var(--gold);
+  }
+
+  .chess-captured {
+    gap: 12px;
+  }
+
+  .chess-label,
+  .chess-status-label {
+    font-size: .72rem;
+  }
+
+  .chess-piece-row .chess-piece {
+    font-size: 1.35rem;
+  }
+
+  .chess-status strong {
+    font-size: 1.05rem;
+  }
+
+  .chess-turn-text {
+    font-size: .8rem;
+  }
+
+  .chess-moves {
+    max-height: 220px;
+  }
+}
+
+
+/* =========================================================
+   XADREZ — CELULAR / TABLET PAISAGEM
+========================================================= */
+
+/*
+   Qualquer aparelho abaixo de 900px em paisagem
+   usa o layout horizontal:
+
+   INFO | TABULEIRO | CAPTURADAS
+
+   As colunas são fluidas para o tabuleiro nunca
+   provocar overflow horizontal.
+*/
+
+@media (max-width: 899px) and (orientation: landscape) {
+
+  .container:has(.chess-page) {
+    width: 100%;
+    max-width: 100%;
+
+    padding-left: clamp(8px, 2vw, 16px);
+    padding-right: clamp(8px, 2vw, 16px);
+  }
+
+  .chess-layout {
+    grid-template-columns:
+      minmax(60px, .22fr)
+      minmax(150px, .56fr)
+      minmax(60px, .22fr);
+
+    grid-template-areas:
+      "info board captured";
+
+    gap: clamp(6px, 1.5vw, 12px);
+
+    width: 100%;
+    max-width: 100%;
+
+    margin-top: 14px;
+
+    align-items: stretch;
+  }
+
+  .chess-info {
+    grid-area: info;
+
+    width: 100%;
+    min-width: 0;
+  }
+
+  .chess-board-panel {
+    grid-area: board;
+
+    width: 100%;
+    min-width: 0;
+  }
+
+  .chess-captured {
+    grid-area: captured;
+
+    width: 100%;
+    min-width: 0;
+
+    gap: 10px;
+  }
+
+  .chess-board-frame {
+    width: 100%;
+
+    padding: clamp(3px, 1vw, 7px);
+
+    border-radius:
+      clamp(10px, 2vw, 16px);
+  }
+
+  .chess-files {
+    padding:
+      2px
+      clamp(10px, 3vw, 20px);
+
+    font-size:
+      clamp(.5rem, 1.5vw, .65rem);
+  }
+
+  .chess-board-row {
+    grid-template-columns:
+      clamp(10px, 2.8vw, 15px)
+      minmax(0, 1fr)
+      clamp(10px, 2.8vw, 15px);
+
+    gap: 2px;
+  }
+
+  .chess-ranks {
+    font-size:
+      clamp(.5rem, 1.5vw, .65rem);
+  }
+
+  .chess-piece {
+    width: 80%;
+    height: 80%;
+    font-size:
+      clamp(.9rem, 6.2vw, 2.8rem);
+    line-height: .76;
+  }
+
+  .chess-square.selected {
+    box-shadow:
+      inset 0 0 0 2px var(--gold);
+  }
+
+  .chess-label,
+  .chess-status-label {
+    margin-bottom: 5px;
+
+    font-size:
+      clamp(.58rem, 1.5vw, .7rem);
+  }
+
+  .chess-status {
+    margin-bottom: 9px;
+  }
+
+  .chess-status strong {
+    font-size:
+      clamp(.8rem, 2vw, 1rem);
+  }
+
+  .chess-turn-text {
+    font-size:
+      clamp(.62rem, 1.7vw, .76rem);
+
+    line-height: 1.35;
+  }
+
+  .chess-piece-row {
+    min-height: 24px;
+
+    gap: 0;
+  }
+
+  .chess-piece-row .chess-piece {
+    font-size:
+      clamp(.8rem, 4vw, 1.4rem);
+  }
+
+  .chess-actions {
+    margin-top: 10px;
+  }
+
+  .chess-actions .btn {
+    width: 100%;
+
+    min-height: 40px;
+
+    padding:
+      9px
+      10px;
+
+    font-size:
+      clamp(.65rem, 1.7vw, .82rem);
+  }
+
+  .chess-moves-section {
+    margin-top: 14px;
+  }
+
+  .chess-moves {
+    max-height: 150px;
+
+    padding-left: 18px;
+
+    font-size:
+      clamp(.58rem, 1.5vw, .7rem);
+  }
+
+  .chess-moves li {
+    padding: 2px 0;
+  }
+}
+
+@media (max-width: 380px) { .chess-board-frame { padding: 4px; } }

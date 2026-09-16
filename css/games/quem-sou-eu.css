@@ -1,0 +1,185 @@
+/* =========================================================
+   QUEM SOU EU
+========================================================= */
+
+.whoami-panel {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.whoami-intro {
+  max-width: 58ch;
+  margin-bottom: 24px;
+}
+
+.whoami-kicker {
+  margin-bottom: 5px;
+  color: var(--coral);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.whoami-intro h2 {
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  line-height: 1.15;
+}
+
+.whoami-intro > p:last-child {
+  margin-top: 8px;
+  color: var(--text-dim);
+  font-size: .9rem;
+}
+
+.whoami-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.whoami-choice-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--panel-2);
+}
+
+.whoami-choice-card h3 {
+  font-size: 1.15rem;
+}
+
+.whoami-choice-card p {
+  color: var(--text-dim);
+  font-size: .82rem;
+  line-height: 1.5;
+}
+
+.whoami-choice-card .btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+.whoami-choice-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.whoami-theme-grid,
+.whoami-time-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.whoami-theme-option,
+.whoami-time-option {
+  min-width: 0;
+  min-height: 58px;
+  padding: 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+  color: var(--text);
+  font: inherit;
+  font-size: .86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .12s ease;
+}
+
+.whoami-theme-option:hover,
+.whoami-time-option:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+.whoami-theme-option.selected,
+.whoami-time-option.selected {
+  border-color: var(--gold);
+  background: rgba(242, 193, 78, .10);
+  box-shadow: 0 0 0 2px rgba(242, 193, 78, .07);
+}
+
+.whoami-nav {
+  justify-content: flex-end;
+}
+
+.whoami-ready-panel {
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.whoami-ready-panel .whoami-ready-icon {
+  margin-bottom: 12px;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.whoami-ready-panel h2 {
+  overflow-wrap: anywhere;
+}
+
+.whoami-ready-panel > p:last-of-type {
+  margin-top: 7px;
+  color: var(--text-dim);
+  font-size: .9rem;
+}
+
+.whoami-ready-panel .whoami-nav {
+  justify-content: center;
+}
+
+.whoami-curtain-placeholder {
+  min-height: calc(100dvh - 90px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.whoami-curtain-symbol {
+  font-size: 3.2rem;
+}
+
+.whoami-curtain-placeholder h2 {
+  font-size: 2rem;
+}
+
+.whoami-curtain-placeholder p {
+  color: var(--text-dim);
+}
+
+@media (max-width: 520px) {
+  .whoami-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .whoami-theme-grid,
+  .whoami-time-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .whoami-nav > .btn {
+    flex: 1 1 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .whoami-theme-grid,
+  .whoami-time-grid {
+    grid-template-columns: 1fr;
+  }
+}
