@@ -9,14 +9,31 @@ function renderQuemSouEu() {
     mode: null,
     theme: null,
     customName: '',
-    time: null
+    time: null,
+    currentName: '',
+    remainingTime: null,
+    roundNumber: 0,
+    usedNames: [],
+    status: 'setup'
   };
 
+  let timer = null;
+  let countdownTimer = null;
+
   renderModeChoice();
+
+  wrap.cleanup = () => {
+    stopTimer();
+    stopCountdown();
+  };
 
   return wrap;
 
   function renderModeChoice() {
+    stopTimer();
+    stopCountdown();
+    state.status = 'setup';
+
     wrap.innerHTML = `
       <div id="gameHeader"></div>
 
@@ -50,11 +67,13 @@ function renderQuemSouEu() {
     });
 
     themeBtn.addEventListener('click', () => {
+      sound.click();
       state.mode = 'theme';
       renderThemeChoice();
     });
 
     freeBtn.addEventListener('click', () => {
+      sound.click();
       state.mode = 'free';
       renderFreeName();
     });
@@ -112,6 +131,7 @@ function renderQuemSouEu() {
       }
 
       button.addEventListener('click', () => {
+        sound.click();
         state.theme = theme;
 
         themeChoices
@@ -141,10 +161,14 @@ function renderQuemSouEu() {
 
     continueBtn.disabled = !state.theme;
 
-    backBtn.addEventListener('click', renderModeChoice);
+    backBtn.addEventListener('click', () => {
+      sound.click();
+      renderModeChoice();
+    });
 
     continueBtn.addEventListener('click', () => {
       if (!state.theme) return;
+      sound.click();
       renderTimeChoice();
     });
 
@@ -195,19 +219,24 @@ function renderQuemSouEu() {
       className: 'btn btn-primary'
     });
 
-    continueBtn.disabled = true;
+    continueBtn.disabled = !state.customName;
+    input.value = state.customName;
 
     input.addEventListener('input', () => {
       state.customName = input.value.trim();
       continueBtn.disabled = state.customName.length === 0;
     });
 
-    backBtn.addEventListener('click', renderModeChoice);
+    backBtn.addEventListener('click', () => {
+      sound.click();
+      renderModeChoice();
+    });
 
     continueBtn.addEventListener('click', () => {
       state.customName = input.value.trim();
 
       if (!state.customName) return;
+      sound.click();
       renderTimeChoice();
     });
 
@@ -262,6 +291,7 @@ function renderQuemSouEu() {
       }
 
       button.addEventListener('click', () => {
+        sound.click();
         state.time = option.value;
 
         timeChoices
@@ -292,6 +322,8 @@ function renderQuemSouEu() {
     prepareBtn.disabled = state.time === null;
 
     backBtn.addEventListener('click', () => {
+      sound.click();
+
       if (state.mode === 'theme') {
         renderThemeChoice();
       } else {
@@ -301,67 +333,340 @@ function renderQuemSouEu() {
 
     prepareBtn.addEventListener('click', () => {
       if (state.time === null) return;
-      renderReady();
+      sound.click();
+      prepareRound();
     });
 
     timeNav.append(backBtn, prepareBtn);
   }
 
-  function renderReady() {
-    const displayName =
-      state.mode === 'theme'
-        ? state.theme.nome
-        : state.customName;
+  function prepareRound() {
+    state.currentName = drawName();
+    state.remainingTime = state.time;
+    state.roundNumber += 1;
+    state.status = 'curtain';
 
-    const timeLabel =
-      state.time === Infinity
-        ? 'Sem tempo'
-        : `${formatTime(state.time)} de rodada`;
+    renderCurtain();
+  }
+
+  function renderCurtain() {
+    stopTimer();
+    stopCountdown();
 
     wrap.innerHTML = `
-      <div id="gameHeader"></div>
+      <div class="whoami-curtain-screen">
+        <div class="whoami-curtain-panel whoami-curtain-left"></div>
+        <div class="whoami-curtain-panel whoami-curtain-right"></div>
 
-      <div class="panel whoami-ready-panel">
-        <div class="whoami-ready-icon">🎭</div>
-        <p class="whoami-kicker">JOGO PREPARADO</p>
-        <h2>${displayName}</h2>
-        <p>${timeLabel}</p>
-        <div class="btn-row whoami-nav" id="readyNav"></div>
+        <div class="whoami-curtain-content">
+          <div class="whoami-curtain-icon">🎭</div>
+          <p class="whoami-kicker">RODADA ${state.roundNumber}</p>
+          <h2>A pessoa está pronta?</h2>
+          <p>Entreguem o celular para quem vai descobrir.</p>
+          <button type="button" class="btn btn-primary whoami-start-btn" id="whoamiStart">
+            Começar
+          </button>
+        </div>
       </div>
     `;
 
-    appendHeader(
-      wrap.querySelector('#gameHeader'),
-      'Preparar jogo',
-      'A próxima etapa será a cortina fechada antes de começar a rodada.'
-    );
+    wrap.querySelector('#whoamiStart').addEventListener('click', () => {
+      sound.click();
+      beginCountdown();
+    });
+  }
 
-    const readyNav = wrap.querySelector('#readyNav');
+  function beginCountdown() {
+    stopCountdown();
+    state.status = 'countdown';
 
-    const backBtn = uiButton({
-      text: 'Voltar',
-      className: 'btn btn-ghost'
+    const content = wrap.querySelector('.whoami-curtain-content');
+    if (!content) return;
+
+    let number = 3;
+    content.innerHTML = `
+      <div class="whoami-countdown" id="whoamiCountdown">${number}</div>
+      <p class="whoami-countdown-label">Preparem-se...</p>
+    `;
+
+    countdownTimer = setInterval(() => {
+      number -= 1;
+
+      const countdown = wrap.querySelector('#whoamiCountdown');
+      if (countdown && number > 0) {
+        countdown.textContent = number;
+        countdown.classList.remove('whoami-countdown-pop');
+        void countdown.offsetWidth;
+        countdown.classList.add('whoami-countdown-pop');
+        return;
+      }
+
+      stopCountdown();
+      openCurtain();
+    }, 1000);
+
+    const countdown = wrap.querySelector('#whoamiCountdown');
+    countdown?.classList.add('whoami-countdown-pop');
+  }
+
+  function openCurtain() {
+    state.status = 'round';
+
+    const curtain = wrap.querySelector('.whoami-curtain-screen');
+    if (!curtain) return;
+
+    curtain.classList.add('is-opening');
+
+    setTimeout(() => {
+      renderRound();
+    }, 650);
+  }
+
+  function renderRound() {
+    stopTimer();
+    state.status = 'round';
+
+    wrap.innerHTML = `
+      <div class="whoami-round-screen">
+        <div class="whoami-round-top">
+          <span class="mode-badge">QUEM SOU EU?</span>
+          <span class="whoami-round-label">Rodada ${state.roundNumber}</span>
+        </div>
+
+        <div class="whoami-round-main">
+          <p class="whoami-round-kicker">VOCÊ É...</p>
+          <h1 class="whoami-name" id="whoamiNameDisplay"></h1>
+
+          <div class="whoami-timer-wrap">
+            <div
+              class="whoami-timer"
+              id="whoamiTimer"
+              aria-live="polite"
+            ></div>
+            <div class="whoami-timer-track" aria-hidden="true">
+              <div class="whoami-timer-fill" id="whoamiTimerFill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="whoami-round-actions">
+          <button type="button" class="whoami-action-btn whoami-action-wrong" id="whoamiWrong">
+            <span>✕</span>
+            Errou
+          </button>
+          <button type="button" class="whoami-action-btn whoami-action-right" id="whoamiRight">
+            <span>✓</span>
+            Acertou
+          </button>
+        </div>
+
+        ${state.time !== Infinity ? `
+          <button type="button" class="whoami-add-time" id="whoamiAddTime">
+            +15 segundos
+          </button>
+        ` : ''}
+      </div>
+    `;
+
+    wrap.querySelector('#whoamiNameDisplay').textContent = state.currentName;
+
+    wrap.querySelector('#whoamiWrong').addEventListener('click', () => {
+      sound.click();
+      wrongAnswer();
     });
 
-    const startBtn = uiButton({
-      text: 'Continuar',
+    wrap.querySelector('#whoamiRight').addEventListener('click', () => {
+      sound.click();
+      endRound('acertou');
+    });
+
+    wrap.querySelector('#whoamiAddTime')?.addEventListener('click', () => {
+      sound.click();
+
+      if (state.remainingTime === Infinity) return;
+
+      state.remainingTime += 15;
+      renderTimerValues();
+    });
+
+    renderTimerValues();
+
+    if (state.time !== Infinity) {
+      startTimer();
+    }
+  }
+
+  function wrongAnswer() {
+    const wrong = wrap.querySelector('#whoamiWrong');
+    if (!wrong) return;
+
+    wrong.classList.remove('is-pressed');
+    void wrong.offsetWidth;
+    wrong.classList.add('is-pressed');
+  }
+
+  function startTimer() {
+    stopTimer();
+
+    timer = setInterval(() => {
+      state.remainingTime -= 1;
+      renderTimerValues();
+
+      if (state.remainingTime <= 0) {
+        state.remainingTime = 0;
+        stopTimer();
+        timeUp();
+      }
+    }, 1000);
+  }
+
+  function renderTimerValues() {
+    const timerEl = wrap.querySelector('#whoamiTimer');
+    const fill = wrap.querySelector('#whoamiTimerFill');
+
+    if (!timerEl) return;
+
+    if (state.remainingTime === Infinity) {
+      timerEl.textContent = '∞';
+      if (fill) fill.style.width = '100%';
+      return;
+    }
+
+    timerEl.textContent = formatClock(state.remainingTime);
+
+    const total = Math.max(state.time, 1);
+    const percentage = Math.max(
+      0,
+      Math.min(100, (state.remainingTime / total) * 100)
+    );
+
+    if (fill) {
+      fill.style.width = `${percentage}%`;
+    }
+  }
+
+  function timeUp() {
+    state.status = 'timeup';
+    sound.timerStop();
+    renderResult('tempo');
+  }
+
+  function endRound(result) {
+    stopTimer();
+    state.status = result;
+    renderResult(result);
+  }
+
+  function renderResult(result) {
+    const title = result === 'acertou' ? 'Acertou!' : 'Tempo esgotado!';
+    const icon = result === 'acertou' ? '🎉' : '⏰';
+    const description =
+      result === 'acertou'
+        ? 'Mandou bem. A rodada terminou.'
+        : 'O tempo acabou antes da resposta.';
+
+    wrap.innerHTML = `
+      <div class="whoami-result-screen">
+        <div class="whoami-result-card">
+          <div class="whoami-result-icon">${icon}</div>
+          <p class="whoami-kicker">RODADA ${state.roundNumber}</p>
+          <h2>${title}</h2>
+          <p>${description}</p>
+
+          <div class="whoami-result-answer">
+            <span>A resposta era</span>
+            <strong id="whoamiResultName"></strong>
+          </div>
+
+          <div class="whoami-result-actions" id="whoamiResultActions"></div>
+        </div>
+      </div>
+    `;
+
+    wrap.querySelector('#whoamiResultName').textContent = state.currentName;
+
+    const actions = wrap.querySelector('#whoamiResultActions');
+
+    const againBtn = uiButton({
+      text: state.mode === 'theme' ? 'Nova rodada' : 'Novo nome',
       className: 'btn btn-primary'
     });
 
-    backBtn.addEventListener('click', renderTimeChoice);
-    startBtn.addEventListener('click', renderPlaceholderReady);
+    const setupBtn = uiButton({
+      text: 'Trocar configuração',
+      className: 'btn btn-ghost'
+    });
 
-    readyNav.append(backBtn, startBtn);
+    againBtn.addEventListener('click', () => {
+      sound.click();
+
+      if (state.mode === 'theme') {
+        renderNextThemeRound();
+      } else {
+        renderFreeName();
+      }
+    });
+
+    setupBtn.addEventListener('click', () => {
+      sound.click();
+      renderModeChoice();
+    });
+
+    actions.append(againBtn, setupBtn);
   }
 
-  function renderPlaceholderReady() {
-    wrap.innerHTML = `
-      <div class="whoami-curtain-placeholder">
-        <div class="whoami-curtain-symbol">🎭</div>
-        <h2>Pronto.</h2>
-        <p>A cortina entra na próxima etapa.</p>
-      </div>
-    `;
+  function renderNextThemeRound() {
+    if (!state.theme) {
+      renderThemeChoice();
+      return;
+    }
+
+    state.currentName = drawName();
+    state.remainingTime = state.time;
+    state.roundNumber += 1;
+    state.status = 'curtain';
+
+    renderCurtain();
+  }
+
+  function drawName() {
+    if (state.mode === 'free') {
+      return state.customName;
+    }
+
+    const names = state.theme?.nomes || [];
+
+    if (!names.length) {
+      return 'Sem nome cadastrado';
+    }
+
+    const available = names.filter(
+      (name) => !state.usedNames.includes(name)
+    );
+
+    if (available.length === 0) {
+      state.usedNames = [];
+      available.push(...names);
+    }
+
+    const name = available[Math.floor(Math.random() * available.length)];
+    state.usedNames.push(name);
+
+    return name;
+  }
+
+  function stopTimer() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  function stopCountdown() {
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+    }
   }
 
   function appendHeader(target, title, description) {
@@ -389,18 +694,9 @@ function renderQuemSouEu() {
     return card;
   }
 
-  function formatTime(seconds) {
+  function formatClock(seconds) {
     const minutes = Math.floor(seconds / 60);
     const rest = seconds % 60;
-
-    if (minutes === 0) {
-      return `${rest}s`;
-    }
-
-    if (rest === 0) {
-      return `${minutes} min`;
-    }
-
-    return `${minutes}min ${rest}s`;
+    return `${String(minutes).padStart(2, '0')}:${String(rest).padStart(2, '0')}`;
   }
 }
