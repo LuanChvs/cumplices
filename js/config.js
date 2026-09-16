@@ -5,7 +5,10 @@
 const SINTONIA = window.DATA.sintonia;
 const VERDADES = window.DATA.verdades;
 const DESAFIOS = window.DATA.desafios;
+const VERDADES_RESENHA = window.DATA.verdadesResenha;
+const DESAFIOS_RESENHA = window.DATA.desafiosResenha;
 const QUIZ_PERGUNTAS = window.DATA.quizPerguntas;
+const QUIZ_PERGUNTAS_RESENHA = window.DATA.quizPerguntasResenha;
 const STOP_TEMAS = window.DATA.stopTemas;
 const STOP_LETRAS = window.DATA.stopLetras;
 
