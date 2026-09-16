@@ -61,5 +61,14 @@ const games = {
       icon: ICONS.xadrez,
       render: renderXadrez,
       fullscreen: true
+    },
+    quemSouEu: {
+      id: 'quem-sou-eu',
+      title: 'Quem Sou Eu',
+      route: '/quem-sou-eu',
+      description: 'Descubram quem ou o que está na sua cabeça antes que o tempo acabe.',
+      color: 'coral',
+      icon: ICONS.quemSouEu,
+      render: renderQuemSouEu
     }
   };
