@@ -51,19 +51,27 @@ function renderQuemSouEu() {
 
     themeBtn.addEventListener('click', () => {
       state.mode = 'theme';
-      sound.click();
       renderThemeChoice();
     });
 
     freeBtn.addEventListener('click', () => {
       state.mode = 'free';
-      sound.click();
       renderFreeName();
     });
 
     choices.append(
-      createChoiceCard('🎲', 'Escolher tema', 'O jogo sorteia um nome dentro do tema escolhido.', themeBtn),
-      createChoiceCard('✍️', 'Nome livre', 'Vocês escrevem exatamente quem ou o que será descoberto.', freeBtn)
+      createChoiceCard(
+        '🎲',
+        'Escolher tema',
+        'O jogo sorteia um nome dentro do tema escolhido.',
+        themeBtn
+      ),
+      createChoiceCard(
+        '✍️',
+        'Nome livre',
+        'Vocês escrevem exatamente quem ou o que será descoberto.',
+        freeBtn
+      )
     );
   }
 
@@ -79,7 +87,6 @@ function renderQuemSouEu() {
         </div>
 
         <div class="whoami-theme-grid" id="themeChoices"></div>
-
         <div class="btn-row whoami-nav" id="themeNav"></div>
       </div>
     `;
@@ -93,8 +100,6 @@ function renderQuemSouEu() {
     const themeChoices = wrap.querySelector('#themeChoices');
     const themeNav = wrap.querySelector('#themeNav');
 
-    QUIZ_NOPREFERENCE;
-
     QUEM_SOU_EU.temas.forEach((theme) => {
       const button = document.createElement('button');
       button.type = 'button';
@@ -107,7 +112,6 @@ function renderQuemSouEu() {
       }
 
       button.addEventListener('click', () => {
-        sound.click();
         state.theme = theme;
 
         themeChoices
@@ -119,7 +123,7 @@ function renderQuemSouEu() {
             );
           });
 
-        updateThemeContinue();
+        continueBtn.disabled = false;
       });
 
       themeChoices.appendChild(button);
@@ -132,26 +136,19 @@ function renderQuemSouEu() {
 
     const continueBtn = uiButton({
       text: 'Continuar',
-      className: 'btn btn-primary',
-      attributes: { disabled: 'true' }
+      className: 'btn btn-primary'
     });
 
-    backBtn.addEventListener('click', () => {
-      sound.click();
-      renderModeChoice();
-    });
+    continueBtn.disabled = !state.theme;
+
+    backBtn.addEventListener('click', renderModeChoice);
 
     continueBtn.addEventListener('click', () => {
       if (!state.theme) return;
-      sound.click();
       renderTimeChoice();
     });
 
     themeNav.append(backBtn, continueBtn);
-
-    function updateThemeContinue() {
-      continueBtn.disabled = !state.theme;
-    }
   }
 
   function renderFreeName() {
@@ -205,22 +202,16 @@ function renderQuemSouEu() {
       continueBtn.disabled = state.customName.length === 0;
     });
 
-    backBtn.addEventListener('click', () => {
-      sound.click();
-      renderModeChoice();
-    });
+    backBtn.addEventListener('click', renderModeChoice);
 
     continueBtn.addEventListener('click', () => {
       state.customName = input.value.trim();
 
       if (!state.customName) return;
-
-      sound.click();
       renderTimeChoice();
     });
 
     freeNav.append(backBtn, continueBtn);
-
     input.focus();
   }
 
@@ -236,7 +227,6 @@ function renderQuemSouEu() {
         </div>
 
         <div class="whoami-time-grid" id="timeChoices"></div>
-
         <div class="btn-row whoami-nav" id="timeNav"></div>
       </div>
     `;
@@ -272,7 +262,6 @@ function renderQuemSouEu() {
       }
 
       button.addEventListener('click', () => {
-        sound.click();
         state.time = option.value;
 
         timeChoices
@@ -300,14 +289,9 @@ function renderQuemSouEu() {
       className: 'btn btn-primary'
     });
 
-    prepareBtn.disabled = !Number.isFinite(state.time) && state.time !== Infinity;
-    if (state.time !== null) {
-      prepareBtn.disabled = false;
-    }
+    prepareBtn.disabled = state.time === null;
 
     backBtn.addEventListener('click', () => {
-      sound.click();
-
       if (state.mode === 'theme') {
         renderThemeChoice();
       } else {
@@ -317,8 +301,6 @@ function renderQuemSouEu() {
 
     prepareBtn.addEventListener('click', () => {
       if (state.time === null) return;
-
-      sound.click();
       renderReady();
     });
 
@@ -366,15 +348,8 @@ function renderQuemSouEu() {
       className: 'btn btn-primary'
     });
 
-    backBtn.addEventListener('click', () => {
-      sound.click();
-      renderTimeChoice();
-    });
-
-    startBtn.addEventListener('click', () => {
-      sound.click();
-      renderPlaceholderReady();
-    });
+    backBtn.addEventListener('click', renderTimeChoice);
+    startBtn.addEventListener('click', renderPlaceholderReady);
 
     readyNav.append(backBtn, startBtn);
   }
