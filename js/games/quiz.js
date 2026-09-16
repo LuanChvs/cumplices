@@ -11,7 +11,12 @@ function renderQuiz() {
 
 
   function startRound() {
-    const order = shuffle(QUIZ_PERGUNTAS);
+    const perguntas =
+      preferences.resenha
+        ? QUIZ_PERGUNTAS.concat(QUIZ_PERGUNTAS_RESENHA)
+        : QUIZ_PERGUNTAS;
+
+    const order = shuffle(perguntas);
 
     const state = createGameState({
       order,
