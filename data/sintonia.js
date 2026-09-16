@@ -10,6 +10,9 @@ window.DATA.sintonia = [
     "Qual viagem vocês fizeram que você nunca vai esquecer?",
     "Teve alguma briga boba que hoje faz vocês rirem?",
     "Qual foi o presente mais marcante que você já recebeu do outro?"
+  ], perguntasResenha:[
+    "Qual foi a situação mais engraçada que você viveu com seus amigos?",
+    "Qual lembrança de uma festa ou rolê você nunca esquece?"
   ]},
   { nome:"Desejos", cor:"var(--gold)", perguntas:[
     "Que lugar do mundo vocês ainda não conheceram, mas sonham em ir juntos?",
@@ -20,6 +23,9 @@ window.DATA.sintonia = [
     "Qual seria o presente perfeito pra vocês dois nesse momento da vida?",
     "Que tipo de casa vocês imaginam ter um dia?",
     "Se pudessem realizar um desejo juntos amanhã, qual seria?"
+  ], perguntasResenha:[
+    "Se pudesse viajar amanhã com seus amigos, para onde iria?",
+    "Qual experiência você adoraria viver com sua turma?"
   ]},
   { nome:"Confissões", cor:"var(--teal)", perguntas:[
     "Existe algo que você nunca contou pro outro por vergonha?",
@@ -30,6 +36,9 @@ window.DATA.sintonia = [
     "Qual foi o pensamento mais bobo que você já teve sobre a relação?",
     "Existe alguma insegurança sua que a relação ajudou a curar?",
     "Qual foi a vez que você quase estragou tudo sem querer?"
+  ], perguntasResenha:[
+    "Qual segredo bobo você já escondeu dos seus amigos?",
+    "Qual foi a desculpa mais criativa que você já deu para não sair?"
   ]},
   { nome:"Só rindo", cor:"var(--lav)", perguntas:[
     "Se o outro fosse um desenho animado, qual seria?",
@@ -40,6 +49,9 @@ window.DATA.sintonia = [
     "Qual seria o hit que tocaria toda vez que vocês entrassem numa festa juntos?",
     "Se a relação de vocês fosse um filme, que gênero seria?",
     "Qual seria a profissão mais improvável pro outro?"
+  ], perguntasResenha:[
+    "Qual amigo seu seria mais provável de sobreviver a um apocalipse?",
+    "Qual foi a coisa mais absurda que alguém da sua turma já fez?"
   ]},
   { nome:"Se pudesse", cor:"var(--coral)", perguntas:[
     "Se pudesse trocar de corpo com o outro por um dia, o que você faria?",
@@ -50,6 +62,9 @@ window.DATA.sintonia = [
     "Se pudessem reviver um dia da relação, qual escolheriam?",
     "Se tivessem que criar uma regra nova pro relacionamento, qual seria?",
     "Se pudessem ter um superpoder como casal, qual seria?"
+  ], perguntasResenha:[
+    "Se sua turma ganhasse uma viagem grátis, para onde vocês iriam?",
+    "Se pudesse trocar de vida com qualquer pessoa famosa por um dia, quem escolheria?"
   ]},
   { nome:"Daqui a 10 anos", cor:"var(--sage)", perguntas:[
     "Como vocês imaginam a vida de vocês daqui a 10 anos?",
@@ -60,5 +75,8 @@ window.DATA.sintonia = [
     "Qual hábito de hoje vocês quer manter para sempre?",
     "Onde vocês imaginam passar as férias quando forem mais velhos?",
     "O que vocês esperam que nunca mude entre vocês dois?"
+  ], perguntasResenha:[
+    "Como você imagina sua turma de amigos daqui a 10 anos?",
+    "Qual amigo você acha que vai mudar menos ao longo dos anos?"
   ]}
 ];
