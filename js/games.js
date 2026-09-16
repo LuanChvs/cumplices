@@ -69,7 +69,6 @@ const games = {
       description: 'Descubram quem ou o que está na sua cabeça antes que o tempo acabe.',
       color: 'coral',
       icon: ICONS.quemSouEu,
-      render: renderQuemSouEu,
-      fullscreen: true
+      render: renderQuemSouEu
     }
   };
