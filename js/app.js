@@ -114,35 +114,6 @@ const gameModeSwitch =
 const gameModeMediaQuery =
   window.matchMedia('(orientation: landscape)');
 
-function isLandscape() {
-  return gameModeMediaQuery.matches;
-}
-
-function isSmallLandscape() {
-  return (
-    isLandscape() &&
-    window.innerWidth <= 899
-  );
-}
-
-function syncGameMode() {
-  const hash =
-    location.hash.replace('#', '') || '/';
-
-  const route =
-    routes[hash] || routes['/'];
-
-  const enabled =
-    Boolean(route?.gameMode) &&
-    isLandscape() &&
-    (isSmallLandscape() || preferences.gameMode === true);
-
-  setGameMode(
-    enabled,
-    enabled && route?.fullscreen === true
-  );
-}
-
 function updateGameModeSettingVisibility() {
   if (!gameModeSetting) return;
 
@@ -195,23 +166,12 @@ if (gameModeSettingButton) {
 
 window.addEventListener(
   'resize',
-  () => {
-    updateGameModeSettingVisibility();
-    syncGameMode();
-  }
+  updateGameModeSettingVisibility
 );
 
 window.addEventListener(
   'orientationchange',
-  () => {
-    updateGameModeSettingVisibility();
-    syncGameMode();
-  }
-);
-
-window.addEventListener(
-  'hashchange',
-  syncGameMode
+  updateGameModeSettingVisibility
 );
 
 
