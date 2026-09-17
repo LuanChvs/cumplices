@@ -468,8 +468,8 @@ function renderQuemSouEu() {
     `;
 
     /*
-      Auto-fit do nome — usa o helper
-      que reduz a fonte se estourar.
+      Auto-fit do nome — reserva uma altura fixa
+      equivalente ao nome em uma única linha.
     */
 
     renderWhoamiName(state.currentName);
@@ -496,6 +496,7 @@ function renderQuemSouEu() {
       startTimer();
     }
   }
+
   function startTimer() {
     stopTimer();
 
@@ -704,26 +705,11 @@ function renderQuemSouEu() {
 
 /* =========================================================
    AUTO-FIT DO NOME — Quem sou eu
-   Ajusta pra caber em LARGURA e ALTURA ao mesmo tempo.
+   Altura máxima = a altura que o mesmo nome teria em uma linha.
 ========================================================= */
 
 function fitWhoamiName(el) {
   if (!el) return;
-
-  /*
-    1. Reset: devolve tudo ao estado do CSS.
-  */
-
-  el.style.fontSize = '';
-  el.style.whiteSpace = '';
-  el.style.overflowWrap = '';
-  el.style.wordBreak = '';
-  el.style.lineHeight = '';
-
-  /*
-    2. Pega o pai direto (o .whoami-round-main).
-    É ele que define o "espaço total" disponível.
-  */
 
   const main = el.parentElement;
   if (!main) return;
@@ -731,20 +717,39 @@ function fitWhoamiName(el) {
   const mainRect = main.getBoundingClientRect();
 
   if (!mainRect.width || !mainRect.height) {
-    /*
-      Ainda não foi pintado. Tenta de novo no próximo frame.
-    */
-
     requestAnimationFrame(() => fitWhoamiName(el));
     return;
   }
 
   /*
-    3. Calcula quanto do pai está sendo ocupado
-    por OUTROS elementos (kicker, timer, etc).
-    O que sobra é o espaço do nome.
+    Limpa qualquer ajuste anterior para o cálculo
+    começar sempre do CSS original.
   */
 
+  el.style.fontSize = '';
+  el.style.height = '';
+  el.style.minHeight = '';
+  el.style.maxHeight = '';
+  el.style.flex = '';
+  el.style.whiteSpace = 'nowrap';
+  el.style.overflowWrap = 'normal';
+  el.style.wordBreak = 'normal';
+  el.style.lineHeight = '';
+
+  const maxWidth = mainRect.width;
+
+  /*
+    Calcula primeiro a altura REAL de uma linha.
+    Para isso, o nome fica temporariamente sem quebra.
+  */
+  let size = parseFloat(getComputedStyle(el).fontSize);
+  const maxSize = size;
+  const minSize = Math.max(18, maxSize * 0.22);
+
+  /*
+    Mede o espaço realmente disponível entre o kicker
+    e o timer. O nome nunca poderá ocupar mais que isso.
+  */
   let reservedHeight = 0;
 
   Array.from(main.children).forEach((child) => {
@@ -759,56 +764,69 @@ function fitWhoamiName(el) {
     reservedHeight += rect.height + mt + mb;
   });
 
-  const maxWidth = mainRect.width;
-  const maxHeight = mainRect.height - reservedHeight;
+  const availableHeight = Math.max(
+    1,
+    mainRect.height - reservedHeight
+  );
 
-  if (maxWidth <= 0 || maxHeight <= 0) return;
-
-  /*
-    4. Tamanhos: começa no máximo do CSS
-    e desce até um mínimo legível.
-  */
-
-  const computed =
-    parseFloat(getComputedStyle(el).fontSize);
-
-  const maxSize = computed;
-  const minSize = Math.max(18, maxSize * 0.22);
+  el.style.fontSize = `${size}px`;
 
   /*
-    5. Modo de medição: permite quebra
-    APENAS entre palavras (nunca no meio).
+    O tamanho de uma linha precisa caber tanto
+    na largura quanto no espaço vertical disponível.
   */
+  while (size > minSize) {
+    const fitsWidth = el.scrollWidth <= maxWidth;
+    const fitsHeight = el.getBoundingClientRect().height <= availableHeight;
 
+    if (fitsWidth && fitsHeight) break;
+
+    size -= 1;
+    el.style.fontSize = `${size}px`;
+  }
+
+  /*
+    Esta é a altura de referência:
+    a altura que "Fogo", por exemplo, usaria.
+  */
+  const singleLineHeight = el.getBoundingClientRect().height;
+  const nameMaxHeight = Math.min(
+    singleLineHeight,
+    availableHeight
+  );
+
+  /*
+    Reserva fisicamente essa altura no layout.
+    Assim, um nome de duas linhas não ganha espaço
+    extra e não empurra timer nem botões.
+  */
+  el.style.height = `${nameMaxHeight}px`;
+  el.style.minHeight = `${nameMaxHeight}px`;
+  el.style.maxHeight = `${nameMaxHeight}px`;
+  el.style.flex = `0 0 ${nameMaxHeight}px`;
+
+  /*
+    Agora pode quebrar somente entre palavras.
+    Se precisar de duas linhas, a fonte diminui
+    até as duas caberem dentro da mesma caixa.
+  */
   el.style.whiteSpace = 'normal';
   el.style.overflowWrap = 'normal';
   el.style.wordBreak = 'normal';
 
-  /*
-    6. Loop: reduz 1px por vez até caber
-    em largura E altura. Para no mínimo.
-  */
-
-  let size = maxSize;
-  el.style.fontSize = size + 'px';
+  size = parseFloat(getComputedStyle(el).fontSize);
+  el.style.fontSize = `${size}px`;
 
   while (size > minSize) {
+    const fitsWidth = el.scrollWidth <= maxWidth;
+    const fitsHeight = el.scrollHeight <= nameMaxHeight;
 
-    const fitsWidth =
-      el.scrollWidth <= maxWidth;
-
-    const fitsHeight =
-      el.scrollHeight <= maxHeight;
-
-    if (fitsWidth && fitsHeight) {
-      break;
-    }
+    if (fitsWidth && fitsHeight) break;
 
     size -= 1;
-    el.style.fontSize = size + 'px';
+    el.style.fontSize = `${size}px`;
   }
 }
-
 
 function renderWhoamiName(name) {
   const el = document.querySelector('.whoami-name');
@@ -828,7 +846,6 @@ function renderWhoamiName(name) {
     });
   });
 }
-
 
 /* =========================================================
    REAJUSTA AO REDIMENSIONAR / GIRAR TELA
