@@ -1,21 +1,20 @@
 /* =========================================================
    EM SINTONIA
-   Base adaptada do jogo de espectro de referência.
+   Mecânica fiel ao Wavelength de referência.
+   Integração visual/armazenamento adaptada ao Cúmplices.
 ========================================================= */
 
 function renderEmSintonia() {
   const root = document.createElement('section');
   root.className = 'em-sintonia';
-  root.style.color = 'var(--accent, #e9a7bd)';
 
-  const cards = window.DATA?.emSintonia || { base: [], advanced: [] };
+  const cards = window.DATA?.emSintonia?.base || [];
+  const STORAGE_NAME = 'em-sintonia.game';
 
   const state = {
-    mode: 'competitive', phase: 'psychic', round: 1, currentTeam: 0,
-    teams: [{ name: 'Time 1', score: 0 }, { name: 'Time 2', score: 0 }],
-    deck: [], deckIndex: 0, spectrum: null,
-    targetAngle: 0, guessAngle: 0, targetVisible: true,
-    sideGuess: null, lastScore: null
+    teams: [], currentTeamIndex: 0, currentClueIndex: -1,
+    targetAngle: 0, currentNeedleAngle: 0,
+    isTargetVisible: true, isPostGuessPhase: false
   };
 
   root.innerHTML = `
@@ -26,196 +25,308 @@ function renderEmSintonia() {
     </header>
     <div class="em-sintonia__turn"><div class="em-sintonia__phase" data-role="phase"></div></div>
     <div class="em-sintonia__score" data-role="score"></div>
-
     <div class="em-sintonia__board-wrap">
       <div class="em-sintonia__board" data-role="board" aria-label="Espectro de Em Sintonia">
-        <div class="em-sintonia__spectrum"></div>
-        <div class="em-sintonia__target is-hidden" data-role="target">
-          <span class="em-sintonia__target-slice"></span><span class="em-sintonia__target-slice"></span>
-          <span class="em-sintonia__target-slice"></span><span class="em-sintonia__target-slice"></span>
-          <span class="em-sintonia__target-slice"></span><span class="em-sintonia__target-center"></span>
+        <div class="em-sintonia__target" data-role="target"></div>
+        <div class="em-sintonia__needle" data-role="needle"><span class="em-sintonia__needle-line"></span></div>
+        <div class="em-sintonia__reveal" data-role="overlay">
+          <div class="em-sintonia__reveal-card"><strong>Toque para começar</strong><span>Veja o alvo e dê uma pista.</span></div>
         </div>
-        <div class="em-sintonia__needle" data-role="needle"><span class="em-sintonia__needle-line"></span><span class="em-sintonia__needle-knob"></span></div>
       </div>
-      <div class="em-sintonia__labels"><span class="em-sintonia__label" data-role="left-label"></span><span class="em-sintonia__label" data-role="right-label"></span></div>
+      <div class="em-sintonia__labels">
+        <span class="em-sintonia__label" data-role="left-label"></span>
+        <span class="em-sintonia__arrow" aria-hidden="true">↔</span>
+        <span class="em-sintonia__label" data-role="right-label"></span>
+      </div>
     </div>
-
-    <div class="em-sintonia__clue"><small>Pista</small><strong data-role="clue">—</strong></div>
-    <div class="em-sintonia__side-buttons" data-role="side-buttons">
-      <button type="button" class="em-sintonia__side-button is-left" data-side="left">Esquerda</button>
-      <button type="button" class="em-sintonia__side-button is-right" data-side="right">Direita</button>
-    </div>
+    <div class="em-sintonia__clue"><small>Pista</small><strong data-role="clue"></strong></div>
     <div class="em-sintonia__actions">
-      <button type="button" class="em-sintonia__button" data-action="toggle-target">Esconder alvo</button>
-      <button type="button" class="em-sintonia__button em-sintonia__button--primary" data-action="next">Esconder e continuar</button>
+      <button type="button" class="em-sintonia__button" data-action="toggle">Esconder para os palpites</button>
+      <button type="button" class="em-sintonia__button" data-action="skip">Pular pista</button>
+      <button type="button" class="em-sintonia__button em-sintonia__button--primary" data-action="next">Próxima rodada</button>
       <button type="button" class="em-sintonia__button" data-action="new">Novo jogo</button>
     </div>
     <div class="em-sintonia__round-info" data-role="round-info"></div>
   `;
 
   const $ = role => root.querySelector(`[data-role="${role}"]`);
-  const board = $('board'), target = $('target'), needle = $('needle');
+  const board = $('board'), target = $('target'), needle = $('needle'), overlay = $('overlay');
   const clue = $('clue'), instruction = $('instruction'), phase = $('phase'), score = $('score');
-  const sideButtons = $('side-buttons'), resultTitle = null, resultDetail = null;
   const leftLabel = $('left-label'), rightLabel = $('right-label'), roundInfo = $('round-info');
-  const toggleTargetButton = root.querySelector('[data-action="toggle-target"]');
+  const toggleButton = root.querySelector('[data-action="toggle"]');
+  const skipButton = root.querySelector('[data-action="skip"]');
   const nextButton = root.querySelector('[data-action="next"]');
   const newButton = root.querySelector('[data-action="new"]');
 
-  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-  const ANGLE_LIMIT = 78;
+  let isDragging = false;
+  let canMoveNeedle = false;
 
-  function shuffle(items) {
-    const copy = items.slice();
-    for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy;
-  }
+  const clampAngle = angle => Math.max(-90, Math.min(90, angle));
 
-  function buildDeck() {
-    state.deck = shuffle((cards.base || []).map(pair => ({ left: pair[0], right: pair[1], advanced: false })));
-    state.deckIndex = 0;
-  }
-
-  function drawCard() {
-    if (!state.deck.length || state.deckIndex >= state.deck.length) buildDeck();
-    state.spectrum = state.deck[state.deckIndex++];
-  }
-
-  function randomTarget() {
-    state.targetAngle = -62 + Math.random() * 124;
-    state.guessAngle = 0;
-  }
-
-  function updateBoardTransforms() {
-    root.style.setProperty('--target-angle', `${state.targetAngle}deg`);
-    root.style.setProperty('--guess-angle', `${state.guessAngle}deg`);
-  }
-
-  function angleFromPointer(event) {
-    const rect = board.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const pivotY = rect.bottom;
-    const dx = event.clientX - centerX;
-    const dy = pivotY - event.clientY;
-    return clamp(Math.atan2(dx, dy) * 180 / Math.PI, -ANGLE_LIMIT, ANGLE_LIMIT);
-  }
-
-  function setGuessFromPointer(event) {
-    if (state.phase !== 'guess') return;
-    state.guessAngle = angleFromPointer(event);
-    updateBoardTransforms();
-  }
-
-  function scoreDistance(degrees) {
-    const distance = Math.abs(degrees);
-    if (distance <= 3) return 4;
-    if (distance <= 9) return 3;
-    if (distance <= 15) return 2;
+  function calculateScore(angle) {
+    const diff = Math.abs(angle - state.targetAngle);
+    if (diff <= 4.5) return 5;
+    if (diff <= 13.5) return 3;
+    if (diff <= 22.5) return 1;
     return 0;
   }
 
-  function scoreForGuess() { return scoreDistance(state.guessAngle - state.targetAngle); }
-  function sideForTarget() { return state.targetAngle < state.guessAngle ? 'left' : 'right'; }
-
-  function renderScore() {
-    score.innerHTML = state.teams.map((team, index) => `
-      <div class="em-sintonia__score-team ${index === state.currentTeam ? 'is-active' : ''}">
-        <span class="em-sintonia__score-name">${team.name}</span><span class="em-sintonia__score-value">${team.score}</span>
-      </div>`).join('');
+  function saveGameState() {
+    storageSet(STORAGE_NAME, {
+      teams: state.teams,
+      currentTeamIndex: state.currentTeamIndex,
+      currentClueIndex: state.currentClueIndex,
+      targetAngle: state.targetAngle,
+      isTargetVisible: state.isTargetVisible,
+      isPostGuessPhase: state.isPostGuessPhase
+    });
   }
 
-  function renderPhase() {
-    const labels = { psychic: '🔮 Psychic', guess: '🎯 Palpite', side: '👈 👉 Esquerda ou direita', scoring: '🏆 Pontuação' };
-    const instructions = {
-      psychic: 'O Psychic olha o alvo, guarda a posição e dá uma pista.',
-      guess: 'A pista foi dada. Agora o time posiciona a agulha.',
-      side: 'O outro time decide de que lado do palpite está o centro real.',
-      scoring: 'Hora de revelar o alvo e distribuir os pontos.'
-    };
-    phase.textContent = labels[state.phase];
-    instruction.textContent = instructions[state.phase];
-    sideButtons.style.display = state.phase === 'side' ? 'grid' : 'none';
-    toggleTargetButton.style.display = state.phase === 'psychic' || state.phase === 'guess' ? '' : 'none';
-    nextButton.textContent = state.phase === 'psychic' ? 'Esconder e continuar' : state.phase === 'guess' ? 'Confirmar palpite' : state.phase === 'scoring' ? 'Próxima rodada' : 'Escolha um lado';
+  function loadGameState() {
+    return storageGet(STORAGE_NAME, null);
   }
 
-  function renderBoard() {
-    if (!state.spectrum) return;
-    leftLabel.textContent = state.spectrum.left;
-    rightLabel.textContent = state.spectrum.right;
-    target.classList.toggle('is-hidden', !state.targetVisible);
-    updateBoardTransforms();
+  function setTargetArea() {
+    const angle1 = Math.max(0, Math.min(180, state.targetAngle - 22.5 + 90));
+    const angle2 = Math.max(0, Math.min(180, state.targetAngle - 13.5 + 90));
+    const angle3 = Math.max(0, Math.min(180, state.targetAngle - 4.5 + 90));
+    const angle4 = Math.max(0, Math.min(180, state.targetAngle + 4.5 + 90));
+    const angle5 = Math.max(0, Math.min(180, state.targetAngle + 13.5 + 90));
+    const angle6 = Math.max(0, Math.min(180, state.targetAngle + 22.5 + 90));
+    target.style.background = `conic-gradient(from -90deg at 50% 100%,
+      #a4b0be 0deg ${angle1}deg,
+      #ff6b6b ${angle1}deg ${angle2}deg,
+      #feca57 ${angle2}deg ${angle3}deg,
+      #48dbfb ${angle3}deg ${angle4}deg,
+      #feca57 ${angle4}deg ${angle5}deg,
+      #ff6b6b ${angle5}deg ${angle6}deg,
+      #a4b0be ${angle6}deg 180deg)`;
   }
 
-  function prepareRound() {
-    drawCard(); randomTarget(); state.targetVisible = true; state.sideGuess = null; state.lastScore = null;
-    clue.textContent = 'Dê uma pista em voz alta.'; state.phase = 'psychic';
-    renderPhase(); renderBoard(); renderScore();
-    roundInfo.textContent = `Rodada ${state.round} · ${state.mode === 'competitive' ? 'competitivo' : 'cooperativo'}`;
+  function updateNeedle() {
+    needle.style.transform = `rotate(${state.currentNeedleAngle}deg)`;
   }
 
-  function startGuessPhase() {
-    state.targetVisible = false; state.phase = 'guess';
-    clue.textContent = 'A pista já foi dada. Posicionem o marcador onde acharem que está o centro.';
-    renderPhase(); renderBoard();
+  function displayClue() {
+    if (state.currentClueIndex < 0 || !cards.length) return;
+    const [left, right] = cards[state.currentClueIndex];
+    leftLabel.textContent = left;
+    rightLabel.textContent = right;
   }
 
-  function confirmGuess() { state.phase = 'side'; renderPhase(); }
+  function setRandomClues() {
+    if (!cards.length) return;
+    state.currentClueIndex = Math.floor(Math.random() * cards.length);
+  }
 
-  function chooseSide(side) {
-    state.sideGuess = side; state.phase = 'scoring'; renderPhase(); revealTarget();
+  function initializeNewTargetArea() {
+    state.targetAngle = Math.random() * 180 - 90;
+    setTargetArea();
+  }
+
+  function escapeHtml(value) {
+    return String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+  }
+
+  function updateScoreDisplay() {
+    score.innerHTML = `
+      <div class="em-sintonia__score-management">Toque no nome para editar.</div>
+      ${state.teams.map((team, index) => `
+        <div class="em-sintonia__score-team ${index === state.currentTeamIndex ? 'is-active' : ''}" data-team-index="${index}">
+          <button type="button" class="em-sintonia__team-name" data-edit-team="${index}">${escapeHtml(team.name)} <span>✏️</span></button>
+          <strong>${team.score}</strong>
+          <button type="button" class="em-sintonia__team-delete" data-delete-team="${index}" ${state.teams.length === 1 ? 'disabled' : ''}>🗑️</button>
+        </div>`).join('')}
+      <button type="button" class="em-sintonia__add-team" data-add-team>+ Adicionar time</button>`;
+
+    score.querySelectorAll('[data-edit-team]').forEach(button => {
+      button.addEventListener('click', () => {
+        const index = Number(button.dataset.editTeam);
+        const input = document.createElement('input');
+        input.className = 'em-sintonia__team-input';
+        input.value = state.teams[index].name;
+        button.replaceWith(input);
+        input.focus(); input.select();
+        const finish = () => {
+          const name = input.value.trim();
+          if (name) state.teams[index].name = name;
+          updateScoreDisplay(); saveGameState();
+        };
+        input.addEventListener('blur', finish, { once: true });
+        input.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === 'Escape') input.blur(); });
+      });
+    });
+
+    score.querySelectorAll('[data-delete-team]').forEach(button => {
+      button.addEventListener('click', () => {
+        if (state.teams.length <= 1) return;
+        state.teams.splice(Number(button.dataset.deleteTeam), 1);
+        if (state.currentTeamIndex >= state.teams.length) state.currentTeamIndex = 0;
+        updateScoreDisplay(); saveGameState();
+      });
+    });
+
+    score.querySelector('[data-add-team]')?.addEventListener('click', () => {
+      state.teams.push({ name: `Time ${state.teams.length + 1}`, score: 0 });
+      updateScoreDisplay(); saveGameState();
+    });
+  }
+
+  function updateCurrentPhase() {
+    const postGuess = state.isPostGuessPhase;
+    const psychic = state.isTargetVisible && !postGuess;
+    phase.textContent = postGuess ? '🏆 Alvo revelado' : psychic ? '🔮 Psychic' : '🎯 Palpite';
+    instruction.textContent = postGuess
+      ? `${state.teams[state.currentTeamIndex]?.name || 'Time'} fez ${calculateScore(state.currentNeedleAngle)} ponto(s).`
+      : psychic
+        ? 'Veja o alvo, dê uma pista e esconda-o para os palpites.'
+        : 'Discutam a pista e arrastem a agulha até onde acharem que está o alvo.';
+    toggleButton.style.display = postGuess ? 'none' : '';
+    toggleButton.textContent = psychic ? 'Esconder para os palpites' : 'Revelar alvo';
+    skipButton.style.display = psychic ? '' : 'none';
+    nextButton.style.display = postGuess ? '' : 'none';
+    board.classList.toggle('is-psychic', psychic);
+    board.classList.toggle('is-guessing', !psychic && !postGuess);
+    board.classList.toggle('is-revealed', postGuess);
+  }
+
+  function render() {
+    displayClue();
+    setTargetArea();
+    updateNeedle();
+    target.style.display = state.isTargetVisible || state.isPostGuessPhase ? 'block' : 'none';
+    needle.style.display = state.isPostGuessPhase || state.isTargetVisible ? 'none' : 'block';
+    clue.textContent = state.isPostGuessPhase
+      ? `${state.teams[state.currentTeamIndex]?.name || 'Time'} marcou ${calculateScore(state.currentNeedleAngle)} ponto(s).`
+      : state.isTargetVisible ? 'Dê uma pista em voz alta.' : 'A pista foi dada. Posicionem a agulha.';
+    roundInfo.textContent = state.currentClueIndex >= 0 ? `Pista ${state.currentClueIndex + 1}` : '';
+    updateScoreDisplay();
+    updateCurrentPhase();
+  }
+
+  function setPsychicView() {
+    canMoveNeedle = false;
+    state.isPostGuessPhase = false;
+    if (state.currentClueIndex === -1) {
+      initializeNewTargetArea();
+      setRandomClues();
+    } else {
+      setTargetArea();
+    }
+    state.isTargetVisible = true;
+    state.currentNeedleAngle = 0;
+    render();
+    saveGameState();
+  }
+
+  function setGuesserView() {
+    canMoveNeedle = true;
+    state.isPostGuessPhase = false;
+    state.isTargetVisible = false;
+    state.currentNeedleAngle = 0;
+    render();
+    saveGameState();
   }
 
   function revealTarget() {
-    state.targetVisible = true;
-    const teamPoints = scoreForGuess();
-    const opponentCorrect = state.sideGuess === sideForTarget();
-    const opponentPoints = teamPoints === 4 ? 0 : (opponentCorrect ? 1 : 0);
-    state.lastScore = { teamPoints, opponentPoints, opponentCorrect };
-    state.teams[state.currentTeam].score += teamPoints;
-    state.teams[1 - state.currentTeam].score += opponentPoints;
-    renderBoard(); renderScore(); renderPhase();
+    canMoveNeedle = false;
+    state.isTargetVisible = true;
+    state.isPostGuessPhase = true;
+    state.teams[state.currentTeamIndex].score += calculateScore(state.currentNeedleAngle);
+    render();
+    saveGameState();
   }
 
   function nextRound() {
-    if (state.phase === 'psychic') return startGuessPhase();
-    if (state.phase === 'guess') return confirmGuess();
-    if (state.phase === 'side') return;
-    state.round += 1; state.currentTeam = 1 - state.currentTeam; prepareRound();
+    state.currentTeamIndex = (state.currentTeamIndex + 1) % state.teams.length;
+    state.currentClueIndex = -1;
+    state.currentNeedleAngle = 0;
+    setPsychicView();
   }
 
   function resetGame() {
-    state.round = 1; state.currentTeam = 0; state.teams.forEach(team => { team.score = 0; });
-    buildDeck(); prepareRound();
+    state.teams.forEach(team => team.score = 0);
+    state.currentTeamIndex = 0;
+    state.currentClueIndex = -1;
+    state.targetAngle = 0;
+    state.currentNeedleAngle = 0;
+    state.isTargetVisible = true;
+    state.isPostGuessPhase = false;
+    render();
+    showOverlay();
+    saveGameState();
   }
 
-  function toggleTarget() {
-    if (state.phase !== 'psychic' && state.phase !== 'guess') return;
-    state.targetVisible = !state.targetVisible; renderBoard(); renderPhase();
+  function showOverlay() {
+    overlay.classList.add('is-active');
+    canMoveNeedle = false;
   }
 
-  function onPointerDown(event) {
-    if (state.phase !== 'guess') return;
-    event.preventDefault(); board.setPointerCapture?.(event.pointerId); setGuessFromPointer(event);
+  function hideOverlay() {
+    overlay.classList.remove('is-active');
+    if (state.currentClueIndex === -1) setPsychicView();
   }
 
-  function onPointerMove(event) {
-    if (state.phase !== 'guess') return;
-    if (event.pointerType === 'mouse' && event.buttons === 0) return;
-    event.preventDefault(); setGuessFromPointer(event);
+  function handleStart(event) {
+    if (!canMoveNeedle) return;
+    isDragging = true;
+    event.preventDefault();
   }
 
-  board.addEventListener('pointerdown', onPointerDown);
-  board.addEventListener('pointermove', onPointerMove);
-  toggleTargetButton.addEventListener('click', toggleTarget);
+  function handleMove(event) {
+    if (!isDragging || !canMoveNeedle) return;
+    event.preventDefault();
+    const point = event.touches?.[0] || event;
+    const rect = needle.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.bottom;
+    const angle = Math.atan2(point.clientX - centerX, centerY - point.clientY) * 180 / Math.PI;
+    state.currentNeedleAngle = clampAngle(angle);
+    updateNeedle();
+  }
+
+  function handleEnd() {
+    isDragging = false;
+    saveGameState();
+  }
+
+  overlay.addEventListener('click', hideOverlay);
+  toggleButton.addEventListener('click', () => {
+    if (state.isTargetVisible && !state.isPostGuessPhase) setGuesserView();
+    else if (!state.isPostGuessPhase) revealTarget();
+  });
+  skipButton.addEventListener('click', () => { state.currentClueIndex = -1; setPsychicView(); });
   nextButton.addEventListener('click', nextRound);
   newButton.addEventListener('click', resetGame);
-  root.querySelectorAll('[data-side]').forEach(button => button.addEventListener('click', () => chooseSide(button.dataset.side)));
 
-  buildDeck(); prepareRound();
-  root.cleanup = () => { board.removeEventListener('pointerdown', onPointerDown); board.removeEventListener('pointermove', onPointerMove); };
+  board.addEventListener('mousedown', handleStart);
+  document.addEventListener('mousemove', handleMove);
+  document.addEventListener('mouseup', handleEnd);
+  board.addEventListener('touchstart', handleStart, { passive: false });
+  document.addEventListener('touchmove', handleMove, { passive: false });
+  document.addEventListener('touchend', handleEnd);
+
+  const saved = loadGameState();
+  if (saved && Array.isArray(saved.teams) && saved.teams.length) {
+    Object.assign(state, saved);
+    if (!Number.isInteger(state.currentTeamIndex) || state.currentTeamIndex >= state.teams.length) state.currentTeamIndex = 0;
+    render();
+    if (state.currentClueIndex === -1) showOverlay();
+  } else {
+    state.teams = [{ name: 'Time 1', score: 0 }, { name: 'Time 2', score: 0 }];
+    setPsychicView();
+    showOverlay();
+  }
+
+  root.cleanup = () => {
+    board.removeEventListener('mousedown', handleStart);
+    document.removeEventListener('mousemove', handleMove);
+    document.removeEventListener('mouseup', handleEnd);
+    board.removeEventListener('touchstart', handleStart);
+    document.removeEventListener('touchmove', handleMove);
+    document.removeEventListener('touchend', handleEnd);
+    saveGameState();
+  };
+
   return root;
 }
