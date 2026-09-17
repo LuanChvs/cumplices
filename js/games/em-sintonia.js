@@ -24,6 +24,7 @@ function renderEmSintonia() {
       <p class="em-sintonia__subtitle" data-role="instruction"></p>
     </header>
     <div class="em-sintonia__turn"><div class="em-sintonia__phase" data-role="phase"></div></div>
+    <div class="em-sintonia__round-turn" data-role="round-turn"></div>
     <div class="em-sintonia__score" data-role="score"></div>
     <div class="em-sintonia__board-wrap">
       <div class="em-sintonia__board" data-role="board" aria-label="Espectro de Em Sintonia">
@@ -52,6 +53,7 @@ function renderEmSintonia() {
   const $ = role => root.querySelector(`[data-role="${role}"]`);
   const board = $('board'), target = $('target'), needle = $('needle'), overlay = $('overlay');
   const clue = $('clue'), instruction = $('instruction'), phase = $('phase'), score = $('score');
+  const roundTurn = $('round-turn');
   const leftLabel = $('left-label'), rightLabel = $('right-label'), roundInfo = $('round-info');
   const toggleButton = root.querySelector('[data-action="toggle"]');
   const skipButton = root.querySelector('[data-action="skip"]');
@@ -175,12 +177,13 @@ function renderEmSintonia() {
   function updateCurrentPhase() {
     const postGuess = state.isPostGuessPhase;
     const psychic = state.isTargetVisible && !postGuess;
-    phase.textContent = postGuess ? '🏆 Alvo revelado' : psychic ? '🔮 Psychic' : '🎯 Palpite';
+    const currentTeam = state.teams[state.currentTeamIndex]?.name || 'Time';
+    phase.textContent = postGuess ? '🏆 Alvo revelado' : psychic ? '🔮 Dica' : '🎯 Palpite';
     instruction.textContent = postGuess
-      ? `${state.teams[state.currentTeamIndex]?.name || 'Time'} fez ${calculateScore(state.currentNeedleAngle)} ponto(s).`
+      ? `${currentTeam} marcou ${calculateScore(state.currentNeedleAngle)} ponto(s).`
       : psychic
-        ? 'Veja o alvo, dê uma pista e esconda-o para os palpites.'
-        : 'Discutam a pista e arrastem a agulha até onde acharem que está o alvo.';
+        ? `${currentTeam} dá a dica. Veja o alvo e depois esconda-o para os palpites.`
+        : `${currentTeam} tenta adivinhar. Posicionem a agulha onde acharem que está o alvo.`;
     toggleButton.style.display = postGuess ? 'none' : '';
     toggleButton.textContent = psychic ? 'Esconder para os palpites' : 'Revelar alvo';
     skipButton.style.display = psychic ? '' : 'none';
@@ -188,6 +191,16 @@ function renderEmSintonia() {
     board.classList.toggle('is-psychic', psychic);
     board.classList.toggle('is-guessing', !psychic && !postGuess);
     board.classList.toggle('is-revealed', postGuess);
+  }
+
+  function updateRoundTurn() {
+    const currentTeam = state.teams[state.currentTeamIndex]?.name || 'Time';
+    const role = state.isPostGuessPhase
+      ? 'Resultado da rodada'
+      : state.isTargetVisible
+        ? 'Dica'
+        : 'Adivinhação';
+    roundTurn.innerHTML = `<strong>Rodada de ${escapeHtml(currentTeam)}</strong><span>${role}</span>`;
   }
 
   function render() {
@@ -198,10 +211,11 @@ function renderEmSintonia() {
     needle.style.display = state.isPostGuessPhase || state.isTargetVisible ? 'none' : 'block';
     clue.textContent = state.isPostGuessPhase
       ? `${state.teams[state.currentTeamIndex]?.name || 'Time'} marcou ${calculateScore(state.currentNeedleAngle)} ponto(s).`
-      : state.isTargetVisible ? 'Dê uma pista em voz alta.' : 'A pista foi dada. Posicionem a agulha.';
+      : state.isTargetVisible ? 'Dê uma dica em voz alta.' : 'A dica foi dada. Posicionem a agulha.';
     roundInfo.textContent = state.currentClueIndex >= 0 ? `Pista ${state.currentClueIndex + 1}` : '';
     updateScoreDisplay();
     updateCurrentPhase();
+    updateRoundTurn();
   }
 
   function setPsychicView() {
