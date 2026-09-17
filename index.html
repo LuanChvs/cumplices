@@ -5,158 +5,89 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <title>Cúmplices — jogos para dois</title>
-<meta name="description" content="Quatro jogos rápidos pra jogar em dupla: roleta de sintonia, stop eletrônico, verdade ou desafio e quiz do casal.">
+<meta name="description" content="Jogos rápidos pra jogar em dupla, no mesmo celular ou computador.">
 <meta name="theme-color" content="#161022">
 
-<!-- Ícones -->
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- Open Graph (WhatsApp, Telegram, Instagram, Facebook) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Cúmplices — jogos para dois">
-<meta property="og:description" content="Quatro jogos rápidos pra jogar em dupla: roleta de sintonia, stop eletrônico, verdade ou desafio e quiz do casal.">
+<meta property="og:description" content="Jogos rápidos pra jogar em dupla, no mesmo celular ou computador.">
 <meta property="og:image" content="https://luanchvs.github.io/cumplices/og/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://luanchvs.github.io/cumplices/">
 <meta property="og:locale" content="pt_BR">
 
-<!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Cúmplices — jogos para dois">
-<meta name="twitter:description" content="Quatro jogos rápidos pra jogar em dupla.">
+<meta name="twitter:description" content="Jogos rápidos pra jogar em dupla.">
 <meta name="twitter:image" content="https://luanchvs.github.io/cumplices/og/preview.png">
 
-<!-- Fontes -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<!-- Estilos -->
+
 <link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/games/sintonia.css">
+<link rel="stylesheet" href="css/games/conexao.css">
 <link rel="stylesheet" href="css/games/stop.css">
 <link rel="stylesheet" href="css/games/verdade.css">
 <link rel="stylesheet" href="css/games/quiz.css">
 <link rel="stylesheet" href="css/games/velha.css">
 <link rel="stylesheet" href="css/games/xadrez.css">
 <link rel="stylesheet" href="css/games/quem-sou-eu.css">
-
 </head>
 <body>
-<!-- ===== TOPBAR ===== -->
 <div class="topbar" id="topbar">
   <div class="topbar-inner">
-
     <a href="#/" class="brand">
       Cúmplices<span>.</span><span class="brand-mode" id="brandMode">Modo Resenha</span>
     </a>
-
     <div class="topbar-actions">
-
-      <a
-        href="#/"
-        class="top-context"
-        id="topContext"
-      ></a>
-
-      <button
-        type="button"
-        class="settings-toggle"
-        id="settingsToggle"
-        aria-label="Abrir configurações"
-        title="Configurações"
-      >
+      <a href="#/" class="top-context" id="topContext"></a>
+      <button type="button" class="settings-toggle" id="settingsToggle" aria-label="Abrir configurações" title="Configurações">
         <span aria-hidden="true">⚙</span>
       </button>
-
     </div>
-
   </div>
 </div>
 
-<!-- ===== NAVEGAÇÃO RECOLHIDA DO MODO JOGO ===== -->
-<button
-  type="button"
-  class="game-nav-toggle"
-  id="gameNavToggle"
-  aria-label="Abrir navegação"
-  aria-expanded="false"
-  title="Abrir navegação"
->
+<button type="button" class="game-nav-toggle" id="gameNavToggle" aria-label="Abrir navegação" aria-expanded="false" title="Abrir navegação">
   <span aria-hidden="true">⌄</span>
 </button>
 
-<!-- ===== CONFIGURAÇÕES ===== -->
-<div
-  class="settings-overlay"
-  id="settingsOverlay"
-  aria-hidden="true"
-></div>
+<div class="settings-overlay" id="settingsOverlay" aria-hidden="true"></div>
 
-<aside
-  class="settings-drawer"
-  id="settingsDrawer"
-  aria-hidden="true"
-  aria-label="Configurações"
->
+<aside class="settings-drawer" id="settingsDrawer" aria-hidden="true" aria-label="Configurações">
   <div class="settings-header">
     <div>
       <span class="settings-kicker">Preferências</span>
       <h2>Configurações</h2>
     </div>
-
-    <button
-      type="button"
-      class="settings-close"
-      id="settingsClose"
-      aria-label="Fechar configurações"
-      title="Fechar"
-    >
-      ×
-    </button>
+    <button type="button" class="settings-close" id="settingsClose" aria-label="Fechar configurações" title="Fechar">×</button>
   </div>
 
   <div class="settings-body">
-
     <section class="settings-section">
       <div class="settings-label">
         <strong>Aparência</strong>
         <span>Escolha como o Cúmplices aparece.</span>
       </div>
-
       <div class="settings-options" id="themeOptions">
-
-        <button
-          type="button"
-          class="settings-option"
-          data-theme-choice="dark"
-        >
+        <button type="button" class="settings-option" data-theme-choice="dark">
           <span class="settings-option-icon">🌙</span>
-          <span>
-            <strong>Noturno</strong>
-            <small>Mais escuro e discreto</small>
-          </span>
+          <span><strong>Noturno</strong><small>Mais escuro e discreto</small></span>
         </button>
-
-        <button
-          type="button"
-          class="settings-option"
-          data-theme-choice="light"
-        >
+        <button type="button" class="settings-option" data-theme-choice="light">
           <span class="settings-option-icon">☀️</span>
-          <span>
-            <strong>Diurno</strong>
-            <small>Mais claro e leve</small>
-          </span>
+          <span><strong>Diurno</strong><small>Mais claro e leve</small></span>
         </button>
-
       </div>
     </section>
 
@@ -165,72 +96,29 @@
         <strong>Sons</strong>
         <span>Efeitos sonoros durante os jogos.</span>
       </div>
-
-      <button
-        type="button"
-        class="settings-switch-row"
-        id="soundSetting"
-      >
-        <span>
-          <strong id="soundSettingTitle">
-            Sons ligados
-          </strong>
-
-          <small id="soundSettingDescription">
-            Efeitos sonoros ativados
-          </small>
-        </span>
-
-        <span
-          class="settings-switch"
-          id="soundSwitch"
-          aria-hidden="true"
-        >
-          <span></span>
-        </span>
+      <button type="button" class="settings-switch-row" id="soundSetting">
+        <span><strong id="soundSettingTitle">Sons ligados</strong><small id="soundSettingDescription">Efeitos sonoros ativados</small></span>
+        <span class="settings-switch" id="soundSwitch" aria-hidden="true"><span></span></span>
       </button>
     </section>
 
     <section class="settings-section">
       <div class="settings-label">
         <strong>Modo Resenha</strong>
-        <span>
-          Adapta o conteúdo para jogar com amigos.
-        </span>
+        <span>Adapta o conteúdo para jogar com amigos.</span>
       </div>
-
-      <button
-        type="button"
-        class="settings-switch-row"
-        id="resenhaSetting"
-      >
-        <span>
-          <strong id="resenhaSettingTitle">
-            Modo Resenha desligado
-          </strong>
-
-          <small id="resenhaSettingDescription">
-            Conteúdos para casais continuam disponíveis
-          </small>
-        </span>
-
-        <span
-          class="settings-switch"
-          id="resenhaSwitch"
-          aria-hidden="true"
-        >
-          <span></span>
-        </span>
+      <button type="button" class="settings-switch-row" id="resenhaSetting">
+        <span><strong id="resenhaSettingTitle">Modo Resenha desligado</strong><small id="resenhaSettingDescription">Conteúdos para casais continuam disponíveis</small></span>
+        <span class="settings-switch" id="resenhaSwitch" aria-hidden="true"><span></span></span>
       </button>
     </section>
-
   </div>
 </aside>
 
 <main class="container" id="view"></main>
 
 <!-- ===== DADOS ===== -->
-<script src="data/sintonia.js"></script>
+<script src="data/conexao.js"></script>
 <script src="data/verdades-desafios.js"></script>
 <script src="data/quiz-perguntas.js"></script>
 <script src="data/stop-temas.js"></script>
@@ -249,7 +137,7 @@
 <script src="js/core/sound.js"></script>
 
 <!-- ===== JOGOS ===== -->
-<script src="js/games/sintonia.js"></script>
+<script src="js/games/conexao.js"></script>
 <script src="js/games/stop.js"></script>
 <script src="js/games/verdade.js"></script>
 <script src="js/games/quiz.js"></script>
@@ -259,34 +147,17 @@
 <script src="js/games/quem-sou-eu-layout.js"></script>
 
 <script src="js/games.js"></script>
-
-<!-- ===== TELAS ===== -->
 <script src="js/home.js"></script>
-
-<!-- ===== NAVEGAÇÃO ===== -->
 <script src="js/router.js"></script>
-
-<!-- ===== APP ===== -->
 <script src="js/app.js"></script>
 
-<!-- ===== PWA ===== -->
 <script>
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       navigator.serviceWorker
         .register("./sw.js")
-        .then((registration) => {
-          console.log(
-            "Service Worker registrado:",
-            registration.scope
-          );
-        })
-        .catch((error) => {
-          console.error(
-            "Erro ao registrar Service Worker:",
-            error
-          );
-        });
+        .then((registration) => console.log("Service Worker registrado:", registration.scope))
+        .catch((error) => console.error("Erro ao registrar Service Worker:", error));
     });
   }
 </script>
