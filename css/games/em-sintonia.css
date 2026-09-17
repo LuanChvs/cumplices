@@ -1,6 +1,6 @@
 /* =========================================================
    EM SINTONIA — BASE
-   Primeira adaptação do tabuleiro de espectro para o Cúmplices.
+   Tabuleiro de espectro adaptado para o Cúmplices.
 ========================================================= */
 
 .em-sintonia {
@@ -9,369 +9,125 @@
   padding: 10px 0 28px;
 }
 
-.em-sintonia__header {
-  text-align: center;
-  margin-bottom: 18px;
-}
+.em-sintonia__header { text-align: center; margin-bottom: 18px; }
+.em-sintonia__eyebrow { display:block; font-size:.72rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; opacity:.58; margin-bottom:5px; }
+.em-sintonia__title { margin:0; font-family:Fraunces,serif; font-size:clamp(2rem,6vw,3rem); }
+.em-sintonia__subtitle { margin:5px auto 0; max-width:560px; font-size:.9rem; opacity:.68; }
 
-.em-sintonia__eyebrow {
-  display: block;
-  font-size: .72rem;
-  font-weight: 800;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  opacity: .58;
-  margin-bottom: 5px;
-}
+.em-sintonia__turn { display:flex; justify-content:center; margin:12px 0 18px; }
+.em-sintonia__phase { display:inline-flex; align-items:center; gap:8px; padding:8px 13px; border:1px solid rgba(255,255,255,.1); border-radius:999px; background:rgba(255,255,255,.045); font-size:.78rem; font-weight:800; }
 
-.em-sintonia__title {
-  margin: 0;
-  font-family: Fraunces, serif;
-  font-size: clamp(2rem, 6vw, 3rem);
-}
+.em-sintonia__score { display:flex; justify-content:center; gap:10px; margin-bottom:18px; }
+.em-sintonia__score-team { min-width:110px; padding:8px 12px; border-radius:14px; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.08); text-align:center; }
+.em-sintonia__score-team.is-active { border-color:currentColor; box-shadow:0 0 0 1px rgba(255,255,255,.05) inset; }
+.em-sintonia__score-name { display:block; font-size:.7rem; font-weight:800; opacity:.65; }
+.em-sintonia__score-value { display:block; margin-top:1px; font-size:1.3rem; font-weight:800; }
 
-.em-sintonia__subtitle {
-  margin: 5px auto 0;
-  max-width: 560px;
-  font-size: .9rem;
-  opacity: .68;
-}
-
-.em-sintonia__turn {
-  display: flex;
-  justify-content: center;
-  margin: 12px 0 18px;
-}
-
-.em-sintonia__phase {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 13px;
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 999px;
-  background: rgba(255,255,255,.045);
-  font-size: .78rem;
-  font-weight: 800;
-}
-
-.em-sintonia__score {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.em-sintonia__score-team {
-  min-width: 110px;
-  padding: 8px 12px;
-  border-radius: 14px;
-  background: rgba(255,255,255,.045);
-  border: 1px solid rgba(255,255,255,.08);
-  text-align: center;
-}
-
-.em-sintonia__score-team.is-active {
-  border-color: currentColor;
-  box-shadow: 0 0 0 1px rgba(255,255,255,.05) inset;
-}
-
-.em-sintonia__score-name {
-  display: block;
-  font-size: .7rem;
-  font-weight: 800;
-  opacity: .65;
-}
-
-.em-sintonia__score-value {
-  display: block;
-  margin-top: 1px;
-  font-size: 1.3rem;
-  font-weight: 800;
-}
-
-.em-sintonia__board-wrap {
-  position: relative;
-  width: min(680px, 96vw);
-  margin: 0 auto;
-  padding-top: 12px;
-}
+.em-sintonia__board-wrap { position:relative; width:min(680px,96vw); margin:0 auto; padding-top:12px; }
 
 .em-sintonia__board {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 2 / 1;
-  overflow: hidden;
-  border-radius: 680px 680px 0 0;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
-  border: 1px solid rgba(255,255,255,.1);
-  border-bottom: 0;
-  box-shadow: 0 -12px 35px rgba(0,0,0,.12) inset;
-  touch-action: none;
-  user-select: none;
+  position:relative;
+  width:100%;
+  aspect-ratio:2 / 1;
+  overflow:hidden;
+  border-radius:680px 680px 0 0;
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
+  border:1px solid rgba(255,255,255,.1);
+  border-bottom:0;
+  box-shadow:0 -12px 35px rgba(0,0,0,.12) inset;
+  touch-action:none;
+  user-select:none;
 }
 
+/* A escala acompanha o arco visualmente; o alvo é radial, não um retângulo horizontal. */
 .em-sintonia__spectrum {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0,
-    transparent calc(10% - 1px),
-    rgba(255,255,255,.08) calc(10% - 1px),
-    rgba(255,255,255,.08) 10%
-  );
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 1px),rgba(255,255,255,.08) calc(10% - 1px),rgba(255,255,255,.08) 10%);
 }
 
 .em-sintonia__target {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  opacity: 1;
-  pointer-events: none;
-  transition: opacity .22s ease;
+  position:absolute;
+  left:50%;
+  bottom:0;
+  width:22%;
+  height:100%;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  transform-origin:50% 100%;
+  transform:translateX(-50%) rotate(var(--target-angle,0deg));
+  opacity:1;
+  pointer-events:none;
+  transition:opacity .22s ease;
+  border-radius:4px 4px 0 0;
+  overflow:hidden;
 }
 
-.em-sintonia__target.is-hidden {
-  opacity: 0;
-}
-
-.em-sintonia__target-slice {
-  border-right: 1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.11);
-}
-
-.em-sintonia__target-slice:nth-child(1),
-.em-sintonia__target-slice:nth-child(5) {
-  background: rgba(255,255,255,.12);
-}
-
-.em-sintonia__target-slice:nth-child(2),
-.em-sintonia__target-slice:nth-child(4) {
-  background: rgba(255,255,255,.2);
-}
-
-.em-sintonia__target-slice:nth-child(3) {
-  background: rgba(255,255,255,.34);
-}
+.em-sintonia__target.is-hidden { opacity:0; }
+.em-sintonia__target-slice { border-right:1px solid rgba(255,255,255,.14); }
+.em-sintonia__target-slice:nth-child(1),.em-sintonia__target-slice:nth-child(5){background:rgba(239,108,108,.45);}
+.em-sintonia__target-slice:nth-child(2),.em-sintonia__target-slice:nth-child(4){background:rgba(242,193,78,.62);}
+.em-sintonia__target-slice:nth-child(3){background:rgba(91,180,126,.82);}
 
 .em-sintonia__target-center {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: currentColor;
-  box-shadow: 0 0 16px currentColor;
-  transform: translateX(-50%);
-}
-
-.em-sintonia__reveal {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  background: rgba(10,8,18,.18);
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s ease;
-}
-
-.em-sintonia__reveal.is-active {
-  opacity: 1;
-}
-
-.em-sintonia__reveal-card {
-  padding: 14px 18px;
-  border-radius: 18px;
-  background: rgba(20,17,30,.86);
-  border: 1px solid rgba(255,255,255,.13);
-  text-align: center;
-  box-shadow: 0 15px 45px rgba(0,0,0,.22);
-}
-
-.em-sintonia__reveal-card strong {
-  display: block;
-  font-size: 1.2rem;
-}
-
-.em-sintonia__reveal-card span {
-  display: block;
-  margin-top: 3px;
-  font-size: .78rem;
-  opacity: .68;
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:2px;
+  background:rgba(255,255,255,.95);
+  box-shadow:0 0 16px rgba(255,255,255,.9);
+  transform:translateX(-50%);
 }
 
 .em-sintonia__needle {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 0;
-  height: 100%;
-  pointer-events: none;
-  transform-origin: 0 100%;
-  transition: transform .08s linear;
+  position:absolute;
+  left:50%;
+  bottom:0;
+  width:0;
+  height:100%;
+  pointer-events:none;
+  transform-origin:0 100%;
+  transform:rotate(var(--guess-angle,0deg));
+  transition:transform .06s linear;
+  z-index:5;
 }
 
-.em-sintonia__needle-line {
-  position: absolute;
-  left: -2px;
-  bottom: 0;
-  width: 4px;
-  height: 88%;
-  border-radius: 4px 4px 0 0;
-  background: currentColor;
-  box-shadow: 0 0 12px currentColor;
+.em-sintonia__needle-line { position:absolute; left:-2px; bottom:0; width:4px; height:88%; border-radius:4px 4px 0 0; background:currentColor; box-shadow:0 0 12px currentColor; }
+.em-sintonia__needle-knob { position:absolute; left:-10px; bottom:-10px; width:20px; height:20px; border-radius:50%; background:currentColor; box-shadow:0 2px 10px rgba(0,0,0,.25); }
+
+.em-sintonia__reveal { position:absolute; inset:0; display:grid; place-items:center; padding:20px; background:rgba(10,8,18,.18); backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:10; }
+.em-sintonia__reveal.is-active { opacity:1; }
+.em-sintonia__reveal-card { padding:14px 18px; border-radius:18px; background:rgba(20,17,30,.86); border:1px solid rgba(255,255,255,.13); text-align:center; box-shadow:0 15px 45px rgba(0,0,0,.22); }
+.em-sintonia__reveal-card strong { display:block; font-size:1.2rem; }
+.em-sintonia__reveal-card span { display:block; margin-top:3px; font-size:.78rem; opacity:.68; }
+
+.em-sintonia__labels { display:flex; justify-content:space-between; gap:16px; margin-top:11px; font-size:.8rem; font-weight:800; }
+.em-sintonia__label { max-width:42%; }
+.em-sintonia__label:last-child { text-align:right; }
+
+.em-sintonia__clue { min-height:66px; margin:18px auto 12px; padding:13px 16px; border-radius:17px; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.08); text-align:center; }
+.em-sintonia__clue small { display:block; margin-bottom:3px; font-size:.67rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; opacity:.52; }
+.em-sintonia__clue strong { font-size:1rem; }
+
+.em-sintonia__actions { display:flex; justify-content:center; flex-wrap:wrap; gap:9px; }
+.em-sintonia__button { min-height:44px; padding:0 16px; border:1px solid rgba(255,255,255,.11); border-radius:13px; background:rgba(255,255,255,.06); color:inherit; font:inherit; font-weight:800; cursor:pointer; touch-action:manipulation; }
+.em-sintonia__button:hover { background:rgba(255,255,255,.1); }
+.em-sintonia__button--primary { background:currentColor; color:var(--bg,#161022); border-color:transparent; }
+
+.em-sintonia__side-buttons { display:none; grid-template-columns:1fr 1fr; gap:10px; width:min(420px,100%); margin:0 auto 10px; }
+.em-sintonia__side-button { min-height:52px; border-radius:15px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.06); color:inherit; font:inherit; font-weight:800; cursor:pointer; touch-action:manipulation; }
+.em-sintonia__side-button.is-left::before { content:'← '; }
+.em-sintonia__side-button.is-right::before { content:'→ '; }
+.em-sintonia__round-info { margin-top:14px; text-align:center; font-size:.72rem; opacity:.5; }
+
+@media (max-width:620px){
+  .em-sintonia{padding-top:4px;}
+  .em-sintonia__header{margin-bottom:12px;}
+  .em-sintonia__board-wrap{width:100%;}
+  .em-sintonia__labels{font-size:.7rem;}
+  .em-sintonia__button{flex:1 1 145px;}
+  .em-sintonia__needle-line{height:90%;}
 }
 
-.em-sintonia__needle-knob {
-  position: absolute;
-  left: -10px;
-  bottom: -10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 2px 10px rgba(0,0,0,.25);
-}
-
-.em-sintonia__labels {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 11px;
-  font-size: .8rem;
-  font-weight: 800;
-}
-
-.em-sintonia__label {
-  max-width: 42%;
-}
-
-.em-sintonia__label:last-child {
-  text-align: right;
-}
-
-.em-sintonia__clue {
-  min-height: 66px;
-  margin: 18px auto 12px;
-  padding: 13px 16px;
-  border-radius: 17px;
-  background: rgba(255,255,255,.045);
-  border: 1px solid rgba(255,255,255,.08);
-  text-align: center;
-}
-
-.em-sintonia__clue small {
-  display: block;
-  margin-bottom: 3px;
-  font-size: .67rem;
-  font-weight: 800;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  opacity: .52;
-}
-
-.em-sintonia__clue strong {
-  font-size: 1rem;
-}
-
-.em-sintonia__actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 9px;
-}
-
-.em-sintonia__button {
-  min-height: 44px;
-  padding: 0 16px;
-  border: 1px solid rgba(255,255,255,.11);
-  border-radius: 13px;
-  background: rgba(255,255,255,.06);
-  color: inherit;
-  font: inherit;
-  font-weight: 800;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.em-sintonia__button:hover {
-  background: rgba(255,255,255,.1);
-}
-
-.em-sintonia__button:disabled {
-  opacity: .45;
-  cursor: default;
-}
-
-.em-sintonia__button--primary {
-  background: currentColor;
-  color: var(--bg, #161022);
-  border-color: transparent;
-}
-
-.em-sintonia__side-buttons {
-  display: none;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  width: min(420px, 100%);
-  margin: 0 auto 10px;
-}
-
-.em-sintonia__side-button {
-  min-height: 52px;
-  border-radius: 15px;
-  border: 1px solid rgba(255,255,255,.1);
-  background: rgba(255,255,255,.06);
-  color: inherit;
-  font: inherit;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.em-sintonia__side-button.is-left::before { content: '← '; }
-.em-sintonia__side-button.is-right::before { content: '→ '; }
-
-.em-sintonia__round-info {
-  margin-top: 14px;
-  text-align: center;
-  font-size: .72rem;
-  opacity: .5;
-}
-
-@media (max-width: 620px) {
-  .em-sintonia {
-    padding-top: 4px;
-  }
-
-  .em-sintonia__header {
-    margin-bottom: 12px;
-  }
-
-  .em-sintonia__board-wrap {
-    width: 100%;
-  }
-
-  .em-sintonia__labels {
-    font-size: .7rem;
-  }
-
-  .em-sintonia__button {
-    flex: 1 1 145px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .em-sintonia__target,
-  .em-sintonia__reveal,
-  .em-sintonia__needle {
-    transition: none;
-  }
-}
+@media (prefers-reduced-motion:reduce){.em-sintonia__target,.em-sintonia__reveal,.em-sintonia__needle{transition:none;}}
