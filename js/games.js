@@ -3,14 +3,14 @@
 ========================================================= */
 
 const games = {
-    sintonia: {
-      id: 'sintonia',
-      title: 'Sintonia',
-      route: '/sintonia',
+    conexao: {
+      id: 'conexao',
+      title: 'Conexão',
+      route: '/conexao',
       description: 'Girem a roleta, caiam numa categoria e respondam juntos a mesma pergunta ao mesmo tempo.',
       color: 'rose',
-      icon: ICONS.sintonia,
-      render: renderSintonia
+      icon: ICONS.conexao,
+      render: renderConexao
     },
   
     stop: {
