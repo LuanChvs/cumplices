@@ -114,6 +114,35 @@ const gameModeSwitch =
 const gameModeMediaQuery =
   window.matchMedia('(orientation: landscape)');
 
+function isLandscape() {
+  return gameModeMediaQuery.matches;
+}
+
+function isSmallLandscape() {
+  return (
+    isLandscape() &&
+    window.innerWidth <= 899
+  );
+}
+
+function syncGameMode() {
+  const hash =
+    location.hash.replace('#', '') || '/';
+
+  const route =
+    routes[hash] || routes['/'];
+
+  const enabled =
+    Boolean(route?.gameMode) &&
+    isLandscape() &&
+    (isSmallLandscape() || preferences.gameMode === true);
+
+  setGameMode(
+    enabled,
+    enabled && route?.fullscreen === true
+  );
+}
+
 function updateGameModeSettingVisibility() {
   if (!gameModeSetting) return;
 
@@ -159,22 +188,139 @@ if (gameModeSettingButton) {
       );
 
       updateGameModeSetting();
-
-      if (typeof syncGameMode === 'function') {
-        syncGameMode();
-      }
+      syncGameMode();
     }
   );
 }
 
 window.addEventListener(
   'resize',
-  updateGameModeSettingVisibility
+  () => {
+    updateGameModeSettingVisibility();
+    syncGameMode();
+  }
 );
 
 window.addEventListener(
   'orientationchange',
-  updateGameModeSettingVisibility
+  () => {
+    updateGameModeSettingVisibility();
+    syncGameMode();
+  }
+);
+
+window.addEventListener(
+  'hashchange',
+  syncGameMode
+);
+
+
+/* =========================================================
+   MODO JOGO — COMPORTAMENTO DESKTOP HORIZONTAL
+========================================================= */
+
+const desktopGameModeStyle =
+  document.createElement('style');
+
+desktopGameModeStyle.textContent = `
+  @media (min-width: 900px) and (orientation: landscape) {
+    body.game-mode main {
+      padding-bottom: 0;
+    }
+
+    body.game-mode .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        transform .22s ease,
+        opacity .22s ease;
+    }
+
+    body.game-mode.game-nav-open .topbar {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+      background:
+        color-mix(
+          in srgb,
+          var(--bg) 82%,
+          transparent
+        );
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    body.game-mode .game-nav-toggle {
+      position: fixed;
+      top: 8px;
+      right: 10px;
+      z-index: 950;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background:
+        color-mix(
+          in srgb,
+          var(--panel) 72%,
+          transparent
+        );
+      color: var(--text-dim);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      cursor: pointer;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+      transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        opacity .2s ease,
+        transform .2s ease;
+    }
+
+    body.game-mode.game-nav-open .game-nav-toggle {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-6px);
+    }
+
+    body.game-mode .game-nav-toggle span {
+      position: relative;
+      display: block;
+      width: 9px;
+      height: 9px;
+      margin-top: -4px;
+      font-size: 0;
+      line-height: 0;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      body.game-mode .game-nav-toggle:hover {
+        border-color: var(--line-strong);
+        background: var(--panel-2);
+        color: var(--text);
+      }
+    }
+  }
+`;
+
+document.head.appendChild(
+  desktopGameModeStyle
 );
 
 
@@ -183,11 +329,6 @@ window.addEventListener(
 ========================================================= */
 
 function openSettings() {
-
-  /*
-    Se estiver em modo jogo com a navegação
-    aberta, recolhe antes de mostrar o painel.
-  */
 
   if (
     typeof closeGameNavigation ===
@@ -423,3 +564,4 @@ updateThemeOptions();
 updateSoundSetting();
 updateResenhaSetting();
 updateGameModeSetting();
+syncGameMode();
