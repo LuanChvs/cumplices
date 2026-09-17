@@ -15,10 +15,13 @@
       box-sizing: border-box;
       display: grid;
       grid-template-rows: auto minmax(0, 1fr) auto;
-      row-gap: clamp(12px, 2.2vh, 22px);
+
+      /* Espaço estrutural entre conteúdo e botões: nunca zero. */
+      row-gap: clamp(14px, 2.6vh, 24px);
     }
 
     .whoami-round-main {
+      box-sizing: border-box;
       min-height: 0;
       min-width: 0;
       display: grid;
@@ -61,14 +64,17 @@
     .whoami-timer-wrap {
       justify-self: center;
       align-self: center;
-      width: min(100%, 580px);
+
+      /* Um pouco mais largo sem encostar nas bordas. */
+      width: min(calc(100% + 16px), 640px);
       margin-top: 0;
       margin-left: auto;
       margin-right: auto;
     }
 
     .whoami-round-actions {
-      margin-bottom: clamp(4px, 1.2vh, 12px);
+      /* Margem própria + row-gap formam uma distância mínima real. */
+      margin-bottom: clamp(8px, 1.6vh, 14px);
     }
   `;
 
