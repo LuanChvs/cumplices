@@ -1,10 +1,10 @@
 /* =========================================================
    QUEM SOU EU — LAYOUT ADAPTATIVO DA RODADA
 
-   O nome recebe todo o espaço vertical disponível entre
-   o kicker e o timer. A fonte é reduzida somente quando
-   o texto não cabe nessa área, preservando as margens e
-   mantendo timer/botões no lugar.
+   O layout reserva primeiro as áreas fixas da rodada
+   (topo, espaçamentos, timer e ações). O nome recebe
+   somente o espaço que realmente sobra e usa o maior
+   tamanho possível dentro dessa área.
 ========================================================= */
 
 (() => {
@@ -13,18 +13,26 @@
   style.textContent = `
     .whoami-round-screen {
       box-sizing: border-box;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      row-gap: clamp(12px, 2.2vh, 22px);
     }
 
     .whoami-round-main {
       min-height: 0;
+      min-width: 0;
       display: grid;
       grid-template-rows: auto minmax(0, 1fr) auto;
+      row-gap: clamp(10px, 2.4vh, 24px);
       align-items: stretch;
+      justify-items: stretch;
+      overflow: hidden;
     }
 
     .whoami-name {
       box-sizing: border-box;
       width: 100%;
+      max-width: 100%;
       min-width: 0;
       min-height: 0;
       height: 100%;
@@ -33,6 +41,8 @@
       justify-content: center;
       overflow: hidden;
       padding: 0;
+      margin: 0;
+      text-align: center;
     }
 
     .whoami-name-text {
@@ -41,10 +51,24 @@
       max-width: 100%;
       min-width: 0;
       margin: 0;
+      padding: 0;
       white-space: normal;
       overflow-wrap: anywhere;
       word-break: normal;
       text-align: center;
+    }
+
+    .whoami-timer-wrap {
+      justify-self: center;
+      align-self: center;
+      width: min(100%, 580px);
+      margin-top: 0;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .whoami-round-actions {
+      margin-bottom: clamp(4px, 1.2vh, 12px);
     }
   `;
 
@@ -64,7 +88,7 @@
       return;
     }
 
-    /* Volta ao tamanho definido pelo CSS. */
+    /* Volta ao tamanho definido pelo CSS antes de medir. */
     el.style.fontSize = '';
     text.style.fontSize = '';
 
@@ -75,8 +99,8 @@
     const minSize = Math.max(18, Math.floor(maxSize * 0.16));
 
     /*
-      Procura o maior tamanho que cabe simultaneamente
-      na largura E na altura disponível para o nome.
+      Procura o MAIOR tamanho que cabe na largura e
+      na altura que o grid realmente reservou para o nome.
     */
     let low = minSize;
     let high = maxSize;
@@ -84,6 +108,7 @@
 
     while (low <= high) {
       const size = Math.floor((low + high) / 2);
+
       el.style.fontSize = `${size}px`;
       text.style.fontSize = `${size}px`;
 
@@ -120,8 +145,14 @@
     });
   };
 
+  let resizeTimer = null;
+
   window.addEventListener('resize', () => {
-    const el = document.querySelector('.whoami-name');
-    if (el) window.fitWhoamiName(el);
+    clearTimeout(resizeTimer);
+
+    resizeTimer = setTimeout(() => {
+      const el = document.querySelector('.whoami-name');
+      if (el) window.fitWhoamiName(el);
+    }, 80);
   });
 })();
