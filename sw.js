@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'cumplices-v12';
+const CACHE_VERSION = 'cumplices-v13';
 const CACHE_NAME = CACHE_VERSION;
 
 const APP_FILES = [
@@ -6,7 +6,7 @@ const APP_FILES = [
   './index.html',
 
   './css/style.css',
-  './css/games/sintonia.css',
+  './css/games/conexao.css',
   './css/games/stop.css',
   './css/games/verdade.css',
   './css/games/quiz.css',
@@ -29,7 +29,7 @@ const APP_FILES = [
   './js/core/timer.js',
   './js/core/sound.js',
 
-  './js/games/sintonia.js',
+  './js/games/conexao.js',
   './js/games/stop.js',
   './js/games/verdade.js',
   './js/games/quiz.js',
@@ -38,7 +38,7 @@ const APP_FILES = [
   './js/games/quem-sou-eu.js',
   './js/games/quem-sou-eu-layout.js',
 
-  './data/sintonia.js',
+  './data/conexao.js',
   './data/verdades-desafios.js',
   './data/quiz-perguntas.js',
   './data/stop-temas.js',
