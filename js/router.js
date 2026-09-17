@@ -63,6 +63,39 @@ Object.values(games).forEach(
 
 
 /* =========================================================
+   REGRAS DO MODO JOGO
+========================================================= */
+
+function isLandscape() {
+  return window.matchMedia(
+    '(orientation: landscape)'
+  ).matches;
+}
+
+function isSmallLandscape() {
+  return (
+    isLandscape() &&
+    window.innerWidth <= 899
+  );
+}
+
+function shouldUseGameMode(route) {
+  if (!route || route.gameMode !== true) {
+    return false;
+  }
+
+  if (!isLandscape()) {
+    return false;
+  }
+
+  return (
+    isSmallLandscape() ||
+    preferences.gameMode === true
+  );
+}
+
+
+/* =========================================================
    MODO JOGO
 ========================================================= */
 
@@ -99,6 +132,23 @@ function setGameMode(enabled, fullscreen) {
 
   updateGameNavToggleState();
 
+}
+
+function syncGameMode() {
+
+  const hash =
+    location.hash.replace('#', '') || '/';
+
+  const route =
+    routes[hash] || routes['/'];
+
+  const enabled =
+    shouldUseGameMode(route);
+
+  setGameMode(
+    enabled,
+    route.fullscreen === true
+  );
 }
 
 
@@ -304,20 +354,9 @@ document.addEventListener(
       return;
     }
 
-    /*
-      Cliques dentro da topbar
-      não fecham aqui (quem trata
-      é o listener de links acima).
-    */
-
     if (target.closest('.topbar')) {
       return;
     }
-
-    /*
-      Cliques no próprio botão
-      também são ignorados.
-    */
 
     if (
       target.closest(
@@ -364,7 +403,6 @@ function router() {
 
   closeGameNavigation();
 
-
   if (
     typeof currentViewCleanup ===
     'function'
@@ -376,38 +414,30 @@ function router() {
 
   }
 
-
   const hash =
     location.hash.replace('#', '') || '/';
-
 
   const route =
     routes[hash] || routes['/'];
 
-
   setGameMode(
-    route.gameMode === true,
+    shouldUseGameMode(route),
     route.fullscreen === true
   );
 
-
   view.innerHTML = '';
-
 
   topContext.textContent =
     hash === '/'
       ? ''
       : '← início';
 
-
   const renderedView =
     route.render();
-
 
   view.appendChild(
     renderedView
   );
-
 
   if (
     renderedView &&
@@ -419,7 +449,6 @@ function router() {
       renderedView.cleanup;
 
   }
-
 
   window.scrollTo(
     0,
@@ -434,8 +463,17 @@ window.addEventListener(
   router
 );
 
-
 window.addEventListener(
   'DOMContentLoaded',
   router
+);
+
+window.addEventListener(
+  'resize',
+  syncGameMode
+);
+
+window.addEventListener(
+  'orientationchange',
+  syncGameMode
 );
