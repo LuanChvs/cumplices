@@ -7,7 +7,8 @@ const PREFERENCES_STORAGE_KEY = 'preferences';
 const DEFAULT_PREFERENCES = {
   sound: true,
   theme: 'dark',
-  resenha: false
+  resenha: false,
+  gameMode: false
 };
 
 const preferences = {
@@ -51,6 +52,12 @@ function setResenha(enabled) {
   preferences.resenha = Boolean(enabled);
   savePreferences();
   return preferences.resenha;
+}
+
+function setGameModePreference(enabled) {
+  preferences.gameMode = Boolean(enabled);
+  savePreferences();
+  return preferences.gameMode;
 }
 
 function initPreferences() {
