@@ -14,6 +14,12 @@
 .em-sintonia__title { margin:0; font-family:var(--font-b, sans-serif); font-size:clamp(2rem,5vw,3rem); }
 .em-sintonia__subtitle { margin:4px auto 0; max-width:700px; font-size:.82rem; opacity:.65; }
 
+.em-sintonia__mode { display:flex; justify-content:center; margin:6px auto 7px; }
+.em-sintonia__mode-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--panel-2); gap:2px; }
+.em-sintonia__mode-button { min-height:30px; padding:0 13px; border:0; border-radius:999px; background:transparent; color:var(--text-dim); font:inherit; font-size:.68rem; font-weight:900; cursor:pointer; transition:background .18s ease,color .18s ease,box-shadow .18s ease; }
+.em-sintonia__mode-button:hover { color:var(--text); }
+.em-sintonia__mode-button.is-active { background:var(--panel); color:var(--text); box-shadow:0 1px 5px rgba(0,0,0,.1); }
+
 .em-sintonia__turn { display:flex; justify-content:center; margin:7px 0 5px; }
 .em-sintonia__phase { padding:6px 11px; border:1px solid var(--line); border-radius:999px; background:var(--panel-2); font-size:.72rem; font-weight:800; }
 .em-sintonia__round-turn { display:flex; align-items:center; justify-content:center; gap:8px; min-height:25px; margin:0 auto 7px; font-size:.72rem; }
@@ -81,6 +87,8 @@
   .em-sintonia__eyebrow { font-size:.58rem; margin-bottom:1px; }
   .em-sintonia__title { font-size:clamp(1.7rem,7vw,2.3rem); }
   .em-sintonia__subtitle { margin-top:2px; font-size:.72rem; }
+  .em-sintonia__mode { margin:3px auto 4px; }
+  .em-sintonia__mode-button { min-height:27px; padding:0 11px; font-size:.62rem; }
   .em-sintonia__turn { margin:4px 0 4px; }
   .em-sintonia__phase { padding:5px 10px; font-size:.66rem; }
   .em-sintonia__round-turn { min-height:21px; margin-bottom:4px; font-size:.65rem; gap:6px; }
@@ -111,6 +119,8 @@
   .em-sintonia__subtitle,
   .em-sintonia__round-info { display:none; }
   .em-sintonia__title { font-size:1.35rem; line-height:1.1; }
+  .em-sintonia__mode { margin:1px auto 2px; }
+  .em-sintonia__mode-button { min-height:23px; padding:0 9px; font-size:.54rem; }
   .em-sintonia__turn { margin:2px 0 3px; }
   .em-sintonia__phase { padding:3px 9px; font-size:.6rem; }
   .em-sintonia__round-turn { min-height:19px; margin-bottom:3px; font-size:.6rem; }
@@ -138,6 +148,8 @@
   .em-sintonia__eyebrow { display:none; }
   .em-sintonia__title { font-size:1.5rem; }
   .em-sintonia__subtitle { font-size:.63rem; }
+  .em-sintonia__mode { margin:2px auto 3px; }
+  .em-sintonia__mode-button { min-height:25px; padding:0 10px; font-size:.58rem; }
   .em-sintonia__turn { margin:2px 0 4px; }
   .em-sintonia__round-turn { min-height:19px; margin-bottom:3px; font-size:.6rem; }
   .em-sintonia__score { margin-bottom:4px; }
@@ -150,5 +162,5 @@
 }
 
 @media (prefers-reduced-motion:reduce) {
-  .em-sintonia__reveal,.em-sintonia__target { transition:none; }
+  .em-sintonia__reveal,.em-sintonia__target,.em-sintonia__mode-button { transition:none; }
 }
