@@ -12,6 +12,16 @@ const games = {
       icon: ICONS.conexao,
       render: renderConexao
     },
+
+    emSintonia: {
+      id: 'em-sintonia',
+      title: 'Em Sintonia',
+      route: '/em-sintonia',
+      description: 'Uma pista, um espectro e um alvo escondido. Posicionem o marcador e descubram o quanto estão em sintonia.',
+      color: 'teal',
+      icon: ICONS.emSintonia,
+      render: renderEmSintonia
+    },
   
     stop: {
       id: 'stop',
