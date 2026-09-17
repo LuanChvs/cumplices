@@ -16,7 +16,7 @@
       display: grid;
       grid-template-rows: auto minmax(0, 1fr) auto;
 
-      /* Espaço estrutural entre conteúdo e botões: nunca zero. */
+      /* Distância estrutural entre as três áreas da rodada. */
       row-gap: clamp(14px, 2.6vh, 24px);
     }
 
@@ -27,6 +27,14 @@
       display: grid;
       grid-template-rows: auto minmax(0, 1fr) auto;
       row-gap: clamp(10px, 2.4vh, 24px);
+
+      /*
+        Reserva espaço DENTRO da área do conteúdo depois do timer.
+        Assim a distância timer → botão não depende apenas do gap
+        externo e nunca pode ser consumida pelo nome.
+      */
+      padding-bottom: clamp(12px, 2vh, 18px);
+
       align-items: stretch;
       justify-items: stretch;
       overflow: hidden;
@@ -65,15 +73,18 @@
       justify-self: center;
       align-self: center;
 
-      /* Um pouco mais largo sem encostar nas bordas. */
-      width: min(calc(100% + 16px), 640px);
+      /*
+        Um pouco mais largo para aproveitar melhor a tela,
+        sem deixar a barra encostar nas laterais.
+      */
+      width: min(calc(100% + 20px), 660px);
       margin-top: 0;
       margin-left: auto;
       margin-right: auto;
     }
 
+    /* O espaço inferior da tela fica preservado separadamente. */
     .whoami-round-actions {
-      /* Margem própria + row-gap formam uma distância mínima real. */
       margin-bottom: clamp(8px, 1.6vh, 14px);
     }
   `;
