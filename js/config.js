@@ -3,6 +3,7 @@
    Pra adicionar/editar conteúdo, mexa só nos arquivos acima.
 ========================================================= */
 const CONEXAO = window.DATA.conexao;
+const EM_SINTONIA = window.DATA.emSintonia;
 const VERDADES = window.DATA.verdades;
 const DESAFIOS = window.DATA.desafios;
 const QUIZ_PERGUNTAS = window.DATA.quizPerguntas;
@@ -41,6 +42,7 @@ function modoPorId(id){ return STOP_MODOS.find(m=>m.id===id) || STOP_MODOS[0]; }
 const ICONS = {
     sintonia:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><line x1="24" y1="7" x2="24" y2="14"/><line x1="24" y1="34" x2="24" y2="41"/><line x1="7" y1="24" x2="14" y2="24"/><line x1="34" y1="24" x2="41" y2="24"/><circle cx="24" cy="24" r="4" fill="currentColor" stroke="none"/></svg>`,
     conexao:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><line x1="24" y1="7" x2="24" y2="14"/><line x1="24" y1="34" x2="24" y2="41"/><line x1="7" y1="24" x2="14" y2="24"/><line x1="34" y1="24" x2="41" y2="24"/><circle cx="24" cy="24" r="4" fill="currentColor" stroke="none"/></svg>`,
+    emSintonia:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 34h36"/><path d="M9 34a15 15 0 0 1 30 0"/><path d="M24 34V15"/><circle cx="24" cy="13" r="2.5" fill="currentColor" stroke="none"/></svg>`,
     stop:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><path d="M24 14v10l7 5"/></svg>`,
     vd:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M8 14h20a5 5 0 0 1 5 5v6a5 5 0 0 1-5 5H20l-6 5v-5H8a5 5 0 0 1-5-5v-6a5 5 0 0 1 5-5Z" transform="translate(0,-2)"/></svg>`,
     quiz:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="17"/><path d="M19 19a5 5 0 0 1 9-3c1.5 2-0.5 3.5-2 4.5S24 23 24 26"/><circle cx="24" cy="32" r="0.6" fill="currentColor"/></svg>`,
