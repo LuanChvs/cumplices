@@ -36,9 +36,6 @@ function renderEmSintonia() {
           <span class="em-sintonia__target-slice"></span><span class="em-sintonia__target-center"></span>
         </div>
         <div class="em-sintonia__needle" data-role="needle"><span class="em-sintonia__needle-line"></span><span class="em-sintonia__needle-knob"></span></div>
-        <div class="em-sintonia__reveal" data-role="reveal">
-          <div class="em-sintonia__reveal-card"><strong data-role="result-title">Alvo revelado</strong><span data-role="result-detail"></span></div>
-        </div>
       </div>
       <div class="em-sintonia__labels"><span class="em-sintonia__label" data-role="left-label"></span><span class="em-sintonia__label" data-role="right-label"></span></div>
     </div>
@@ -59,7 +56,7 @@ function renderEmSintonia() {
   const $ = role => root.querySelector(`[data-role="${role}"]`);
   const board = $('board'), target = $('target'), needle = $('needle');
   const clue = $('clue'), instruction = $('instruction'), phase = $('phase'), score = $('score');
-  const sideButtons = $('side-buttons'), reveal = $('reveal'), resultTitle = $('result-title'), resultDetail = $('result-detail');
+  const sideButtons = $('side-buttons'), resultTitle = null, resultDetail = null;
   const leftLabel = $('left-label'), rightLabel = $('right-label'), roundInfo = $('round-info');
   const toggleTargetButton = root.querySelector('[data-action="toggle-target"]');
   const nextButton = root.querySelector('[data-action="next"]');
@@ -103,8 +100,7 @@ function renderEmSintonia() {
     const pivotY = rect.bottom;
     const dx = event.clientX - centerX;
     const dy = pivotY - event.clientY;
-    let angle = Math.atan2(dx, dy) * 180 / Math.PI;
-    return clamp(angle, -ANGLE_LIMIT, ANGLE_LIMIT);
+    return clamp(Math.atan2(dx, dy) * 180 / Math.PI, -ANGLE_LIMIT, ANGLE_LIMIT);
   }
 
   function setGuessFromPointer(event) {
@@ -156,7 +152,7 @@ function renderEmSintonia() {
 
   function prepareRound() {
     drawCard(); randomTarget(); state.targetVisible = true; state.sideGuess = null; state.lastScore = null;
-    reveal.classList.remove('is-active'); clue.textContent = 'Dê uma pista em voz alta.'; state.phase = 'psychic';
+    clue.textContent = 'Dê uma pista em voz alta.'; state.phase = 'psychic';
     renderPhase(); renderBoard(); renderScore();
     roundInfo.textContent = `Rodada ${state.round} · ${state.mode === 'competitive' ? 'competitivo' : 'cooperativo'}`;
   }
@@ -170,7 +166,7 @@ function renderEmSintonia() {
   function confirmGuess() { state.phase = 'side'; renderPhase(); }
 
   function chooseSide(side) {
-    state.sideGuess = side; state.phase = 'scoring'; reveal.classList.add('is-active'); renderPhase(); revealTarget();
+    state.sideGuess = side; state.phase = 'scoring'; renderPhase(); revealTarget();
   }
 
   function revealTarget() {
@@ -181,10 +177,6 @@ function renderEmSintonia() {
     state.lastScore = { teamPoints, opponentPoints, opponentCorrect };
     state.teams[state.currentTeam].score += teamPoints;
     state.teams[1 - state.currentTeam].score += opponentPoints;
-
-    const resultText = teamPoints === 4 ? 'Centro exato!' : teamPoints === 3 ? 'Faixa adjacente.' : teamPoints === 2 ? 'Faixa externa.' : 'Fora do alvo.';
-    resultTitle.textContent = `${teamPoints} ponto${teamPoints === 1 ? '' : 's'}`;
-    resultDetail.textContent = `${resultText}${opponentPoints ? ' O adversário acertou o lado e ganhou 1.' : ''}`;
     renderBoard(); renderScore(); renderPhase();
   }
 
@@ -207,9 +199,7 @@ function renderEmSintonia() {
 
   function onPointerDown(event) {
     if (state.phase !== 'guess') return;
-    event.preventDefault();
-    board.setPointerCapture?.(event.pointerId);
-    setGuessFromPointer(event);
+    event.preventDefault(); board.setPointerCapture?.(event.pointerId); setGuessFromPointer(event);
   }
 
   function onPointerMove(event) {
