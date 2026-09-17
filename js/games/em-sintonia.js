@@ -35,9 +35,7 @@ function renderEmSintonia() {
     guess: 0.5,
     targetVisible: true,
     sideGuess: null,
-    psychicReady: false,
-    lastScore: null,
-    cleanup: null
+    lastScore: null
   };
 
   root.innerHTML = `
@@ -94,7 +92,7 @@ function renderEmSintonia() {
 
     <div class="em-sintonia__actions">
       <button type="button" class="em-sintonia__button" data-action="toggle-target">Esconder alvo</button>
-      <button type="button" class="em-sintonia__button em-sintonia__button--primary" data-action="next">Começar rodada</button>
+      <button type="button" class="em-sintonia__button em-sintonia__button--primary" data-action="next">Esconder e continuar</button>
       <button type="button" class="em-sintonia__button" data-action="new">Novo jogo</button>
     </div>
 
@@ -143,13 +141,11 @@ function renderEmSintonia() {
   }
 
   function randomTarget() {
-    // Mantemos uma margem para o alvo não nascer cortado nas extremidades.
     state.target = 0.15 + Math.random() * 0.70;
     state.guess = 0.5;
   }
 
   function scoreDistance(distance) {
-    // O alvo é dividido em cinco faixas: 2 / 3 / 4 / 3 / 2.
     const slice = 0.10;
     if (distance <= slice / 2) return 4;
     if (distance <= slice * 1.5) return 3;
@@ -197,7 +193,7 @@ function renderEmSintonia() {
 
     const instructions = {
       psychic: 'O Psychic olha o alvo, guarda a posição e dá uma pista.',
-      guess: 'Agora o time posiciona a agulha onde acha que está o centro.',
+      guess: 'A pista foi dada. Agora o time posiciona a agulha.',
       side: 'O outro time decide de que lado do palpite está o centro real.',
       scoring: 'Hora de revelar o alvo e distribuir os pontos.'
     };
@@ -207,13 +203,13 @@ function renderEmSintonia() {
     toggleTargetButton.style.display = state.phase === 'psychic' || state.phase === 'guess' ? '' : 'none';
 
     if (state.phase === 'psychic') {
-      nextButton.textContent = state.targetVisible ? 'Esconder e continuar' : 'Dar pista';
+      nextButton.textContent = 'Esconder e continuar';
     } else if (state.phase === 'guess') {
       nextButton.textContent = 'Confirmar palpite';
     } else if (state.phase === 'scoring') {
       nextButton.textContent = 'Próxima rodada';
     } else {
-      nextButton.textContent = 'Aguardando escolha';
+      nextButton.textContent = 'Escolha um lado';
     }
   }
 
@@ -221,9 +217,6 @@ function renderEmSintonia() {
     if (!state.spectrum) return;
     leftLabel.textContent = state.spectrum.left;
     rightLabel.textContent = state.spectrum.right;
-    clue.textContent = state.phase === 'psychic' && state.targetVisible
-      ? 'Alvo visível apenas para o Psychic'
-      : clue.textContent;
 
     const targetWidth = 50;
     const left = clamp(state.target * 100 - targetWidth / 2, 0, 100 - targetWidth);
@@ -240,7 +233,7 @@ function renderEmSintonia() {
     state.sideGuess = null;
     state.lastScore = null;
     reveal.classList.remove('is-active');
-    clue.textContent = '—';
+    clue.textContent = 'Dê uma pista em voz alta.';
     state.phase = 'psychic';
     renderPhase();
     renderBoard();
@@ -248,19 +241,10 @@ function renderEmSintonia() {
     roundInfo.textContent = `Rodada ${state.round} · ${state.mode === 'competitive' ? 'competitivo' : 'cooperativo'}`;
   }
 
-  function hideTarget() {
-    state.targetVisible = false;
-    renderBoard();
-    renderPhase();
-  }
-
   function startGuessPhase() {
-    if (state.targetVisible) {
-      hideTarget();
-      return;
-    }
+    state.targetVisible = false;
     state.phase = 'guess';
-    clue.textContent = 'A pista será definida pelo Psychic.';
+    clue.textContent = 'A pista já foi dada. Onde vocês colocariam o marcador?';
     renderPhase();
     renderBoard();
   }
