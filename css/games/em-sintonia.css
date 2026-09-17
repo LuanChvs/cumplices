@@ -1,133 +1,73 @@
 /* =========================================================
-   EM SINTONIA — BASE
-   Tabuleiro de espectro adaptado para o Cúmplices.
+   EM SINTONIA — VISUAL DO JOGO
+   Escopo exclusivo do Em Sintonia.
 ========================================================= */
 
 .em-sintonia {
   width: min(760px, 100%);
   margin: 0 auto;
-  padding: 10px 0 28px;
+  padding: 8px 0 30px;
 }
 
-.em-sintonia__header { text-align: center; margin-bottom: 18px; }
-.em-sintonia__eyebrow { display:block; font-size:.72rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; opacity:.58; margin-bottom:5px; }
-.em-sintonia__title { margin:0; font-family:Fraunces,serif; font-size:clamp(2rem,6vw,3rem); }
-.em-sintonia__subtitle { margin:5px auto 0; max-width:560px; font-size:.9rem; opacity:.68; }
+.em-sintonia__header { text-align:center; margin-bottom:14px; }
+.em-sintonia__eyebrow { display:block; font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; opacity:.5; margin-bottom:4px; }
+.em-sintonia__title { margin:0; font-family:var(--font-b, sans-serif); font-size:clamp(2rem,6vw,3rem); }
+.em-sintonia__subtitle { margin:5px auto 0; max-width:600px; font-size:.84rem; opacity:.65; }
 
-.em-sintonia__turn { display:flex; justify-content:center; margin:12px 0 18px; }
-.em-sintonia__phase { display:inline-flex; align-items:center; gap:8px; padding:8px 13px; border:1px solid rgba(255,255,255,.1); border-radius:999px; background:rgba(255,255,255,.045); font-size:.78rem; font-weight:800; }
+.em-sintonia__turn { display:flex; justify-content:center; margin:10px 0 14px; }
+.em-sintonia__phase { padding:7px 12px; border:1px solid var(--line); border-radius:999px; background:var(--panel-2); font-size:.76rem; font-weight:800; }
 
-.em-sintonia__score { display:flex; justify-content:center; gap:10px; margin-bottom:18px; }
-.em-sintonia__score-team { min-width:110px; padding:8px 12px; border-radius:14px; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.08); text-align:center; }
-.em-sintonia__score-team.is-active { border-color:currentColor; box-shadow:0 0 0 1px rgba(255,255,255,.05) inset; }
-.em-sintonia__score-name { display:block; font-size:.7rem; font-weight:800; opacity:.65; }
-.em-sintonia__score-value { display:block; margin-top:1px; font-size:1.3rem; font-weight:800; }
+.em-sintonia__score { display:grid; gap:6px; margin:0 auto 16px; width:min(520px,100%); }
+.em-sintonia__score-management { text-align:center; font-size:.68rem; opacity:.45; margin-bottom:1px; }
+.em-sintonia__score-team { display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:8px; min-height:38px; padding:5px 8px 5px 11px; border:1px solid var(--line); border-radius:12px; background:var(--panel); }
+.em-sintonia__score-team.is-active { border-color:var(--line-strong); box-shadow:0 0 0 1px color-mix(in srgb,var(--rose) 22%,transparent) inset; }
+.em-sintonia__team-name { min-width:0; padding:0; border:0; background:none; color:var(--text); text-align:left; font:inherit; font-size:.78rem; font-weight:800; cursor:pointer; }
+.em-sintonia__team-name span { opacity:.45; font-size:.65rem; }
+.em-sintonia__score-team strong { min-width:28px; text-align:center; font-size:1.05rem; }
+.em-sintonia__team-delete { width:30px; min-width:30px; height:30px; padding:0; border:0; background:none; color:var(--text-dim); cursor:pointer; }
+.em-sintonia__team-delete:disabled { opacity:.25; cursor:not-allowed; }
+.em-sintonia__team-input { width:100%; min-width:0; padding:5px 7px; border:1px solid var(--line-strong); border-radius:8px; background:var(--panel-2); color:var(--text); font:inherit; font-size:.78rem; }
+.em-sintonia__add-team { justify-self:center; padding:5px 10px; border:1px dashed var(--line); border-radius:9px; background:transparent; color:var(--text-dim); font:inherit; font-size:.7rem; cursor:pointer; }
 
-.em-sintonia__board-wrap { position:relative; width:min(680px,96vw); margin:0 auto; padding-top:12px; }
+.em-sintonia__board-wrap { position:relative; width:min(680px,96vw); margin:0 auto; }
+.em-sintonia__board { position:relative; width:100%; aspect-ratio:2 / 1; overflow:hidden; border-radius:680px 680px 0 0; background:var(--panel-2); border:1px solid var(--line); border-bottom:0; box-shadow:inset 0 5px 10px rgba(0,0,0,.08); touch-action:none; user-select:none; }
+.em-sintonia__board.is-psychic { box-shadow:inset 0 5px 10px rgba(0,0,0,.08), 0 0 0 1px color-mix(in srgb,var(--rose) 12%,transparent); }
 
-.em-sintonia__board {
-  position:relative;
-  width:100%;
-  aspect-ratio:2 / 1;
-  overflow:hidden;
-  border-radius:680px 680px 0 0;
-  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
-  border:1px solid rgba(255,255,255,.1);
-  border-bottom:0;
-  box-shadow:0 -12px 35px rgba(0,0,0,.12) inset;
-  touch-action:none;
-  user-select:none;
-}
+.em-sintonia__target { position:absolute; inset:0; border-radius:inherit; pointer-events:none; transition:opacity .2s ease; }
+.em-sintonia__needle { position:absolute; bottom:0; left:50%; width:4px; height:100%; transform-origin:50% 100%; transform:rotate(0deg); cursor:pointer; z-index:5; }
+.em-sintonia__needle-line { position:absolute; left:0; bottom:0; width:4px; height:90%; border-radius:5px 5px 0 0; background:var(--rose); box-shadow:0 0 12px color-mix(in srgb,var(--rose) 55%,transparent); }
 
-/* A escala acompanha o arco visualmente; o alvo é radial, não um retângulo horizontal. */
-.em-sintonia__spectrum {
-  position:absolute;
-  inset:0;
-  background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 1px),rgba(255,255,255,.08) calc(10% - 1px),rgba(255,255,255,.08) 10%);
-}
+.em-sintonia__reveal { position:absolute; inset:0; display:grid; place-items:end center; padding:20px; background:color-mix(in srgb,var(--bg) 78%,transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:20; }
+.em-sintonia__reveal.is-active { opacity:1; pointer-events:auto; cursor:pointer; }
+.em-sintonia__reveal-card { margin-bottom:5px; padding:12px 18px; border:1px solid var(--line); border-radius:15px; background:var(--panel); text-align:center; box-shadow:0 12px 35px rgba(0,0,0,.15); }
+.em-sintonia__reveal-card strong { display:block; font-size:1rem; }
+.em-sintonia__reveal-card span { display:block; margin-top:3px; font-size:.72rem; opacity:.58; }
 
-.em-sintonia__target {
-  position:absolute;
-  left:50%;
-  bottom:0;
-  width:22%;
-  height:100%;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  transform-origin:50% 100%;
-  transform:translateX(-50%) rotate(var(--target-angle,0deg));
-  opacity:1;
-  pointer-events:none;
-  transition:opacity .22s ease;
-  border-radius:4px 4px 0 0;
-  overflow:hidden;
-}
-
-.em-sintonia__target.is-hidden { opacity:0; }
-.em-sintonia__target-slice { border-right:1px solid rgba(255,255,255,.14); }
-.em-sintonia__target-slice:nth-child(1),.em-sintonia__target-slice:nth-child(5){background:rgba(239,108,108,.45);}
-.em-sintonia__target-slice:nth-child(2),.em-sintonia__target-slice:nth-child(4){background:rgba(242,193,78,.62);}
-.em-sintonia__target-slice:nth-child(3){background:rgba(91,180,126,.82);}
-
-.em-sintonia__target-center {
-  position:absolute;
-  left:50%;
-  top:0;
-  bottom:0;
-  width:2px;
-  background:rgba(255,255,255,.95);
-  box-shadow:0 0 16px rgba(255,255,255,.9);
-  transform:translateX(-50%);
-}
-
-.em-sintonia__needle {
-  position:absolute;
-  left:50%;
-  bottom:0;
-  width:0;
-  height:100%;
-  pointer-events:none;
-  transform-origin:0 100%;
-  transform:rotate(var(--guess-angle,0deg));
-  transition:transform .06s linear;
-  z-index:5;
-}
-
-.em-sintonia__needle-line { position:absolute; left:-2px; bottom:0; width:4px; height:88%; border-radius:4px 4px 0 0; background:currentColor; box-shadow:0 0 12px currentColor; }
-.em-sintonia__needle-knob { position:absolute; left:-10px; bottom:-10px; width:20px; height:20px; border-radius:50%; background:currentColor; box-shadow:0 2px 10px rgba(0,0,0,.25); }
-
-.em-sintonia__reveal { position:absolute; inset:0; display:grid; place-items:center; padding:20px; background:rgba(10,8,18,.18); backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:10; }
-.em-sintonia__reveal.is-active { opacity:1; }
-.em-sintonia__reveal-card { padding:14px 18px; border-radius:18px; background:rgba(20,17,30,.86); border:1px solid rgba(255,255,255,.13); text-align:center; box-shadow:0 15px 45px rgba(0,0,0,.22); }
-.em-sintonia__reveal-card strong { display:block; font-size:1.2rem; }
-.em-sintonia__reveal-card span { display:block; margin-top:3px; font-size:.78rem; opacity:.68; }
-
-.em-sintonia__labels { display:flex; justify-content:space-between; gap:16px; margin-top:11px; font-size:.8rem; font-weight:800; }
-.em-sintonia__label { max-width:42%; }
+.em-sintonia__labels { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px; margin-top:10px; font-size:.78rem; font-weight:800; }
+.em-sintonia__label:first-child { text-align:left; }
 .em-sintonia__label:last-child { text-align:right; }
+.em-sintonia__arrow { opacity:.45; font-size:1.1rem; }
 
-.em-sintonia__clue { min-height:66px; margin:18px auto 12px; padding:13px 16px; border-radius:17px; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.08); text-align:center; }
-.em-sintonia__clue small { display:block; margin-bottom:3px; font-size:.67rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; opacity:.52; }
-.em-sintonia__clue strong { font-size:1rem; }
+.em-sintonia__clue { min-height:58px; margin:15px auto 12px; padding:11px 15px; border:1px solid var(--line); border-radius:14px; background:var(--panel); text-align:center; }
+.em-sintonia__clue small { display:block; margin-bottom:3px; font-size:.62rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; opacity:.48; }
+.em-sintonia__clue strong { font-size:.9rem; }
 
-.em-sintonia__actions { display:flex; justify-content:center; flex-wrap:wrap; gap:9px; }
-.em-sintonia__button { min-height:44px; padding:0 16px; border:1px solid rgba(255,255,255,.11); border-radius:13px; background:rgba(255,255,255,.06); color:inherit; font:inherit; font-weight:800; cursor:pointer; touch-action:manipulation; }
-.em-sintonia__button:hover { background:rgba(255,255,255,.1); }
-.em-sintonia__button--primary { background:currentColor; color:var(--bg,#161022); border-color:transparent; }
+.em-sintonia__actions { display:flex; justify-content:center; flex-wrap:wrap; gap:8px; }
+.em-sintonia__button { min-height:42px; padding:0 14px; border:1px solid var(--line); border-radius:11px; background:var(--panel); color:var(--text); font:inherit; font-size:.76rem; font-weight:800; cursor:pointer; touch-action:manipulation; }
+.em-sintonia__button:hover { border-color:var(--line-strong); background:var(--panel-2); }
+.em-sintonia__button--primary { border-color:transparent; background:var(--rose); color:#fff; }
 
-.em-sintonia__side-buttons { display:none; grid-template-columns:1fr 1fr; gap:10px; width:min(420px,100%); margin:0 auto 10px; }
-.em-sintonia__side-button { min-height:52px; border-radius:15px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.06); color:inherit; font:inherit; font-weight:800; cursor:pointer; touch-action:manipulation; }
-.em-sintonia__side-button.is-left::before { content:'← '; }
-.em-sintonia__side-button.is-right::before { content:'→ '; }
-.em-sintonia__round-info { margin-top:14px; text-align:center; font-size:.72rem; opacity:.5; }
+.em-sintonia__round-info { margin-top:11px; text-align:center; font-size:.66rem; opacity:.42; }
 
-@media (max-width:620px){
-  .em-sintonia{padding-top:4px;}
-  .em-sintonia__header{margin-bottom:12px;}
-  .em-sintonia__board-wrap{width:100%;}
-  .em-sintonia__labels{font-size:.7rem;}
-  .em-sintonia__button{flex:1 1 145px;}
-  .em-sintonia__needle-line{height:90%;}
+@media (max-width:620px) {
+  .em-sintonia { padding-top:2px; }
+  .em-sintonia__header { margin-bottom:10px; }
+  .em-sintonia__board-wrap { width:100%; }
+  .em-sintonia__labels { font-size:.69rem; }
+  .em-sintonia__button { flex:1 1 145px; }
+  .em-sintonia__score { margin-bottom:12px; }
 }
 
-@media (prefers-reduced-motion:reduce){.em-sintonia__target,.em-sintonia__reveal,.em-sintonia__needle{transition:none;}}
+@media (prefers-reduced-motion:reduce) {
+  .em-sintonia__reveal,.em-sintonia__target { transition:none; }
+}
