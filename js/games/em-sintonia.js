@@ -12,9 +12,16 @@ function renderEmSintonia() {
   const STORAGE_NAME = 'em-sintonia.game';
 
   const state = {
-    teams: [], currentTeamIndex: 0, currentClueIndex: -1,
-    targetAngle: 0, currentNeedleAngle: 0,
-    isTargetVisible: true, isPostGuessPhase: false
+    mode: 'teams',
+    teams: [],
+    players: [],
+    currentTeamIndex: 0,
+    currentPlayerIndex: 0,
+    currentClueIndex: -1,
+    targetAngle: 0,
+    currentNeedleAngle: 0,
+    isTargetVisible: true,
+    isPostGuessPhase: false
   };
 
   root.innerHTML = `
@@ -23,6 +30,7 @@ function renderEmSintonia() {
       <h1 class="em-sintonia__title">Em Sintonia</h1>
       <p class="em-sintonia__subtitle" data-role="instruction"></p>
     </header>
+    <div class="em-sintonia__mode" data-role="mode"></div>
     <div class="em-sintonia__turn"><div class="em-sintonia__phase" data-role="phase"></div></div>
     <div class="em-sintonia__round-turn" data-role="round-turn"></div>
     <div class="em-sintonia__score" data-role="score"></div>
@@ -53,7 +61,7 @@ function renderEmSintonia() {
   const $ = role => root.querySelector(`[data-role="${role}"]`);
   const board = $('board'), target = $('target'), needle = $('needle'), overlay = $('overlay');
   const clue = $('clue'), instruction = $('instruction'), phase = $('phase'), score = $('score');
-  const roundTurn = $('round-turn');
+  const roundTurn = $('round-turn'), mode = $('mode');
   const leftLabel = $('left-label'), rightLabel = $('right-label'), roundInfo = $('round-info');
   const toggleButton = root.querySelector('[data-action="toggle"]');
   const skipButton = root.querySelector('[data-action="skip"]');
@@ -73,12 +81,25 @@ function renderEmSintonia() {
     return 0;
   }
 
+  function getCurrentName() {
+    if (state.mode === 'free') return state.players[state.currentPlayerIndex]?.name || 'Jogador';
+    return state.teams[state.currentTeamIndex]?.name || 'Time';
+  }
+
+  function getCurrentCollection() {
+    return state.mode === 'free' ? state.players : state.teams;
+  }
+
   function saveGameState() {
     storageSet(STORAGE_NAME, {
+      mode: state.mode,
       teams: state.teams,
+      players: state.players,
       currentTeamIndex: state.currentTeamIndex,
+      currentPlayerIndex: state.currentPlayerIndex,
       currentClueIndex: state.currentClueIndex,
       targetAngle: state.targetAngle,
+      currentNeedleAngle: state.currentNeedleAngle,
       isTargetVisible: state.isTargetVisible,
       isPostGuessPhase: state.isPostGuessPhase
     });
@@ -130,60 +151,100 @@ function renderEmSintonia() {
     return String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
   }
 
+  function updateModeDisplay() {
+    mode.innerHTML = `
+      <div class="em-sintonia__mode-switch" role="tablist" aria-label="Modo de jogo">
+        <button type="button" class="em-sintonia__mode-button ${state.mode === 'teams' ? 'is-active' : ''}" data-mode="teams">👥 Times</button>
+        <button type="button" class="em-sintonia__mode-button ${state.mode === 'free' ? 'is-active' : ''}" data-mode="free">🧑 Livre</button>
+      </div>`;
+
+    mode.querySelectorAll('[data-mode]').forEach(button => {
+      button.addEventListener('click', () => switchMode(button.dataset.mode));
+    });
+  }
+
+  function renderRosterItem(item, index, type) {
+    const label = type === 'player' ? 'Jogador' : 'Time';
+    return `
+      <div class="em-sintonia__score-team ${index === (type === 'player' ? state.currentPlayerIndex : state.currentTeamIndex) ? 'is-active' : ''}" data-roster-index="${index}">
+        <button type="button" class="em-sintonia__team-name" data-edit-roster="${index}">${escapeHtml(item.name)} <span>✏️</span></button>
+        <strong>${item.score}</strong>
+        <button type="button" class="em-sintonia__team-delete" data-delete-roster="${index}" ${getCurrentCollection().length === 1 ? 'disabled' : ''}>🗑️</button>
+      </div>`;
+  }
+
   function updateScoreDisplay() {
+    const isFree = state.mode === 'free';
+    const collection = getCurrentCollection();
+    const type = isFree ? 'player' : 'team';
+    const label = isFree ? 'jogador' : 'time';
+    const addLabel = isFree ? '+ Adicionar jogador' : '+ Adicionar time';
+
     score.innerHTML = `
       <div class="em-sintonia__score-management">Toque no nome para editar.</div>
-      ${state.teams.map((team, index) => `
-        <div class="em-sintonia__score-team ${index === state.currentTeamIndex ? 'is-active' : ''}" data-team-index="${index}">
-          <button type="button" class="em-sintonia__team-name" data-edit-team="${index}">${escapeHtml(team.name)} <span>✏️</span></button>
-          <strong>${team.score}</strong>
-          <button type="button" class="em-sintonia__team-delete" data-delete-team="${index}" ${state.teams.length === 1 ? 'disabled' : ''}>🗑️</button>
-        </div>`).join('')}
-      <button type="button" class="em-sintonia__add-team" data-add-team>+ Adicionar time</button>`;
+      ${collection.map((item, index) => renderRosterItem(item, index, type)).join('')}
+      <button type="button" class="em-sintonia__add-team" data-add-roster>${addLabel}</button>`;
 
-    score.querySelectorAll('[data-edit-team]').forEach(button => {
+    score.querySelectorAll('[data-edit-roster]').forEach(button => {
       button.addEventListener('click', () => {
-        const index = Number(button.dataset.editTeam);
+        const index = Number(button.dataset.editRoster);
         const input = document.createElement('input');
         input.className = 'em-sintonia__team-input';
-        input.value = state.teams[index].name;
+        input.value = collection[index].name;
         button.replaceWith(input);
         input.focus(); input.select();
         const finish = () => {
           const name = input.value.trim();
-          if (name) state.teams[index].name = name;
-          updateScoreDisplay(); saveGameState();
+          if (name) collection[index].name = name;
+          updateScoreDisplay();
+          updateCurrentPhase();
+          updateRoundTurn();
+          saveGameState();
         };
         input.addEventListener('blur', finish, { once: true });
         input.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === 'Escape') input.blur(); });
       });
     });
 
-    score.querySelectorAll('[data-delete-team]').forEach(button => {
+    score.querySelectorAll('[data-delete-roster]').forEach(button => {
       button.addEventListener('click', () => {
-        if (state.teams.length <= 1) return;
-        state.teams.splice(Number(button.dataset.deleteTeam), 1);
-        if (state.currentTeamIndex >= state.teams.length) state.currentTeamIndex = 0;
-        updateScoreDisplay(); saveGameState();
+        if (collection.length <= 1) return;
+        const index = Number(button.dataset.deleteRoster);
+        collection.splice(index, 1);
+        if (isFree) {
+          if (state.currentPlayerIndex >= collection.length) state.currentPlayerIndex = 0;
+        } else if (state.currentTeamIndex >= collection.length) {
+          state.currentTeamIndex = 0;
+        }
+        updateScoreDisplay();
+        updateCurrentPhase();
+        updateRoundTurn();
+        saveGameState();
       });
     });
 
-    score.querySelector('[data-add-team]')?.addEventListener('click', () => {
-      state.teams.push({ name: `Time ${state.teams.length + 1}`, score: 0 });
-      updateScoreDisplay(); saveGameState();
+    score.querySelector('[data-add-roster]')?.addEventListener('click', () => {
+      collection.push({ name: isFree ? `Jogador ${collection.length + 1}` : `Time ${collection.length + 1}`, score: 0 });
+      updateScoreDisplay();
+      saveGameState();
     });
   }
 
   function updateCurrentPhase() {
     const postGuess = state.isPostGuessPhase;
     const psychic = state.isTargetVisible && !postGuess;
-    const currentTeam = state.teams[state.currentTeamIndex]?.name || 'Time';
+    const currentName = getCurrentName();
+    const subject = state.mode === 'free' ? currentName : currentName;
+
     phase.textContent = postGuess ? '🏆 Alvo revelado' : psychic ? '🔮 Dica' : '🎯 Palpite';
     instruction.textContent = postGuess
-      ? `${currentTeam} marcou ${calculateScore(state.currentNeedleAngle)} ponto(s).`
+      ? `${subject} marcou ${calculateScore(state.currentNeedleAngle)} ponto(s).`
       : psychic
-        ? `${currentTeam} dá a dica. Veja o alvo e depois esconda-o para os palpites.`
-        : `${currentTeam} tenta adivinhar. Posicionem a agulha onde acharem que está o alvo.`;
+        ? `${subject} dá a dica. Veja o alvo e depois esconda-o para os palpites.`
+        : state.mode === 'free'
+          ? `${subject} está dando a dica. O grupo tenta adivinhar onde está o alvo.`
+          : `${subject} tenta adivinhar. Posicionem a agulha onde acharem que está o alvo.`;
+
     toggleButton.style.display = postGuess ? 'none' : '';
     toggleButton.textContent = psychic ? 'Esconder para os palpites' : 'Revelar alvo';
     skipButton.style.display = psychic ? '' : 'none';
@@ -194,13 +255,13 @@ function renderEmSintonia() {
   }
 
   function updateRoundTurn() {
-    const currentTeam = state.teams[state.currentTeamIndex]?.name || 'Time';
+    const currentName = getCurrentName();
     const role = state.isPostGuessPhase
       ? 'Resultado da rodada'
       : state.isTargetVisible
-        ? 'Dica'
-        : 'Adivinhação';
-    roundTurn.innerHTML = `<strong>Rodada de ${escapeHtml(currentTeam)}</strong><span>${role}</span>`;
+        ? 'Quem dá a dica'
+        : 'Quem adivinha';
+    roundTurn.innerHTML = `<strong>Rodada de ${escapeHtml(currentName)}</strong><span>${role}</span>`;
   }
 
   function render() {
@@ -209,10 +270,12 @@ function renderEmSintonia() {
     updateNeedle();
     target.style.display = state.isTargetVisible || state.isPostGuessPhase ? 'block' : 'none';
     needle.style.display = state.isPostGuessPhase || state.isTargetVisible ? 'none' : 'block';
+    const currentName = getCurrentName();
     clue.textContent = state.isPostGuessPhase
-      ? `${state.teams[state.currentTeamIndex]?.name || 'Time'} marcou ${calculateScore(state.currentNeedleAngle)} ponto(s).`
+      ? `${currentName} marcou ${calculateScore(state.currentNeedleAngle)} ponto(s).`
       : state.isTargetVisible ? 'Dê uma dica em voz alta.' : 'A dica foi dada. Posicionem a agulha.';
     roundInfo.textContent = state.currentClueIndex >= 0 ? `Pista ${state.currentClueIndex + 1}` : '';
+    updateModeDisplay();
     updateScoreDisplay();
     updateCurrentPhase();
     updateRoundTurn();
@@ -246,13 +309,21 @@ function renderEmSintonia() {
     canMoveNeedle = false;
     state.isTargetVisible = true;
     state.isPostGuessPhase = true;
-    state.teams[state.currentTeamIndex].score += calculateScore(state.currentNeedleAngle);
+    const collection = getCurrentCollection();
+    if (collection[state.mode === 'free' ? state.currentPlayerIndex : state.currentTeamIndex]) {
+      const index = state.mode === 'free' ? state.currentPlayerIndex : state.currentTeamIndex;
+      collection[index].score += calculateScore(state.currentNeedleAngle);
+    }
     render();
     saveGameState();
   }
 
   function nextRound() {
-    state.currentTeamIndex = (state.currentTeamIndex + 1) % state.teams.length;
+    if (state.mode === 'free') {
+      state.currentPlayerIndex = (state.currentPlayerIndex + 1) % state.players.length;
+    } else {
+      state.currentTeamIndex = (state.currentTeamIndex + 1) % state.teams.length;
+    }
     state.currentClueIndex = -1;
     state.currentNeedleAngle = 0;
     setPsychicView();
@@ -260,10 +331,27 @@ function renderEmSintonia() {
 
   function resetGame() {
     state.teams.forEach(team => team.score = 0);
+    state.players.forEach(player => player.score = 0);
     state.currentTeamIndex = 0;
+    state.currentPlayerIndex = 0;
     state.currentClueIndex = -1;
     state.targetAngle = 0;
     state.currentNeedleAngle = 0;
+    state.isTargetVisible = true;
+    state.isPostGuessPhase = false;
+    render();
+    showOverlay();
+    saveGameState();
+  }
+
+  function switchMode(nextMode) {
+    if (nextMode !== 'teams' && nextMode !== 'free') return;
+    if (state.mode === nextMode) return;
+    state.mode = nextMode;
+    state.currentClueIndex = -1;
+    state.currentNeedleAngle = 0;
+    state.currentTeamIndex = 0;
+    state.currentPlayerIndex = 0;
     state.isTargetVisible = true;
     state.isPostGuessPhase = false;
     render();
@@ -324,12 +412,19 @@ function renderEmSintonia() {
   const saved = loadGameState();
   if (saved && Array.isArray(saved.teams) && saved.teams.length) {
     Object.assign(state, saved);
+    state.mode = saved.mode === 'free' ? 'free' : 'teams';
+    state.players = Array.isArray(saved.players) && saved.players.length ? saved.players : [
+      { name: 'Jogador 1', score: 0 },
+      { name: 'Jogador 2', score: 0 }
+    ];
     if (!Number.isInteger(state.currentTeamIndex) || state.currentTeamIndex >= state.teams.length) state.currentTeamIndex = 0;
+    if (!Number.isInteger(state.currentPlayerIndex) || state.currentPlayerIndex >= state.players.length) state.currentPlayerIndex = 0;
     canMoveNeedle = !state.isTargetVisible && !state.isPostGuessPhase;
     render();
     if (state.currentClueIndex === -1) showOverlay();
   } else {
     state.teams = [{ name: 'Time 1', score: 0 }, { name: 'Time 2', score: 0 }];
+    state.players = [{ name: 'Jogador 1', score: 0 }, { name: 'Jogador 2', score: 0 }];
     setPsychicView();
     showOverlay();
   }
