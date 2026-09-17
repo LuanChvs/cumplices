@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'cumplices-v9';
+const CACHE_VERSION = 'cumplices-v10';
 const CACHE_NAME = CACHE_VERSION;
 
 const APP_FILES = [
@@ -6,6 +6,13 @@ const APP_FILES = [
   './index.html',
 
   './css/style.css',
+  './css/games/sintonia.css',
+  './css/games/stop.css',
+  './css/games/verdade.css',
+  './css/games/quiz.css',
+  './css/games/velha.css',
+  './css/games/xadrez.css',
+  './css/games/quem-sou-eu.css',
 
   './js/app.js',
   './js/config.js',
@@ -15,10 +22,12 @@ const APP_FILES = [
   './js/games.js',
 
   './js/core/storage.js',
+  './js/core/preferences.js',
   './js/core/game.js',
   './js/core/ui.js',
   './js/core/navigation.js',
   './js/core/timer.js',
+  './js/core/sound.js',
 
   './js/games/sintonia.js',
   './js/games/stop.js',
@@ -26,12 +35,15 @@ const APP_FILES = [
   './js/games/quiz.js',
   './js/games/jogo-da-velha.js',
   './js/games/xadrez.js',
+  './js/games/quem-sou-eu.js',
+  './js/games/quem-sou-eu-layout.js',
 
   './data/sintonia.js',
   './data/verdades-desafios.js',
   './data/quiz-perguntas.js',
   './data/stop-temas.js',
   './data/jogo-da-velha.js',
+  './data/quem-sou-eu.js',
 
   './sounds/click.mp3',
   './sounds/correct.mp3',
