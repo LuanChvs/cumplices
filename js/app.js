@@ -46,6 +46,157 @@ const themeOptions =
 
 
 /* =========================================================
+   MODO JOGO — CONFIGURAÇÃO
+========================================================= */
+
+const gameModeSetting = document.createElement('section');
+
+gameModeSetting.className = 'settings-section';
+gameModeSetting.id = 'gameModeSettingSection';
+
+gameModeSetting.innerHTML = `
+  <div class="settings-label">
+    <strong>Modo jogo</strong>
+    <span>Ajusta os jogos para ocupar melhor a tela durante a partida.</span>
+  </div>
+
+  <button
+    type="button"
+    class="settings-switch-row"
+    id="gameModeSetting"
+  >
+    <span>
+      <strong id="gameModeSettingTitle">
+        Modo jogo desligado
+      </strong>
+
+      <small id="gameModeSettingDescription">
+        Ative para usar o layout compacto em telas horizontais maiores
+      </small>
+    </span>
+
+    <span
+      class="settings-switch"
+      id="gameModeSwitch"
+      aria-hidden="true"
+    >
+      <span></span>
+    </span>
+  </button>
+`;
+
+const settingsBody =
+  document.querySelector('.settings-body');
+
+if (settingsBody && resenhaSetting) {
+  const resenhaSection =
+    resenhaSetting.closest('.settings-section');
+
+  if (resenhaSection) {
+    resenhaSection.after(gameModeSetting);
+  } else {
+    settingsBody.appendChild(gameModeSetting);
+  }
+}
+
+const gameModeSettingButton =
+  document.getElementById('gameModeSetting');
+
+const gameModeSettingTitle =
+  document.getElementById('gameModeSettingTitle');
+
+const gameModeSettingDescription =
+  document.getElementById('gameModeSettingDescription');
+
+const gameModeSwitch =
+  document.getElementById('gameModeSwitch');
+
+const gameModeMediaQuery =
+  window.matchMedia('(orientation: landscape)');
+
+function isGameModeHorizontal() {
+  return gameModeMediaQuery.matches;
+}
+
+function isSmallHorizontalViewport() {
+  return (
+    isGameModeHorizontal() &&
+    window.innerWidth <= 899
+  );
+}
+
+function updateGameModeLayout() {
+  const body = document.body;
+  const horizontal = isGameModeHorizontal();
+  const compact =
+    horizontal &&
+    (isSmallHorizontalViewport() || preferences.gameMode);
+
+  body.classList.toggle(
+    'game-mode-compact',
+    compact
+  );
+
+  if (gameModeSetting) {
+    gameModeSetting.style.display =
+      horizontal ? '' : 'none';
+  }
+}
+
+function updateGameModeSetting() {
+  const enabled =
+    preferences.gameMode;
+
+  gameModeSettingTitle.textContent =
+    enabled
+      ? 'Modo jogo ligado'
+      : 'Modo jogo desligado';
+
+  gameModeSettingDescription.textContent =
+    enabled
+      ? 'Layout compacto ativado em aparelhos horizontais maiores'
+      : 'Ative para usar o layout compacto em aparelhos horizontais maiores';
+
+  gameModeSwitch.classList.toggle(
+    'active',
+    enabled
+  );
+
+  gameModeSettingButton.setAttribute(
+    'aria-pressed',
+    String(enabled)
+  );
+
+  updateGameModeLayout();
+}
+
+if (gameModeSettingButton) {
+  gameModeSettingButton.addEventListener(
+    'click',
+    () => {
+      sound.click();
+
+      setGameModePreference(
+        !preferences.gameMode
+      );
+
+      updateGameModeSetting();
+    }
+  );
+}
+
+window.addEventListener(
+  'resize',
+  updateGameModeLayout
+);
+
+window.addEventListener(
+  'orientationchange',
+  updateGameModeLayout
+);
+
+
+/* =========================================================
    DRAWER
 ========================================================= */
 
@@ -289,3 +440,4 @@ savePreferences();
 updateThemeOptions();
 updateSoundSetting();
 updateResenhaSetting();
+updateGameModeSetting();
