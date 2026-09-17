@@ -50,7 +50,7 @@ icon*.svg/png              ícones da aplicação
 
 Os conteúdos ficam separados da lógica em `/data`:
 
-- `sintonia.js` — categorias e perguntas da roleta de **Conexão**.
+- `conexao.js` — categorias e perguntas da roleta de Conexão.
 - `verdades-desafios.js` — verdades e desafios.
 - `quiz-perguntas.js` — perguntas do Quem conhece melhor.
 - `stop-temas.js` — temas e letras do Stop.
