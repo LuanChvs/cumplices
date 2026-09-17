@@ -271,13 +271,14 @@ function renderEmSintonia() {
     if (!canMoveNeedle) return;
     isDragging = true;
     event.preventDefault();
+    handleMove(event);
   }
 
   function handleMove(event) {
     if (!isDragging || !canMoveNeedle) return;
     event.preventDefault();
     const point = event.touches?.[0] || event;
-    const rect = needle.getBoundingClientRect();
+    const rect = board.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.bottom;
     const angle = Math.atan2(point.clientX - centerX, centerY - point.clientY) * 180 / Math.PI;
@@ -310,6 +311,7 @@ function renderEmSintonia() {
   if (saved && Array.isArray(saved.teams) && saved.teams.length) {
     Object.assign(state, saved);
     if (!Number.isInteger(state.currentTeamIndex) || state.currentTeamIndex >= state.teams.length) state.currentTeamIndex = 0;
+    canMoveNeedle = !state.isTargetVisible && !state.isPostGuessPhase;
     render();
     if (state.currentClueIndex === -1) showOverlay();
   } else {
