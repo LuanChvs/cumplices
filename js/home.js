@@ -6,7 +6,7 @@ function renderHome(){
       <div>
         <section class="hero">
           <h1>Jogos pra jogar em dupla <span style="color:var(--coral); font-size:0.5em; font-style:italic; font-weight:400;">(ou +)</span>.</h1>
-          <p>Quatro jogos rápidos pra tirar o celular de um lugar comum e colocar num sofá, numa mesa de bar ou numa noite qualquer da semana. Escolham um e comecem.</p>
+          <p>Jogos rápidos pra tirar o celular de um lugar comum e colocar num sofá, numa mesa de bar ou numa noite qualquer da semana. Escolham um e comecem.</p>
         </section>
         <section class="game-list">
           ${renderGameList()}
