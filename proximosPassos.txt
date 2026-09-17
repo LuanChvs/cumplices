@@ -1,0 +1,190 @@
+vamooo, novo jogo. Vou te dar uma descrição geral dele muito detalhada e vamos conversando sobre oq é possivel oque eu quero e por ai vai se vc entendue e vamo la:
+
+# Especificação Técnica — Sintonia (Wavelength)
+
+Esta especificação descreve as regras, mecânicas, modos de jogo e lógica de funcionamento do jogo de tabuleiro **Sintonia** (título internacional: *Wavelength*), para implementação em aplicativo digital. O foco é exclusivamente na lógica de jogo e nas regras, omitindo contexto histórico ou editorial.
+
+
+## 1. Visão Geral do Jogo
+
+**Sintonia** é um jogo de adivinhação social para 2 a 12 jogadores, no qual duas equipes competem para "ler a mente" uma da outra. Em cada rodada, um jogador assume o papel de **Psíquico**, que conhece a posição exata de um alvo oculto em uma escala conceitual. O Psíquico fornece uma pista de uma única palavra, e sua equipe deve girar um dial até a posição que acredita ser a correta. A equipe adversária, por sua vez, tenta prever se o palpite está à esquerda ou à direita do alvo real.
+
+- **Jogadores:** 2 a 12 (ideal: 6 ou 8, em duas equipes equilibradas)
+- **Duração:** 30 a 45 minutos
+- **Idade:** 14+
+- **Condição de vitória:** Primeira equipe a atingir **10 pontos**
+
+
+## 2. Objetos e Componentes Necessários
+
+| Componente | Quantidade | Descrição / Função |
+|---|---|---|
+| **Dispositivo central** | 1 | Contém: roda interna com alvo oculto, dial externo, janela deslizante (*sliding hatch*) e marcador de pontos integrado |
+| **Cartas de espectro base** | 84 (168 faces) | Cada carta possui dois extremos opostos em lados distintos (ex.: Quente–Frio, áspero–Suave) |
+| **Cartas de espectro avançadas** | 42 (84 faces) | Espectros adicionais, geralmente mais abstratos ou desafiadores |
+| **Fichas de pontuação** | 3 | Duas para as equipes ("cérebro esquerdo" e "cérebro direito") e uma ficha de palpite (*guessing token*) |
+| **Bandeja plástica** | 1 | Organiza o dispositivo, cartas e fichas dentro da caixa |
+| **Livro de regras** | 1 | Manual de instruções |
+
+**Lógica do dispositivo:**
+- A **roda interna** possui **cinco fatias radiais coloridas** que formam a zona-alvo. Cada fatia corresponde a uma pontuação: fatia central = **4 pontos**, fatias adjacentes = **3 pontos**, fatias externas = **2 pontos**.
+- A **janela deslizante** cobre a roda interna. Quando fechada, ninguém vê o alvo. Quando aberta, apenas quem olha diretamente para a janela consegue ver a posição.
+- O **dial externo** é girado pela equipe para indicar seu palpite. Ele se move independentemente da roda interna.
+- O **marcador de pontos** na parte superior do dispositivo registra a pontuação acumulada de cada equipe.
+
+
+## 3. Configuração Inicial
+
+1. Posicionar o dispositivo na bandeja, com a janela deslizante fechada.
+2. Inserir as fichas de pontuação e o marcador de palpite em seus encaixes.
+3. Dividir os jogadores em **duas equipes equilibradas** (ex.: "Cérebro Esquerdo" e "Cérebro Direito").
+4. A equipe que começa o jogo inicia com **0 pontos**. A equipe adversária inicia com **1 ponto** (compensação pela vantagem de iniciar).
+5. Cada equipe escolhe um jogador para ser o Psíquico da primeira rodada.
+
+
+## 4. Fluxo de uma Rodada
+
+Cada rodada é composta por **quatro fases obrigatórias**, executadas na seguinte ordem:
+
+### 4.1 Fase do Psíquico (Psychic Phase)
+
+1. O Psíquico **fecha completamente** a janela deslizante para ocultar a roda interna.
+2. O Psíquico **gira a roda interna** aleatoriamente, com a janela ainda fechada, para definir a posição do alvo.
+3. O Psíquico **abre a janela** momentaneamente e **memoriza** a posição exata do alvo (qual fatia colorida está centralizada). Em seguida, **fecha a janela novamente**.
+4. O Psíquico **compra uma carta de espectro** do baralho, escolhe um dos dois lados da carta (cada carta é de dupla face) e **lê em voz alta** os dois extremos opostos (ex.: "Quente – Frio").
+5. O Psíquico **fornece uma pista de uma única palavra** (ou frase curta, conforme variação) que, conceitualmente, se situe na posição do alvo dentro do espectro. A pista deve seguir regras estritas (ver Seção 5).
+
+### 4.2 Fase da Equipe (Team Guess Phase)
+
+1. A equipe do Psíquico **discute abertamente** a pista e debate onde posicionar o dial.
+2. Qualquer membro da equipe pode **girar o dial externo** para indicar a posição estimada.
+3. A equipe **finaliza o palpite** e informa que está pronta. O Psíquico não pode dar mais nenhuma dica ou sinal após isso.
+
+### 4.3 Fase de Palpite Esquerda/Direita (Left/Right Guess Phase)
+
+1. A equipe adversária **analisa** o palpite da equipe ativa.
+2. A equipe adversária deve prever se o **centro do alvo** (a fatia de 4 pontos) está **à esquerda ou à direita** do dial posicionado pela equipe ativa.
+3. A previsão é **binária**: apenas "esquerda" ou "direita". A equipe adversária posiciona o **marcador de palpite** na lacuna correspondente ao lado da carta de espectro.
+
+### 4.4 Fase de Pontuação (Scoring Phase)
+
+1. O Psíquico **abre a janela deslizante**, revelando a posição real do alvo.
+2. A pontuação é calculada da seguinte forma:
+
+**Equipe do Psíquico (pontuação principal):**
+- **4 pontos** se o dial estiver na **fatia central** (centro exato do alvo).
+- **3 pontos** se o dial estiver em uma **fatia adjacente** à central.
+- **2 pontos** se o dial estiver em uma **fatia externa** da zona-alvo.
+- **0 pontos** se o dial estiver **fora da zona-alvo** (área branca).
+
+**Equipe adversária (pontuação de previsão):**
+- **1 ponto** se a equipe adversária tiver **acertado** o lado (esquerda/direita) do alvo em relação ao dial.
+- **0 pontos** se tiver errado.
+- **Exceção:** Se a equipe do Psíquico tiver acertado o **centro exato** (4 pontos), a equipe adversária **não marca pontos** naquela rodada.
+
+3. As fichas de pontuação são movidas conforme os pontos obtidos.
+
+**Regra de Recuperação (Catch-up Rule):**
+Se a equipe do Psíquico marcar **4 pontos** mas ainda estiver atrás da equipe adversária na pontuação total, ela **ganha uma rodada extra** imediatamente.
+
+
+## 5. Regras de Fornecimento de Pistas
+
+O Psíquico deve seguir restrições rigorosas ao dar a pista:
+
+| Regra | Descrição |
+|---|---|
+| **Pensamento único** | A pista deve transmitir **uma única ideia**; não pode combinar múltiplos conceitos. |
+| **Existência real** | A pista deve existir como conceito no universo; não pode ser algo inventado ou imaginário. |
+| **Tópico** | A pista deve ser **coerente com o espectro** da carta; não pode usar duplo sentido. |
+| **Sem palavras da carta** | É proibido usar qualquer palavra que apareça na carta de espectro, **sinônimos** ou **rimas**. |
+| **Sem números** | Números não são permitidos. |
+| **Sem qualificadores** | Evitar palavras como "muito", "meio", "tipo", "levemente". |
+
+**Boas práticas (não obrigatórias):**
+- Usar **substantivos próprios** em vez de descrições longas.
+- Limitar a pista a **5 palavras ou menos**.
+- Evitar explicações contextuais extensas.
+
+
+## 6. Modos de Jogo
+
+### 6.1 Modo Competitivo Padrão (2 a 12 jogadores)
+
+- Duas equipes alternam rodadas.
+- Cada equipe escolhe um **novo Psíquico a cada rodada** (rotação obrigatória).
+- A primeira equipe a alcançar **10 pontos** vence.
+- Em caso de empate em 10 pontos, joga-se uma **rodada de morte súbita** (*sudden death*): quem marcar mais pontos nessa rodada vence.
+
+### 6.2 Modo Cooperativo (2 jogadores)
+
+- Os dois jogadores formam **uma única equipe**.
+- A **Fase de Palpite Esquerda/Direita é ignorada** (não há equipe adversária).
+- Selecionam-se **7 cartas de espectro** aleatórias no início da partida.
+- Os jogadores jogam as 7 cartas uma a uma, alternando o papel de Psíquico a cada rodada.
+- A pontuação total obtida nas 7 rodadas determina o resultado, conforme tabela de desempenho:
+
+| Pontuação Total | Resultado |
+|---|---|
+| 0–3 | "Você tem certeza de que está ligado?" |
+| 4–6 | "Tente desligar e ligar de novo" |
+| 7–9 | "Assopre a parte de baixo do dispositivo" |
+| 10–12 | "Nada mal! Não ótimo, mas nada mal" |
+| 13–15 | "Quase lá!" |
+| 16–18 | "Vocês venceram!" |
+| 19–21 | "Vocês estão na mesma... sintonia" |
+| 22–24 | "Cérebro galáctico" |
+| 25+ | "????????????" |
+
+
+
+### 6.3 Modo com Cartas Avançadas
+
+- As **42 cartas avançadas** podem ser misturadas ao baralho base ou usadas como baralho separado.
+- Elas introduzem espectros mais abstratos, ambíguos ou desafiadores, aumentando a dificuldade e a rejogabilidade.
+- Não alteram as fases ou a mecânica de pontuação; apenas expandem o repertório de espectros.
+
+### 6.4 Variação Digital / TikTok (sem dispositivo físico)
+
+- Versão simplificada e falada, sem o dispositivo central.
+- Um jogador escolhe mentalmente uma posição em um espectro de 1 a 10.
+- Fornece uma pista de uma palavra.
+- Os demais jogadores discutem e dão um número de 1 a 10.
+- A pontuação é baseada na proximidade do número escolhido em relação ao alvo mental.
+
+
+## 7. Lógica de Pontuação — Resumo Algorítmico
+
+```
+ENTRADA:
+  dial_posicao        // posição do dial (0.0 a 1.0)
+  alvo_centro         // posição central do alvo (0.0 a 1.0)
+  largura_fatia       // largura de cada fatia (ex.: 0.1)
+
+SE abs(dial_posicao - alvo_centro) <= largura_fatia / 2:
+    pontos_equipe_ativa = 4
+    equipe_adversaria_pontua = 0
+SENÃO SE abs(dial_posicao - alvo_centro) <= largura_fatia * 1.5:
+    pontos_equipe_ativa = 3
+    equipe_adversaria_pontua = (palpite_lado_correto) ? 1 : 0
+SENÃO SE abs(dial_posicao - alvo_centro) <= largura_fatia * 2.5:
+    pontos_equipe_ativa = 2
+    equipe_adversaria_pontua = (palpite_lado_correto) ? 1 : 0
+SENÃO:
+    pontos_equipe_ativa = 0
+    equipe_adversaria_pontua = (palpite_lado_correto) ? 1 : 0
+
+SE pontos_equipe_ativa == 4 E pontuacao_total_equipe_ativa < pontuacao_total_adversaria:
+    CONCEDER rodada_extra
+```
+
+
+## 8. Condições de Término
+
+| Modo | Condição de Término |
+|---|---|
+| **Competitivo (equipes)** | Primeira equipe a atingir **10 pontos** vence. Empate → rodada de morte súbita. |
+| **Cooperativo (2 jogadores)** | Após jogar as **7 cartas** selecionadas, a partida termina. O resultado é determinado pela tabela de desempenho. |
+| **Morte súbita** | Em caso de empate no modo competitivo, uma rodada extra é jogada. A equipe que marcar mais pontos nessa rodada vence. |
+
+Esta especificação cobre todos os elementos de regras, mecânicas, modos e lógica necessários para implementação do jogo em ambiente digital.
