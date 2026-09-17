@@ -8,7 +8,7 @@ Sem cadastro, sem backend e sem instalação obrigatória. O projeto é uma apli
 
 ## Jogos
 
-- **Sintonia** — gire a roleta, caia em uma categoria e respondam a mesma pergunta ao mesmo tempo.
+- **Conexão** — gire a roleta, caia em uma categoria e respondam a mesma pergunta ao mesmo tempo.
 - **Stop do casal** — uma carta define o tema. Falem uma palavra do tema, apertem a letra inicial e passem a vez. Tem os modos *Até a morte* e *Passa ou repassa*.
 - **Verdade ou desafio** — baralho de verdades e desafios, com conteúdo adaptado ao modo Casal ou Resenha.
 - **Quem conhece melhor** — perguntas sobre o outro, com placar por rodada.
@@ -50,7 +50,7 @@ icon*.svg/png              ícones da aplicação
 
 Os conteúdos ficam separados da lógica em `/data`:
 
-- `sintonia.js` — categorias e perguntas da roleta.
+- `sintonia.js` — categorias e perguntas da roleta de **Conexão**.
 - `verdades-desafios.js` — verdades e desafios.
 - `quiz-perguntas.js` — perguntas do Quem conhece melhor.
 - `stop-temas.js` — temas e letras do Stop.
