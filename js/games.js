@@ -15,7 +15,7 @@ const games = {
   
     stop: {
       id: 'stop',
-      title: 'Stop do casal',
+      title: 'Stop',
       route: '/stop',
       description: 'Uma carta define o tema. Falem uma palavra do tema, apertem a letra inicial e passem a vez. Dois modos de cronômetro: único ou reiniciando.',
       color: 'gold',

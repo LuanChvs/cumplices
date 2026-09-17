@@ -704,38 +704,111 @@ function renderQuemSouEu() {
 
 /* =========================================================
    AUTO-FIT DO NOME — Quem sou eu
-   Cola no FINAL do js/games/quem-sou-eu.js
+   Ajusta pra caber em LARGURA e ALTURA ao mesmo tempo.
 ========================================================= */
 
 function fitWhoamiName(el) {
   if (!el) return;
 
+  /*
+    1. Reset: devolve tudo ao estado do CSS.
+  */
+
   el.style.fontSize = '';
+  el.style.whiteSpace = '';
+  el.style.overflowWrap = '';
+  el.style.wordBreak = '';
+  el.style.lineHeight = '';
+
+  /*
+    2. Pega o pai direto (o .whoami-round-main).
+    É ele que define o "espaço total" disponível.
+  */
+
+  const main = el.parentElement;
+  if (!main) return;
+
+  const mainRect = main.getBoundingClientRect();
+
+  if (!mainRect.width || !mainRect.height) {
+    /*
+      Ainda não foi pintado. Tenta de novo no próximo frame.
+    */
+
+    requestAnimationFrame(() => fitWhoamiName(el));
+    return;
+  }
+
+  /*
+    3. Calcula quanto do pai está sendo ocupado
+    por OUTROS elementos (kicker, timer, etc).
+    O que sobra é o espaço do nome.
+  */
+
+  let reservedHeight = 0;
+
+  Array.from(main.children).forEach((child) => {
+    if (child === el) return;
+
+    const rect = child.getBoundingClientRect();
+    const style = getComputedStyle(child);
+
+    const mt = parseFloat(style.marginTop) || 0;
+    const mb = parseFloat(style.marginBottom) || 0;
+
+    reservedHeight += rect.height + mt + mb;
+  });
+
+  const maxWidth = mainRect.width;
+  const maxHeight = mainRect.height - reservedHeight;
+
+  if (maxWidth <= 0 || maxHeight <= 0) return;
+
+  /*
+    4. Tamanhos: começa no máximo do CSS
+    e desce até um mínimo legível.
+  */
 
   const computed =
     parseFloat(getComputedStyle(el).fontSize);
 
   const maxSize = computed;
+  const minSize = Math.max(18, maxSize * 0.22);
 
-  const parent = el.parentElement;
-  if (!parent) return;
+  /*
+    5. Modo de medição: permite quebra
+    APENAS entre palavras (nunca no meio).
+  */
 
-  const maxWidth = parent.clientWidth;
-  if (!maxWidth) return;
+  el.style.whiteSpace = 'normal';
+  el.style.overflowWrap = 'normal';
+  el.style.wordBreak = 'normal';
 
-  const minSize = Math.max(18, maxSize * 0.35);
+  /*
+    6. Loop: reduz 1px por vez até caber
+    em largura E altura. Para no mínimo.
+  */
 
   let size = maxSize;
   el.style.fontSize = size + 'px';
 
-  while (
-    el.scrollWidth > maxWidth &&
-    size > minSize
-  ) {
+  while (size > minSize) {
+
+    const fitsWidth =
+      el.scrollWidth <= maxWidth;
+
+    const fitsHeight =
+      el.scrollHeight <= maxHeight;
+
+    if (fitsWidth && fitsHeight) {
+      break;
+    }
+
     size -= 1;
     el.style.fontSize = size + 'px';
   }
 }
+
 
 function renderWhoamiName(name) {
   const el = document.querySelector('.whoami-name');
@@ -743,10 +816,23 @@ function renderWhoamiName(name) {
 
   el.textContent = name;
 
+  /*
+    Espera dois frames: um pro navegador
+    pintar o texto, outro pra medir com
+    as dimensões já estáveis.
+  */
+
   requestAnimationFrame(() => {
-    fitWhoamiName(el);
+    requestAnimationFrame(() => {
+      fitWhoamiName(el);
+    });
   });
 }
+
+
+/* =========================================================
+   REAJUSTA AO REDIMENSIONAR / GIRAR TELA
+========================================================= */
 
 let whoamiResizeTimer = null;
 
