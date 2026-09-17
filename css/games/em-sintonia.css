@@ -59,13 +59,79 @@
 
 .em-sintonia__round-info { margin-top:11px; text-align:center; font-size:.66rem; opacity:.42; }
 
+/* Celular: reduzir espaços sem alterar a mecânica. */
 @media (max-width:620px) {
-  .em-sintonia { padding-top:2px; }
-  .em-sintonia__header { margin-bottom:10px; }
+  .em-sintonia { padding:2px 0 12px; }
+  .em-sintonia__header { margin-bottom:7px; }
+  .em-sintonia__eyebrow { font-size:.58rem; margin-bottom:1px; }
+  .em-sintonia__title { font-size:clamp(1.7rem,7vw,2.3rem); }
+  .em-sintonia__subtitle { margin-top:2px; font-size:.72rem; }
+  .em-sintonia__turn { margin:5px 0 7px; }
+  .em-sintonia__phase { padding:5px 10px; font-size:.68rem; }
+  .em-sintonia__score { gap:4px; margin-bottom:7px; }
+  .em-sintonia__score-management { font-size:.58rem; }
+  .em-sintonia__score-team { min-height:32px; padding:3px 6px 3px 8px; gap:5px; }
+  .em-sintonia__team-name { font-size:.7rem; }
+  .em-sintonia__score-team strong { font-size:.9rem; }
+  .em-sintonia__team-delete { width:25px; min-width:25px; height:25px; }
+  .em-sintonia__add-team { padding:3px 8px; font-size:.62rem; }
   .em-sintonia__board-wrap { width:100%; }
-  .em-sintonia__labels { font-size:.69rem; }
-  .em-sintonia__button { flex:1 1 145px; }
-  .em-sintonia__score { margin-bottom:12px; }
+  .em-sintonia__labels { margin-top:5px; font-size:.63rem; gap:7px; }
+  .em-sintonia__arrow { font-size:.9rem; }
+  .em-sintonia__clue { min-height:42px; margin:7px auto 7px; padding:7px 10px; }
+  .em-sintonia__clue small { margin-bottom:1px; font-size:.55rem; }
+  .em-sintonia__clue strong { font-size:.72rem; }
+  .em-sintonia__actions { gap:5px; }
+  .em-sintonia__button { min-height:36px; padding:0 10px; flex:1 1 130px; font-size:.68rem; }
+  .em-sintonia__round-info { margin-top:5px; font-size:.56rem; }
+}
+
+/*
+   Celular deitado / telas com pouca altura:
+   o tabuleiro passa a obedecer à altura disponível.
+   Assim não é necessário rolar a página para chegar aos botões.
+*/
+@media (max-width:900px) and (max-height:600px) and (orientation:landscape) {
+  .em-sintonia { width:100%; padding:2px 8px 5px; }
+  .em-sintonia__header { margin-bottom:3px; }
+  .em-sintonia__eyebrow,
+  .em-sintonia__subtitle,
+  .em-sintonia__round-info { display:none; }
+  .em-sintonia__title { font-size:1.35rem; line-height:1.1; }
+  .em-sintonia__turn { margin:3px 0 4px; }
+  .em-sintonia__phase { padding:3px 9px; font-size:.62rem; }
+  .em-sintonia__score { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:4px; width:100%; margin:0 auto 4px; }
+  .em-sintonia__score-management { display:none; }
+  .em-sintonia__score-team { min-height:26px; padding:2px 5px 2px 7px; border-radius:8px; gap:4px; }
+  .em-sintonia__team-name { font-size:.62rem; }
+  .em-sintonia__team-name span { font-size:.5rem; }
+  .em-sintonia__score-team strong { min-width:20px; font-size:.78rem; }
+  .em-sintonia__team-delete { width:20px; min-width:20px; height:20px; font-size:.7rem; }
+  .em-sintonia__add-team { padding:2px 6px; font-size:.56rem; }
+  .em-sintonia__board-wrap { width:min(90vw, calc(200dvh - 410px)); }
+  .em-sintonia__labels { margin-top:3px; font-size:.58rem; gap:6px; }
+  .em-sintonia__arrow { font-size:.75rem; }
+  .em-sintonia__clue { min-height:30px; margin:4px auto; padding:4px 8px; }
+  .em-sintonia__clue small { display:inline; margin-right:5px; font-size:.5rem; }
+  .em-sintonia__clue strong { font-size:.62rem; }
+  .em-sintonia__actions { gap:4px; flex-wrap:nowrap; }
+  .em-sintonia__button { min-height:31px; padding:0 8px; flex:1 1 auto; font-size:.6rem; }
+}
+
+/* Retrato baixo (ex.: celulares pequenos): compacta o jogo verticalmente. */
+@media (max-width:620px) and (max-height:700px) and (orientation:portrait) {
+  .em-sintonia__header { margin-bottom:4px; }
+  .em-sintonia__eyebrow { display:none; }
+  .em-sintonia__title { font-size:1.55rem; }
+  .em-sintonia__subtitle { font-size:.65rem; }
+  .em-sintonia__turn { margin:3px 0 5px; }
+  .em-sintonia__score { margin-bottom:5px; }
+  .em-sintonia__board-wrap { width:100%; }
+  .em-sintonia__labels { margin-top:3px; }
+  .em-sintonia__clue { min-height:36px; margin:5px auto; padding:6px 9px; }
+  .em-sintonia__actions { gap:4px; }
+  .em-sintonia__button { min-height:34px; }
+  .em-sintonia__round-info { display:none; }
 }
 
 @media (prefers-reduced-motion:reduce) {
