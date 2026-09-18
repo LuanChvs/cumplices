@@ -16,7 +16,8 @@ function renderTermo() {
     guesses: [],
     currentGuess: '',
     status: 'playing',
-    isRevealing: false
+    isRevealing: false,
+    editIndex: 0
   };
 
   const normalize = (value) => String(value || '')
@@ -144,6 +145,14 @@ function renderTermo() {
         if (statuses[i]) cell.classList.add(`is-${statuses[i]}`);
         if (char) cell.classList.add('is-filled');
 
+        if (row === state.guesses.length && state.status === 'playing') {
+          cell.addEventListener('click', () => {
+            state.editIndex = i;
+            renderBoard();
+          });
+          if (i === state.editIndex) cell.classList.add('is-editing');
+        }
+
         rowEl.appendChild(cell);
       }
 
@@ -234,6 +243,7 @@ function renderTermo() {
       state.currentGuess = '';
       state.status = 'playing';
       state.isRevealing = false;
+      state.editIndex = 0;
       Object.keys(keyboardState).forEach(key => delete keyboardState[key]);
       setMessage('');
       actions.innerHTML = '';
@@ -297,6 +307,7 @@ function renderTermo() {
     const rowIndex = state.guesses.length;
     state.guesses.push(guess);
     state.currentGuess = '';
+    state.editIndex = 0;
     state.isRevealing = true;
     setMessage('');
     renderBoard(rowIndex);
@@ -321,17 +332,30 @@ function renderTermo() {
   };
 
   const pressKey = (key) => {
-    if (state.status !== 'playing') return;
+    if (state.status !== 'playing' || state.isRevealing) return;
 
     if (typeof sound !== 'undefined') sound.click();
 
     if (key === 'backspace') {
-      state.currentGuess = state.currentGuess.slice(0, -1);
+      if (state.editIndex > 0 && !state.currentGuess[state.editIndex]) {
+        state.editIndex -= 1;
+      }
+
+      if (state.currentGuess[state.editIndex]) {
+        state.currentGuess =
+          state.currentGuess.slice(0, state.editIndex) +
+          state.currentGuess.slice(state.editIndex + 1);
+      }
     } else if (key === 'enter') {
       submitGuess();
       return;
-    } else if (/^[a-zA-Z]$/.test(key) && state.currentGuess.length < WORD_LENGTH) {
-      state.currentGuess += key.toLowerCase();
+    } else if (/^[a-zA-Z]$/.test(key)) {
+      const index = Math.min(state.editIndex, WORD_LENGTH - 1);
+      const chars = state.currentGuess.padEnd(WORD_LENGTH, ' ').split('');
+      chars[index] = key.toLowerCase();
+
+      state.currentGuess = chars.join('').replace(/\s+$/, '');
+      state.editIndex = Math.min(index + 1, WORD_LENGTH - 1);
     } else {
       return;
     }
@@ -370,6 +394,7 @@ function renderTermo() {
     state.word = stored.word;
     state.guesses = stored.guesses;
     state.currentGuess = stored.currentGuess || '';
+    state.editIndex = Math.min(state.currentGuess.length, WORD_LENGTH - 1);
     state.status = stored.status || 'playing';
     state.isRevealing = false;
   } else {
