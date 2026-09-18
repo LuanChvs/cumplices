@@ -418,7 +418,7 @@ function renderEmSintonia() {
     canMoveNeedle = false;
     state.isTargetVisible = true;
     state.isPostGuessPhase = true;
-    const points = timedOut ? 0 : calculateScore(state.currentNeedleAngle);
+    const points = calculateScore(state.currentNeedleAngle);
     state.lastRoundPoints = points;
     const collection = getCurrentCollection();
     if (collection[getCurrentIndex()]) collection[getCurrentIndex()].score += points;
