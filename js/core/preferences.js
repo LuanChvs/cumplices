@@ -5,12 +5,7 @@
 const PREFERENCES_STORAGE_KEY = 'preferences';
 
 const DEFAULT_SOUND_SETTINGS = {
-  click: true,
-  correct: true,
-  wrong: true,
-  timer: true,
-  elimination: true,
-  victory: true
+  click: true
 };
 
 const DEFAULT_PREFERENCES = {
