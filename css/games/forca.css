@@ -1656,3 +1656,28 @@
   max-height: 100%;
   overflow: hidden;
 }
+
+
+/* =========================================================
+   FORCA — FECHAMENTO DO GRID VERTICAL
+========================================================= */
+
+@media (max-width: 620px) and (orientation: portrait) {
+  .forca--playing .forca__game {
+    grid-template-rows: auto auto auto auto;
+  }
+
+  .forca--playing .forca__play-area {
+    grid-template-rows: 104px minmax(0, auto) 96px;
+  }
+
+  .forca--playing .forca__keyboard-area {
+    min-height: 0;
+  }
+
+  .forca--playing .forca__keyboard {
+    min-height: 0;
+    height: auto;
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+}
