@@ -87,14 +87,14 @@
 }
 
 .termo__cell.is-revealing {
-  animation: termo-cell-reveal .52s ease both;
+  animation: termo-cell-reveal .85s ease both;
   border-color: var(--line-strong);
 }
 
 @keyframes termo-cell-reveal {
   0% { transform: rotateX(0deg); }
-  42% { transform: rotateX(75deg); }
-  58% { transform: rotateX(75deg); }
+  38% { transform: rotateX(82deg); }
+  62% { transform: rotateX(82deg); }
   100% { transform: rotateX(0deg); }
 }
 
@@ -114,7 +114,7 @@
 }
 
 .termo__cell.is-absent {
-  background: var(--bg);
+  background: var(--text-dim);
 }
 
 .termo__keyboard {
@@ -169,8 +169,8 @@
 }
 
 .termo__key.is-absent {
-  background: var(--bg);
-  color: var(--text-dim);
+  background: var(--text-dim);
+  color: #fff;
 }
 
 .termo__key--special {
