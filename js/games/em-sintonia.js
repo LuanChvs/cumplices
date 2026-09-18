@@ -35,7 +35,7 @@ function renderEmSintonia() {
     <header class="em-sintonia__header">
       <span class="em-sintonia__eyebrow">Cúmplices · jogo de espectro</span>
       <h1 class="em-sintonia__title">Em Sintonia</h1>
-      <p class="em-sintonia__subtitle" data-role="instruction"></p>
+      <p class="em-sintonia__subtitle"></p>
     </header>
 
     <section class="em-sintonia__setup" data-role="setup">
@@ -131,7 +131,7 @@ function renderEmSintonia() {
 
   const $ = role => root.querySelector(`[data-role="${role}"]`);
   const setup = $('setup'), game = $('game'), board = $('board'), target = $('target'), needle = $('needle'), overlay = $('overlay');
-  const clue = $('clue'), instruction = $('instruction'), phase = $('phase'), score = $('score'), timer = $('timer');
+  const clue = $('clue'), phase = $('phase'), score = $('score'), timer = $('timer');
   const roundTurn = $('round-turn'), mode = $('mode'), leftLabel = $('left-label'), rightLabel = $('right-label'), roundInfo = $('round-info');
   const setupRoster = $('setup-roster'), rosterLabel = $('roster-label'), timeSelect = $('time-select');
   const customFields = $('custom-fields'), customLeft = $('custom-left'), customRight = $('custom-right');
@@ -354,13 +354,6 @@ function renderEmSintonia() {
     const psychic = state.isTargetVisible && !postGuess;
     const currentName = getCurrentName();
     phase.textContent = postGuess ? '🏆 Alvo revelado' : psychic ? '🔮 Dica' : '🎯 Palpite';
-    instruction.textContent = postGuess
-      ? `${currentName} marcou ${state.lastRoundPoints} ponto(s).`
-      : psychic
-        ? `${currentName} dá a dica. Veja o alvo e depois esconda-o para os palpites.`
-        : state.mode === 'free'
-          ? `${currentName} está dando a dica. O grupo tenta adivinhar onde está o alvo.`
-          : `${currentName} tenta adivinhar. Posicionem a agulha onde acharem que está o alvo.`;
     toggleButton.style.display = postGuess ? 'none' : '';
     toggleButton.textContent = psychic ? 'Esconder para os palpites' : 'Revelar alvo';
     skipButton.style.display = psychic ? '' : 'none';
@@ -380,10 +373,9 @@ function renderEmSintonia() {
     displayClue(); setTargetArea(); updateNeedle();
     target.style.display = state.isTargetVisible || state.isPostGuessPhase ? 'block' : 'none';
     needle.style.display = state.isPostGuessPhase || state.isTargetVisible ? 'none' : 'block';
-    const currentName = getCurrentName();
     clue.textContent = state.isPostGuessPhase
-      ? `${currentName} marcou ${state.lastRoundPoints} ponto(s).`
-      : state.isTargetVisible ? 'Dê uma dica em voz alta.' : 'A dica foi dada. Posicionem a agulha.';
+      ? `Pontuação: ${state.lastRoundPoints} ponto(s)`
+      : 'Pista';
     roundInfo.textContent = state.currentClueIndex >= 0 ? `Pista ${state.currentClueIndex + 1}` : '';
     updateModeDisplay(); updateScoreDisplay(); updateCurrentPhase(); updateRoundTurn();
     root.classList.toggle('is-settings', state.settingsOpen);
