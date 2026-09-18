@@ -15,7 +15,8 @@ function renderTermo() {
     word: '',
     guesses: [],
     currentGuess: '',
-    status: 'playing'
+    status: 'playing',
+    isRevealing: false
   };
 
   const normalize = (value) => String(value || '')
@@ -120,12 +121,13 @@ function renderTermo() {
     });
   };
 
-  const renderBoard = () => {
+  const renderBoard = (revealingRow = -1) => {
     board.innerHTML = '';
 
     for (let row = 0; row < MAX_ROWS; row += 1) {
       const guess = state.guesses[row] || (row === state.guesses.length ? state.currentGuess : '');
-      const statuses = row < state.guesses.length
+      const isRevealingRow = row === revealingRow;
+      const statuses = row < state.guesses.length && !isRevealingRow
         ? letterStatus(normalize(guess), normalize(state.word))
         : [];
 
@@ -137,6 +139,7 @@ function renderTermo() {
         cell.className = 'termo__cell';
         const char = guess[i] || '';
         cell.textContent = char.toUpperCase();
+        cell.dataset.index = String(i);
 
         if (statuses[i]) cell.classList.add(`is-${statuses[i]}`);
         if (char) cell.classList.add('is-filled');
@@ -230,6 +233,7 @@ function renderTermo() {
       state.guesses = [];
       state.currentGuess = '';
       state.status = 'playing';
+      state.isRevealing = false;
       Object.keys(keyboardState).forEach(key => delete keyboardState[key]);
       setMessage('');
       actions.innerHTML = '';
@@ -241,8 +245,42 @@ function renderTermo() {
     actions.appendChild(button);
   };
 
+  const revealGuess = (rowIndex, guess, done) => {
+    const rowEl = board.children[rowIndex];
+    if (!rowEl) {
+      done();
+      return;
+    }
+
+    const cells = Array.from(rowEl.querySelectorAll('.termo__cell'));
+    const statuses = letterStatus(normalize(guess), normalize(state.word));
+
+    cells.forEach((cell) => cell.classList.remove('is-filled'));
+
+    const revealNext = (index) => {
+      if (index >= cells.length) {
+        done();
+        return;
+      }
+
+      const cell = cells[index];
+      const status = statuses[index];
+
+      cell.classList.add('is-revealing');
+
+      window.setTimeout(() => {
+        cell.classList.add(`is-${status}`);
+        cell.classList.remove('is-revealing');
+        cell.classList.add('is-filled');
+        window.setTimeout(() => revealNext(index + 1), 90);
+      }, 150);
+    };
+
+    revealNext(0);
+  };
+
   const submitGuess = () => {
-    if (state.status !== 'playing') return;
+    if (state.status !== 'playing' || state.isRevealing) return;
 
     const guess = normalize(state.currentGuess);
 
@@ -256,24 +294,30 @@ function renderTermo() {
       return;
     }
 
+    const rowIndex = state.guesses.length;
     state.guesses.push(guess);
     state.currentGuess = '';
-    updateKeyboardState(guess);
-    renderBoard();
-    updateKeyboard();
-
-    if (guess === normalize(state.word)) {
-      endGame(true);
-      return;
-    }
-
-    if (state.guesses.length >= MAX_ROWS) {
-      endGame(false);
-      return;
-    }
-
+    state.isRevealing = true;
     setMessage('');
-    save();
+    renderBoard(rowIndex);
+
+    revealGuess(rowIndex, guess, () => {
+      state.isRevealing = false;
+      updateKeyboardState(guess);
+      updateKeyboard();
+
+      if (guess === normalize(state.word)) {
+        endGame(true);
+        return;
+      }
+
+      if (state.guesses.length >= MAX_ROWS) {
+        endGame(false);
+        return;
+      }
+
+      save();
+    });
   };
 
   const pressKey = (key) => {
@@ -327,6 +371,7 @@ function renderTermo() {
     state.guesses = stored.guesses;
     state.currentGuess = stored.currentGuess || '';
     state.status = stored.status || 'playing';
+    state.isRevealing = false;
   } else {
     state.word = dailyWord;
     state.guesses = [];
