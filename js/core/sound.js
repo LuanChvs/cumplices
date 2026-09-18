@@ -5,19 +5,16 @@
 const SOUND_STORAGE_KEY = 'preferences.sound';
 
 const SOUND_TYPES = [
-  'click',
-  'correct',
-  'wrong',
-  'timer',
-  'elimination',
-  'victory'
+  'click'
 ];
 
 const sound = {
   enabled: preferences.sound,
 
   settings: {
-    ...preferences.soundSettings
+    click: Boolean(
+      preferences.soundSettings?.click ?? true
+    )
   },
 
   audio: {
