@@ -26,6 +26,9 @@ const soundSettingDescription =
 const soundSwitch =
   document.getElementById('soundSwitch');
 
+const soundOptions =
+  document.querySelectorAll('[data-sound-choice]');
+
 const resenhaSetting =
   document.getElementById('resenhaSetting');
 
@@ -426,7 +429,7 @@ function updateSoundSetting() {
   soundSettingDescription.textContent =
     enabled
       ? 'Efeitos sonoros ativados'
-      : 'Efeitos sonoros desativados';
+      : 'Todos os efeitos sonoros estão desligados';
 
   soundSwitch.classList.toggle(
     'active',
@@ -437,6 +440,32 @@ function updateSoundSetting() {
     'aria-pressed',
     String(enabled)
   );
+
+  soundOptions.forEach((option) => {
+    const name = option.dataset.soundChoice;
+    const optionEnabled =
+      Boolean(preferences.soundSettings[name]);
+
+    const optionSwitch =
+      option.querySelector('.settings-switch');
+
+    option.classList.toggle(
+      'is-disabled',
+      !enabled
+    );
+
+    option.setAttribute(
+      'aria-pressed',
+      String(optionEnabled)
+    );
+
+    if (optionSwitch) {
+      optionSwitch.classList.toggle(
+        'active',
+        optionEnabled
+      );
+    }
+  });
 }
 
 soundSetting.addEventListener(
@@ -450,6 +479,22 @@ soundSetting.addEventListener(
     updateSoundSetting();
   }
 );
+
+soundOptions.forEach((option) => {
+  option.addEventListener(
+    'click',
+    () => {
+      const name = option.dataset.soundChoice;
+
+      sound.setSound(
+        name,
+        !preferences.soundSettings[name]
+      );
+
+      updateSoundSetting();
+    }
+  );
+});
 
 
 /* =========================================================
