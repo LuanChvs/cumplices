@@ -2029,3 +2029,73 @@ main {
   }
 
 }
+
+/* =========================================================
+   CONFIGURAÇÕES — SONS INDIVIDUAIS
+========================================================= */
+
+.settings-sound-options {
+  margin-top: 10px;
+  padding: 4px 0 0;
+}
+
+.settings-sound-title {
+  margin: 8px 2px;
+
+  color: var(--text-dim);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.settings-sound-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, opacity .15s ease;
+}
+
+.settings-sound-row:hover {
+  background: var(--panel-2);
+  border-color: var(--line);
+}
+
+.settings-sound-row > span:first-child {
+  min-width: 0;
+}
+
+.settings-sound-row strong {
+  display: block;
+  font-size: .8rem;
+}
+
+.settings-sound-row small {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-dim);
+  font-size: .68rem;
+  line-height: 1.35;
+}
+
+.settings-sound-row .settings-switch {
+  transform: scale(.9);
+  transform-origin: center right;
+}
+
+.settings-sound-row.is-disabled {
+  opacity: .48;
+}
+
+.settings-sound-row.is-disabled:hover {
+  opacity: .62;
+}
