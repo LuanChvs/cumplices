@@ -91,7 +91,7 @@ function renderEmSintonia() {
 
     <section class="em-sintonia__game" data-role="game">
       <div class="em-sintonia__mode" data-role="mode"></div>
-      <div class="em-sintonia__turn"><div class="em-sintonia__phase" data-role="phase"></div><span class="em-sintonia__timer" data-role="timer"></span></div>
+      <div class="em-sintonia__turn"><div class="em-sintonia__phase" data-role="phase"></div></div>
       <div class="em-sintonia__round-turn" data-role="round-turn"></div>
       <div class="em-sintonia__score" data-role="score"></div>
 
@@ -117,7 +117,7 @@ function renderEmSintonia() {
         </div>
       </div>
 
-      <div class="em-sintonia__clue"><small>Pista</small><strong data-role="clue"></strong></div>
+      <div class="em-sintonia__clue em-sintonia__clue--timer"><small>Tempo</small><strong class="em-sintonia__timer" data-role="timer"></strong></div>
       <div class="em-sintonia__actions">
         <button type="button" class="em-sintonia__button" data-action="toggle">Esconder para os palpites</button>
         <button type="button" class="em-sintonia__button" data-action="skip">Pular pista</button>
@@ -131,7 +131,7 @@ function renderEmSintonia() {
 
   const $ = role => root.querySelector(`[data-role="${role}"]`);
   const setup = $('setup'), game = $('game'), board = $('board'), target = $('target'), needle = $('needle'), overlay = $('overlay');
-  const clue = $('clue'), phase = $('phase'), score = $('score'), timer = $('timer');
+  const phase = $('phase'), score = $('score'), timer = $('timer');
   const roundTurn = $('round-turn'), mode = $('mode'), leftLabel = $('left-label'), rightLabel = $('right-label'), roundInfo = $('round-info');
   const setupRoster = $('setup-roster'), rosterLabel = $('roster-label'), timeSelect = $('time-select');
   const customFields = $('custom-fields'), customLeft = $('custom-left'), customRight = $('custom-right');
@@ -373,9 +373,6 @@ function renderEmSintonia() {
     displayClue(); setTargetArea(); updateNeedle();
     target.style.display = state.isTargetVisible || state.isPostGuessPhase ? 'block' : 'none';
     needle.style.display = state.isPostGuessPhase || state.isTargetVisible ? 'none' : 'block';
-    clue.textContent = state.isPostGuessPhase
-      ? `Pontuação: ${state.lastRoundPoints} ponto(s)`
-      : 'Pista';
     roundInfo.textContent = state.currentClueIndex >= 0 ? `Pista ${state.currentClueIndex + 1}` : '';
     updateModeDisplay(); updateScoreDisplay(); updateCurrentPhase(); updateRoundTurn();
     root.classList.toggle('is-settings', state.settingsOpen);
