@@ -1024,3 +1024,16 @@ body.game-mode .whoami-round-screen {
     margin-top: 5px;
   }
 }
+
+
+/* =========================================================
+   PRIORIDADE FINAL — MODO JOGO
+   Quando a barra superior é recolhida, a rodada recupera
+   os 100svh completos.
+========================================================= */
+
+body.game-mode .whoami-round-screen {
+  height: 100svh;
+  min-height: 100svh;
+  max-height: 100svh;
+}
