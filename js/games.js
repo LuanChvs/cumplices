@@ -89,5 +89,14 @@ const games = {
       color: 'teal',
       icon: '🔤',
       render: renderTermo
+    },
+    forca: {
+      id: 'forca',
+      title: 'Forca',
+      route: '/forca',
+      description: 'Um clássico de palavras para jogar em dupla ou em grupo.',
+      color: 'coral',
+      icon: '🪢',
+      render: renderForca
     }
   };
