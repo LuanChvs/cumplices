@@ -242,3 +242,91 @@
     padding:0 8px;
   }
 }
+
+
+/* =========================================================
+   FORCA — ACABAMENTO DOS BOTÕES E ÁREA DE AÇÃO
+   Mantém o mesmo espaço antes e depois do resultado.
+========================================================= */
+
+.forca__word-action {
+  width: 100%;
+  min-width: 0;
+  align-items: stretch;
+}
+
+.forca__word-input,
+.forca__result {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.forca__word-input {
+  display: block;
+}
+
+.forca__word-button {
+  min-width: 0;
+  white-space: nowrap;
+  transition:
+    transform .1s ease,
+    border-color .15s ease,
+    background .15s ease,
+    filter .15s ease;
+}
+
+.forca__word-button:active {
+  transform: scale(.975);
+}
+
+.forca__word-action:has(.forca__result) {
+  min-width: 0;
+}
+
+.forca__word-action:has(.forca__result) .forca__result {
+  width: 100%;
+  min-height: 44px;
+  padding: 7px 12px;
+  display: grid;
+  align-content: center;
+  gap: 1px;
+  overflow: hidden;
+}
+
+.forca__word-action:has(.forca__result) .forca__result strong,
+.forca__word-action:has(.forca__result) .forca__result span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 621px) {
+  .forca__word-action:has(.forca__result) {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-width: 620px) and (orientation: portrait) {
+  .forca__word-action {
+    min-height: 96px;
+  }
+
+  .forca__word-input,
+  .forca__word-button,
+  .forca__word-action:has(.forca__result) .forca__result {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 899px) and (orientation: landscape) {
+  .forca--playing .forca__word-action {
+    min-width: 0;
+  }
+
+  .forca--playing .forca__word-input,
+  .forca--playing .forca__result,
+  .forca--playing .forca__word-button {
+    min-width: 0;
+  }
+}
