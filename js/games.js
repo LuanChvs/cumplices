@@ -80,5 +80,14 @@ const games = {
       color: 'coral',
       icon: ICONS.quemSouEu,
       render: renderQuemSouEu
+    },
+    termo: {
+      id: 'termo',
+      title: 'Termo',
+      route: '/termo',
+      description: 'Descubram a palavra de cinco letras em até seis tentativas.',
+      color: 'teal',
+      icon: '🔤',
+      render: renderTermo
     }
   };
