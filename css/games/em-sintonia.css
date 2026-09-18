@@ -3,31 +3,55 @@
    Escopo exclusivo do Em Sintonia.
 ========================================================= */
 
-.em-sintonia {
-  width: min(900px, 100%);
-  margin: 0 auto;
-  padding: 8px 0 24px;
-}
-
+.em-sintonia { width:min(900px,100%); margin:0 auto; padding:8px 0 24px; }
 .em-sintonia__header { text-align:center; margin-bottom:10px; }
 .em-sintonia__eyebrow { display:block; font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; opacity:.5; margin-bottom:4px; }
-.em-sintonia__title { margin:0; font-family:var(--font-b, sans-serif); font-size:clamp(2rem,5vw,3rem); }
+.em-sintonia__title { margin:0; font-family:var(--font-b,sans-serif); font-size:clamp(2rem,5vw,3rem); }
 .em-sintonia__subtitle { margin:4px auto 0; max-width:700px; font-size:.82rem; opacity:.65; }
 
-.em-sintonia__mode { display:flex; justify-content:center; margin:6px auto 7px; }
-.em-sintonia__mode-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--panel-2); gap:2px; }
-.em-sintonia__mode-button { min-height:30px; padding:0 13px; border:0; border-radius:999px; background:transparent; color:var(--text-dim); font:inherit; font-size:.68rem; font-weight:900; cursor:pointer; transition:background .18s ease,color .18s ease,box-shadow .18s ease; }
-.em-sintonia__mode-button:hover { color:var(--text); }
-.em-sintonia__mode-button.is-active { background:var(--panel); color:var(--text); box-shadow:0 1px 5px rgba(0,0,0,.1); }
+.em-sintonia__setup { width:min(680px,100%); margin:18px auto 0; }
+.em-sintonia__setup-card { padding:22px; border:1px solid var(--line); border-radius:20px; background:var(--panel); box-shadow:0 14px 45px rgba(0,0,0,.08); }
+.em-sintonia__setup-heading { text-align:center; margin-bottom:20px; }
+.em-sintonia__setup-heading > span { font-size:.6rem; font-weight:900; letter-spacing:.14em; opacity:.45; }
+.em-sintonia__setup-heading h2 { margin:5px 0 3px; font-size:1.45rem; }
+.em-sintonia__setup-heading p { margin:0; font-size:.76rem; opacity:.58; }
+.em-sintonia__setup-section { margin-top:17px; }
+.em-sintonia__setup-label { display:block; margin-bottom:7px; font-size:.72rem; font-weight:900; }
+.em-sintonia__choice-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.em-sintonia__choice { min-height:74px; padding:11px 12px; border:1px solid var(--line); border-radius:12px; background:var(--panel-2); color:var(--text); text-align:left; font:inherit; cursor:pointer; transition:.18s ease; }
+.em-sintonia__choice strong { display:block; font-size:.8rem; }
+.em-sintonia__choice span { display:block; margin-top:4px; font-size:.66rem; line-height:1.35; opacity:.58; }
+.em-sintonia__choice:hover { border-color:var(--line-strong); }
+.em-sintonia__choice.is-selected { border-color:var(--rose); box-shadow:0 0 0 2px color-mix(in srgb,var(--rose) 14%,transparent); background:color-mix(in srgb,var(--rose) 5%,var(--panel)); }
+.em-sintonia__choice-grid--compact .em-sintonia__choice { min-height:60px; }
+.em-sintonia__select { width:100%; min-height:42px; padding:0 11px; border:1px solid var(--line); border-radius:10px; background:var(--panel-2); color:var(--text); font:inherit; font-size:.76rem; }
+.em-sintonia__setup-roster { display:grid; gap:6px; }
+.em-sintonia__setup-player { display:grid; grid-template-columns:1fr auto; gap:6px; }
+.em-sintonia__setup-player input,
+.em-sintonia__custom-fields input,
+.em-sintonia__custom-editor input { min-width:0; width:100%; min-height:38px; box-sizing:border-box; padding:0 10px; border:1px solid var(--line); border-radius:9px; background:var(--panel-2); color:var(--text); font:inherit; font-size:.72rem; }
+.em-sintonia__setup-player button { width:38px; border:1px solid var(--line); border-radius:9px; background:var(--panel-2); color:var(--text-dim); cursor:pointer; }
+.em-sintonia__setup-player button:disabled { opacity:.25; cursor:not-allowed; }
+.em-sintonia__setup-add { margin-top:7px; padding:5px 9px; border:1px dashed var(--line); border-radius:8px; background:transparent; color:var(--text-dim); font:inherit; font-size:.65rem; cursor:pointer; }
+.em-sintonia__custom-fields { display:none; grid-template-columns:1fr auto 1fr; align-items:center; gap:7px; margin-top:8px; }
+.em-sintonia__custom-fields.is-visible { display:grid; }
+.em-sintonia__custom-fields span { opacity:.45; }
+.em-sintonia__start { width:100%; margin-top:21px; min-height:45px; font-size:.78rem; }
 
-.em-sintonia__turn { display:flex; justify-content:center; margin:7px 0 5px; }
+.em-sintonia__game { display:block; }
+.em-sintonia__mode { display:flex; justify-content:center; margin:6px auto 7px; }
+.em-sintonia__mode-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--panel-2); }
+.em-sintonia__mode-current { padding:5px 13px; border-radius:999px; font-size:.68rem; font-weight:900; }
+.em-sintonia__turn { display:flex; justify-content:center; align-items:center; gap:8px; margin:7px 0 5px; }
 .em-sintonia__phase { padding:6px 11px; border:1px solid var(--line); border-radius:999px; background:var(--panel-2); font-size:.72rem; font-weight:800; }
+.em-sintonia__timer { min-width:46px; font-size:.8rem; font-weight:900; font-variant-numeric:tabular-nums; opacity:.72; }
+.em-sintonia__timer.is-warning { color:var(--rose); opacity:1; }
 .em-sintonia__round-turn { display:flex; align-items:center; justify-content:center; gap:8px; min-height:25px; margin:0 auto 7px; font-size:.72rem; }
 .em-sintonia__round-turn strong { font-weight:900; }
 .em-sintonia__round-turn span { padding-left:8px; border-left:1px solid var(--line); opacity:.55; }
 
 .em-sintonia__score { display:grid; gap:5px; margin:0 auto 10px; width:min(560px,100%); }
-.em-sintonia__score-management { text-align:center; font-size:.62rem; opacity:.45; margin-bottom:0; }
+.em-sintonia__score-management { text-align:center; font-size:.62rem; opacity:.45; }
 .em-sintonia__score-team { display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:8px; min-height:34px; padding:4px 8px 4px 11px; border:1px solid var(--line); border-radius:10px; background:var(--panel); }
 .em-sintonia__score-team.is-active { border-color:var(--line-strong); box-shadow:0 0 0 1px color-mix(in srgb,var(--rose) 22%,transparent) inset; }
 .em-sintonia__team-name { min-width:0; padding:0; border:0; background:none; color:var(--text); text-align:left; font:inherit; font-size:.76rem; font-weight:800; cursor:pointer; }
@@ -39,58 +63,68 @@
 .em-sintonia__add-team { justify-self:center; padding:4px 9px; border:1px dashed var(--line); border-radius:8px; background:transparent; color:var(--text-dim); font:inherit; font-size:.66rem; cursor:pointer; }
 
 .em-sintonia__board-wrap { position:relative; width:min(760px,96vw); margin:0 auto; }
-.em-sintonia__board { position:relative; width:100%; aspect-ratio:2 / 1; overflow:hidden; border-radius:760px 760px 0 0; background:var(--panel-2); border:1px solid var(--line); border-bottom:0; box-shadow:inset 0 5px 10px rgba(0,0,0,.08); touch-action:none; user-select:none; }
-.em-sintonia__board.is-psychic { box-shadow:inset 0 5px 10px rgba(0,0,0,.08), 0 0 0 1px color-mix(in srgb,var(--rose) 12%,transparent); }
-
+.em-sintonia__board { position:relative; width:100%; aspect-ratio:2/1; overflow:hidden; border-radius:760px 760px 0 0; background:var(--panel-2); border:1px solid var(--line); border-bottom:0; box-shadow:inset 0 5px 10px rgba(0,0,0,.08); touch-action:none; user-select:none; }
 .em-sintonia__target { position:absolute; inset:0; border-radius:inherit; pointer-events:none; transition:opacity .2s ease; }
 .em-sintonia__needle { position:absolute; bottom:0; left:50%; width:4px; height:100%; transform-origin:50% 100%; transform:rotate(0deg); cursor:pointer; z-index:5; }
 .em-sintonia__needle-line { position:absolute; left:0; bottom:0; width:4px; height:90%; border-radius:5px 5px 0 0; background:var(--rose); box-shadow:0 0 12px color-mix(in srgb,var(--rose) 55%,transparent); }
-
 .em-sintonia__reveal { position:absolute; inset:0; display:grid; place-items:end center; padding:20px; background:color-mix(in srgb,var(--bg) 78%,transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:20; }
 .em-sintonia__reveal.is-active { opacity:1; pointer-events:auto; cursor:pointer; }
 .em-sintonia__reveal-card { margin-bottom:5px; padding:12px 18px; border:1px solid var(--line); border-radius:15px; background:var(--panel); text-align:center; box-shadow:0 12px 35px rgba(0,0,0,.15); }
 .em-sintonia__reveal-card strong { display:block; font-size:1rem; }
 .em-sintonia__reveal-card span { display:block; margin-top:3px; font-size:.72rem; opacity:.58; }
-
 .em-sintonia__labels { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px; margin-top:8px; font-size:.76rem; font-weight:800; }
 .em-sintonia__label:first-child { text-align:left; }
 .em-sintonia__label:last-child { text-align:right; }
 .em-sintonia__arrow { opacity:.45; font-size:1.05rem; }
+.em-sintonia__edit-extremes { display:block; margin:7px auto 0; padding:4px 8px; border:1px dashed var(--line); border-radius:8px; background:transparent; color:var(--text-dim); font:inherit; font-size:.61rem; cursor:pointer; }
+.em-sintonia__custom-editor { display:none; grid-template-columns:1fr auto 1fr auto; align-items:center; gap:6px; max-width:620px; margin:7px auto 0; }
+.em-sintonia__custom-editor.is-visible { display:grid; }
+.em-sintonia__custom-editor .em-sintonia__button { min-height:34px; padding:0 10px; }
 
 .em-sintonia__clue { min-height:52px; margin:10px auto 9px; padding:9px 14px; border:1px solid var(--line); border-radius:13px; background:var(--panel); text-align:center; }
 .em-sintonia__clue small { display:block; margin-bottom:2px; font-size:.6rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; opacity:.48; }
 .em-sintonia__clue strong { font-size:.86rem; }
-
 .em-sintonia__actions { display:flex; justify-content:center; flex-wrap:wrap; gap:7px; }
 .em-sintonia__button { min-height:40px; padding:0 13px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--text); font:inherit; font-size:.74rem; font-weight:800; cursor:pointer; touch-action:manipulation; }
 .em-sintonia__button:hover { border-color:var(--line-strong); background:var(--panel-2); }
 .em-sintonia__button--primary { border-color:transparent; background:var(--rose); color:#fff; }
-
 .em-sintonia__round-info { margin-top:8px; text-align:center; font-size:.62rem; opacity:.42; }
 
-/* Telas grandes: aproveita melhor a área disponível sem criar espaço vazio excessivo. */
 @media (min-width:901px) and (min-height:700px) {
   .em-sintonia { width:min(1040px,96vw); padding-top:10px; }
   .em-sintonia__header { margin-bottom:8px; }
   .em-sintonia__title { font-size:clamp(2.2rem,4vw,3.2rem); }
-  .em-sintonia__round-turn { margin-bottom:8px; }
+  .em-sintonia__setup { width:min(760px,88vw); }
   .em-sintonia__score { width:min(650px,78vw); }
   .em-sintonia__score-team { min-height:38px; }
   .em-sintonia__board-wrap { width:min(860px,82vw); }
   .em-sintonia__clue { max-width:860px; }
 }
 
-/* Celular: reduzir espaços sem alterar a mecânica. */
 @media (max-width:620px) {
   .em-sintonia { padding:2px 0 12px; }
   .em-sintonia__header { margin-bottom:5px; }
   .em-sintonia__eyebrow { font-size:.58rem; margin-bottom:1px; }
   .em-sintonia__title { font-size:clamp(1.7rem,7vw,2.3rem); }
   .em-sintonia__subtitle { margin-top:2px; font-size:.72rem; }
+  .em-sintonia__setup { margin-top:10px; }
+  .em-sintonia__setup-card { padding:15px; border-radius:15px; }
+  .em-sintonia__setup-heading { margin-bottom:14px; }
+  .em-sintonia__setup-heading h2 { font-size:1.2rem; }
+  .em-sintonia__setup-heading p { font-size:.67rem; }
+  .em-sintonia__setup-section { margin-top:13px; }
+  .em-sintonia__choice-grid { gap:6px; }
+  .em-sintonia__choice { min-height:66px; padding:9px; }
+  .em-sintonia__choice strong { font-size:.7rem; }
+  .em-sintonia__choice span { font-size:.58rem; }
+  .em-sintonia__select { min-height:38px; font-size:.68rem; }
+  .em-sintonia__setup-player input { min-height:34px; }
+  .em-sintonia__setup-player button { width:34px; }
+  .em-sintonia__start { margin-top:15px; min-height:40px; }
   .em-sintonia__mode { margin:3px auto 4px; }
-  .em-sintonia__mode-button { min-height:27px; padding:0 11px; font-size:.62rem; }
   .em-sintonia__turn { margin:4px 0 4px; }
   .em-sintonia__phase { padding:5px 10px; font-size:.66rem; }
+  .em-sintonia__timer { font-size:.7rem; }
   .em-sintonia__round-turn { min-height:21px; margin-bottom:4px; font-size:.65rem; gap:6px; }
   .em-sintonia__round-turn span { padding-left:6px; }
   .em-sintonia__score { gap:4px; margin-bottom:6px; }
@@ -103,38 +137,48 @@
   .em-sintonia__board-wrap { width:100%; }
   .em-sintonia__labels { margin-top:4px; font-size:.62rem; gap:7px; }
   .em-sintonia__arrow { font-size:.88rem; }
-  .em-sintonia__clue { min-height:40px; margin:6px auto 6px; padding:7px 10px; }
-  .em-sintonia__clue small { margin-bottom:1px; font-size:.54rem; }
+  .em-sintonia__edit-extremes { font-size:.56rem; }
+  .em-sintonia__custom-editor { grid-template-columns:1fr auto 1fr; }
+  .em-sintonia__custom-editor .em-sintonia__button { grid-column:1/-1; min-height:33px; }
+  .em-sintonia__clue { min-height:40px; margin:6px auto; padding:7px 10px; }
+  .em-sintonia__clue small { font-size:.54rem; }
   .em-sintonia__clue strong { font-size:.7rem; }
   .em-sintonia__actions { gap:5px; }
   .em-sintonia__button { min-height:35px; padding:0 10px; flex:1 1 130px; font-size:.67rem; }
-  .em-sintonia__round-info { margin-top:4px; font-size:.54rem; }
 }
 
-/* Celular deitado / telas com pouca altura. */
 @media (max-width:900px) and (max-height:600px) and (orientation:landscape) {
   .em-sintonia { width:100%; padding:2px 8px 5px; }
   .em-sintonia__header { margin-bottom:3px; }
-  .em-sintonia__eyebrow,
-  .em-sintonia__subtitle,
-  .em-sintonia__round-info { display:none; }
+  .em-sintonia__eyebrow,.em-sintonia__subtitle,.em-sintonia__round-info { display:none; }
   .em-sintonia__title { font-size:1.35rem; line-height:1.1; }
+  .em-sintonia__setup { margin-top:4px; }
+  .em-sintonia__setup-card { padding:10px; }
+  .em-sintonia__setup-heading { margin-bottom:8px; }
+  .em-sintonia__setup-heading h2 { font-size:1rem; margin:2px 0; }
+  .em-sintonia__setup-heading p,.em-sintonia__setup-heading>span { display:none; }
+  .em-sintonia__setup-section { margin-top:8px; }
+  .em-sintonia__setup-label { margin-bottom:4px; font-size:.58rem; }
+  .em-sintonia__choice { min-height:45px; padding:6px; }
+  .em-sintonia__choice span { display:none; }
+  .em-sintonia__select { min-height:30px; }
+  .em-sintonia__setup-player input { min-height:28px; }
+  .em-sintonia__setup-player button { width:30px; }
+  .em-sintonia__start { margin-top:8px; min-height:32px; }
   .em-sintonia__mode { margin:1px auto 2px; }
-  .em-sintonia__mode-button { min-height:23px; padding:0 9px; font-size:.54rem; }
   .em-sintonia__turn { margin:2px 0 3px; }
   .em-sintonia__phase { padding:3px 9px; font-size:.6rem; }
+  .em-sintonia__timer { font-size:.62rem; }
   .em-sintonia__round-turn { min-height:19px; margin-bottom:3px; font-size:.6rem; }
-  .em-sintonia__score { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:4px; width:100%; margin:0 auto 3px; }
+  .em-sintonia__score { display:flex; flex-wrap:wrap; justify-content:center; gap:4px; width:100%; margin:0 auto 3px; }
   .em-sintonia__score-management { display:none; }
   .em-sintonia__score-team { min-height:25px; padding:2px 5px 2px 7px; border-radius:8px; gap:4px; }
   .em-sintonia__team-name { font-size:.6rem; }
-  .em-sintonia__team-name span { font-size:.48rem; }
   .em-sintonia__score-team strong { min-width:19px; font-size:.76rem; }
-  .em-sintonia__team-delete { width:19px; min-width:19px; height:19px; font-size:.68rem; }
+  .em-sintonia__team-delete { width:19px; min-width:19px; height:19px; }
   .em-sintonia__add-team { padding:2px 6px; font-size:.54rem; }
-  .em-sintonia__board-wrap { width:min(90vw, calc(200dvh - 390px)); }
+  .em-sintonia__board-wrap { width:min(90vw,calc(200dvh - 390px)); }
   .em-sintonia__labels { margin-top:3px; font-size:.56rem; gap:6px; }
-  .em-sintonia__arrow { font-size:.72rem; }
   .em-sintonia__clue { min-height:28px; margin:3px auto; padding:3px 7px; }
   .em-sintonia__clue small { display:inline; margin-right:4px; font-size:.48rem; }
   .em-sintonia__clue strong { font-size:.6rem; }
@@ -142,19 +186,21 @@
   .em-sintonia__button { min-height:30px; padding:0 7px; flex:1 1 auto; font-size:.58rem; }
 }
 
-/* Retrato baixo: compacta o jogo verticalmente. */
 @media (max-width:620px) and (max-height:700px) and (orientation:portrait) {
   .em-sintonia__header { margin-bottom:3px; }
   .em-sintonia__eyebrow { display:none; }
   .em-sintonia__title { font-size:1.5rem; }
   .em-sintonia__subtitle { font-size:.63rem; }
-  .em-sintonia__mode { margin:2px auto 3px; }
-  .em-sintonia__mode-button { min-height:25px; padding:0 10px; font-size:.58rem; }
+  .em-sintonia__setup-card { padding:12px; }
+  .em-sintonia__setup-heading { margin-bottom:10px; }
+  .em-sintonia__setup-section { margin-top:9px; }
+  .em-sintonia__choice { min-height:58px; }
+  .em-sintonia__choice span { display:none; }
+  .em-sintonia__start { margin-top:10px; }
   .em-sintonia__turn { margin:2px 0 4px; }
   .em-sintonia__round-turn { min-height:19px; margin-bottom:3px; font-size:.6rem; }
   .em-sintonia__score { margin-bottom:4px; }
   .em-sintonia__board-wrap { width:100%; }
-  .em-sintonia__labels { margin-top:3px; }
   .em-sintonia__clue { min-height:34px; margin:4px auto; padding:5px 8px; }
   .em-sintonia__actions { gap:4px; }
   .em-sintonia__button { min-height:33px; }
@@ -162,5 +208,5 @@
 }
 
 @media (prefers-reduced-motion:reduce) {
-  .em-sintonia__reveal,.em-sintonia__target,.em-sintonia__mode-button { transition:none; }
+  .em-sintonia__reveal,.em-sintonia__target,.em-sintonia__choice { transition:none; }
 }
