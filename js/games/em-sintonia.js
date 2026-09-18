@@ -249,9 +249,11 @@ function renderEmSintonia() {
       timerFill.classList.remove('is-warning');
       return;
     }
-    const elapsed = Math.floor((Date.now() - state.guessStartedAt) / 1000);
+    const elapsedMs = Date.now() - state.guessStartedAt;
+    const elapsed = elapsedMs / 1000;
     const remaining = Math.max(0, state.guessTime - elapsed);
-    timer.textContent = `⏱ ${formatTime(remaining)}`;
+    const displayRemaining = Math.max(0, Math.ceil(remaining));
+    timer.textContent = `⏱ ${formatTime(displayRemaining)}`;
     const percent = Math.max(0, Math.min(100, (remaining / state.guessTime) * 100));
     timerFill.style.width = `${percent}%`;
     timerFill.classList.toggle('is-warning', remaining <= 10);
