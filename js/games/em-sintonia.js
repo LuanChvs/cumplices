@@ -22,6 +22,7 @@ function renderEmSintonia() {
     currentNeedleAngle: 0,
     isTargetVisible: true,
     isPostGuessPhase: false,
+    lastRoundPoints: 0,
     guessTime: 0,
     guessStartedAt: null,
     themeMode: 'random',
@@ -161,7 +162,7 @@ function renderEmSintonia() {
       currentTeamIndex: state.currentTeamIndex, currentPlayerIndex: state.currentPlayerIndex,
       currentClueIndex: state.currentClueIndex, targetAngle: state.targetAngle,
       currentNeedleAngle: state.currentNeedleAngle, isTargetVisible: state.isTargetVisible,
-      isPostGuessPhase: state.isPostGuessPhase, guessTime: state.guessTime,
+      isPostGuessPhase: state.isPostGuessPhase, lastRoundPoints: state.lastRoundPoints, guessTime: state.guessTime,
       guessStartedAt: state.guessStartedAt, themeMode: state.themeMode,
       customLeft: state.customLeft, customRight: state.customRight
     });
@@ -217,6 +218,7 @@ function renderEmSintonia() {
     state.targetAngle = Math.random() * 180 - 90;
     setRandomClue();
     state.currentNeedleAngle = 0;
+    state.lastRoundPoints = 0;
     state.isTargetVisible = true;
     state.isPostGuessPhase = false;
     state.guessStartedAt = null;
@@ -353,7 +355,7 @@ function renderEmSintonia() {
     const currentName = getCurrentName();
     phase.textContent = postGuess ? '🏆 Alvo revelado' : psychic ? '🔮 Dica' : '🎯 Palpite';
     instruction.textContent = postGuess
-      ? `${currentName} marcou ${calculateScore(state.currentNeedleAngle)} ponto(s).`
+      ? `${currentName} marcou ${state.lastRoundPoints} ponto(s).`
       : psychic
         ? `${currentName} dá a dica. Veja o alvo e depois esconda-o para os palpites.`
         : state.mode === 'free'
@@ -380,7 +382,7 @@ function renderEmSintonia() {
     needle.style.display = state.isPostGuessPhase || state.isTargetVisible ? 'none' : 'block';
     const currentName = getCurrentName();
     clue.textContent = state.isPostGuessPhase
-      ? `${currentName} marcou ${calculateScore(state.currentNeedleAngle)} ponto(s).`
+      ? `${currentName} marcou ${state.lastRoundPoints} ponto(s).`
       : state.isTargetVisible ? 'Dê uma dica em voz alta.' : 'A dica foi dada. Posicionem a agulha.';
     roundInfo.textContent = state.currentClueIndex >= 0 ? `Pista ${state.currentClueIndex + 1}` : '';
     updateModeDisplay(); updateScoreDisplay(); updateCurrentPhase(); updateRoundTurn();
@@ -417,6 +419,7 @@ function renderEmSintonia() {
     state.isTargetVisible = true;
     state.isPostGuessPhase = true;
     const points = timedOut ? 0 : calculateScore(state.currentNeedleAngle);
+    state.lastRoundPoints = points;
     const collection = getCurrentCollection();
     if (collection[getCurrentIndex()]) collection[getCurrentIndex()].score += points;
     render(); saveGameState();
