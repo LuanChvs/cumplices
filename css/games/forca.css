@@ -1399,3 +1399,260 @@
 .forca--playing .forca__play-area {
   overflow: visible;
 }
+
+
+/* =========================================================
+   FORCA — CORREÇÃO DEFINITIVA DO TECLADO
+   O teclado nunca invade a faixa de ações.
+   As teclas ocupam as linhas disponíveis no próprio
+   contêiner e permanecem quadradas.
+========================================================= */
+
+/* O play-area é a área comum de boneco + teclado + ações. */
+.forca--playing .forca__play-area {
+  min-height: 0;
+  overflow: visible;
+}
+
+/* =========================================================
+   HORIZONTAL
+========================================================= */
+
+@media (min-width: 621px) {
+  .forca--playing .forca__play-area {
+    grid-template-columns: minmax(190px, .78fr) minmax(0, 1.7fr);
+    grid-template-rows: minmax(0, 1fr) 44px;
+    column-gap: 16px;
+    row-gap: 8px;
+  }
+
+  .forca--playing .forca__hangman {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    min-height: 0;
+  }
+
+  .forca--playing .forca__keyboard-area {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .forca--playing .forca__keyboard {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+    align-content: stretch;
+    justify-content: stretch;
+    grid-auto-flow: row;
+    grid-auto-rows: minmax(0, 1fr);
+  }
+
+  /* Telas largas: menos linhas, aproveitando espaço lateral. */
+  @media (min-width: 1180px) {
+    .forca--playing .forca__keyboard {
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+    }
+
+    .forca--playing .forca__keyboard {
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Desktop/landscape médio: 7 colunas, 4 linhas. */
+  @media (min-width: 621px) and (max-width: 1179px) {
+    .forca--playing .forca__keyboard {
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* A dimensão dominante é a altura da célula do teclado.
+     Isso impede que a tecla passe da sua própria linha. */
+  .forca--playing .forca__key {
+    align-self: center;
+    justify-self: center;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+  }
+
+  .forca--playing .forca__game-actions {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+    max-height: 44px;
+  }
+}
+
+/* =========================================================
+   LANDSCAPE COMPACTO
+========================================================= */
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .forca--playing {
+    width: min(100%, 900px);
+    height: calc(100dvh - 48px);
+    padding: 4px 0;
+  }
+
+  .forca--playing .forca__game {
+    gap: 5px;
+  }
+
+  .forca--playing .forca__play-area {
+    grid-template-columns: minmax(145px, .62fr) minmax(0, 1.58fr);
+    grid-template-rows: minmax(0, 1fr) 36px;
+    column-gap: 10px;
+    row-gap: 5px;
+  }
+
+  .forca--playing .forca__hangman {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  .forca--playing .forca__keyboard-area {
+    grid-column: 2;
+    grid-row: 1;
+    height: 100%;
+  }
+
+  .forca--playing .forca__keyboard {
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .forca--playing .forca__key {
+    align-self: center;
+    justify-self: center;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    font-size: .68rem;
+  }
+
+  .forca--playing .forca__game-actions {
+    grid-column: 2;
+    grid-row: 2;
+    height: 36px;
+    min-height: 36px;
+    max-height: 36px;
+  }
+}
+
+/* =========================================================
+   RETRATO
+========================================================= */
+
+@media (max-width: 620px) and (orientation: portrait) {
+  .forca--playing {
+    width: min(100%, 430px);
+    height: calc(100dvh - 64px);
+    padding: 7px 8px;
+    overflow-y: auto;
+  }
+
+  .forca--playing .forca__game {
+    min-height: 0;
+    height: auto;
+    grid-template-rows: auto auto;
+    gap: 8px;
+  }
+
+  .forca--playing .forca__word-area {
+    min-height: 50px;
+  }
+
+  .forca--playing .forca__play-area {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 104px minmax(0, auto) 96px;
+    gap: 8px;
+  }
+
+  .forca--playing .forca__hangman {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 104px;
+    min-height: 104px;
+  }
+
+  .forca--playing .forca__keyboard-area {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+  }
+
+  .forca--playing .forca__keyboard {
+    width: 100%;
+    height: auto;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: unset;
+    gap: 5px;
+  }
+
+  .forca--playing .forca__key {
+    align-self: stretch;
+    justify-self: stretch;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    aspect-ratio: 1 / 1;
+    min-width: 0;
+    min-height: 0;
+    font-size: .7rem;
+  }
+
+  .forca--playing .forca__game-actions {
+    grid-column: 1;
+    grid-row: 3;
+    width: 100%;
+    height: 96px;
+    min-height: 96px;
+    max-height: 96px;
+  }
+}
+
+/* =========================================================
+   RESULTADO — MESMA GEOMETRIA DAS AÇÕES
+========================================================= */
+
+.forca--playing .forca__word-action {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+}
+
+.forca--playing .forca__word-action .forca__result {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
