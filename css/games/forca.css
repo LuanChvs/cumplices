@@ -1,0 +1,154 @@
+/* =========================================================
+   FORCA — NAVEGAÇÃO / ESTRUTURA
+   Fase 1: seleção de modo.
+========================================================= */
+
+.forca {
+  box-sizing: border-box;
+  width: min(520px, calc(100% - 24px));
+  min-height: calc(100dvh - 90px);
+  margin: 0 auto;
+  padding: 24px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.forca__header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.forca__eyebrow {
+  display: block;
+  font-size: .58rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  opacity: .45;
+}
+
+.forca__title {
+  margin: 4px 0 0;
+  font-family: var(--font-b, sans-serif);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.forca__screen {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.forca__options {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+}
+
+.forca__option {
+  width: 100%;
+  min-height: 78px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .12s ease, border-color .15s ease, background .15s ease;
+}
+
+.forca__option:hover {
+  border-color: var(--line-strong);
+  background: var(--panel-2);
+}
+
+.forca__option:active {
+  transform: scale(.985);
+}
+
+.forca__option-icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--panel-2);
+  font-size: 1.3rem;
+}
+
+.forca__option-copy {
+  display: grid;
+  gap: 3px;
+}
+
+.forca__option-copy strong {
+  font-size: .95rem;
+}
+
+.forca__option-copy small {
+  color: var(--text-dim);
+  font-size: .7rem;
+  line-height: 1.4;
+}
+
+.forca__back {
+  margin-top: 18px;
+  border: 0;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.forca__back:hover {
+  color: var(--text);
+}
+
+@media (max-width: 620px) {
+  .forca {
+    width: min(100%, 430px);
+    min-height: calc(100dvh - 64px);
+    padding: 18px 8px 12px;
+  }
+
+  .forca__header {
+    margin-bottom: 22px;
+  }
+
+  .forca__eyebrow {
+    display: none;
+  }
+
+  .forca__title {
+    font-size: 1.65rem;
+  }
+
+  .forca__option {
+    min-height: 72px;
+    padding: 12px 14px;
+  }
+
+  .forca__option-icon {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forca__option {
+    transition: none;
+  }
+}
