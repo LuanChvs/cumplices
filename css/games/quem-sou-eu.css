@@ -840,11 +840,9 @@
 }
 
 /* =========================================================
-   QUEM SOU EU — TRAVA DE VIEWPORT DA RODADA
-   A tela de jogo é sempre dividida em:
-   cabeçalho / nome / timer / ações.
-   O nome recebe o espaço restante; os demais
-   componentes nunca podem crescer e roubar sua área.
+   QUEM SOU EU — RODADA / VIEWPORT
+   A rodada nunca ultrapassa a viewport. O nome recebe
+   o espaço restante; timer e ações têm áreas próprias.
 ========================================================= */
 
 .whoami-round-screen {
@@ -863,7 +861,7 @@
 
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: clamp(10px, 2vh, 20px);
+  row-gap: clamp(14px, 2.6vh, 24px);
 }
 
 .whoami-round-top {
@@ -871,49 +869,65 @@
 }
 
 .whoami-round-main {
-  min-width: 0;
-  min-height: 0;
+  box-sizing: border-box;
   width: 100%;
   max-width: 980px;
+  min-width: 0;
+  min-height: 0;
   margin: 0 auto;
   padding: 0 clamp(8px, 3vw, 28px);
-  box-sizing: border-box;
   overflow: hidden;
 
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-  grid-template-columns: 1fr;
-  justify-items: center;
-  align-items: center;
-  gap: clamp(10px, 2.5vh, 24px);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  row-gap: clamp(10px, 2.4vh, 24px);
+  align-items: stretch;
+  justify-items: stretch;
 }
 
 .whoami-round-kicker {
-  grid-row: 1;
-  align-self: end;
   margin: 0;
+  align-self: end;
 }
 
 .whoami-name {
-  grid-row: 1;
-  align-self: center;
-  justify-self: center;
-  min-width: 0;
+  box-sizing: border-box;
+  width: 100%;
   max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
   margin: 0;
+  padding: 0;
 
-  font-size: clamp(3rem, min(15vw, 18vh), 12rem);
-  line-height: .95;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   overflow: hidden;
+  text-align: center;
+  line-height: .95;
+  font-size: clamp(3rem, min(15vw, 18vh), 12rem);
+}
+
+.whoami-name-text {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-align: center;
 }
 
 .whoami-timer-wrap {
-  grid-row: 2;
-  width: 100%;
-  max-width: 760px;
+  width: min(100%, 760px);
+  justify-self: center;
+  align-self: center;
   margin: 0;
-  flex: none;
 }
 
 .whoami-timer {
@@ -927,41 +941,49 @@
 }
 
 .whoami-round-actions {
-  min-width: 0;
   width: min(100%, 760px);
+  min-width: 0;
   margin: 0 auto;
 }
 
 @media (max-width: 899px) {
   .whoami-round-screen {
-    gap: clamp(8px, 1.8vh, 16px);
+    padding:
+      max(8px, env(safe-area-inset-top))
+      max(10px, env(safe-area-inset-right))
+      max(8px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left));
+    row-gap: clamp(10px, 2vh, 18px);
   }
 
   .whoami-round-main {
     padding-inline: clamp(4px, 3vw, 20px);
-    gap: clamp(8px, 2vh, 16px);
+    row-gap: clamp(8px, 2vh, 16px);
   }
 
-  .whoami-timer-wrap {
+  .whoami-timer-wrap,
+  .whoami-round-actions {
     width: 100%;
   }
 
   .whoami-timer {
     font-size: clamp(1.35rem, min(5vw, 5vh), 2.5rem);
   }
-
-  .whoami-round-actions {
-    width: 100%;
-  }
 }
 
 @media (max-width: 899px) and (max-height: 500px) and (orientation: landscape) {
   .whoami-round-screen {
-    gap: 6px;
+    padding:
+      max(4px, env(safe-area-inset-top))
+      max(8px, env(safe-area-inset-right))
+      max(4px, env(safe-area-inset-bottom))
+      max(8px, env(safe-area-inset-left));
+    row-gap: 6px;
   }
 
   .whoami-round-main {
-    gap: 6px;
+    padding-inline: 10px;
+    row-gap: 6px;
   }
 
   .whoami-round-kicker {
@@ -970,10 +992,6 @@
 
   .whoami-name {
     font-size: clamp(2rem, min(14vw, 18vh), 7rem);
-  }
-
-  .whoami-timer-wrap {
-    width: 100%;
   }
 
   .whoami-timer {
