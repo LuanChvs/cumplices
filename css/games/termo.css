@@ -76,6 +76,18 @@
   border-color: var(--line-strong);
 }
 
+.termo__cell.is-revealing {
+  animation: termo-cell-reveal .3s ease both;
+  border-color: var(--line-strong);
+}
+
+@keyframes termo-cell-reveal {
+  0% { transform: rotateX(0deg); }
+  45% { transform: rotateX(90deg); }
+  55% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+
 .termo__cell.is-correct,
 .termo__cell.is-present,
 .termo__cell.is-absent {
@@ -279,5 +291,9 @@
   .termo__cell,
   .termo__key {
     transition: none;
+  }
+
+  .termo__cell.is-revealing {
+    animation: none;
   }
 }
