@@ -280,10 +280,13 @@ function renderTermo() {
 
       window.setTimeout(() => {
         cell.classList.add(`is-${status}`);
+      }, 600);
+
+      window.setTimeout(() => {
         cell.classList.remove('is-revealing');
         cell.classList.add('is-filled');
-        window.setTimeout(() => revealNext(index + 1), 90);
-      }, 150);
+        window.setTimeout(() => revealNext(index + 1), 150);
+      }, 1200);
     };
 
     revealNext(0);
