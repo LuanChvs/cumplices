@@ -60,6 +60,9 @@
 
 .termo__cell {
   aspect-ratio: 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
   display: grid;
   place-items: center;
   border: 2px solid var(--line);
@@ -87,15 +90,39 @@
 }
 
 .termo__cell.is-revealing {
-  animation: termo-cell-reveal .65s cubic-bezier(.4, 0, .2, 1) both;
+  animation: termo-cell-reveal .75s cubic-bezier(.4, 0, .2, 1) both;
   border-color: var(--line-strong);
+  will-change: transform;
 }
 
 @keyframes termo-cell-reveal {
   0% { transform: perspective(700px) rotateY(0deg); }
-  42% { transform: perspective(700px) rotateY(88deg); }
-  58% { transform: perspective(700px) rotateY(88deg); }
+  45% { transform: perspective(700px) rotateY(90deg); }
+  55% { transform: perspective(700px) rotateY(90deg); }
   100% { transform: perspective(700px) rotateY(0deg); }
+}
+
+.termo__cell.is-win {
+  animation: termo-win .6s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.termo__cell.is-loss {
+  animation: termo-loss .5s ease both;
+}
+
+@keyframes termo-win {
+  0% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-8px) scale(1.06); }
+  65% { transform: translateY(2px) scale(.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes termo-loss {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
 }
 
 .termo__cell.is-correct,
