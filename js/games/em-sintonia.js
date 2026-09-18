@@ -117,7 +117,12 @@ function renderEmSintonia() {
         </div>
       </div>
 
-      <div class="em-sintonia__clue em-sintonia__clue--timer"><small>Tempo</small><strong class="em-sintonia__timer" data-role="timer"></strong></div>
+      <div class="em-sintonia__clue em-sintonia__clue--timer">
+        <div class="em-sintonia__timer-bar-track">
+          <div class="em-sintonia__timer-bar-fill" data-role="timer-fill"></div>
+        </div>
+        <strong class="em-sintonia__timer" data-role="timer"></strong>
+      </div>
       <div class="em-sintonia__actions">
         <button type="button" class="em-sintonia__button" data-action="toggle">Esconder para os palpites</button>
         <button type="button" class="em-sintonia__button" data-action="skip">Pular pista</button>
@@ -131,7 +136,7 @@ function renderEmSintonia() {
 
   const $ = role => root.querySelector(`[data-role="${role}"]`);
   const setup = $('setup'), game = $('game'), board = $('board'), target = $('target'), needle = $('needle'), overlay = $('overlay');
-  const phase = $('phase'), score = $('score'), timer = $('timer');
+  const phase = $('phase'), score = $('score'), timer = $('timer'), timerFill = $('timer-fill');
   const roundTurn = $('round-turn'), mode = $('mode'), leftLabel = $('left-label'), rightLabel = $('right-label'), roundInfo = $('round-info');
   const setupRoster = $('setup-roster'), rosterLabel = $('roster-label'), timeSelect = $('time-select');
   const customFields = $('custom-fields'), customLeft = $('custom-left'), customRight = $('custom-right');
@@ -231,14 +236,25 @@ function renderEmSintonia() {
   }
 
   function updateTimer() {
-    if (state.guessTime <= 0 || state.isTargetVisible || state.isPostGuessPhase || !state.guessStartedAt) {
-      timer.textContent = state.guessTime > 0 && state.isTargetVisible ? `⏱ ${formatTime(state.guessTime)}` : '';
+    if (state.guessTime <= 0) {
+      timer.textContent = '⏱ ∞';
+      timerFill.style.width = '100%';
+      timerFill.classList.remove('is-warning');
+      return;
+    }
+
+    if (state.isTargetVisible || state.isPostGuessPhase || !state.guessStartedAt) {
+      timer.textContent = state.isTargetVisible ? `⏱ ${formatTime(state.guessTime)}` : '';
+      timerFill.style.width = '100%';
+      timerFill.classList.remove('is-warning');
       return;
     }
     const elapsed = Math.floor((Date.now() - state.guessStartedAt) / 1000);
     const remaining = Math.max(0, state.guessTime - elapsed);
     timer.textContent = `⏱ ${formatTime(remaining)}`;
-    timer.classList.toggle('is-warning', remaining <= 10);
+    const percent = Math.max(0, Math.min(100, (remaining / state.guessTime) * 100));
+    timerFill.style.width = `${percent}%`;
+    timerFill.classList.toggle('is-warning', remaining <= 10);
     if (remaining <= 0) {
       stopTimer();
       revealTarget(true);
@@ -257,6 +273,7 @@ function renderEmSintonia() {
     if (timerId) clearInterval(timerId);
     timerId = null;
     timer.classList.remove('is-warning');
+    timerFill.classList.remove('is-warning');
   }
 
   function escapeHtml(value) {
