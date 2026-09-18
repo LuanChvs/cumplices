@@ -87,7 +87,7 @@
 }
 
 .termo__cell.is-revealing {
-  animation: termo-cell-reveal .85s ease both;
+  animation: termo-cell-reveal 1.2s ease both;
   border-color: var(--line-strong);
 }
 
@@ -114,7 +114,7 @@
 }
 
 .termo__cell.is-absent {
-  background: var(--text-dim);
+  background: var(--bg);
 }
 
 .termo__keyboard {
@@ -169,6 +169,15 @@
 }
 
 .termo__key.is-absent {
+  background: var(--bg);
+  color: var(--text-dim);
+}
+
+[data-theme="light"] .termo__cell.is-absent {
+  background: var(--text-dim);
+}
+
+[data-theme="light"] .termo__key.is-absent {
   background: var(--text-dim);
   color: #fff;
 }
