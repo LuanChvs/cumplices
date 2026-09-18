@@ -7,7 +7,7 @@
 .em-sintonia__header { text-align:center; margin-bottom:10px; }
 .em-sintonia__eyebrow { display:block; font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; opacity:.5; margin-bottom:4px; }
 .em-sintonia__title { margin:0; font-family:var(--font-b,sans-serif); font-size:clamp(2rem,5vw,3rem); }
-.em-sintonia__subtitle { margin:4px auto 0; max-width:700px; font-size:.82rem; opacity:.65; }
+.em-sintonia__subtitle { display:none; }
 
 .em-sintonia__setup { width:min(680px,100%); margin:18px auto 0; }
 .em-sintonia__setup-card { padding:22px; border:1px solid var(--line); border-radius:20px; background:var(--panel); box-shadow:0 14px 45px rgba(0,0,0,.08); }
@@ -62,7 +62,7 @@
 .em-sintonia__team-input { width:100%; min-width:0; padding:5px 7px; border:1px solid var(--line-strong); border-radius:8px; background:var(--panel-2); color:var(--text); font:inherit; font-size:.76rem; }
 .em-sintonia__add-team { justify-self:center; padding:4px 9px; border:1px dashed var(--line); border-radius:8px; background:transparent; color:var(--text-dim); font:inherit; font-size:.66rem; cursor:pointer; }
 
-.em-sintonia__board-wrap { position:relative; width:min(760px,96vw); margin:0 auto; }
+.em-sintonia__board-wrap { position:relative; width:min(760px,96vw,calc((100dvh - 220px) * 2)); margin-inline:auto; }
 .em-sintonia__board { position:relative; width:100%; aspect-ratio:2/1; overflow:hidden; border-radius:760px 760px 0 0; background:var(--panel-2); border:1px solid var(--line); border-bottom:0; box-shadow:inset 0 5px 10px rgba(0,0,0,.08); touch-action:none; user-select:none; }
 .em-sintonia__target { position:absolute; inset:0; border-radius:inherit; pointer-events:none; transition:opacity .2s ease; }
 .em-sintonia__needle { position:absolute; bottom:0; left:50%; width:4px; height:100%; transform-origin:50% 100%; transform:rotate(0deg); cursor:pointer; z-index:5; }
@@ -81,9 +81,9 @@
 .em-sintonia__custom-editor.is-visible { display:grid; }
 .em-sintonia__custom-editor .em-sintonia__button { min-height:34px; padding:0 10px; }
 
-.em-sintonia__clue { min-height:52px; margin:10px auto 9px; padding:9px 14px; border:1px solid var(--line); border-radius:13px; background:var(--panel); text-align:center; }
-.em-sintonia__clue small { display:block; margin-bottom:2px; font-size:.6rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; opacity:.48; }
-.em-sintonia__clue strong { font-size:.86rem; }
+.em-sintonia__clue { min-height:0; margin:7px auto 6px; padding:5px 12px; border:1px solid var(--line); border-radius:10px; background:var(--panel); text-align:center; }
+.em-sintonia__clue small { display:none; }
+.em-sintonia__clue strong { font-size:.78rem; }
 .em-sintonia__actions { display:flex; justify-content:center; flex-wrap:wrap; gap:7px; width:100%; box-sizing:border-box; }
 .em-sintonia__button { min-height:40px; padding:0 13px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--text); font:inherit; font-size:.74rem; font-weight:800; cursor:pointer; touch-action:manipulation; }
 .em-sintonia__button:hover { border-color:var(--line-strong); background:var(--panel-2); }
