@@ -177,3 +177,39 @@
 @media(min-width:900px){.forca--playing{height:calc(100dvh - 70px);padding-top:8px;padding-bottom:4px}.forca--playing .forca__game{gap:7px}.forca--playing .forca__hangman{height:124px;min-height:124px}.forca--playing .forca__hangman svg{height:120px}.forca--playing .forca__word{height:52px;min-height:52px}.forca--playing .forca__hint{min-height:16px}.forca--playing .forca__key{min-height:32px}.forca--playing .forca__game-actions{min-height:40px}.forca--playing .forca__word-input,.forca--playing .forca__word-button{min-height:38px}}
 @media(max-width:899px) and (orientation:landscape){.forca--playing .forca__play-side{grid-template-rows:auto 1fr auto;min-height:0}.forca--playing .forca__keyboard{align-content:start;min-height:0}.forca--playing .forca__key{min-height:27px}.forca--playing .forca__game-actions{min-height:36px}.forca--playing .forca__word-input,.forca--playing .forca__word-button{min-height:34px}.forca--playing .forca__word{height:46px;min-height:46px}.forca--playing .forca__hint{min-height:14px;font-size:.62rem}.forca--playing .forca__hangman svg{max-height:185px}}
 @media(max-width:899px) and (orientation:landscape) and (max-height:360px){.forca--playing{height:100dvh;padding-top:4px;padding-bottom:2px}.forca--playing .forca__game{gap:4px}.forca--playing .forca__play-area{gap:8px}.forca--playing .forca__play-side{gap:4px}.forca--playing .forca__word{height:40px;min-height:40px;padding-top:12px}.forca--playing .forca__letter{height:30px;font-size:.9rem}.forca--playing .forca__keyboard{gap:3px}.forca--playing .forca__key{min-height:24px;font-size:.68rem}.forca--playing .forca__game-actions{min-height:32px}.forca--playing .forca__word-input,.forca--playing .forca__word-button{min-height:30px}.forca--playing .forca__hangman svg{max-height:165px}}
+
+
+/* Ajuste fino — boneco compacto no modo deitado. */
+@media(max-width:899px) and (orientation:landscape){
+  .forca--playing .forca__hangman{
+    width:150px;
+    height:112px;
+    min-height:112px;
+    align-content:center;
+    align-self:start;
+  }
+
+  .forca--playing .forca__hangman svg{
+    width:140px;
+    height:104px;
+    max-height:104px;
+  }
+
+  .forca--playing .forca__errors{
+    font-size:.52rem;
+  }
+}
+
+@media(max-width:899px) and (orientation:landscape) and (max-height:360px){
+  .forca--playing .forca__hangman{
+    width:130px;
+    height:88px;
+    min-height:88px;
+  }
+
+  .forca--playing .forca__hangman svg{
+    width:122px;
+    height:80px;
+    max-height:80px;
+  }
+}
