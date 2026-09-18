@@ -72,7 +72,7 @@
   font-weight: 800;
   line-height: 1;
   text-transform: uppercase;
-  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+  transition: background .18s ease, border-color .18s ease;
 }
 
 .termo__cell.is-filled {
