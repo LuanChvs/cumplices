@@ -845,12 +845,27 @@
    o espaço restante; timer e ações têm áreas próprias.
 ========================================================= */
 
-.whoami-round-screen {
-  box-sizing: border-box;
-  width: 100%;
+body:has(.whoami-round-screen) main,
+body:has(.whoami-round-screen) #view {
+  overflow: hidden;
+}
+
+body:has(.whoami-round-screen) main {
+  padding-bottom: 0;
+}
+
+body.game-mode .whoami-round-screen {
   height: 100svh;
   min-height: 100svh;
   max-height: 100svh;
+}
+
+.whoami-round-screen {
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(100svh - 68px);
+  min-height: calc(100svh - 68px);
+  max-height: calc(100svh - 68px);
   margin: 0;
   padding:
     max(12px, env(safe-area-inset-top))
@@ -947,6 +962,12 @@
 }
 
 @media (max-width: 899px) {
+  body:not(.game-mode) .whoami-round-screen {
+    height: calc(100svh - 54px);
+    min-height: calc(100svh - 54px);
+    max-height: calc(100svh - 54px);
+  }
+
   .whoami-round-screen {
     padding:
       max(8px, env(safe-area-inset-top))
