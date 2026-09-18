@@ -26,8 +26,8 @@ const soundSettingDescription =
 const soundSwitch =
   document.getElementById('soundSwitch');
 
-const soundOptions =
-  document.querySelectorAll('[data-sound-choice]');
+const soundClickOption =
+  document.querySelector('[data-sound-choice="click"]');
 
 const resenhaSetting =
   document.getElementById('resenhaSetting');
@@ -441,31 +441,30 @@ function updateSoundSetting() {
     String(enabled)
   );
 
-  soundOptions.forEach((option) => {
-    const name = option.dataset.soundChoice;
-    const optionEnabled =
-      Boolean(preferences.soundSettings[name]);
+  if (soundClickOption) {
+    const clickEnabled =
+      Boolean(preferences.soundSettings.click);
 
-    const optionSwitch =
-      option.querySelector('.settings-switch');
+    const clickSwitch =
+      soundClickOption.querySelector('.settings-switch');
 
-    option.classList.toggle(
+    soundClickOption.classList.toggle(
       'is-disabled',
       !enabled
     );
 
-    option.setAttribute(
+    soundClickOption.setAttribute(
       'aria-pressed',
-      String(optionEnabled)
+      String(clickEnabled)
     );
 
-    if (optionSwitch) {
-      optionSwitch.classList.toggle(
+    if (clickSwitch) {
+      clickSwitch.classList.toggle(
         'active',
-        optionEnabled
+        clickEnabled
       );
     }
-  });
+  }
 }
 
 soundSetting.addEventListener(
@@ -480,21 +479,19 @@ soundSetting.addEventListener(
   }
 );
 
-soundOptions.forEach((option) => {
-  option.addEventListener(
+if (soundClickOption) {
+  soundClickOption.addEventListener(
     'click',
     () => {
-      const name = option.dataset.soundChoice;
-
       sound.setSound(
-        name,
-        !preferences.soundSettings[name]
+        'click',
+        !preferences.soundSettings.click
       );
 
       updateSoundSetting();
     }
   );
-});
+}
 
 
 /* =========================================================
