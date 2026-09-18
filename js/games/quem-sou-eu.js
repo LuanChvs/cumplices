@@ -704,141 +704,64 @@ function renderQuemSouEu() {
 }
 
 /* =========================================================
-   AUTO-FIT DO NOME — Quem sou eu
-   Altura máxima = a altura que o mesmo nome teria em uma linha.
+   LAYOUT RESPONSIVO DA RODADA
+   Uma única fonte de verdade para o nome.
 ========================================================= */
 
 function fitWhoamiName(el) {
   if (!el) return;
 
-  const main = el.parentElement;
-  if (!main) return;
+  const text = el.querySelector('.whoami-name-text');
+  if (!text) return;
 
-  const mainRect = main.getBoundingClientRect();
+  const width = el.clientWidth;
+  const height = el.clientHeight;
 
-  if (!mainRect.width || !mainRect.height) {
+  if (!width || !height) {
     requestAnimationFrame(() => fitWhoamiName(el));
     return;
   }
 
-  /*
-    Limpa qualquer ajuste anterior para o cálculo
-    começar sempre do CSS original.
-  */
-
   el.style.fontSize = '';
-  el.style.height = '';
-  el.style.minHeight = '';
-  el.style.maxHeight = '';
-  el.style.flex = '';
-  el.style.whiteSpace = 'nowrap';
-  el.style.overflowWrap = 'normal';
-  el.style.wordBreak = 'normal';
-  el.style.lineHeight = '';
+  text.style.fontSize = '';
 
-  const maxWidth = mainRect.width;
+  const computedSize = parseFloat(getComputedStyle(el).fontSize);
+  const maxSize = Number.isFinite(computedSize) ? computedSize : 192;
+  const minSize = Math.max(18, Math.floor(maxSize * 0.16));
 
-  /*
-    Calcula primeiro a altura REAL de uma linha.
-    Para isso, o nome fica temporariamente sem quebra.
-  */
-  let size = parseFloat(getComputedStyle(el).fontSize);
-  const maxSize = size;
-  const minSize = Math.max(18, maxSize * 0.22);
+  let low = minSize;
+  let high = maxSize;
+  let best = minSize;
 
-  /*
-    Mede o espaço realmente disponível entre o kicker
-    e o timer. O nome nunca poderá ocupar mais que isso.
-  */
-  let reservedHeight = 0;
+  while (low <= high) {
+    const size = Math.floor((low + high) / 2);
 
-  Array.from(main.children).forEach((child) => {
-    if (child === el) return;
+    text.style.fontSize = `${size}px`;
 
-    const rect = child.getBoundingClientRect();
-    const style = getComputedStyle(child);
+    const fitsWidth = text.scrollWidth <= width + 1;
+    const fitsHeight = text.scrollHeight <= height + 1;
 
-    const mt = parseFloat(style.marginTop) || 0;
-    const mb = parseFloat(style.marginBottom) || 0;
-
-    reservedHeight += rect.height + mt + mb;
-  });
-
-  const availableHeight = Math.max(
-    1,
-    mainRect.height - reservedHeight
-  );
-
-  el.style.fontSize = `${size}px`;
-
-  /*
-    O tamanho de uma linha precisa caber tanto
-    na largura quanto no espaço vertical disponível.
-  */
-  while (size > minSize) {
-    const fitsWidth = el.scrollWidth <= maxWidth;
-    const fitsHeight = el.getBoundingClientRect().height <= availableHeight;
-
-    if (fitsWidth && fitsHeight) break;
-
-    size -= 1;
-    el.style.fontSize = `${size}px`;
+    if (fitsWidth && fitsHeight) {
+      best = size;
+      low = size + 1;
+    } else {
+      high = size - 1;
+    }
   }
 
-  /*
-    Esta é a altura de referência:
-    a altura que "Fogo", por exemplo, usaria.
-  */
-  const singleLineHeight = el.getBoundingClientRect().height;
-  const nameMaxHeight = Math.min(
-    singleLineHeight,
-    availableHeight
-  );
-
-  /*
-    Reserva fisicamente essa altura no layout.
-    Assim, um nome de duas linhas não ganha espaço
-    extra e não empurra timer nem botões.
-  */
-  el.style.height = `${nameMaxHeight}px`;
-  el.style.minHeight = `${nameMaxHeight}px`;
-  el.style.maxHeight = `${nameMaxHeight}px`;
-  el.style.flex = `0 0 ${nameMaxHeight}px`;
-
-  /*
-    Agora pode quebrar somente entre palavras.
-    Se precisar de duas linhas, a fonte diminui
-    até as duas caberem dentro da mesma caixa.
-  */
-  el.style.whiteSpace = 'normal';
-  el.style.overflowWrap = 'normal';
-  el.style.wordBreak = 'normal';
-
-  size = parseFloat(getComputedStyle(el).fontSize);
-  el.style.fontSize = `${size}px`;
-
-  while (size > minSize) {
-    const fitsWidth = el.scrollWidth <= maxWidth;
-    const fitsHeight = el.scrollHeight <= nameMaxHeight;
-
-    if (fitsWidth && fitsHeight) break;
-
-    size -= 1;
-    el.style.fontSize = `${size}px`;
-  }
+  text.style.fontSize = `${best}px`;
 }
 
 function renderWhoamiName(name) {
   const el = document.querySelector('.whoami-name');
   if (!el) return;
 
-  el.textContent = name;
+  el.innerHTML = '';
 
-  /*
-    Espera dois frames: um pro navegador
-    pintar o texto, outro pra medir com
-    as dimensões já estáveis.
-  */
+  const text = document.createElement('span');
+  text.className = 'whoami-name-text';
+  text.textContent = name;
+  el.appendChild(text);
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
@@ -846,10 +769,6 @@ function renderWhoamiName(name) {
     });
   });
 }
-
-/* =========================================================
-   REAJUSTA AO REDIMENSIONAR / GIRAR TELA
-========================================================= */
 
 let whoamiResizeTimer = null;
 
@@ -859,5 +778,5 @@ window.addEventListener('resize', () => {
   whoamiResizeTimer = setTimeout(() => {
     const el = document.querySelector('.whoami-name');
     if (el) fitWhoamiName(el);
-  }, 120);
+  }, 80);
 });
