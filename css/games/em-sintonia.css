@@ -3,7 +3,7 @@
    Escopo exclusivo do Em Sintonia.
 ========================================================= */
 
-.em-sintonia { width:min(900px,100%); margin:0 auto; padding:8px 0 24px; }
+.em-sintonia { box-sizing:border-box; width:min(900px,calc(100% - 16px)); margin-inline:auto; padding:8px 0 16px; }
 .em-sintonia__header { text-align:center; margin-bottom:10px; }
 .em-sintonia__eyebrow { display:block; font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; opacity:.5; margin-bottom:4px; }
 .em-sintonia__title { margin:0; font-family:var(--font-b,sans-serif); font-size:clamp(2rem,5vw,3rem); }
@@ -38,13 +38,13 @@
 .em-sintonia__custom-fields span { opacity:.45; }
 .em-sintonia__start { width:100%; margin-top:21px; min-height:45px; font-size:.78rem; }
 
-.em-sintonia__game { display:block; }
+.em-sintonia__game { display:block; width:100%; box-sizing:border-box; }
 .em-sintonia__mode { display:flex; justify-content:center; margin:6px auto 7px; }
 .em-sintonia__mode-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--panel-2); }
 .em-sintonia__mode-current { padding:5px 13px; border-radius:999px; font-size:.68rem; font-weight:900; }
 .em-sintonia__turn { display:flex; justify-content:center; align-items:center; gap:8px; margin:7px 0 5px; }
 .em-sintonia__phase { padding:6px 11px; border:1px solid var(--line); border-radius:999px; background:var(--panel-2); font-size:.72rem; font-weight:800; }
-.em-sintonia__timer { min-width:46px; font-size:.8rem; font-weight:900; font-variant-numeric:tabular-nums; opacity:.72; }
+.em-sintonia__timer { min-width:58px; padding:5px 8px; border:1px solid var(--line); border-radius:999px; background:var(--panel-2); font-size:.8rem; font-weight:900; font-variant-numeric:tabular-nums; text-align:center; opacity:.78; }
 .em-sintonia__timer.is-warning { color:var(--rose); opacity:1; }
 .em-sintonia__round-turn { display:flex; align-items:center; justify-content:center; gap:8px; min-height:25px; margin:0 auto 7px; font-size:.72rem; }
 .em-sintonia__round-turn strong { font-weight:900; }
@@ -84,25 +84,25 @@
 .em-sintonia__clue { min-height:52px; margin:10px auto 9px; padding:9px 14px; border:1px solid var(--line); border-radius:13px; background:var(--panel); text-align:center; }
 .em-sintonia__clue small { display:block; margin-bottom:2px; font-size:.6rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; opacity:.48; }
 .em-sintonia__clue strong { font-size:.86rem; }
-.em-sintonia__actions { display:flex; justify-content:center; flex-wrap:wrap; gap:7px; }
+.em-sintonia__actions { display:flex; justify-content:center; flex-wrap:wrap; gap:7px; width:100%; box-sizing:border-box; }
 .em-sintonia__button { min-height:40px; padding:0 13px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--text); font:inherit; font-size:.74rem; font-weight:800; cursor:pointer; touch-action:manipulation; }
 .em-sintonia__button:hover { border-color:var(--line-strong); background:var(--panel-2); }
 .em-sintonia__button--primary { border-color:transparent; background:var(--rose); color:#fff; }
 .em-sintonia__round-info { margin-top:8px; text-align:center; font-size:.62rem; opacity:.42; }
 
 @media (min-width:901px) and (min-height:700px) {
-  .em-sintonia { width:min(1040px,96vw); padding-top:10px; }
+  .em-sintonia { width:min(1040px,calc(100% - 20px)); padding-top:6px; padding-bottom:8px; }
   .em-sintonia__header { margin-bottom:8px; }
   .em-sintonia__title { font-size:clamp(2.2rem,4vw,3.2rem); }
   .em-sintonia__setup { width:min(760px,88vw); }
   .em-sintonia__score { width:min(650px,78vw); }
   .em-sintonia__score-team { min-height:38px; }
-  .em-sintonia__board-wrap { width:min(860px,82vw); }
+  .em-sintonia__board-wrap { width:min(860px,82vw,calc((100dvh - 300px) * 2)); }
   .em-sintonia__clue { max-width:860px; }
 }
 
 @media (max-width:620px) {
-  .em-sintonia { padding:2px 0 12px; }
+  .em-sintonia { width:calc(100% - 12px); padding:1px 0 6px; }
   .em-sintonia__header { margin-bottom:5px; }
   .em-sintonia__eyebrow { font-size:.58rem; margin-bottom:1px; }
   .em-sintonia__title { font-size:clamp(1.7rem,7vw,2.3rem); }
@@ -124,7 +124,7 @@
   .em-sintonia__mode { margin:3px auto 4px; }
   .em-sintonia__turn { margin:4px 0 4px; }
   .em-sintonia__phase { padding:5px 10px; font-size:.66rem; }
-  .em-sintonia__timer { font-size:.7rem; }
+  .em-sintonia__timer { min-width:52px; padding:4px 7px; font-size:.7rem; }
   .em-sintonia__round-turn { min-height:21px; margin-bottom:4px; font-size:.65rem; gap:6px; }
   .em-sintonia__round-turn span { padding-left:6px; }
   .em-sintonia__score { gap:4px; margin-bottom:6px; }
@@ -134,7 +134,7 @@
   .em-sintonia__score-team strong { font-size:.88rem; }
   .em-sintonia__team-delete { width:24px; min-width:24px; height:24px; }
   .em-sintonia__add-team { padding:3px 8px; font-size:.6rem; }
-  .em-sintonia__board-wrap { width:100%; }
+  .em-sintonia__board-wrap { width:min(100%,calc((100dvh - 260px) * 2)); }
   .em-sintonia__labels { margin-top:4px; font-size:.62rem; gap:7px; }
   .em-sintonia__arrow { font-size:.88rem; }
   .em-sintonia__edit-extremes { font-size:.56rem; }
@@ -143,7 +143,7 @@
   .em-sintonia__clue { min-height:40px; margin:6px auto; padding:7px 10px; }
   .em-sintonia__clue small { font-size:.54rem; }
   .em-sintonia__clue strong { font-size:.7rem; }
-  .em-sintonia__actions { gap:5px; }
+  .em-sintonia__actions { gap:4px; }
   .em-sintonia__button { min-height:35px; padding:0 10px; flex:1 1 130px; font-size:.67rem; }
 }
 
@@ -177,7 +177,7 @@
   .em-sintonia__score-team strong { min-width:19px; font-size:.76rem; }
   .em-sintonia__team-delete { width:19px; min-width:19px; height:19px; }
   .em-sintonia__add-team { padding:2px 6px; font-size:.54rem; }
-  .em-sintonia__board-wrap { width:min(90vw,calc(200dvh - 390px)); }
+  .em-sintonia__board-wrap { width:min(90vw,calc((100dvh - 190px) * 2)); }
   .em-sintonia__labels { margin-top:3px; font-size:.56rem; gap:6px; }
   .em-sintonia__clue { min-height:28px; margin:3px auto; padding:3px 7px; }
   .em-sintonia__clue small { display:inline; margin-right:4px; font-size:.48rem; }
