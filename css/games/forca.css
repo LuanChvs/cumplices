@@ -496,3 +496,100 @@
     min-height: 36px;
   }
 }
+
+
+/* =========================================================
+   FORCA — TECLADO RESPONSIVO POR VIEWPORT
+   A tecla é quadrada e seu tamanho é limitado pela altura
+   da tela em landscape, em vez de crescer com a largura.
+========================================================= */
+
+.forca--playing .forca__keyboard {
+  --forca-key-size: clamp(
+    34px,
+    min(4vw, 7vh),
+    46px
+  );
+
+  width: min(
+    100%,
+    calc(
+      (var(--forca-key-size) * 7) +
+      (6 * 6px)
+    )
+  );
+  margin-inline: auto;
+  grid-template-columns: repeat(
+    7,
+    var(--forca-key-size)
+  );
+  grid-auto-rows: var(--forca-key-size);
+  justify-content: center;
+  align-content: start;
+  gap: 6px;
+}
+
+.forca--playing .forca__key {
+  width: var(--forca-key-size);
+  height: var(--forca-key-size);
+  min-width: var(--forca-key-size);
+  min-height: var(--forca-key-size);
+  max-width: var(--forca-key-size);
+  max-height: var(--forca-key-size);
+  aspect-ratio: 1 / 1;
+  padding: 0;
+}
+
+@media (max-width: 899px) and (orientation: landscape) {
+  .forca--playing .forca__keyboard {
+    --forca-key-size: clamp(
+      30px,
+      min(6vw, 8vh),
+      40px
+    );
+
+    width: min(
+      100%,
+      calc(
+        (var(--forca-key-size) * 7) +
+        (6 * 4px)
+      )
+    );
+    gap: 4px;
+  }
+
+  .forca--playing .forca__key {
+    width: var(--forca-key-size);
+    height: var(--forca-key-size);
+    min-width: var(--forca-key-size);
+    min-height: var(--forca-key-size);
+  }
+}
+
+@media (max-width: 620px) and (orientation: portrait) {
+  .forca--playing .forca__keyboard {
+    --forca-key-size: clamp(
+      34px,
+      10vw,
+      42px
+    );
+
+    width: min(
+      100%,
+      calc(
+        (var(--forca-key-size) * 7) +
+        (6 * 5px)
+      )
+    );
+    gap: 5px;
+  }
+
+  .forca--playing .forca__key {
+    width: var(--forca-key-size);
+    height: var(--forca-key-size);
+    min-width: var(--forca-key-size);
+    min-height: var(--forca-key-size);
+    max-width: var(--forca-key-size);
+    max-height: var(--forca-key-size);
+  }
+}
