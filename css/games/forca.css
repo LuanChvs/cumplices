@@ -179,3 +179,66 @@
 @media(max-width:899px) and (orientation:landscape) and (max-height:360px){.forca--playing{height:100dvh;padding-top:4px;padding-bottom:2px}.forca--playing .forca__game{gap:4px}.forca--playing .forca__play-area{gap:8px}.forca--playing .forca__play-side{gap:4px}.forca--playing .forca__word{height:40px;min-height:40px;padding-top:12px}.forca--playing .forca__letter{height:30px;font-size:.9rem}.forca--playing .forca__keyboard{gap:3px}.forca--playing .forca__key{min-height:24px;font-size:.68rem}.forca--playing .forca__game-actions{min-height:32px}.forca--playing .forca__word-input,.forca--playing .forca__word-button{min-height:30px}.forca--playing .forca__hangman svg{max-height:165px}}
 
 
+
+
+/* Correção estrutural — a coluna de jogo tem quatro blocos: palavra, feedback, letras e ações. */
+.forca--playing .forca__play-side{
+  grid-template-rows:auto auto minmax(0,1fr) auto;
+}
+
+.forca--playing .forca__keyboard{
+  min-height:0;
+}
+
+.forca--playing .forca__game-actions{
+  min-height:0;
+}
+
+/* No deitado, resultado + replay ocupam a mesma faixa para não empurrar o teclado. */
+@media(max-width:899px) and (orientation:landscape){
+  .forca--playing .forca__play-side{
+    grid-template-rows:auto auto minmax(0,1fr) auto;
+  }
+
+  .forca--playing .forca__keyboard{
+    overflow:hidden;
+  }
+
+  .forca--playing .forca__game-actions:has(.forca__result){
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:stretch;
+    gap:6px;
+  }
+
+  .forca--playing .forca__game-actions:has(.forca__result) .forca__result{
+    min-width:0;
+    padding:6px 8px;
+    align-content:center;
+  }
+
+  .forca--playing .forca__game-actions:has(.forca__result) .forca__word-button{
+    width:auto;
+    min-width:118px;
+    padding:0 12px;
+  }
+}
+
+@media(max-width:899px) and (orientation:landscape) and (max-height:360px){
+  .forca--playing .forca__game-actions:has(.forca__result){
+    gap:5px;
+  }
+
+  .forca--playing .forca__game-actions:has(.forca__result) .forca__result{
+    padding:4px 6px;
+    font-size:.7rem;
+  }
+
+  .forca--playing .forca__game-actions:has(.forca__result) .forca__result span{
+    font-size:.58rem;
+  }
+
+  .forca--playing .forca__game-actions:has(.forca__result) .forca__word-button{
+    min-width:105px;
+    padding:0 8px;
+  }
+}
