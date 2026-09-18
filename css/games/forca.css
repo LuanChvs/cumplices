@@ -593,3 +593,349 @@
     max-height: var(--forca-key-size);
   }
 }
+
+
+/* =========================================================
+   FORCA — LAYOUT FINAL DA PARTIDA
+   Vertical:
+     boneco
+     teclado
+     texto + ações
+
+   Horizontal:
+     boneco | teclado
+            | texto + ações
+========================================================= */
+
+.forca--playing {
+  width: min(100%, 1180px);
+  height: calc(100dvh - 70px);
+  min-height: 0;
+  padding: 8px 0 6px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.forca--playing .forca__game {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 8px;
+}
+
+.forca--playing .forca__play-area {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(170px, .72fr) minmax(0, 1.7fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.forca--playing .forca__hangman {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+}
+
+.forca--playing .forca__hangman svg {
+  width: min(100%, 220px);
+  height: min(100%, 205px);
+}
+
+.forca--playing .forca__play-side {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.forca--playing .forca__keyboard {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(38px, 1fr));
+  grid-auto-rows: min-content;
+  justify-content: stretch;
+  align-content: start;
+  gap: 6px;
+  overflow: visible;
+}
+
+.forca--playing .forca__key {
+  width: 100%;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  max-width: none;
+  max-height: none;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.forca--playing .forca__footer {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 7px;
+}
+
+.forca--playing .forca__details {
+  min-width: 0;
+  min-height: 0;
+}
+
+.forca--playing .forca__word {
+  min-width: 0;
+  min-height: 48px;
+  height: 48px;
+  padding-top: 14px;
+  gap: 7px;
+}
+
+.forca--playing .forca__word .forca__letter {
+  flex: 0 1 42px;
+  width: clamp(30px, 5.5vw, 42px);
+  min-width: 0;
+  height: 34px;
+}
+
+.forca--playing .forca__hint {
+  min-height: 16px;
+  margin: 0;
+  text-align: center;
+}
+
+.forca--playing .forca__game-actions {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  height: 44px;
+  max-height: 44px;
+}
+
+.forca--playing .forca__word-action {
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
+}
+
+.forca--playing .forca__word-input,
+.forca--playing .forca__word-button,
+.forca--playing .forca__result {
+  box-sizing: border-box;
+  min-width: 0;
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
+}
+
+@media (max-width: 899px) and (orientation: landscape) {
+  .forca--playing {
+    width: min(100%, 900px);
+    height: calc(100dvh - 48px);
+    padding: 5px 0 4px;
+  }
+
+  .forca--playing .forca__game {
+    gap: 5px;
+  }
+
+  .forca--playing .forca__play-area {
+    grid-template-columns: minmax(145px, .55fr) minmax(0, 1.55fr);
+    gap: 10px;
+  }
+
+  .forca--playing .forca__play-side {
+    gap: 5px;
+  }
+
+  .forca--playing .forca__keyboard {
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 4px;
+  }
+
+  .forca--playing .forca__key {
+    font-size: .68rem;
+  }
+
+  .forca--playing .forca__footer {
+    gap: 4px;
+  }
+
+  .forca--playing .forca__word {
+    min-height: 40px;
+    height: 40px;
+    padding-top: 11px;
+  }
+
+  .forca--playing .forca__word .forca__letter {
+    flex-basis: 34px;
+    width: 34px;
+    height: 29px;
+    font-size: .95rem;
+  }
+
+  .forca--playing .forca__game-actions {
+    height: 36px;
+    min-height: 36px;
+    max-height: 36px;
+  }
+
+  .forca--playing .forca__word-action {
+    height: 36px;
+    min-height: 36px;
+    max-height: 36px;
+  }
+
+  .forca--playing .forca__word-input,
+  .forca--playing .forca__word-button,
+  .forca--playing .forca__result {
+    height: 36px;
+    min-height: 36px;
+    max-height: 36px;
+  }
+
+  .forca--playing .forca__hangman svg {
+    width: min(100%, 175px);
+    height: min(100%, 175px);
+  }
+}
+
+@media (max-width: 620px) and (orientation: portrait) {
+  .forca--playing {
+    width: min(100%, 430px);
+    height: calc(100dvh - 64px);
+    min-height: 0;
+    padding: 8px 8px 8px;
+  }
+
+  .forca--playing .forca__game {
+    height: auto;
+    min-height: 100%;
+    grid-template-rows: auto auto auto;
+  }
+
+  .forca--playing .forca__play-area {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(108px, auto) auto;
+    gap: 9px;
+  }
+
+  .forca--playing .forca__hangman {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 108px;
+    height: 108px;
+  }
+
+  .forca--playing .forca__hangman svg {
+    width: min(100%, 180px);
+    height: 105px;
+  }
+
+  .forca--playing .forca__play-side {
+    grid-column: 1;
+    grid-row: 2;
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 8px;
+  }
+
+  .forca--playing .forca__keyboard {
+    grid-row: 1;
+    grid-template-columns: repeat(auto-fit, minmax(34px, 1fr));
+    gap: 5px;
+  }
+
+  .forca--playing .forca__footer {
+    grid-row: 2;
+    gap: 7px;
+  }
+
+  .forca--playing .forca__key {
+    font-size: .7rem;
+  }
+
+  .forca--playing .forca__word {
+    min-height: 45px;
+    height: 45px;
+    padding-top: 12px;
+  }
+
+  .forca--playing .forca__word .forca__letter {
+    flex-basis: 32px;
+    width: 32px;
+    height: 33px;
+    font-size: 1rem;
+  }
+
+  .forca--playing .forca__hint {
+    font-size: .65rem;
+  }
+
+  .forca--playing .forca__game-actions,
+  .forca--playing .forca__word-action {
+    height: 44px;
+    min-height: 44px;
+    max-height: 44px;
+  }
+
+  .forca--playing .forca__word-input,
+  .forca--playing .forca__word-button,
+  .forca--playing .forca__result {
+    height: 44px;
+    min-height: 44px;
+    max-height: 44px;
+  }
+
+  .forca--playing .forca__game-actions:has(.forca__result) .forca__word-action {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 44px;
+  }
+}
+
+/* Quando o resultado aparece, ele ocupa exatamente o mesmo
+   espaço estrutural da área de chute. */
+.forca--playing .forca__word-action:has(.forca__result) {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+@media (max-width: 620px) and (orientation: portrait) {
+  .forca--playing .forca__word-action:has(.forca__result) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 44px 44px;
+    gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forca--playing .forca__key,
+  .forca--playing .forca__word-action,
+  .forca--playing .forca__word-input,
+  .forca--playing .forca__word-button {
+    transition: none !important;
+  }
+}
