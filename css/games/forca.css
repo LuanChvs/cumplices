@@ -330,3 +330,17 @@
     min-width: 0;
   }
 }
+
+
+/* O resultado agora vive dentro de .forca__word-action.
+   No landscape, o pai deve continuar tendo uma única faixa. */
+@media (max-width: 899px) and (orientation: landscape) {
+  .forca--playing .forca__game-actions:has(.forca__result) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .forca--playing .forca__game-actions:has(.forca__result) .forca__word-action {
+    width: 100%;
+    min-width: 0;
+  }
+}
