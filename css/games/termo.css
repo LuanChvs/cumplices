@@ -74,17 +74,27 @@
 
 .termo__cell.is-filled {
   border-color: var(--line-strong);
+  cursor: default;
+}
+
+.termo__cell:not(.is-correct):not(.is-present):not(.is-absent) {
+  cursor: pointer;
+}
+
+.termo__cell.is-editing {
+  border-color: var(--line-strong);
+  box-shadow: 0 0 0 1px var(--line-strong);
 }
 
 .termo__cell.is-revealing {
-  animation: termo-cell-reveal .3s ease both;
+  animation: termo-cell-reveal .52s ease both;
   border-color: var(--line-strong);
 }
 
 @keyframes termo-cell-reveal {
   0% { transform: rotateX(0deg); }
-  45% { transform: rotateX(90deg); }
-  55% { transform: rotateX(90deg); }
+  42% { transform: rotateX(75deg); }
+  58% { transform: rotateX(75deg); }
   100% { transform: rotateX(0deg); }
 }
 
@@ -104,7 +114,7 @@
 }
 
 .termo__cell.is-absent {
-  background: var(--text-dim);
+  background: var(--bg);
 }
 
 .termo__keyboard {
@@ -159,8 +169,8 @@
 }
 
 .termo__key.is-absent {
-  background: var(--text-dim);
-  color: #fff;
+  background: var(--bg);
+  color: var(--text-dim);
 }
 
 .termo__key--special {
