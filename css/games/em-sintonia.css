@@ -82,9 +82,11 @@
 .em-sintonia__custom-editor .em-sintonia__button { min-height:34px; padding:0 10px; }
 
 .em-sintonia__clue { min-height:0; margin:7px auto 6px; padding:5px 12px; border:1px solid var(--line); border-radius:10px; background:var(--panel); text-align:center; }
-.em-sintonia__clue--timer { width:min(220px,100%); box-sizing:border-box; }
-.em-sintonia__clue--timer small { display:block; margin-bottom:1px; font-size:.55rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; opacity:.45; }
-.em-sintonia__clue--timer strong { font-size:1rem; }
+.em-sintonia__clue--timer { width:min(420px,100%); box-sizing:border-box; padding:7px 10px 8px; }
+.em-sintonia__timer-bar-track { width:100%; height:7px; overflow:hidden; border-radius:999px; background:var(--panel-2); }
+.em-sintonia__timer-bar-fill { width:100%; height:100%; border-radius:inherit; background:var(--rose); transition:width .2s linear, background .2s ease; }
+.em-sintonia__timer-bar-fill.is-warning { background:var(--rose); }
+.em-sintonia__clue--timer strong { display:block; margin-top:3px; font-size:.82rem; font-variant-numeric:tabular-nums; }
 .em-sintonia__actions { display:flex; justify-content:center; flex-wrap:wrap; gap:7px; width:100%; box-sizing:border-box; }
 .em-sintonia__button { min-height:40px; padding:0 13px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--text); font:inherit; font-size:.74rem; font-weight:800; cursor:pointer; touch-action:manipulation; }
 .em-sintonia__button:hover { border-color:var(--line-strong); background:var(--panel-2); }
