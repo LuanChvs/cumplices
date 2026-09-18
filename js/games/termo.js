@@ -219,6 +219,20 @@ function renderTermo() {
     message.textContent = text;
   };
 
+  const animateResultRow = (className) => {
+    const row = board.children[state.guesses.length - 1];
+    if (!row) return;
+
+    const cells = Array.from(row.querySelectorAll('.termo__cell'));
+
+    cells.forEach((cell, index) => {
+      window.setTimeout(() => {
+        cell.classList.add(className);
+        window.setTimeout(() => cell.classList.remove(className), className === 'is-win' ? 600 : 500);
+      }, index * 80);
+    });
+  };
+
   const endGame = (won) => {
     state.status = won ? 'won' : 'lost';
     stopInput();
@@ -226,9 +240,11 @@ function renderTermo() {
 
     if (won) {
       setMessage(`Acertou em ${state.guesses.length} ${state.guesses.length === 1 ? 'tentativa' : 'tentativas'}!`);
+      animateResultRow('is-win');
       if (typeof sound !== 'undefined') sound.correct();
     } else {
       setMessage(`A palavra era ${state.word.toUpperCase()}.`);
+      animateResultRow('is-loss');
       if (typeof sound !== 'undefined') sound.wrong();
     }
 
@@ -280,14 +296,14 @@ function renderTermo() {
 
       window.setTimeout(() => {
         cell.classList.add(`is-${status}`);
-      }, 325);
+      }, 375);
 
       window.setTimeout(() => {
         cell.classList.remove('is-revealing');
         cell.classList.add('is-filled');
-      }, 650);
+      }, 750);
 
-      window.setTimeout(() => revealNext(index + 1), 500);
+      window.setTimeout(() => revealNext(index + 1), 575);
     };
 
     revealNext(0);
