@@ -4,12 +4,21 @@
 
 const SOUND_STORAGE_KEY = 'preferences.sound';
 
+const SOUND_TYPES = [
+  'click',
+  'correct',
+  'wrong',
+  'timer',
+  'elimination',
+  'victory'
+];
 
 const sound = {
-  enabled: storageGet(
-    SOUND_STORAGE_KEY,
-    true
-  ),
+  enabled: preferences.sound,
+
+  settings: {
+    ...preferences.soundSettings
+  },
 
   audio: {
     click: new Audio('./sounds/click.mp3'),
@@ -20,9 +29,15 @@ const sound = {
     victory: new Audio('./sounds/victory.mp3')
   },
 
+  isEnabled(name) {
+    return Boolean(
+      this.enabled &&
+      this.settings[name]
+    );
+  },
 
   play(name, volume = 0.5) {
-    if (!this.enabled) {
+    if (!this.isEnabled(name)) {
       return;
     }
 
@@ -37,28 +52,23 @@ const sound = {
 
     audio.play().catch(() => {
       // O navegador pode bloquear a reprodução.
-      // O jogo continua funcionando normalmente.
     });
   },
-
 
   click() {
     this.play('click', 0.5);
   },
 
-
   correct() {
     this.play('correct', 0.55);
   },
-
 
   wrong() {
     this.play('wrong', 0.5);
   },
 
-
   timer() {
-    if (!this.enabled) {
+    if (!this.isEnabled('timer')) {
       return;
     }
 
@@ -80,7 +90,6 @@ const sound = {
     }
   },
 
-
   timerStop() {
     const audio = this.audio.timer;
 
@@ -93,30 +102,57 @@ const sound = {
     audio.loop = false;
   },
 
-
   elimination() {
     this.play('elimination', 0.55);
   },
-
 
   victory() {
     this.play('victory', 0.6);
   },
 
-
   setEnabled(value) {
     this.enabled = Boolean(value);
+
+    preferences.sound = this.enabled;
 
     storageSet(
       SOUND_STORAGE_KEY,
       this.enabled
     );
 
+    savePreferences();
+
     if (!this.enabled) {
       this.timerStop();
     }
   },
 
+  setSound(name, value) {
+    if (!SOUND_TYPES.includes(name)) {
+      return false;
+    }
+
+    this.settings[name] = Boolean(value);
+    preferences.soundSettings[name] = this.settings[name];
+
+    savePreferences();
+
+    if (
+      name === 'timer' &&
+      !this.settings.timer
+    ) {
+      this.timerStop();
+    }
+
+    return this.settings[name];
+  },
+
+  getSettings() {
+    return {
+      enabled: this.enabled,
+      ...this.settings
+    };
+  },
 
   toggle() {
     this.setEnabled(!this.enabled);
