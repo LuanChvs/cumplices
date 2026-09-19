@@ -15,6 +15,10 @@ Sem cadastro, sem backend e sem instalação obrigatória. O projeto é uma apli
 - **Jogo da Velha** — modo Clássico e variação *Mate ou Morra*.
 - **Xadrez** — partida para dois com roque, en passant, promoção, desfazer e interface adaptada para telas horizontais.
 - **Quem Sou Eu** — escolha um tema ou escreva um nome livre, defina o tempo e descubra quem ou o que está na cabeça do outro.
+- **Termo** — descubram a palavra do dia em até seis tentativas.
+- **Termo Aleatório** — uma nova palavra de cinco letras a cada partida.
+- **Termo Versus** — um jogador define a palavra e o outro tenta descobrir.
+- **Forca** — modo Clássico, Versus Times e Todos contra Todos.
 
 ## Modos e recursos do app
 
