@@ -90,6 +90,15 @@ const games = {
       icon: '🔤',
       render: renderTermo
     },
+    termoAleatorio: {
+      id: 'termo-aleatorio',
+      title: 'Termo Aleatório',
+      route: '/termo-aleatorio',
+      description: 'Descubram uma nova palavra de cinco letras a cada partida.',
+      color: 'teal',
+      icon: '🎲',
+      render: renderTermo
+    },
     forca: {
       id: 'forca',
       title: 'Forca',
