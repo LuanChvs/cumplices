@@ -30,6 +30,19 @@ function renderTermoVersus() {
     );
   };
 
+
+  const syncLongMobileLayout = () => {
+    const longMobileLandscape =
+      window.innerWidth <= 899 &&
+      window.matchMedia('(orientation: landscape)').matches &&
+      state.wordLength > 8;
+
+    root.classList.toggle(
+      'termo-versus--long-mobile',
+      longMobileLandscape
+    );
+  };
+
   const MAX_ATTEMPTS = 6;
 
   const state = {
@@ -441,6 +454,27 @@ function renderTermoVersus() {
     );
   };
 
+
+  const animateResultRow = (className) => {
+    const row = root.querySelector(
+      `.termo-versus__row:nth-child(${state.guesses.length})`
+    );
+
+    if (!row) return;
+
+    const cells = [...row.querySelectorAll('.termo-versus__cell')];
+
+    cells.forEach((cell, index) => {
+      window.setTimeout(() => {
+        cell.classList.add(className);
+
+        window.setTimeout(() => {
+          cell.classList.remove(className);
+        }, className === 'is-win' ? 600 : 500);
+      }, index * 80);
+    });
+  };
+
   const submitGuess = () => {
     if (
       state.status !== 'playing' ||
@@ -480,6 +514,7 @@ function renderTermoVersus() {
           `Acertou em ${state.guesses.length} ${state.guesses.length === 1 ? 'tentativa' : 'tentativas'}!`;
         playSound('correct');
         render();
+        animateResultRow('is-win');
         return;
       }
 
@@ -489,6 +524,7 @@ function renderTermoVersus() {
           `A palavra era ${state.target.toUpperCase()}.`;
         playSound('wrong');
         render();
+        animateResultRow('is-loss');
         return;
       }
 
@@ -652,6 +688,7 @@ function renderTermoVersus() {
     window.removeEventListener('keydown', keydown);
     root.innerHTML = '';
     syncTopbarHeight();
+    syncLongMobileLayout();
 
     if (state.screen === 'config') renderConfig();
     else if (state.screen === 'define') renderDefine();
@@ -659,12 +696,19 @@ function renderTermoVersus() {
     else renderPlay();
   };
 
-  root.cleanup = () => {
-    window.removeEventListener('keydown', keydown);
-    window.removeEventListener('resize', syncTopbarHeight);
+  const handleViewportChange = () => {
+    syncTopbarHeight();
+    syncLongMobileLayout();
   };
 
-  window.addEventListener('resize', syncTopbarHeight);
+  root.cleanup = () => {
+    window.removeEventListener('keydown', keydown);
+    window.removeEventListener('resize', handleViewportChange);
+    window.removeEventListener('orientationchange', handleViewportChange);
+  };
+
+  window.addEventListener('resize', handleViewportChange);
+  window.addEventListener('orientationchange', handleViewportChange);
   render();
 
   return root;
