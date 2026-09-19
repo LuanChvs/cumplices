@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'cumplices-v46';
+const CACHE_VERSION = 'cumplices-v47';
 const CACHE_NAME = CACHE_VERSION;
 
 const APP_FILES = [
@@ -23,13 +23,30 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
+
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then(networkResponse => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put('./index.html', responseClone));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
   event.respondWith(caches.match(request).then(cachedResponse => {
     if (cachedResponse) return cachedResponse;
+
     return fetch(request).then(networkResponse => {
       if (!networkResponse || networkResponse.status !== 200) return networkResponse;
       const responseClone = networkResponse.clone();
       caches.open(CACHE_NAME).then(cache => cache.put(request, responseClone));
       return networkResponse;
-    }).catch(() => request.mode === 'navigate' ? caches.match('./index.html') : new Response('', { status: 503, statusText: 'Offline' }));
+    }).catch(() => new Response('', { status: 503, statusText: 'Offline' }));
   }));
 });
