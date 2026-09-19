@@ -299,9 +299,15 @@ document.head.appendChild(
 
 let settingsReturnFocus = null;
 let soundDetailsOpen = false;
+let soundDetailsAnimationTimer = null;
 
 function setSoundDetailsOpen(open) {
   soundDetailsOpen = Boolean(open);
+
+  if (soundDetailsAnimationTimer) {
+    clearTimeout(soundDetailsAnimationTimer);
+    soundDetailsAnimationTimer = null;
+  }
 
   if (soundDetailsToggle) {
     soundDetailsToggle.setAttribute(
@@ -310,13 +316,46 @@ function setSoundDetailsOpen(open) {
     );
   }
 
-  if (soundDetailsOptions) {
-    soundDetailsOptions.hidden = !soundDetailsOpen;
-    soundDetailsOptions.classList.toggle(
-      'is-open',
-      soundDetailsOpen
-    );
+  if (!soundDetailsOptions) {
+    return;
   }
+
+  const reducedMotion =
+    window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+  if (soundDetailsOpen) {
+    soundDetailsOptions.hidden = false;
+
+    if (reducedMotion) {
+      soundDetailsOptions.classList.add('is-open');
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      if (soundDetailsOpen) {
+        soundDetailsOptions.classList.add('is-open');
+      }
+    });
+
+    return;
+  }
+
+  soundDetailsOptions.classList.remove('is-open');
+
+  if (reducedMotion) {
+    soundDetailsOptions.hidden = true;
+    return;
+  }
+
+  soundDetailsAnimationTimer = setTimeout(() => {
+    soundDetailsAnimationTimer = null;
+
+    if (!soundDetailsOpen) {
+      soundDetailsOptions.hidden = true;
+    }
+  }, 220);
 }
 
 function openSettings() {
