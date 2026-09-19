@@ -825,6 +825,22 @@ main:has(.forca--playing) {
 }
 
 /* =========================================================
+   ALTURA DISPONÍVEL — LANDSCAPE COM TOPBAR VISÍVEL
+========================================================= */
+
+/*
+   No celular/tablet em landscape, a topbar continua no fluxo
+   durante o jogo. O Forca deve ocupar apenas o espaço restante
+   da viewport, e não 100dvh além da topbar.
+*/
+@media (max-width: 899px) and (orientation: landscape) {
+  .forca--playing {
+    height: calc(100dvh - var(--forca-topbar-height, 0px));
+    min-height: 0;
+  }
+}
+
+/* =========================================================
    MENU MOBILE
 ========================================================= */
 
