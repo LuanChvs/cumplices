@@ -1691,9 +1691,55 @@ body.settings-open {
     transform: scale(.92);
   }
 
+  .game-card {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .game-card:focus {
+    outline: none;
+  }
+
+  .game-card:focus,
   .game-card:active {
     transform: scale(.992);
-    box-shadow: var(--shadow-card);
+    border-color: var(--line-strong);
+    background: var(--panel);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .game-card:focus::before,
+  .game-card:active::before {
+    opacity: 1;
+  }
+
+  .game-card:focus .badge,
+  .game-card:active .badge {
+    transform: translateY(-1px) scale(1.04);
+
+    background:
+      color-mix(
+        in srgb,
+        currentColor 10%,
+        var(--panel-2)
+      );
+
+    box-shadow:
+      0 8px 22px color-mix(
+        in srgb,
+        currentColor 14%,
+        transparent
+      ),
+      inset 0 1px 0 color-mix(
+        in srgb,
+        currentColor 18%,
+        transparent
+      );
+  }
+
+  .game-card:focus .go::after,
+  .game-card:active .go::after {
+    transform: translateX(4px);
+    opacity: 1;
   }
 }
 
