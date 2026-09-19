@@ -600,6 +600,11 @@ main:has(.forca--playing) {
 ========================================================= */
 
 @media (min-width: 900px) {
+  .forca--playing {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
   .forca__keyboard {
     max-width: 620px;
     gap: 8px;
