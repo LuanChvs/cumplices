@@ -215,10 +215,29 @@
 <script>
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
+      const hadController = Boolean(navigator.serviceWorker.controller);
+      let refreshing = false;
+
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (!hadController || refreshing) return;
+
+        refreshing = true;
+        window.location.reload();
+      });
+
       navigator.serviceWorker
-        .register("./sw.js")
-        .then((registration) => console.log("Service Worker registrado:", registration.scope))
-        .catch((error) => console.error("Erro ao registrar Service Worker:", error));
+        .register("./sw.js", { updateViaCache: "none" })
+        .then((registration) => {
+          console.log("Service Worker registrado:", registration.scope);
+
+          return registration.update();
+        })
+        .then(() => {
+          console.log("Verificação de atualização do Service Worker concluída.");
+        })
+        .catch((error) => {
+          console.error("Erro ao atualizar o Service Worker:", error);
+        });
     });
   }
 </script>
