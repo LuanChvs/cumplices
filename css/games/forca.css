@@ -647,7 +647,7 @@ main:has(.forca--playing) {
   }
 
   .forca__key-row {
-    gap: 4px;
+    gap: 5px;
   }
 
   .forca__key {
