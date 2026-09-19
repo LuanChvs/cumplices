@@ -105,7 +105,23 @@
         <span class="settings-switch" id="soundSwitch" aria-hidden="true"><span></span></span>
       </button>
 
-      <div class="settings-sound-options" id="soundOptions" aria-label="Sons individuais">
+      <button
+        type="button"
+        class="settings-sound-toggle"
+        id="soundDetailsToggle"
+        aria-expanded="false"
+        aria-controls="soundOptions"
+      >
+        <span>Personalizar sons</span>
+        <span class="settings-sound-toggle-icon" aria-hidden="true">⌄</span>
+      </button>
+
+      <div
+        class="settings-sound-options"
+        id="soundOptions"
+        aria-label="Sons individuais"
+        hidden
+      >
         <div class="settings-sound-title">Sons individuais</div>
 
         <button type="button" class="settings-sound-row" data-sound-choice="click" aria-pressed="true">
