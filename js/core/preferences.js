@@ -4,6 +4,22 @@
 
 const PREFERENCES_STORAGE_KEY = 'preferences';
 
+const THEME_COLORS = {
+  dark: '#161022',
+  light: '#f4ead8'
+};
+
+function applyThemeColor(theme) {
+  const meta = document.querySelector('meta[name="theme-color"]');
+
+  if (meta) {
+    meta.setAttribute(
+      'content',
+      THEME_COLORS[theme] || THEME_COLORS.dark
+    );
+  }
+}
+
 const DEFAULT_SOUND_SETTINGS = {
   click: true,
   correct: true,
@@ -96,6 +112,8 @@ function setTheme(theme) {
     theme
   );
 
+  applyThemeColor(theme);
+
   return theme;
 }
 
@@ -116,6 +134,8 @@ function initPreferences() {
     'data-theme',
     preferences.theme
   );
+
+  applyThemeColor(preferences.theme);
 }
 
 initPreferences();
