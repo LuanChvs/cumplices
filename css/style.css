@@ -1308,8 +1308,208 @@ body.settings-open {
   }
 }
 /* =========================================================
+   PREMIUM POLISH — MICROINTERAÇÕES
+========================================================= */
+
+:root {
+  --shadow-card:
+    0 10px 28px rgba(0, 0, 0, .12),
+    0 2px 8px rgba(0, 0, 0, .08);
+
+  --shadow-card-hover:
+    0 18px 38px rgba(0, 0, 0, .18),
+    0 4px 12px rgba(0, 0, 0, .10);
+
+  --shadow-gold:
+    0 8px 24px rgba(242, 193, 78, .18);
+
+  --ease-premium: cubic-bezier(.22, .61, .36, 1);
+}
+
+[data-theme="light"] {
+  --shadow-card:
+    0 10px 28px rgba(74, 52, 28, .09),
+    0 2px 8px rgba(74, 52, 28, .05);
+
+  --shadow-card-hover:
+    0 18px 38px rgba(74, 52, 28, .14),
+    0 4px 12px rgba(74, 52, 28, .07);
+
+  --shadow-gold:
+    0 8px 24px rgba(201, 138, 40, .14);
+}
+
+.brand {
+  transition:
+    color .18s ease,
+    transform .18s var(--ease-premium);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .brand:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.game-card {
+  position: relative;
+  overflow: hidden;
+
+  box-shadow: var(--shadow-card);
+
+  transition:
+    transform .22s var(--ease-premium),
+    border-color .22s ease,
+    background .22s ease,
+    box-shadow .22s var(--ease-premium);
+}
+
+.game-card::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--text) 5%, transparent),
+      transparent 42%
+    );
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: opacity .22s ease;
+}
+
+.game-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.badge {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, currentColor 12%, transparent);
+
+  transition:
+    transform .22s var(--ease-premium),
+    background .22s ease,
+    box-shadow .22s ease;
+}
+
+.game-card .go::after {
+  content: '→';
+
+  display: inline-block;
+
+  margin-left: 5px;
+
+  transition:
+    transform .22s var(--ease-premium),
+    opacity .18s ease;
+
+  opacity: .72;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .game-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .game-card:hover::before {
+    opacity: 1;
+  }
+
+  .game-card:hover .badge {
+    transform: translateY(-1px) scale(1.04);
+
+    background:
+      color-mix(
+        in srgb,
+        currentColor 10%,
+        var(--panel-2)
+      );
+
+    box-shadow:
+      0 8px 22px color-mix(
+        in srgb,
+        currentColor 14%,
+        transparent
+      ),
+      inset 0 1px 0 color-mix(
+        in srgb,
+        currentColor 18%,
+        transparent
+      );
+  }
+
+  .game-card:hover .go::after {
+    transform: translateX(4px);
+    opacity: 1;
+  }
+
+  .settings-option:hover,
+  .settings-switch-row:hover {
+    transform: translateY(-1px);
+  }
+
+  .settings-option.active {
+    box-shadow:
+      0 8px 22px color-mix(
+        in srgb,
+        var(--gold) 9%,
+        transparent
+      );
+  }
+}
+
+.settings-option,
+.settings-switch-row {
+  transition:
+    border-color .18s ease,
+    background .18s ease,
+    transform .18s var(--ease-premium),
+    box-shadow .18s ease;
+}
+
+.btn-primary {
+  box-shadow: var(--shadow-gold);
+
+  transition:
+    transform .16s var(--ease-premium),
+    filter .16s ease,
+    box-shadow .18s ease,
+    background .16s ease;
+}
+
+.btn-primary:active {
+  box-shadow:
+    0 4px 12px rgba(242, 193, 78, .12);
+}
+
+.text-input {
+  transition:
+    border-color .18s ease,
+    background .18s ease,
+    box-shadow .18s ease;
+}
+
+.text-input:focus {
+  box-shadow:
+    0 0 0 3px color-mix(
+      in srgb,
+      var(--gold) 12%,
+      transparent
+    );
+}
+
+/* =========================================================
    REDUÇÃO DE MOVIMENTO
 ========================================================= */
+
 
 @media (prefers-reduced-motion: reduce) {
 
