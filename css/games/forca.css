@@ -397,7 +397,7 @@ main:has(.forca--playing) {
   letter-spacing: .06em;
 }
 
-/* TECLADO */
+/* TECLADO — mesma lógica visual do Termo, sem teclas especiais */
 .forca__keyboard-area {
   grid-column: 2;
   grid-row: 1;
@@ -407,51 +407,42 @@ main:has(.forca--playing) {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .forca__keyboard {
-  --forca-key-size: min(
-    46px,
-    9.5vh,
-    calc((100% - 45px) / 10)
-  );
   width: 100%;
   min-width: 0;
   max-width: 100%;
   display: grid;
-  gap: 5px;
-  justify-items: center;
+  gap: 6px;
 }
 
 .forca__key-row {
-  width: max-content;
-  max-width: 100%;
+  width: 100%;
   min-width: 0;
   display: flex;
   justify-content: center;
   gap: 5px;
 }
 
+.forca__key-row--offset {
+  padding-inline: 3%;
+}
+
 .forca__key {
-  flex: 0 0 var(--forca-key-size);
-  width: var(--forca-key-size);
-  height: var(--forca-key-size);
-  min-width: var(--forca-key-size);
-  min-height: var(--forca-key-size);
-  max-width: var(--forca-key-size);
-  max-height: var(--forca-key-size);
-  padding: 0;
-  display: grid;
-  place-items: center;
+  flex: 1 1 0;
+  max-width: 42px;
+  min-width: 0;
+  height: 46px;
+  padding: 0 3px;
   border: 0;
   border-radius: 5px;
   background: var(--panel-2);
   color: var(--text);
   font: inherit;
-  font-size: .72rem;
+  font-size: .75rem;
   font-weight: 800;
-  line-height: 1;
   cursor: pointer;
   user-select: none;
   touch-action: manipulation;
@@ -650,14 +641,9 @@ main:has(.forca--playing) {
   }
 
   .forca__keyboard {
-    --forca-key-size: min(
-      38px,
-      8.8vh,
-      calc((100% - 36px) / 10)
-    );
     width: 100%;
     max-width: 100%;
-    gap: 4px;
+    gap: 5px;
   }
 
   .forca__key-row {
@@ -665,8 +651,8 @@ main:has(.forca--playing) {
   }
 
   .forca__key {
+    height: 38px;
     font-size: .62rem;
-    border-radius: 5px;
   }
 
   .forca__game-actions {
@@ -756,22 +742,18 @@ main:has(.forca--playing) {
   }
 
   .forca__keyboard {
-    --forca-key-size: min(
-      40px,
-      5.2vh,
-      calc((100% - 45px) / 10)
-    );
     width: 100%;
     max-width: 100%;
     gap: 5px;
   }
 
   .forca__key-row {
-    gap: 5px;
+    gap: 4px;
   }
 
   .forca__key {
-    font-size: .68rem;
+    height: 43px;
+    font-size: .7rem;
   }
 
   .forca__game-actions {
@@ -959,34 +941,10 @@ main:has(.forca--playing) {
 
 
 /* =========================================================
-   LANDSCAPE — PROTEÇÃO FINAL DA FILEIRA DE 10 TECLAS
+   LANDSCAPE — RESULTADO
 ========================================================= */
 
 @media (orientation: landscape) {
-  .forca--playing .forca__keyboard {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-  }
-
-  .forca--playing .forca__key-row {
-    width: max-content;
-    max-width: 100%;
-    overflow: visible;
-  }
-
-  .forca--playing .forca__key-row:first-child {
-    width: min(
-      100%,
-      calc((var(--forca-key-size) * 10) + 45px)
-    );
-  }
-
-  .forca--playing .forca__keyboard-area {
-    min-width: 0;
-    overflow: hidden;
-  }
-
   .forca--playing .forca__word-action:has(.forca__result) {
     grid-template-columns: minmax(0, 1fr) auto;
   }
