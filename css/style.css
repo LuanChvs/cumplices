@@ -818,7 +818,8 @@ main {
   opacity: 0;
   pointer-events: none;
 
-  transition: opacity .22s ease;
+  transition:
+    opacity .28s ease;
 }
 
 .settings-overlay.open {
@@ -842,19 +843,62 @@ main {
   border-left: 1px solid var(--line);
 
   box-shadow:
-    -20px 0 50px rgba(0, 0, 0, .18);
+    -24px 0 56px rgba(0, 0, 0, .20);
 
   transform: translateX(100%);
 
   transition:
-    transform .25s cubic-bezier(.22, .61, .36, 1);
+    transform .34s cubic-bezier(.22, .61, .36, 1);
 
   display: flex;
   flex-direction: column;
+
+  will-change: transform;
 }
 
 .settings-drawer.open {
   transform: translateX(0);
+}
+
+.settings-drawer.open .settings-header,
+.settings-drawer.open .settings-section {
+  animation:
+    settings-content-enter
+    .28s
+    var(--ease-premium, cubic-bezier(.22, .61, .36, 1))
+    both;
+}
+
+.settings-drawer.open .settings-header {
+  animation-delay: .07s;
+}
+
+.settings-drawer.open .settings-section:nth-child(1) {
+  animation-delay: .10s;
+}
+
+.settings-drawer.open .settings-section:nth-child(2) {
+  animation-delay: .14s;
+}
+
+.settings-drawer.open .settings-section:nth-child(3) {
+  animation-delay: .18s;
+}
+
+.settings-drawer.open .settings-section:nth-child(4) {
+  animation-delay: .22s;
+}
+
+@keyframes settings-content-enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 body.settings-open {
