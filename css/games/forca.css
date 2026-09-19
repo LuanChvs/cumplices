@@ -396,6 +396,219 @@ main { padding-bottom: 64px; }
   }
 }
 
+
+/* =========================================================
+   FORCA — CONFIGURAÇÃO DE PARTIDA
+========================================================= */
+
+.forca__config-tabs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.forca__config-tab {
+  min-height: 40px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+
+.forca__config-tab:hover {
+  color: var(--text);
+}
+
+.forca__config-tab.is-active {
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.forca__config-tab-content {
+  width: 100%;
+}
+
+.forca__round-settings {
+  display: grid;
+  gap: 12px;
+}
+
+.forca__settings-block {
+  display: grid;
+  gap: 4px;
+  text-align: center;
+}
+
+.forca__settings-block strong {
+  font-size: .86rem;
+}
+
+.forca__settings-block span {
+  color: var(--text-dim);
+  font-size: .68rem;
+  line-height: 1.45;
+}
+
+.forca__round-options {
+  display: grid;
+  gap: 8px;
+}
+
+.forca__round-option {
+  width: 100%;
+  min-height: 64px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, transform .12s ease;
+}
+
+.forca__round-option:hover {
+  border-color: var(--line-strong);
+  background: var(--panel-2);
+}
+
+.forca__round-option.is-active {
+  border-color: var(--gold);
+  background: rgba(242, 193, 78, .08);
+}
+
+.forca__round-option-icon {
+  width: 34px;
+  flex: 0 0 34px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.forca__round-option strong,
+.forca__round-option small {
+  display: block;
+}
+
+.forca__round-option strong {
+  font-size: .76rem;
+}
+
+.forca__round-option small {
+  margin-top: 2px;
+  color: var(--text-dim);
+  font-size: .64rem;
+  line-height: 1.35;
+}
+
+.forca__round-field {
+  min-height: 48px;
+  padding: 8px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel-2);
+  color: var(--text);
+  font-size: .72rem;
+  font-weight: 700;
+}
+
+.forca__round-field input {
+  width: 82px;
+  height: 34px;
+  padding: 0 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  text-align: center;
+  outline: none;
+}
+
+.forca__round-field input:focus {
+  border-color: var(--line-strong);
+}
+
+.forca__config-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.forca__config-secondary {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.forca__config-secondary:hover {
+  color: var(--text);
+  background: var(--panel-2);
+}
+
+.forca__final-scoreboard {
+  display: grid;
+  gap: 8px;
+}
+
+.forca__final-score-row {
+  min-height: 58px;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.forca__final-score-row.is-top {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 25%, transparent);
+}
+
+.forca__final-score-row strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .78rem;
+}
+
+.forca__final-score-row span {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.forca__final-score-row small {
+  color: var(--text-dim);
+  font-size: .64rem;
+}
+
 /* =========================================================
    FORCA — PARTIDA
    Layout deliberadamente simples e fechado.
