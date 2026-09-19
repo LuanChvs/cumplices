@@ -755,7 +755,7 @@ main:has(.forca--playing) {
   .forca__keyboard {
     --forca-key-size: clamp(
       25px,
-      min(8.6vw, 5.2vh, calc((100vw - 56px) / 10)),
+      min(8.6vw, 5.2vh, calc((100vw - 65px) / 10)),
       40px
     );
     width: 100%;
@@ -798,7 +798,7 @@ main:has(.forca--playing) {
   .forca--playing .forca__keyboard {
     --forca-key-size: clamp(
       24px,
-      calc((100vw - 56px) / 10),
+      calc((100vw - 65px) / 10),
       34px
     );
   }
