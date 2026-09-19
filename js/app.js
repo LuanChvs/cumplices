@@ -29,6 +29,12 @@ const soundSwitch =
 const soundOptions =
   document.querySelectorAll('[data-sound-choice]');
 
+const soundDetailsToggle =
+  document.getElementById('soundDetailsToggle');
+
+const soundDetailsOptions =
+  document.getElementById('soundOptions');
+
 const resenhaSetting =
   document.getElementById('resenhaSetting');
 
@@ -292,6 +298,26 @@ document.head.appendChild(
 ========================================================= */
 
 let settingsReturnFocus = null;
+let soundDetailsOpen = false;
+
+function setSoundDetailsOpen(open) {
+  soundDetailsOpen = Boolean(open);
+
+  if (soundDetailsToggle) {
+    soundDetailsToggle.setAttribute(
+      'aria-expanded',
+      String(soundDetailsOpen)
+    );
+  }
+
+  if (soundDetailsOptions) {
+    soundDetailsOptions.hidden = !soundDetailsOpen;
+    soundDetailsOptions.classList.toggle(
+      'is-open',
+      soundDetailsOpen
+    );
+  }
+}
 
 function openSettings() {
   settingsReturnFocus =
@@ -382,6 +408,16 @@ settingsOverlay.addEventListener(
   'click',
   closeSettings
 );
+
+if (soundDetailsToggle) {
+  soundDetailsToggle.addEventListener(
+    'click',
+    () => {
+      sound.click();
+      setSoundDetailsOpen(!soundDetailsOpen);
+    }
+  );
+}
 
 document.addEventListener(
   'keydown',
