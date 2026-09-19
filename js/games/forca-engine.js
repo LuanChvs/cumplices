@@ -33,7 +33,7 @@ function createForcaGame(word) {
 
 function getForcaProgress(game) {
   return [...game.word].map((letter) =>
-    game.usedLetters.includes(letter) ? letter : ''
+    letter === ' ' ? ' ' : (game.usedLetters.includes(letter) ? letter : '')
   );
 }
 
