@@ -896,3 +896,60 @@ main:has(.forca--playing) {
     animation: none !important;
   }
 }
+
+/* Resultado compacto: preserva o título principal e sacrifica
+   primeiro a informação secundária quando faltar largura. */
+@media (max-width: 899px) and (orientation: landscape) {
+  .forca__word-action:has(.forca__result) {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .forca__word-action:has(.forca__result) .forca__result {
+    min-width: 0;
+    padding-inline: 8px;
+  }
+
+  .forca__word-action:has(.forca__result) .forca__result strong {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: clamp(.62rem, 2.1vw, .78rem);
+  }
+
+  .forca__word-action:has(.forca__result) .forca__result span {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: clamp(.48rem, 1.65vw, .61rem);
+  }
+}
+
+/* Em celulares horizontais realmente estreitos,
+   o texto secundário desaparece antes de comprimir o título. */
+@media (max-width: 560px) and (orientation: landscape) {
+  .forca__word-action:has(.forca__result) .forca__result {
+    padding-inline: 7px;
+  }
+
+  .forca__word-action:has(.forca__result) .forca__result span {
+    display: none;
+  }
+
+  .forca__word-action:has(.forca__result) .forca__result strong {
+    font-size: .68rem;
+  }
+}
+
+@media (max-width: 430px) and (orientation: landscape) {
+  .forca__word-action:has(.forca__result) .forca__result strong {
+    font-size: .62rem;
+  }
+
+  .forca__word-action:has(.forca__result) .forca__word-button {
+    padding-inline: 10px;
+  }
+}
