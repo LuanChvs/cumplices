@@ -298,6 +298,7 @@ document.head.appendChild(
 ========================================================= */
 
 let settingsReturnFocus = null;
+let settingsScrollY = 0;
 let soundDetailsOpen = false;
 let soundDetailsAnimationTimer = null;
 
@@ -371,6 +372,9 @@ function openSettings() {
     closeGameNavigation();
   }
 
+  settingsScrollY = window.scrollY;
+
+  document.body.style.top = `-${settingsScrollY}px`;
   document.body.classList.add(
     'settings-open'
   );
@@ -401,6 +405,8 @@ function closeSettings() {
     'settings-open'
   );
 
+  document.body.style.top = '';
+
   settingsDrawer.classList.remove('open');
   settingsOverlay.classList.remove('open');
 
@@ -424,6 +430,7 @@ function closeSettings() {
     preventScroll: true
   });
 
+  window.scrollTo(0, settingsScrollY);
   settingsReturnFocus = null;
 }
 
