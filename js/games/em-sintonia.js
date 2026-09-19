@@ -11,6 +11,15 @@ function renderEmSintonia() {
   const STORAGE_NAME = 'em-sintonia.game';
   const SETTINGS_NAME = 'em-sintonia.settings';
 
+  const gameHeader = root.querySelector('#gameHeader');
+
+  gameHeader.appendChild(
+    createGameHeader({
+      title: 'Em Sintonia',
+      description: 'Uma pista, um espectro e um alvo escondido. Uma pessoa dá a dica, os outros posicionam o marcador e descobrem o quanto estão em sintonia.'
+    })
+  );
+
   const state = {
     mode: 'teams',
     teams: [],
@@ -32,11 +41,7 @@ function renderEmSintonia() {
   };
 
   root.innerHTML = `
-    <header class="em-sintonia__header">
-      <span class="em-sintonia__eyebrow">Cúmplices · jogo de espectro</span>
-      <h1 class="em-sintonia__title">Em Sintonia</h1>
-      <p class="em-sintonia__subtitle"></p>
-    </header>
+    <div id="gameHeader"></div>
 
     <section class="em-sintonia__setup" data-role="setup">
       <div class="em-sintonia__setup-card">
