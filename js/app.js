@@ -26,8 +26,8 @@ const soundSettingDescription =
 const soundSwitch =
   document.getElementById('soundSwitch');
 
-const soundClickOption =
-  document.querySelector('[data-sound-choice="click"]');
+const soundOptions =
+  document.querySelectorAll('[data-sound-choice]');
 
 const resenhaSetting =
   document.getElementById('resenhaSetting');
@@ -291,7 +291,13 @@ document.head.appendChild(
    DRAWER
 ========================================================= */
 
+let settingsReturnFocus = null;
+
 function openSettings() {
+  settingsReturnFocus =
+    document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
 
   if (
     typeof closeGameNavigation ===
@@ -316,6 +322,12 @@ function openSettings() {
     'aria-hidden',
     'false'
   );
+
+  window.requestAnimationFrame(() => {
+    settingsClose.focus({
+      preventScroll: true
+    });
+  });
 }
 
 function closeSettings() {
@@ -336,6 +348,18 @@ function closeSettings() {
     'aria-hidden',
     'true'
   );
+
+  const focusTarget =
+    settingsReturnFocus &&
+    document.contains(settingsReturnFocus)
+      ? settingsReturnFocus
+      : settingsToggle;
+
+  focusTarget.focus({
+    preventScroll: true
+  });
+
+  settingsReturnFocus = null;
 }
 
 settingsToggle.addEventListener(
@@ -441,30 +465,31 @@ function updateSoundSetting() {
     String(enabled)
   );
 
-  if (soundClickOption) {
-    const clickEnabled =
-      Boolean(preferences.soundSettings.click);
+  soundOptions.forEach((option) => {
+    const name = option.dataset.soundChoice;
+    const optionEnabled =
+      Boolean(preferences.soundSettings?.[name] ?? true);
 
-    const clickSwitch =
-      soundClickOption.querySelector('.settings-switch');
+    const optionSwitch =
+      option.querySelector('.settings-switch');
 
-    soundClickOption.classList.toggle(
+    option.classList.toggle(
       'is-disabled',
       !enabled
     );
 
-    soundClickOption.setAttribute(
+    option.setAttribute(
       'aria-pressed',
-      String(clickEnabled)
+      String(optionEnabled)
     );
 
-    if (clickSwitch) {
-      clickSwitch.classList.toggle(
+    if (optionSwitch) {
+      optionSwitch.classList.toggle(
         'active',
-        clickEnabled
+        optionEnabled
       );
     }
-  }
+  });
 }
 
 soundSetting.addEventListener(
@@ -479,19 +504,19 @@ soundSetting.addEventListener(
   }
 );
 
-if (soundClickOption) {
-  soundClickOption.addEventListener(
+soundOptions.forEach((option) => {
+  option.addEventListener(
     'click',
     () => {
-      sound.setSound(
-        'click',
-        !preferences.soundSettings.click
-      );
+      const name = option.dataset.soundChoice;
+      const current =
+        Boolean(preferences.soundSettings?.[name] ?? true);
 
+      sound.setSound(name, !current);
       updateSoundSetting();
     }
   );
-}
+});
 
 
 /* =========================================================
@@ -522,21 +547,10 @@ function updateResenhaSetting() {
     String(enabled)
   );
 
-  brandMode.style.display =
+  brandMode.classList.toggle(
+    'is-visible',
     enabled
-      ? 'inline-block'
-      : 'none';
-
-  brandMode.style.marginLeft = '6px';
-  brandMode.style.color = 'var(--rose)';
-  brandMode.style.fontFamily = 'var(--font-b)';
-  brandMode.style.fontSize = '.54rem';
-  brandMode.style.fontStyle = 'italic';
-  brandMode.style.fontWeight = '600';
-  brandMode.style.letterSpacing = '.02em';
-  brandMode.style.lineHeight = '1';
-  brandMode.style.opacity = '.72';
-  brandMode.style.verticalAlign = 'baseline';
+  );
 }
 
 resenhaSetting.addEventListener(
