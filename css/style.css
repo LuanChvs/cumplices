@@ -251,6 +251,24 @@ main {
   gap: 12px;
 }
 
+.brand-mode {
+  display: none;
+  margin-left: 6px;
+  color: var(--rose);
+  font-family: var(--font-b);
+  font-size: .54rem;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: .02em;
+  line-height: 1;
+  opacity: .72;
+  vertical-align: baseline;
+}
+
+.brand-mode.is-visible {
+  display: inline-block;
+}
+
 .brand {
   min-width: 0;
 
@@ -802,6 +820,12 @@ main {
 .settings-drawer.open {
   transform: translateX(0);
 }
+
+body.settings-open {
+  overflow: hidden;
+}
+
+
 
 .settings-header {
   display: flex;
