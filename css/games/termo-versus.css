@@ -304,6 +304,30 @@
   animation: termoversus-cell-reveal .55s cubic-bezier(.4, 0, .2, 1) both;
 }
 
+
+.termo-versus__cell.is-win {
+  animation: termoversus-win .6s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.termo-versus__cell.is-loss {
+  animation: termoversus-loss .5s ease both;
+}
+
+@keyframes termoversus-win {
+  0% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-8px) scale(1.06); }
+  65% { transform: translateY(2px) scale(.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes termoversus-loss {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
 @keyframes termoversus-cell-reveal {
   0% { transform: perspective(700px) rotateY(0deg); }
   45% { transform: perspective(700px) rotateY(90deg); }
@@ -510,8 +534,81 @@
   }
 }
 
+@media (max-width: 899px) and (orientation: landscape) {
+  .termo-versus.termo-versus--long-mobile {
+    width: min(100%, 430px);
+    min-height: calc(100dvh - var(--termoversus-topbar-height, 0px));
+    padding: 5px 8px 6px;
+    overflow-y: auto;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__header {
+    margin-bottom: 5px;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__title {
+    font-size: 1.2rem;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__game {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__turn,
+  .termo-versus.termo-versus--long-mobile .termo-versus__board,
+  .termo-versus.termo-versus--long-mobile .termo-versus__message,
+  .termo-versus.termo-versus--long-mobile .termo-versus__keyboard,
+  .termo-versus.termo-versus--long-mobile .termo-versus__actions {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__turn {
+    order: 1;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__board {
+    order: 2;
+    width: auto;
+    max-width: 100%;
+    height: min(47dvh, 300px);
+    aspect-ratio: var(--termoversus-word-length, 9) / 6;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__message {
+    order: 3;
+    min-height: 18px;
+    margin: 2px 0 0;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__keyboard {
+    order: 4;
+    width: 100%;
+    padding-top: 4px;
+    gap: 4px;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__key-row {
+    gap: 3px;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__key {
+    height: 32px;
+    font-size: .65rem;
+  }
+
+  .termo-versus.termo-versus--long-mobile .termo-versus__actions {
+    order: 5;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .termo-versus__cell.is-revealing {
+  .termo-versus__cell.is-revealing,
+  .termo-versus__cell.is-win,
+  .termo-versus__cell.is-loss {
     animation: none;
   }
 }
