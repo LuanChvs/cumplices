@@ -178,6 +178,170 @@ main { padding-bottom: 64px; }
 .forca__back:hover { color: var(--text); }
 
 /* =========================================================
+   FORCA — CONFIGURAÇÃO DE TIMES
+========================================================= */
+
+.forca__teams-config {
+  width: 100%;
+  display: grid;
+  gap: 14px;
+}
+
+.forca__teams-intro {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.forca__config-kicker {
+  color: var(--text-dim);
+  font-size: .58rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.forca__teams-intro h2 {
+  font-family: var(--font-b);
+  font-size: 1.35rem;
+}
+
+.forca__teams-intro p {
+  color: var(--text-dim);
+  font-size: .72rem;
+  line-height: 1.45;
+}
+
+.forca__teams-list {
+  display: grid;
+  gap: 10px;
+}
+
+.forca__team-card {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+}
+
+.forca__team-header,
+.forca__player-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px;
+  gap: 8px;
+}
+
+.forca__team-header {
+  margin-bottom: 9px;
+}
+
+.forca__team-name,
+.forca__player-input {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel-2);
+  color: var(--text);
+  font: inherit;
+  outline: none;
+}
+
+.forca__team-name {
+  font-weight: 800;
+}
+
+.forca__team-name:focus,
+.forca__player-input:focus {
+  border-color: var(--line-strong);
+}
+
+.forca__team-remove,
+.forca__player-remove {
+  width: 34px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.forca__team-remove:hover:not(:disabled),
+.forca__player-remove:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--line-strong);
+  background: var(--panel-2);
+}
+
+.forca__team-remove:disabled,
+.forca__player-remove:disabled {
+  cursor: default;
+  opacity: .25;
+}
+
+.forca__players-list {
+  display: grid;
+  gap: 7px;
+}
+
+.forca__add-player,
+.forca__add-team,
+.forca__config-start {
+  min-height: 42px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.forca__add-player {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.forca__add-team {
+  width: 100%;
+}
+
+.forca__add-player:hover,
+.forca__add-team:hover {
+  color: var(--text);
+  background: var(--panel-2);
+}
+
+.forca__config-start {
+  width: 100%;
+  border: 0;
+  background: var(--gold);
+  color: #241706;
+  font-size: .8rem;
+}
+
+.forca__config-start:hover {
+  filter: brightness(1.06);
+}
+
+@media (max-width: 620px) {
+  .forca__teams-config {
+    gap: 12px;
+  }
+
+  .forca__team-card {
+    padding: 12px;
+  }
+}
+
+/* =========================================================
    FORCA — PARTIDA
    Layout deliberadamente simples e fechado.
    Todas as áreas recebem espaço próprio.
