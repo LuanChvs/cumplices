@@ -439,6 +439,10 @@ function router() {
     renderedView
   );
 
+  if (renderedView) {
+    renderedView.classList.add('view-enter');
+  }
+
   if (
     renderedView &&
     typeof renderedView.cleanup ===
