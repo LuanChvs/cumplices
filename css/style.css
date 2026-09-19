@@ -2058,10 +2058,63 @@ body.settings-open {
    CONFIGURAÇÕES — SONS INDIVIDUAIS
 ========================================================= */
 
-.settings-sound-options {
+.settings-sound-toggle {
+  width: 100%;
+  min-height: 38px;
   margin-top: 10px;
-  padding: 4px 0 0;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    color .15s ease;
 }
+
+.settings-sound-toggle:hover {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.settings-sound-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: .95rem;
+  line-height: 1;
+  transform: translateY(-1px);
+  transition: transform .18s ease;
+}
+
+.settings-sound-toggle[aria-expanded="true"] .settings-sound-toggle-icon {
+  transform: rotate(180deg) translateY(1px);
+}
+
+.settings-sound-options {
+  margin-top: 6px;
+  padding: 4px 0 0;
+  overflow: hidden;
+}
+
+.settings-sound-options[hidden] {
+  display: none;
+}
+
+
 
 .settings-sound-title {
   margin: 8px 2px;
