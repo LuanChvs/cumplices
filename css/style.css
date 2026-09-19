@@ -2583,3 +2583,26 @@ body.settings-open {
 .settings-sound-row.is-disabled:hover {
   opacity: .62;
 }
+
+
+/* =========================================================
+   VERSÃO DO APP
+========================================================= */
+
+.settings-version {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 18px 0 4px;
+
+  color: var(--text-dim);
+  font-size: .72rem;
+}
+
+.settings-version strong {
+  color: var(--text);
+  font-size: .76rem;
+  font-weight: 700;
+}
