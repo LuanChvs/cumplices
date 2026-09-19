@@ -99,6 +99,15 @@ const games = {
       icon: '🎲',
       render: renderTermo
     },
+    termoVersus: {
+      id: 'termo-versus',
+      title: 'Termo Versus',
+      route: '/termo-versus',
+      description: 'Um jogador define a palavra e o outro tenta descobrir em até seis tentativas.',
+      color: 'teal',
+      icon: '⚔️',
+      render: renderTermoVersus
+    },
     forca: {
       id: 'forca',
       title: 'Forca',
