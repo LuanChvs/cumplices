@@ -35,7 +35,7 @@ function renderTermoVersus() {
     const longMobileLandscape =
       window.innerWidth <= 899 &&
       window.matchMedia('(orientation: landscape)').matches &&
-      state.wordLength > 8;
+      state.wordLength >= 8;
 
     root.classList.toggle(
       'termo-versus--long-mobile',
