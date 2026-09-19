@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'cumplices-v36';
+const CACHE_VERSION = 'cumplices-v37';
 const CACHE_NAME = CACHE_VERSION;
 
 const APP_FILES = [
