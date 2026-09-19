@@ -572,6 +572,8 @@ function renderTermoVersus() {
   };
 
   const renderPlay = () => {
+    window.removeEventListener('keydown', keydown);
+    root.style.setProperty('--termoversus-word-length', String(state.wordLength));
     root.innerHTML = `
       <header class="termo-versus__header">
         <span class="termo-versus__eyebrow">Cúmplices · versus</span>
@@ -647,6 +649,7 @@ function renderTermoVersus() {
   };
 
   const render = () => {
+    window.removeEventListener('keydown', keydown);
     root.innerHTML = '';
     syncTopbarHeight();
 
