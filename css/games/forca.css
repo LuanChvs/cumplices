@@ -321,7 +321,7 @@ main:has(.forca--playing) {
   text-transform: uppercase;
 }
 
-.forca__letter.is-revealed {
+.forca__letter.is-loss { color: #e74c5b; border-bottom-color: #e74c5b; }\n\n.forca__letter.is-revealed {
   animation: forca-letter-in .22s ease both;
 }
 
