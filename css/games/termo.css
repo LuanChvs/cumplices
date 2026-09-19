@@ -6,11 +6,10 @@
 .termo {
   box-sizing: border-box;
   width: min(520px, calc(100% - 24px));
-  height: calc(100dvh - 90px);
-  max-height: calc(100dvh - 90px);
+  height: calc(100dvh - var(--termo-topbar-height, 0px));
+  min-height: 0;
   margin: 0 auto;
   padding: 12px 0 20px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,8 +50,11 @@
 
 .termo__board {
   width: min(350px, 100%);
+  max-height: calc(100% - 230px);
+  aspect-ratio: 5 / 6;
   display: grid;
   gap: 5px;
+  flex: 0 1 auto;
 }
 
 .termo__row {
@@ -248,8 +250,7 @@
 @media (max-width: 620px) {
   .termo {
     width: min(100%, 430px);
-    height: calc(100dvh - 64px);
-    max-height: calc(100dvh - 64px);
+    height: calc(100dvh - var(--termo-topbar-height, 0px));
     padding: 8px 8px 10px;
   }
 
@@ -294,6 +295,7 @@
   }
 }
 
+/* Altura curta: reduz os objetos, sem cortar a área de jogo. */
 @media (max-width: 620px) and (max-height: 700px) and (orientation: portrait) {
   .termo {
     padding-top: 5px;
@@ -309,8 +311,9 @@
   }
 
   .termo__board {
-    width: min(280px, 48dvh);
-    gap: 3px;
+    width: min(280px, 100%);
+    max-height: calc(100% - 220px);
+    aspect-ratio: 5 / 6;
   }
 
   .termo__row {
@@ -331,7 +334,7 @@
   }
 
   .termo__key {
-    height: 36px;
+    height: clamp(32px, 6.4dvh, 36px);
     font-size: .65rem;
   }
 
@@ -346,11 +349,16 @@
   }
 }
 
+@media (max-width: 900px) and (orientation: landscape) {
+  .termo__board {
+    max-height: calc(100% - 60px);
+  }
+}
+
 @media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
   .termo {
     width: min(720px, calc(100% - 20px));
-    height: calc(100dvh - 48px);
-    max-height: calc(100dvh - 48px);
+    height: calc(100dvh - var(--termo-topbar-height, 0px));
     padding: 4px 0 6px;
   }
 
