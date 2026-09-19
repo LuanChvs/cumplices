@@ -1570,6 +1570,52 @@ body.settings-open {
 }
 
 /* =========================================================
+   MICROINTERAÇÕES — TOQUE
+========================================================= */
+
+/*
+   Em telas sensíveis ao toque, a resposta visual precisa ser
+   imediata e discreta. Não usamos hover para isso.
+*/
+
+@media (hover: none) and (pointer: coarse) {
+
+  .btn,
+  .chip,
+  .settings-option,
+  .settings-switch-row,
+  .settings-sound-toggle,
+  .settings-sound-row,
+  .settings-toggle,
+  .settings-close,
+  .game-nav-toggle {
+    touch-action: manipulation;
+  }
+
+  .btn:active {
+    transform: scale(.985);
+  }
+
+  .chip:active,
+  .settings-option:active,
+  .settings-switch-row:active,
+  .settings-sound-toggle:active,
+  .settings-sound-row:active {
+    transform: scale(.985);
+  }
+
+  .settings-toggle:active,
+  .settings-close:active {
+    transform: scale(.92);
+  }
+
+  .game-card:active {
+    transform: scale(.992);
+    box-shadow: var(--shadow-card);
+  }
+}
+
+/* =========================================================
    REDUÇÃO DE MOVIMENTO
 ========================================================= */
 
