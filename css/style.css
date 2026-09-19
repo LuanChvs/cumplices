@@ -1353,7 +1353,6 @@ body.settings-open {
 
 .game-card {
   position: relative;
-  overflow: hidden;
 
   box-shadow: var(--shadow-card);
 
@@ -1369,6 +1368,8 @@ body.settings-open {
 
   position: absolute;
   inset: 0;
+
+  border-radius: inherit;
 
   background:
     linear-gradient(
