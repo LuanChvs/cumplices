@@ -7,7 +7,8 @@ function renderTermo() {
   const root = document.createElement('section');
   root.className = 'termo';
 
-  const STORAGE_NAME = 'termo.game';
+  const IS_RANDOM_MODE = location.hash === '#/termo-aleatorio';
+  const STORAGE_NAME = IS_RANDOM_MODE ? 'termo.random.game' : 'termo.game';
   const MAX_ROWS = 6;
   const WORD_LENGTH = 5;
 
@@ -44,6 +45,7 @@ function renderTermo() {
   const chooseWord = () => {
     const originals = getOriginalWords();
     if (!originals.length) return '';
+    if (IS_RANDOM_MODE) return originals[Math.floor(Math.random() * originals.length)];
     return originals[getDailyIndex(originals.length)];
   };
 
@@ -90,7 +92,7 @@ function renderTermo() {
 
   root.innerHTML = `
     <header class="termo__header">
-      <span class="termo__eyebrow">Cúmplices · palavra do dia</span>
+      <span class="termo__eyebrow">${IS_RANDOM_MODE ? 'Cúmplices · palavra aleatória' : 'Cúmplices · palavra do dia'}</span>
       <h1 class="termo__title">Termo</h1>
     </header>
 
@@ -252,7 +254,7 @@ function renderTermo() {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'termo__new-button';
-    button.textContent = 'Novo jogo';
+    button.textContent = IS_RANDOM_MODE ? 'Nova palavra' : 'Novo jogo';
     button.addEventListener('click', () => {
       state.word = chooseWord();
       state.guesses = [];
