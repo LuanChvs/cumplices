@@ -250,6 +250,49 @@
   cursor: pointer;
 }
 
+/* Desktop: o tabuleiro e o teclado dividem a área útil.
+   O tabuleiro recebe uma coluna própria, proporcional ao espaço restante. */
+@media (min-width: 900px) {
+  .termo {
+    width: min(760px, calc(100% - 24px));
+  }
+
+  .termo__game {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    column-gap: 24px;
+    row-gap: 6px;
+    align-items: center;
+  }
+
+  .termo__board {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    justify-self: center;
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  .termo__keyboard {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .termo__message {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .termo__actions {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}
+
 @media (max-width: 620px) {
   .termo {
     width: min(100%, 430px);
