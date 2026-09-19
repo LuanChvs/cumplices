@@ -18,7 +18,7 @@ function renderHome(){
   }
   function renderGameList(){
     return Object.values(games)
-      .filter((game) => game.id !== 'termo' && game.id !== 'termo-aleatorio')
+      .filter((game) => !['termo', 'termo-aleatorio', 'termo-versus'].includes(game.id))
       .map((game, index) => `
         <div class="game-row${index % 2 === 1 ? ' right' : ''}">
           ${gameCardHTML(game)}
