@@ -294,6 +294,58 @@
   }
 }
 
+@media (max-width: 620px) and (max-height: 700px) and (orientation: portrait) {
+  .termo {
+    padding-top: 5px;
+    padding-bottom: 6px;
+  }
+
+  .termo__header {
+    margin-bottom: 5px;
+  }
+
+  .termo__title {
+    font-size: 1.25rem;
+  }
+
+  .termo__board {
+    width: min(280px, 48dvh);
+    gap: 3px;
+  }
+
+  .termo__row {
+    gap: 3px;
+  }
+
+  .termo__cell {
+    font-size: clamp(1rem, 6vw, 1.5rem);
+  }
+
+  .termo__keyboard {
+    padding-top: 7px;
+    gap: 4px;
+  }
+
+  .termo__key-row {
+    gap: 3px;
+  }
+
+  .termo__key {
+    height: 36px;
+    font-size: .65rem;
+  }
+
+  .termo__message {
+    min-height: 18px;
+    margin-top: 4px;
+  }
+
+  .termo__actions {
+    min-height: 34px;
+    margin-top: 2px;
+  }
+}
+
 @media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
   .termo {
     width: min(720px, calc(100% - 20px));
@@ -319,7 +371,7 @@
   }
 
   .termo__board {
-    width: min(300px, 100%);
+    width: min(300px, 72dvh);
     grid-row: 1 / -1;
   }
 
