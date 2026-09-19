@@ -1138,6 +1138,38 @@ body.settings-open {
   border-color: var(--line-strong);
 }
 
+.settings-switch-row[aria-pressed="true"] {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--gold) 28%,
+      var(--line)
+    );
+
+  background:
+    color-mix(
+      in srgb,
+      var(--gold) 5%,
+      var(--panel-2)
+    );
+}
+
+.settings-switch-row[aria-pressed="true"]:hover {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--gold) 38%,
+      var(--line-strong)
+    );
+
+  background:
+    color-mix(
+      in srgb,
+      var(--gold) 7%,
+      var(--panel-2)
+    );
+}
+
 .settings-switch-row > span:first-child {
   min-width: 0;
 }
