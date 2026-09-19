@@ -11,6 +11,15 @@ const QUEM_SOU_EU = window.DATA.quemSouEu;
 const STOP_TEMAS = window.DATA.stopTemas;
 const STOP_LETRAS = window.DATA.stopLetras;
 
+const SOUND_SETTINGS = {
+  click: true,
+  correct: true,
+  wrong: true,
+  timer: true,
+  elimination: true,
+  victory: true
+};
+
 const PLAYER_COLORS = ["rose","gold","teal","lav","coral","sage"];
 
 const STOP_MODOS = [
