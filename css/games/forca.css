@@ -411,13 +411,14 @@ main:has(.forca--playing) {
 }
 
 .forca__keyboard {
-  --forca-key-size: clamp(
-    30px,
-    min(8vw, 9.5vh),
-    46px
+  --forca-key-size: min(
+    46px,
+    9.5vh,
+    calc((100% - 45px) / 10)
   );
   width: 100%;
   min-width: 0;
+  max-width: 100%;
   display: grid;
   gap: 5px;
   justify-items: center;
@@ -649,11 +650,13 @@ main:has(.forca--playing) {
   }
 
   .forca__keyboard {
-    --forca-key-size: clamp(
-      26px,
-      min(8vw, 8.8vh),
-      38px
+    --forca-key-size: min(
+      38px,
+      8.8vh,
+      calc((100% - 36px) / 10)
     );
+    width: 100%;
+    max-width: 100%;
     gap: 4px;
   }
 
@@ -753,12 +756,13 @@ main:has(.forca--playing) {
   }
 
   .forca__keyboard {
-    --forca-key-size: clamp(
-      25px,
-      min(8.6vw, 5.2vh, calc((100vw - 65px) / 10)),
-      40px
+    --forca-key-size: min(
+      40px,
+      5.2vh,
+      calc((100% - 45px) / 10)
     );
     width: 100%;
+    max-width: 100%;
     gap: 5px;
   }
 
@@ -796,10 +800,9 @@ main:has(.forca--playing) {
 /* Telas muito estreitas: a primeira fileira nunca sai do contêiner. */
 @media (max-width: 350px) and (orientation: portrait) {
   .forca--playing .forca__keyboard {
-    --forca-key-size: clamp(
-      24px,
-      calc((100vw - 65px) / 10),
-      34px
+    --forca-key-size: min(
+      34px,
+      calc((100% - 36px) / 10)
     );
   }
 
@@ -951,5 +954,65 @@ main:has(.forca--playing) {
 
   .forca__word-action:has(.forca__result) .forca__word-button {
     padding-inline: 10px;
+  }
+}
+
+
+/* =========================================================
+   LANDSCAPE — PROTEÇÃO FINAL DA FILEIRA DE 10 TECLAS
+========================================================= */
+
+@media (orientation: landscape) {
+  .forca--playing .forca__keyboard {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .forca--playing .forca__key-row {
+    width: max-content;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .forca--playing .forca__key-row:first-child {
+    width: min(
+      100%,
+      calc((var(--forca-key-size) * 10) + 45px)
+    );
+  }
+
+  .forca--playing .forca__keyboard-area {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .forca--playing .forca__word-action:has(.forca__result) {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .forca--playing .forca__word-action:has(.forca__result) .forca__result {
+    min-width: 0;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .forca--playing .forca__word-action:has(.forca__result) .forca__result strong {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: clamp(.58rem, 1.7vw, .76rem);
+    line-height: 1;
+    text-align: center;
+  }
+
+  .forca--playing .forca__word-action:has(.forca__result) .forca__result span {
+    display: none !important;
   }
 }
