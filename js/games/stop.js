@@ -1,5 +1,5 @@
 /* =========================================================
-   STOP DO CASAL
+   STOP
 ========================================================= */
 
 function renderStop() {
@@ -193,7 +193,7 @@ function renderStop() {
 
     gameHeader.appendChild(
       createGameHeader({
-        title: 'Stop do casal',
+        title: 'Stop',
         description: 'Uma carta define o tema. O jogador da vez fala uma palavra que caiba no tema, aperta a letra inicial dela e passa a vez. Letras já apertadas saem do jogo. Se o cronômetro acabar na sua vez, você perde a rodada.'
       })
     );
@@ -783,7 +783,7 @@ function renderStop() {
 
     gameHeader.appendChild(
       createGameHeader({
-        title: 'Stop do casal',
+        title: 'Stop',
         description: `Tema: ${state.tema}`
       })
     );
