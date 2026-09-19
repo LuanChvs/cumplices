@@ -447,6 +447,42 @@ main {
 
 
 /* =========================================================
+   ENTRADA DOS CARDS — HOME
+========================================================= */
+
+.game-list .game-row {
+  animation:
+    game-row-enter
+    .38s
+    var(--ease-premium, cubic-bezier(.22, .61, .36, 1))
+    both;
+}
+
+.game-list .game-row:nth-child(1) { animation-delay: 0ms; }
+.game-list .game-row:nth-child(2) { animation-delay: 40ms; }
+.game-list .game-row:nth-child(3) { animation-delay: 80ms; }
+.game-list .game-row:nth-child(4) { animation-delay: 120ms; }
+.game-list .game-row:nth-child(5) { animation-delay: 160ms; }
+.game-list .game-row:nth-child(6) { animation-delay: 200ms; }
+.game-list .game-row:nth-child(7) { animation-delay: 240ms; }
+.game-list .game-row:nth-child(8) { animation-delay: 280ms; }
+.game-list .game-row:nth-child(9) { animation-delay: 320ms; }
+.game-list .game-row:nth-child(10) { animation-delay: 360ms; }
+
+@keyframes game-row-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
    GAME HEADERS
 ========================================================= */
 
