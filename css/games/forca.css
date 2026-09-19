@@ -601,8 +601,7 @@ main:has(.forca--playing) {
 
 @media (min-width: 900px) {
   .forca--playing {
-    padding-left: 28px;
-    padding-right: 28px;
+    padding: 14px 28px 16px;
   }
 
   .forca__keyboard {
