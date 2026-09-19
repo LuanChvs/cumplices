@@ -7,6 +7,23 @@ function renderTermo() {
   const root = document.createElement('section');
   root.className = 'termo';
 
+  const syncTermoTopbarHeight = () => {
+    const topbar = document.getElementById('topbar');
+
+    if (!topbar) {
+      root.style.setProperty('--termo-topbar-height', '0px');
+      return;
+    }
+
+    const mobileLandscape = window.matchMedia('(max-width: 899px) and (orientation: landscape)').matches;
+    const navOpen = document.body.classList.contains('game-nav-open');
+    const height = mobileLandscape && !navOpen
+      ? 0
+      : topbar.getBoundingClientRect().height;
+
+    root.style.setProperty('--termo-topbar-height', height + 'px');
+  };
+
   const IS_RANDOM_MODE = location.hash === '#/termo-aleatorio';
   const STORAGE_NAME = IS_RANDOM_MODE ? 'termo.random.game' : 'termo.game';
   const MAX_ROWS = 6;
@@ -440,6 +457,13 @@ function renderTermo() {
     startInput();
   }
 
-  root.cleanup = stopInput;
+  const handleTermoResize = () => syncTermoTopbarHeight();
+  window.addEventListener('resize', handleTermoResize);
+  syncTermoTopbarHeight();
+
+  root.cleanup = () => {
+    stopInput();
+    window.removeEventListener('resize', handleTermoResize);
+  };
   return root;
 }
