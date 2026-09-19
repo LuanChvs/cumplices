@@ -574,7 +574,7 @@
     order: 2;
     width: auto;
     max-width: 100%;
-    height: min(47dvh, 300px);
+    height: min(56dvh, 340px);
     aspect-ratio: var(--termoversus-word-length, 9) / 6;
   }
 
