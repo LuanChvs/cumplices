@@ -11,15 +11,6 @@ function renderEmSintonia() {
   const STORAGE_NAME = 'em-sintonia.game';
   const SETTINGS_NAME = 'em-sintonia.settings';
 
-  const gameHeader = root.querySelector('#gameHeader');
-
-  gameHeader.appendChild(
-    createGameHeader({
-      title: 'Em Sintonia',
-      description: 'Uma pista, um espectro e um alvo escondido. Uma pessoa dá a dica, os outros posicionam o marcador e descobrem o quanto estão em sintonia.'
-    })
-  );
-
   const state = {
     mode: 'teams',
     teams: [],
@@ -138,6 +129,15 @@ function renderEmSintonia() {
       <div class="em-sintonia__round-info" data-role="round-info"></div>
     </section>
   `;
+
+  const gameHeader = root.querySelector('#gameHeader');
+
+  gameHeader.appendChild(
+    createGameHeader({
+      title: 'Em Sintonia',
+      description: 'Uma pista, um espectro e um alvo escondido. Uma pessoa dá a dica, os outros posicionam o marcador e descobrem o quanto estão em sintonia.'
+    })
+  );
 
   const $ = role => root.querySelector(`[data-role="${role}"]`);
   const setup = $('setup'), game = $('game'), board = $('board'), target = $('target'), needle = $('needle'), overlay = $('overlay');
