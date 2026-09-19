@@ -113,9 +113,7 @@ function guessForcaWord(game, word) {
       correct: false
     };
 
-    if (isForcaLost(game)) {
-      game.status = 'lost';
-    }
+    game.status = 'lost';
   }
 
   if (correct) {
