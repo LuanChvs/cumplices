@@ -191,7 +191,7 @@ main { padding-bottom: 64px; }
   margin: 0 auto;
   padding: 8px 16px 10px;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   box-sizing: border-box;
 }
 
