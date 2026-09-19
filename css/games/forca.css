@@ -195,6 +195,22 @@ main { padding-bottom: 64px; }
   box-sizing: border-box;
 }
 
+/* O Forca em partida pode escapar do .container global,
+   mas somente enquanto ele está sendo jogado e em landscape. */
+@media (orientation: landscape) {
+  main.container:has(.forca--playing) {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .forca--playing {
+    max-width: none;
+  }
+}
+
 main:has(.forca--playing) {
   padding-bottom: 0 !important;
 }
