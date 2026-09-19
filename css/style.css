@@ -902,10 +902,19 @@ main {
 }
 
 body.settings-open {
+  position: fixed;
+  left: 0;
+  right: 0;
   overflow: hidden;
+  width: 100%;
 }
 
-
+.settings-body {
+  min-height: 0;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
 
 .settings-header {
   display: flex;
@@ -1015,8 +1024,12 @@ body.settings-open {
 }
 
 .settings-body {
+  min-height: 0;
   padding: 8px 22px 28px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .settings-section {
