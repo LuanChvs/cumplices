@@ -250,24 +250,23 @@
   cursor: pointer;
 }
 
-/* Desktop: o tabuleiro e o teclado dividem a área útil.
-   O tabuleiro recebe uma coluna própria, proporcional ao espaço restante. */
+/* Desktop: o jogo continua vertical.
+   A área das adivinhações recebe o dobro do espaço do teclado. */
 @media (min-width: 900px) {
   .termo {
-    width: min(760px, calc(100% - 24px));
+    width: min(520px, calc(100% - 24px));
   }
 
   .termo__game {
-    grid-template-columns: minmax(0, 1fr) 320px;
-    grid-template-rows: minmax(0, 1fr) auto auto;
-    column-gap: 24px;
-    row-gap: 6px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 2fr) minmax(0, 1fr) auto auto;
+    gap: 6px;
     align-items: center;
   }
 
   .termo__board {
     grid-column: 1;
-    grid-row: 1 / -1;
+    grid-row: 1;
     justify-self: center;
     height: 100%;
     max-height: 100%;
@@ -275,21 +274,22 @@
   }
 
   .termo__keyboard {
-    grid-column: 2;
-    grid-row: 1;
+    grid-column: 1;
+    grid-row: 2;
     align-self: center;
+    width: 100%;
     margin-top: 0;
     padding-top: 0;
   }
 
   .termo__message {
-    grid-column: 2;
-    grid-row: 2;
+    grid-column: 1;
+    grid-row: 3;
   }
 
   .termo__actions {
-    grid-column: 2;
-    grid-row: 3;
+    grid-column: 1;
+    grid-row: 4;
   }
 }
 
