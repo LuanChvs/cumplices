@@ -2492,9 +2492,29 @@ body.settings-open {
 }
 
 .settings-sound-options {
-  margin-top: 6px;
-  padding: 4px 0 0;
+  max-height: 0;
+  margin-top: 0;
+  padding: 0;
   overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(-4px);
+
+  transition:
+    max-height .22s ease,
+    margin-top .22s ease,
+    padding-top .22s ease,
+    opacity .18s ease,
+    transform .22s var(--ease-premium, cubic-bezier(.22, .61, .36, 1));
+}
+
+.settings-sound-options.is-open {
+  max-height: 560px;
+  margin-top: 6px;
+  padding-top: 4px;
+
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .settings-sound-options[hidden] {
