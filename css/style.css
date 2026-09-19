@@ -909,13 +909,6 @@ body.settings-open {
   width: 100%;
 }
 
-.settings-body {
-  min-height: 0;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
-}
-
 .settings-header {
   display: flex;
   align-items: flex-start;
