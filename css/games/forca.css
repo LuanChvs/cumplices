@@ -596,6 +596,27 @@ main:has(.forca--playing) {
 }
 
 /* =========================================================
+   DESKTOP — TECLADO MAIS PRESENTE
+========================================================= */
+
+@media (min-width: 900px) {
+  .forca__keyboard {
+    max-width: 620px;
+    gap: 8px;
+  }
+
+  .forca__key-row {
+    gap: 7px;
+  }
+
+  .forca__key {
+    max-width: 56px;
+    height: 54px;
+    font-size: .82rem;
+  }
+}
+
+/* =========================================================
    LANDSCAPE COMPACTO — CELULAR / TABLET
 ========================================================= */
 
