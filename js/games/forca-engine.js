@@ -10,7 +10,9 @@ const normalizeForca = (value) => String(value || '')
   .replace(/[\u0300-\u036f]/g, '')
   .replace(/ç/gi, 'c')
   .toLowerCase()
-  .replace(/[^a-z]/g, '');
+  .replace(/[^a-z ]/g, '')
+  .replace(/\s+/g, ' ')
+  .trim();
 
 function createForcaGame(word) {
   const answer = normalizeForca(word);
