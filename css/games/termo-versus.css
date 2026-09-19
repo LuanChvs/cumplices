@@ -1,0 +1,517 @@
+/* =========================================================
+   TERMO VERSUS — VISUAL
+========================================================= */
+
+.termo-versus {
+  box-sizing: border-box;
+  width: min(560px, calc(100% - 24px));
+  min-height: calc(100dvh - var(--termoversus-topbar-height, 0px));
+  margin: 0 auto;
+  padding: 12px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.termo-versus__header {
+  flex: 0 0 auto;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.termo-versus__eyebrow {
+  display: block;
+  font-size: .58rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  opacity: .45;
+}
+
+.termo-versus__title {
+  margin: 2px 0 0;
+  font-family: var(--font-b, sans-serif);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.termo-versus__config,
+.termo-versus__pass,
+.termo-versus__game {
+  width: 100%;
+}
+
+.termo-versus__config,
+.termo-versus__pass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.termo-versus__intro {
+  width: min(100%, 500px);
+  text-align: center;
+}
+
+.termo-versus__kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--teal);
+  font-size: .58rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.termo-versus__intro h2,
+.termo-versus__pass h2 {
+  margin: 0;
+  font-family: var(--font-b, sans-serif);
+  font-size: 1.55rem;
+  line-height: 1.05;
+}
+
+.termo-versus__intro p,
+.termo-versus__pass p {
+  width: min(100%, 440px);
+  margin: 8px auto 0;
+  color: var(--text-dim);
+  font-size: .7rem;
+  line-height: 1.5;
+}
+
+.termo-versus__panel {
+  width: min(100%, 440px);
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  box-sizing: border-box;
+}
+
+.termo-versus__field-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.termo-versus__field-title strong,
+.termo-versus__word-label > span {
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.termo-versus__field-title span {
+  color: var(--text-dim);
+  font-size: .64rem;
+}
+
+.termo-versus__length-picker {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.termo-versus__length-button {
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel-2);
+  color: var(--text);
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, transform .08s ease;
+}
+
+.termo-versus__length-button:active {
+  transform: scale(.96);
+}
+
+.termo-versus__length-button.is-active {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: #fff;
+}
+
+.termo-versus__word-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.termo-versus__word-input {
+  width: 100%;
+  height: 48px;
+  box-sizing: border-box;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: none;
+  background: var(--panel-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.termo-versus__word-input:focus {
+  border-color: var(--line-strong);
+  box-shadow: 0 0 0 1px var(--line-strong);
+}
+
+.termo-versus__message {
+  min-height: 20px;
+  margin: 12px 0;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: .68rem;
+  font-weight: 700;
+}
+
+.termo-versus__primary,
+.termo-versus__secondary {
+  min-height: 40px;
+  border-radius: 9px;
+  padding: 0 16px;
+  font: inherit;
+  font-size: .68rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.termo-versus__primary {
+  width: 100%;
+  border: 0;
+  background: var(--teal);
+  color: #fff;
+}
+
+.termo-versus__secondary {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+}
+
+.termo-versus__pass {
+  flex: 1 1 auto;
+  justify-content: center;
+  text-align: center;
+}
+
+.termo-versus__pass-icon {
+  font-size: 3rem;
+}
+
+.termo-versus__pass .termo-versus__primary {
+  width: min(100%, 260px);
+}
+
+.termo-versus__game {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.termo-versus__turn {
+  text-align: center;
+}
+
+.termo-versus__turn strong,
+.termo-versus__turn > span:last-child {
+  display: block;
+}
+
+.termo-versus__turn strong {
+  font-family: var(--font-b, sans-serif);
+  font-size: 1rem;
+}
+
+.termo-versus__turn > span:last-child {
+  margin-top: 4px;
+  color: var(--text-dim);
+  font-size: .58rem;
+}
+
+.termo-versus__board {
+  width: min(100%, 500px);
+  justify-self: center;
+  display: grid;
+  gap: 5px;
+  min-height: 0;
+}
+
+.termo-versus__row {
+  display: grid;
+  grid-template-columns: repeat(var(--termoversus-word-length, 5), minmax(0, 1fr));
+  gap: 5px;
+}
+
+.termo-versus__cell {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font-size: clamp(1rem, 6vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.termo-versus__cell.is-filled {
+  border-color: var(--line-strong);
+}
+
+.termo-versus__cell.is-editing {
+  border-color: var(--line-strong);
+  box-shadow: 0 0 0 1px var(--line-strong);
+}
+
+.termo-versus__cell.is-correct,
+.termo-versus__cell.is-present,
+.termo-versus__cell.is-absent {
+  color: #fff;
+  border-color: transparent;
+}
+
+.termo-versus__cell.is-correct {
+  background: var(--teal);
+}
+
+.termo-versus__cell.is-present {
+  background: var(--gold);
+}
+
+.termo-versus__cell.is-absent {
+  background: var(--bg);
+}
+
+.termo-versus__cell.is-revealing {
+  animation: termoversus-cell-reveal .55s cubic-bezier(.4, 0, .2, 1) both;
+}
+
+@keyframes termoversus-cell-reveal {
+  0% { transform: perspective(700px) rotateY(0deg); }
+  45% { transform: perspective(700px) rotateY(90deg); }
+  55% { transform: perspective(700px) rotateY(90deg); }
+  100% { transform: perspective(700px) rotateY(0deg); }
+}
+
+.termo-versus__keyboard {
+  width: min(100%, 500px);
+  justify-self: center;
+  display: grid;
+  gap: 6px;
+  padding-top: 10px;
+}
+
+.termo-versus__key-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.termo-versus__key-row--offset {
+  padding-inline: 3%;
+}
+
+.termo-versus__key-row--last {
+  align-items: stretch;
+}
+
+.termo-versus__key {
+  flex: 1 1 0;
+  max-width: 42px;
+  min-width: 0;
+  height: 43px;
+  padding: 0 3px;
+  border: 0;
+  border-radius: 5px;
+  background: var(--panel-2);
+  color: var(--text);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.termo-versus__key:active {
+  transform: scale(.94);
+}
+
+.termo-versus__key.is-correct {
+  background: var(--teal);
+  color: #fff;
+}
+
+.termo-versus__key.is-present {
+  background: var(--gold);
+  color: #fff;
+}
+
+.termo-versus__key.is-absent {
+  background: var(--bg);
+  color: var(--text-dim);
+}
+
+.termo-versus__key--special {
+  flex: 1.45 1 0;
+  max-width: 58px;
+  font-size: .95rem;
+}
+
+.termo-versus__helper {
+  display: block;
+  color: var(--text-dim);
+  font-size: .58rem;
+  text-align: center;
+}
+
+.termo-versus__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: center;
+}
+
+.termo-versus__actions .termo-versus__primary,
+.termo-versus__actions .termo-versus__secondary {
+  width: min(100%, 260px);
+}
+
+@media (max-width: 620px) {
+  .termo-versus {
+    width: min(100%, 430px);
+    min-height: calc(100dvh - var(--termoversus-topbar-height, 0px));
+    padding: 8px 8px 10px;
+  }
+
+  .termo-versus__eyebrow {
+    display: none;
+  }
+
+  .termo-versus__title {
+    font-size: 1.45rem;
+  }
+
+  .termo-versus__panel {
+    padding: 15px;
+  }
+
+  .termo-versus__game {
+    gap: 6px;
+  }
+
+  .termo-versus__board {
+    width: min(100%, 430px);
+    gap: 4px;
+  }
+
+  .termo-versus__row {
+    gap: 4px;
+  }
+
+  .termo-versus__keyboard {
+    gap: 5px;
+    padding-top: 7px;
+  }
+
+  .termo-versus__key-row {
+    gap: 4px;
+  }
+
+  .termo-versus__key {
+    height: 40px;
+  }
+}
+
+@media (max-width: 620px) and (max-height: 700px) and (orientation: portrait) {
+  .termo-versus {
+    padding-top: 5px;
+    padding-bottom: 6px;
+  }
+
+  .termo-versus__header {
+    margin-bottom: 6px;
+  }
+
+  .termo-versus__title {
+    font-size: 1.25rem;
+  }
+
+  .termo-versus__board {
+    gap: 3px;
+  }
+
+  .termo-versus__row {
+    gap: 3px;
+  }
+
+  .termo-versus__keyboard {
+    padding-top: 5px;
+    gap: 4px;
+  }
+
+  .termo-versus__key-row {
+    gap: 3px;
+  }
+
+  .termo-versus__key {
+    height: clamp(32px, 6.4dvh, 36px);
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .termo-versus__game {
+    grid-template-columns: minmax(250px, 1fr) minmax(300px, 1fr);
+    grid-template-rows: auto 1fr auto;
+    column-gap: 18px;
+  }
+
+  .termo-versus__turn {
+    grid-column: 1 / -1;
+  }
+
+  .termo-versus__board {
+    grid-column: 1;
+    grid-row: 2 / 4;
+    width: min(100%, 360px);
+  }
+
+  .termo-versus__message {
+    grid-column: 2;
+  }
+
+  .termo-versus__keyboard {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+  }
+
+  .termo-versus__actions {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .termo-versus__cell.is-revealing {
+    animation: none;
+  }
+}
