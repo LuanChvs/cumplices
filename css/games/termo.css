@@ -258,7 +258,7 @@
   }
 
   .termo__game {
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr);
+    grid-template-columns: minmax(0, 1fr) 320px;
     grid-template-rows: minmax(0, 1fr) auto auto;
     column-gap: 24px;
     row-gap: 6px;
