@@ -900,119 +900,105 @@ main:has(.forca--playing) {
   }
 }
 
-/* Resultado compacto: preserva o título principal e sacrifica
-   primeiro a informação secundária quando faltar largura. */
-@media (max-width: 899px) and (orientation: landscape) {
-  .forca__word-action:has(.forca__result) {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-
-  .forca__word-action:has(.forca__result) .forca__result {
-    min-width: 0;
-    padding-inline: 8px;
-  }
-
-  .forca__word-action:has(.forca__result) .forca__result strong {
-    min-width: 0;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: clamp(.62rem, 2.1vw, .78rem);
-  }
-
-  .forca__word-action:has(.forca__result) .forca__result span {
-    min-width: 0;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: clamp(.48rem, 1.65vw, .61rem);
-  }
-}
-
-/* Em celulares horizontais realmente estreitos,
-   o texto secundário desaparece antes de comprimir o título. */
-@media (max-width: 560px) and (orientation: landscape) {
-  .forca__word-action:has(.forca__result) .forca__result {
-    padding-inline: 7px;
-  }
-
-  .forca__word-action:has(.forca__result) .forca__result span {
-    display: none;
-  }
-
-  .forca__word-action:has(.forca__result) .forca__result strong {
-    font-size: .68rem;
-  }
-}
-
-@media (max-width: 430px) and (orientation: landscape) {
-  .forca__word-action:has(.forca__result) .forca__result strong {
-    font-size: .62rem;
-  }
-
-  .forca__word-action:has(.forca__result) .forca__word-button {
-    padding-inline: 10px;
-  }
-}
-
-
 /* =========================================================
-   LANDSCAPE — PROTEÇÃO FINAL DA FILEIRA DE 10 TECLAS
+   LANDSCAPE — DIMENSÕES E RESULTADO
 ========================================================= */
 
-@media (orientation: landscape) {
+@media (max-width: 899px) and (orientation: landscape) {
+  /* O teclado nunca é cortado horizontalmente. */
+  .forca--playing .forca__keyboard-area {
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+  }
+
   .forca--playing .forca__keyboard {
     width: 100%;
     max-width: 100%;
     min-width: 0;
+
+    /*
+      10 letras + 9 gaps precisam caber no próprio teclado.
+      A altura também limita a tecla em telas baixas.
+    */
+    --forca-key-size: min(
+      38px,
+      8.8vh,
+      calc((100% - 36px) / 10)
+    );
   }
 
   .forca--playing .forca__key-row {
     width: max-content;
     max-width: 100%;
+    min-width: 0;
     overflow: visible;
   }
 
-  .forca--playing .forca__key-row:first-child {
-    width: min(
-      100%,
-      calc((var(--forca-key-size) * 10) + 45px)
-    );
+  .forca--playing .forca__key {
+    flex: 0 0 var(--forca-key-size);
+    width: var(--forca-key-size);
+    height: var(--forca-key-size);
+    min-width: var(--forca-key-size);
+    min-height: var(--forca-key-size);
+    max-width: var(--forca-key-size);
+    max-height: var(--forca-key-size);
   }
 
-  .forca--playing .forca__keyboard-area {
-    min-width: 0;
-    overflow: hidden;
-  }
-
-  .forca--playing .forca__word-action:has(.forca__result) {
+  /* Resultado: uma única linha, sem competição entre os textos. */
+  .forca__word-action:has(.forca__result) {
     grid-template-columns: minmax(0, 1fr) auto;
+    min-width: 0;
   }
 
-  .forca--playing .forca__word-action:has(.forca__result) .forca__result {
+  .forca__word-action:has(.forca__result) .forca__result {
     min-width: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
     padding: 0 8px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     overflow: hidden;
+    white-space: nowrap;
   }
 
-  .forca--playing .forca__word-action:has(.forca__result) .forca__result strong {
+  .forca__word-action:has(.forca__result) .forca__result strong {
     display: block;
     width: 100%;
     min-width: 0;
+    max-width: 100%;
+
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: clamp(.58rem, 1.7vw, .76rem);
+
+    font-size: clamp(.58rem, 1.8vw, .76rem);
     line-height: 1;
     text-align: center;
   }
 
-  .forca--playing .forca__word-action:has(.forca__result) .forca__result span {
+  .forca__word-action:has(.forca__result) .forca__result span {
     display: none !important;
   }
 }
+
+/* Em desktop/largura maior, deixa as teclas crescerem até o limite */
+@media (min-width: 900px) and (orientation: landscape) {
+  .forca--playing .forca__keyboard-area {
+    overflow: visible;
+  }
+
+  .forca--playing .forca__keyboard {
+    --forca-key-size: min(
+      46px,
+      9.5vh,
+      calc((100% - 45px) / 10)
+    );
+  }
+}
+
