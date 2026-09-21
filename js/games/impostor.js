@@ -48,23 +48,24 @@ function renderImpostor() {
       const opponentWord = state.words[playerIndex === 0 ? 1 : 0];
       const entry = words.find((item) => item.word === secretWord);
 
-      if (!entry) return [secretWord];
+      if (!entry) return [];
 
       const strongCandidates = (entry.strong || [])
         .filter((word) => word !== secretWord && word !== opponentWord);
       const weakCandidates = (entry.weak || [])
         .filter((word) => word !== secretWord && word !== opponentWord);
 
+      if (!strongCandidates.length || !weakCandidates.length) return [];
+
       const strong = strongCandidates[Math.floor(Math.random() * strongCandidates.length)];
       const weak = weakCandidates[Math.floor(Math.random() * weakCandidates.length)];
 
-      if (!strong || !weak) return [secretWord];
-
       const blocked = new Set([secretWord, opponentWord, strong, weak]);
       const randomCandidates = wordPool.filter((word) => !blocked.has(word));
-      const randomWord = randomCandidates[Math.floor(Math.random() * randomCandidates.length)];
 
-      if (!randomWord) return [secretWord, strong, weak];
+      if (!randomCandidates.length) return [];
+
+      const randomWord = randomCandidates[Math.floor(Math.random() * randomCandidates.length)];
 
       return [secretWord, strong, weak, randomWord]
         .sort(() => Math.random() - 0.5);
@@ -236,7 +237,7 @@ function renderImpostor() {
 
         <p>
           Os dois jogadores conhecem o tema.
-          Cada um receberá uma palavra secreta diferente dentro dele.
+          Cada um receberá uma palavra secreta dentro dele — elas podem ser iguais.
         </p>
 
         <button type="button" class="btn btn-primary impostor__theme-continue">
@@ -534,7 +535,7 @@ function renderImpostor() {
     const player = state.players[playerIndex];
     const opponent = state.players[opponentIndex];
     const opponentOptions = [...new Set(
-      (state.theme?.pairs || []).flat()
+      (state.theme?.words || []).map((entry) => entry.word)
     )];
 
     let selectedBluff = null;
