@@ -18,7 +18,9 @@ function renderImpostor() {
     statementPlayerIndex: 0,
     questionIndex: 0,
     questionText: '',
-    questions: []
+    questions: [],
+    judgmentPlayerIndex: 0,
+    judgments: [null, null]
   };
 
   const themes = () => window.DATA?.impostor?.themes || [];
@@ -94,6 +96,16 @@ function renderImpostor() {
 
     if (state.screen === 'answer') {
       renderAnswer();
+      return;
+    }
+
+    if (state.screen === 'judgment') {
+      renderJudgment();
+      return;
+    }
+
+    if (state.screen === 'result') {
+      renderResult();
     }
   };
 
@@ -458,7 +470,9 @@ function renderImpostor() {
         state.questionText = '';
 
         if (state.questionIndex === 5) {
-          state.screen = 'declarations';
+          state.judgmentPlayerIndex = 0;
+          state.judgments = [null, null];
+          state.screen = 'judgment';
           render();
           return;
         }
@@ -468,6 +482,166 @@ function renderImpostor() {
         render();
       };
     });
+  };
+
+
+  const getRoundWords = () => {
+    const words = state.theme?.pairs?.flat() || [];
+    return [...new Set(words)];
+  };
+
+  const renderJudgment = () => {
+    const playerIndex = state.judgmentPlayerIndex;
+    const opponentIndex = playerIndex === 0 ? 1 : 0;
+    const player = state.players[playerIndex];
+    const opponent = state.players[opponentIndex];
+    const wordOptions = getRoundWords();
+
+    root.innerHTML = \`
+      <div class="impostor__intro impostor__judgment">
+        <span class="eyebrow">Julgamento secreto</span>
+        <h2>Vez de \${player}</h2>
+        <p>Entreguem o celular somente para este jogador. Suas escolhas não serão mostradas ao adversário agora.</p>
+
+        <div class="impostor__judgment-section">
+          <span class="impostor__judgment-label">A declaração de \${opponent} foi...</span>
+          <div class="impostor__judgment-options">
+            <button type="button" class="impostor__judgment-option" data-truth="true">Verdadeira</button>
+            <button type="button" class="impostor__judgment-option" data-truth="false">Blefe</button>
+          </div>
+        </div>
+
+        <div class="impostor__judgment-section">
+          <label class="impostor__judgment-label" for="impostor-guess">A palavra secreta de \${opponent} é...</label>
+          <select id="impostor-guess" class="impostor__guess">
+            <option value="">Escolha uma palavra</option>
+            \${wordOptions.map((word) => \`<option value="\${word}">\${word}</option>\`).join('')}
+          </select>
+        </div>
+
+        <button type="button" class="btn btn-primary impostor__judgment-submit" disabled>
+          Confirmar julgamento →
+        </button>
+        <p class="impostor__feedback" aria-live="polite"></p>
+      </div>
+    \`;
+
+    let truthValue = null;
+    const select = root.querySelector('.impostor__guess');
+    const submit = root.querySelector('.impostor__judgment-submit');
+
+    const updateSubmit = () => {
+      submit.disabled = truthValue === null || !select.value;
+    };
+
+    root.querySelectorAll('[data-truth]').forEach((button) => {
+      button.onclick = () => {
+        truthValue = button.dataset.truth === 'true';
+        root.querySelectorAll('[data-truth]').forEach((item) => item.classList.remove('is-selected'));
+        button.classList.add('is-selected');
+        updateSubmit();
+      };
+    });
+
+    select.onchange = updateSubmit;
+
+    submit.onclick = () => {
+      state.judgments[playerIndex] = {
+        statementTruth: truthValue,
+        guessedWord: select.value
+      };
+
+      if (playerIndex === 0) {
+        state.judgmentPlayerIndex = 1;
+        render();
+        return;
+      }
+
+      state.screen = 'result';
+      render();
+    };
+  };
+
+  const renderResult = () => {
+    const statementTruth = state.statements.map((statement, index) => statement === state.words[index]);
+    const wordHits = state.judgments.map((judgment, index) => {
+      const opponentIndex = index === 0 ? 1 : 0;
+      return judgment.guessedWord === state.words[opponentIndex];
+    });
+    const truthHits = state.judgments.map((judgment, index) =>
+      judgment.statementTruth === statementTruth[index === 0 ? 1 : 0]
+    );
+    const bonusHits = state.judgments.map((judgment, index) =>
+      judgment.statementTruth !== statementTruth[index]
+    );
+    const scores = state.players.map((_, index) =>
+      (truthHits[index] ? 1 : 0) +
+      (wordHits[index] ? 2 : 0) +
+      (bonusHits[index] ? 1 : 0)
+    );
+
+    root.innerHTML = \`
+      <div class="impostor__intro impostor__result">
+        <span class="eyebrow">Revelação</span>
+        <h2>As palavras eram...</h2>
+
+        <div class="impostor__result-words">
+          \${state.players.map((player, index) => \`
+            <div class="impostor__result-card">
+              <strong>\${player}</strong>
+              <span>Palavra secreta</span>
+              <b>\${state.words[index]}</b>
+              <span>Declaração feita</span>
+              <b>\${state.statements[index]}</b>
+              <em>\${statementTruth[index] ? 'Verdadeira' : 'Blefe'}</em>
+            </div>
+          \`).join('')}
+        </div>
+
+        <div class="impostor__result-judgments">
+          \${state.players.map((player, index) => {
+            const opponentIndex = index === 0 ? 1 : 0;
+            return \`
+              <div class="impostor__result-card">
+                <strong>\${player} julgou \${state.players[opponentIndex]}</strong>
+                <span>Declaração</span>
+                <b>\${state.judgments[index].statementTruth ? 'Verdadeira' : 'Blefe'}</b>
+                <span>Palavra escolhida</span>
+                <b>\${state.judgments[index].guessedWord}</b>
+                <em>\${truthHits[index] ? '✓ Acertou a verdade' : '✕ Errou a verdade'} · \${wordHits[index] ? '✓ Acertou a palavra' : '✕ Errou a palavra'}</em>
+              </div>
+            \`;
+          }).join('')}
+        </div>
+
+        <div class="impostor__scores">
+          \${state.players.map((player, index) => \`
+            <div class="impostor__score">
+              <span>\${player}</span>
+              <strong>\${scores[index]} ponto\${scores[index] === 1 ? '' : 's'}</strong>
+            </div>
+          \`).join('')}
+        </div>
+
+        <button type="button" class="btn btn-primary impostor__new-round">
+          Nova rodada →
+        </button>
+      </div>
+    \`;
+
+    root.querySelector('.impostor__new-round').onclick = () => {
+      if (!pickRound()) return;
+
+      state.revealedPlayerIndex = 0;
+      state.statementPlayerIndex = 0;
+      state.questionIndex = 0;
+      state.questionText = '';
+      state.questions = [];
+      state.judgmentPlayerIndex = 0;
+      state.judgments = [null, null];
+      state.screen = 'theme';
+      render();
+    };
   };
 
   render();
