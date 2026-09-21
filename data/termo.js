@@ -1,12 +1,14 @@
 /* =========================================================
    TERMO — BANCO DE PALAVRAS
-   Palavras válidas de 5 letras. A comparação ignora acentos.
+   answers = palavras que podem ser a resposta do dia/aleatória.
+   guesses = palavras que podem ser usadas como tentativa.
+   A comparação ignora acentos.
 ========================================================= */
 
 window.DATA = window.DATA || {};
 
 window.DATA.termo = {
-  words: [
+  answers: [
     "abafa","abate","abriu","acaso","acima","acres","adeus","adota","afeto","agora",
     "ajuda","alado","alega","alema","aluno","amado","amigo","amora","andar","antes",
     "apaga","apela","apito","apoio","arado","arena","argila","armar","arroz","assar",
@@ -32,5 +34,22 @@ window.DATA.termo = {
     "suave","tempo","tenho","terra","texto","tinta","tirar","todos","torna","trata",
     "trevo","troca","turma","ultimo","vazio","velho","vento","verbo","verde","vezes",
     "video","vinho","visao","viver","volta","votar","vozes","zebra","zelar"
+  ],
+
+  guesses: [
+    ...window.DATA.termo.answers,
+    "acude","adaga","agudo","aluga","amplo","anexo","apelo","aroma","atomo","audio",
+    "autor","aviao","bambu","bloco","brabo","bruxa","burro","cacto","cedro","cenas",
+    "chave","chute","cinto","cobra","cofre","comer","creme","dedos","deusa","dizia",
+    "doses","ducha","elite","entes","etapa","exige","extra","fatia","ficha","finge",
+    "fluir","fobia","fonte","forma","forte","fraco","freio","gaita","ganso","girar",
+    "guria","heroi","idoso","impar","indio","janta","largo","lenda","limpo","linha",
+    "lombo","lunar","macio","macho","malha","manga","manto","marco","mudar","nervo",
+    "ninho","nobre","nuvem","obras","olhos","opcao","ordem","ouvir","palco","panda",
+    "pardo","pasta","pavio","penca","pente","perna","peste","pilha","pingo","plano",
+    "pleno","pombo","ponto","posto","praga","primo","pulso","queda","raiva","rampa",
+    "raspa","regra","remar","roupa","salsa","selva","senha","sinal","sonho","sushi",
+    "tarde","teias","temer","tigre","tocar","tomar","torta","trama","treno","tripa",
+    "truque","turno","vapor","vidro","vigor","vinte","viuva","vulto","xampu","zanga"
   ]
 };
