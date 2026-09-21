@@ -7,7 +7,6 @@ function renderEmSintonia() {
   const root = document.createElement('section');
   root.className = 'em-sintonia';
 
-  const cards = window.DATA?.emSintonia?.base || [];
   const STORAGE_NAME = 'em-sintonia.game';
   const SETTINGS_NAME = 'em-sintonia.settings';
 
@@ -26,6 +25,7 @@ function renderEmSintonia() {
     guessTime: 0,
     guessStartedAt: null,
     themeMode: 'random',
+    themeFamily: '',
     customLeft: 'Quente',
     customRight: 'Frio',
     settingsOpen: true
@@ -71,8 +71,12 @@ function renderEmSintonia() {
         <div class="em-sintonia__setup-section">
           <label class="em-sintonia__setup-label">Extremos do espectro</label>
           <div class="em-sintonia__choice-grid em-sintonia__choice-grid--compact">
-            <button type="button" class="em-sintonia__choice" data-theme-mode="random"><strong>🎲 Aleatório</strong><span>Usa as combinações de temas do jogo.</span></button>
-            <button type="button" class="em-sintonia__choice" data-theme-mode="custom"><strong>✏️ Personalizado</strong><span>Vocês escolhem os dois extremos.</span></button>
+            <button type="button" class="em-sintonia__choice" data-theme-mode="random"><strong>🎲 Aleatório</strong><span>Qualquer espectro do jogo.</span></button>
+            <button type="button" class="em-sintonia__choice" data-theme-mode="family"><strong>🗂️ Por tema</strong><span>Escolha uma família de espectros.</span></button>
+            <button type="button" class="em-sintonia__choice" data-theme-mode="custom"><strong>✏️ Livre</strong><span>Vocês escrevem os dois extremos.</span></button>
+          </div>
+          <div class="em-sintonia__family-field" data-role="family-field">
+            <select class="em-sintonia__select" data-role="family-select"></select>
           </div>
           <div class="em-sintonia__custom-fields" data-role="custom-fields">
             <input type="text" maxlength="32" data-role="custom-left" placeholder="Ex.: Quente">
@@ -145,6 +149,7 @@ function renderEmSintonia() {
   const roundTurn = $('round-turn'), mode = $('mode'), leftLabel = $('left-label'), rightLabel = $('right-label'), roundInfo = $('round-info');
   const setupRoster = $('setup-roster'), rosterLabel = $('roster-label'), timeSelect = $('time-select');
   const customFields = $('custom-fields'), customLeft = $('custom-left'), customRight = $('custom-right');
+  const familyField = $('family-field'), familySelect = $('family-select');
   const customEditor = $('custom-editor'), gameCustomLeft = $('game-custom-left'), gameCustomRight = $('game-custom-right');
   const toggleButton = root.querySelector('[data-action="toggle"]'), skipButton = root.querySelector('[data-action="skip"]');
   const nextButton = root.querySelector('[data-action="next"]'), newButton = root.querySelector('[data-action="new"]');
@@ -166,6 +171,14 @@ function renderEmSintonia() {
     return 0;
   }
 
+  function getFamilies() { return window.DATA?.emSintonia?.familias || {}; }
+  function getAllCards() { return Object.values(getFamilies()).flatMap(familia => familia.espectros || []); }
+  function getAvailableCards() {
+    if (state.themeMode === 'family' && getFamilies()[state.themeFamily]) return getFamilies()[state.themeFamily].espectros || [];
+    if (state.themeMode === 'custom') return [];
+    return getAllCards();
+  }
+
   function saveGameState() {
     storageSet(STORAGE_NAME, {
       mode: state.mode, teams: state.teams, players: state.players,
@@ -173,14 +186,14 @@ function renderEmSintonia() {
       currentClueIndex: state.currentClueIndex, targetAngle: state.targetAngle,
       currentNeedleAngle: state.currentNeedleAngle, isTargetVisible: state.isTargetVisible,
       isPostGuessPhase: state.isPostGuessPhase, lastRoundPoints: state.lastRoundPoints, guessTime: state.guessTime,
-      guessStartedAt: state.guessStartedAt, themeMode: state.themeMode,
+      guessStartedAt: state.guessStartedAt, themeMode: state.themeMode, themeFamily: state.themeFamily,
       customLeft: state.customLeft, customRight: state.customRight
     });
   }
 
   function saveSettings() {
     storageSet(SETTINGS_NAME, {
-      mode: state.mode, guessTime: state.guessTime, themeMode: state.themeMode,
+      mode: state.mode, guessTime: state.guessTime, themeMode: state.themeMode, themeFamily: state.themeFamily,
       customLeft: state.customLeft, customRight: state.customRight,
       teams: state.teams, players: state.players
     });
@@ -208,18 +221,24 @@ function renderEmSintonia() {
   function updateNeedle() { needle.style.transform = `rotate(${state.currentNeedleAngle}deg)`; }
 
   function displayClue() {
-    if (state.currentClueIndex < 0 || !cards.length) return;
-    const [left, right] = cards[state.currentClueIndex];
     if (state.themeMode === 'custom') {
       leftLabel.textContent = state.customLeft;
       rightLabel.textContent = state.customRight;
-    } else {
-      leftLabel.textContent = left;
-      rightLabel.textContent = right;
+      return;
     }
+    const cards = getAvailableCards();
+    if (state.currentClueIndex < 0 || !cards.length) return;
+    const [left, right] = cards[state.currentClueIndex];
+    leftLabel.textContent = left;
+    rightLabel.textContent = right;
   }
 
   function setRandomClue() {
+    if (state.themeMode === 'custom') {
+      state.currentClueIndex = 0;
+      return;
+    }
+    const cards = getAvailableCards();
     if (!cards.length) return;
     state.currentClueIndex = Math.floor(Math.random() * cards.length);
   }
@@ -323,6 +342,11 @@ function renderEmSintonia() {
     timeSelect.value = String(state.guessTime);
     customLeft.value = state.customLeft;
     customRight.value = state.customRight;
+    const families = getFamilies();
+    familySelect.innerHTML = Object.entries(families).map(([key, family]) => `<option value="${key}">${family.nome}</option>`).join('');
+    if (!state.themeFamily || !families[state.themeFamily]) state.themeFamily = Object.keys(families)[0] || '';
+    familySelect.value = state.themeFamily;
+    familyField.classList.toggle('is-visible', state.themeMode === 'family');
     customFields.classList.toggle('is-visible', state.themeMode === 'custom');
     renderRosterEditor();
   }
@@ -458,6 +482,7 @@ function renderEmSintonia() {
   function applySettings(startNew = true) {
     state.guessTime = Math.max(0, Number(timeSelect.value) || 0);
     state.themeMode = root.querySelector('[data-theme-mode].is-selected')?.dataset.themeMode || state.themeMode;
+    state.themeFamily = familySelect.value || state.themeFamily;
     state.customLeft = customLeft.value.trim() || 'Quente';
     state.customRight = customRight.value.trim() || 'Frio';
     if (state.themeMode === 'custom' && (!state.customLeft || !state.customRight)) return;
@@ -535,8 +560,14 @@ function renderEmSintonia() {
 
   root.querySelectorAll('[data-setup-mode]').forEach(button => button.addEventListener('click', () => switchSetupMode(button.dataset.setupMode)));
   root.querySelectorAll('[data-theme-mode]').forEach(button => button.addEventListener('click', () => {
-    state.themeMode = button.dataset.themeMode; updateSetup(); saveSettings();
+    state.themeMode = button.dataset.themeMode;
+    updateSetup();
+    saveSettings();
   }));
+  familySelect.addEventListener('change', () => {
+    state.themeFamily = familySelect.value;
+    saveSettings();
+  });
   root.querySelector('[data-action="setup-add"]').addEventListener('click', () => {
     const collection = state.mode === 'free' ? state.players : state.teams;
     collection.push({ name: `${state.mode === 'free' ? 'Jogador' : 'Time'} ${collection.length + 1}`, score: 0 });
@@ -569,6 +600,7 @@ function renderEmSintonia() {
   const savedSettings = loadSettings();
   if (savedSettings) {
     Object.assign(state, savedSettings);
+    state.themeFamily = savedSettings.themeFamily || '';
     state.teams = Array.isArray(savedSettings.teams) && savedSettings.teams.length ? savedSettings.teams : [{ name: 'Time 1', score: 0 }, { name: 'Time 2', score: 0 }];
     state.players = Array.isArray(savedSettings.players) && savedSettings.players.length ? savedSettings.players : [{ name: 'Jogador 1', score: 0 }, { name: 'Jogador 2', score: 0 }];
   } else {
@@ -579,6 +611,7 @@ function renderEmSintonia() {
   const saved = loadGameState();
   if (saved) {
     Object.assign(state, saved);
+    state.themeFamily = saved.themeFamily || state.themeFamily || '';
     state.teams = Array.isArray(state.teams) && state.teams.length ? state.teams : [{ name: 'Time 1', score: 0 }, { name: 'Time 2', score: 0 }];
     state.players = Array.isArray(state.players) && state.players.length ? state.players : [{ name: 'Jogador 1', score: 0 }, { name: 'Jogador 2', score: 0 }];
   }
