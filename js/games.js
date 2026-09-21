@@ -81,6 +81,15 @@ const games = {
       icon: ICONS.quemSouEu,
       render: renderQuemSouEu
     },
+    impostor: {
+      id: 'impostor',
+      title: 'Impostor',
+      route: '/impostor',
+      description: 'Descubram quem está blefando — ou convençam o outro de que estão dizendo a verdade.',
+      color: 'coral',
+      icon: '🕵️',
+      render: renderImpostor
+    },
     termo: {
       id: 'termo',
       title: 'Termo',
