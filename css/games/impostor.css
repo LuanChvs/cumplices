@@ -1,0 +1,46 @@
+.impostor {
+  width: 100%;
+}
+
+.impostor__intro {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.impostor__intro h1 {
+  margin: .35rem 0 .75rem;
+}
+
+.impostor__intro p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.impostor__modes {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.impostor__mode {
+  display: grid;
+  gap: .4rem;
+  width: 100%;
+  padding: 1.25rem;
+  text-align: left;
+  color: inherit;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  opacity: .8;
+}
+
+.impostor__mode strong {
+  font-size: 1.05rem;
+}
+
+.impostor__mode span {
+  color: var(--muted);
+  font-size: .9rem;
+}
