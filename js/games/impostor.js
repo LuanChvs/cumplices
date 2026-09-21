@@ -51,16 +51,16 @@ function renderImpostor() {
       if (!entry) return [];
 
       const strongCandidates = (entry.strong || [])
-        .filter((word) => word !== secretWord && word !== opponentWord);
+        .filter((word) => word !== secretWord);
       const weakCandidates = (entry.weak || [])
-        .filter((word) => word !== secretWord && word !== opponentWord);
+        .filter((word) => word !== secretWord);
 
       if (!strongCandidates.length || !weakCandidates.length) return [];
 
       const strong = strongCandidates[Math.floor(Math.random() * strongCandidates.length)];
       const weak = weakCandidates[Math.floor(Math.random() * weakCandidates.length)];
 
-      const blocked = new Set([secretWord, opponentWord, strong, weak]);
+      const blocked = new Set([secretWord, strong, weak]);
       const randomCandidates = wordPool.filter((word) => !blocked.has(word));
 
       if (!randomCandidates.length) return [];
