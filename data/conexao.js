@@ -13,7 +13,17 @@ window.DATA.conexao = [
     conexaoPergunta("Qual foi a primeira impressão que você teve do outro?"),
     conexaoPergunta("Qual viagem vocês fizeram que você nunca vai esquecer?"),
     conexaoPergunta("Teve alguma briga boba que hoje faz vocês rirem?"),
-    conexaoPergunta("Qual foi o presente mais marcante que você já recebeu do outro?")
+    conexaoPergunta("Qual foi o presente mais marcante que você já recebeu do outro?"),
+    conexaoPergunta("Qual foi o primeiro lugar onde vocês saíram juntos?", ['casal']),
+    conexaoPergunta("Qual momento simples com o outro ficou mais marcado na sua memória?", ['casal']),
+    conexaoPergunta("Qual foi a primeira coisa que vocês fizeram juntos e que você gostaria de repetir?", ['casal']),
+    conexaoPergunta("Qual foi uma situação em que vocês dois riram tanto que ficou impossível esquecer?", ['casal']),
+    conexaoPergunta("Qual foi o rolê mais aleatório que você já teve com seus amigos?", ['resenha']),
+    conexaoPergunta("Qual foi a festa ou encontro com amigos que mais rendeu histórias?", ['resenha']),
+    conexaoPergunta("Qual foi a situação mais vergonhosa que você já passou na frente da sua turma?", ['resenha']),
+    conexaoPergunta("Qual foi a viagem com amigos que mais marcou você?", ['resenha']),
+    conexaoPergunta("Qual foi o melhor rolê de última hora que você já aceitou?", ['resenha']),
+    conexaoPergunta("Qual lembrança de escola ou faculdade sempre faz você rir?", ['resenha'])
   ]},
   { nome:"Desejos", cor:"var(--gold)", perguntas:[
     conexaoPergunta("Que lugar do mundo vocês ainda não conheceram, mas sonham em ir juntos?"),
@@ -23,7 +33,17 @@ window.DATA.conexao = [
     conexaoPergunta("Existe algum hobby que você quer aprender ao lado do outro?"),
     conexaoPergunta("Qual seria o presente perfeito pra vocês dois nesse momento da vida?"),
     conexaoPergunta("Que tipo de casa vocês imaginam ter um dia?"),
-    conexaoPergunta("Se pudessem realizar um desejo juntos amanhã, qual seria?")
+    conexaoPergunta("Se pudessem realizar um desejo juntos amanhã, qual seria?"),
+    conexaoPergunta("Qual viagem vocês gostariam de fazer só vocês dois?", ['casal']),
+    conexaoPergunta("Qual pequeno luxo vocês gostariam de poder ter na rotina?", ['casal']),
+    conexaoPergunta("Que experiência diferente vocês gostariam de experimentar juntos?", ['casal']),
+    conexaoPergunta("Qual seria um dia perfeito para vocês dois, do começo ao fim?", ['casal']),
+    conexaoPergunta("Se sua turma pudesse viajar junta amanhã, para onde vocês iriam?", ['resenha']),
+    conexaoPergunta("Qual rolê você gostaria de organizar com todos os seus amigos?", ['resenha']),
+    conexaoPergunta("Qual coisa nova você gostaria de experimentar com sua turma?", ['resenha']),
+    conexaoPergunta("Se pudesse escolher qualquer show para ir com seus amigos, qual seria?", ['resenha']),
+    conexaoPergunta("Qual lugar você gostaria que virasse o ponto oficial da sua turma?", ['resenha']),
+    conexaoPergunta("Qual plano improvável você toparia fazer com seus amigos?", ['resenha'])
   ]},
   { nome:"Confissões", cor:"var(--teal)", perguntas:[
     conexaoPergunta("Existe algo que você nunca contou pro outro por vergonha?"),
@@ -33,7 +53,17 @@ window.DATA.conexao = [
     conexaoPergunta("Tem algo que você faz escondido que talvez o outro não saiba?"),
     conexaoPergunta("Qual foi o pensamento mais bobo que você já teve sobre a relação?"),
     conexaoPergunta("Existe alguma insegurança sua que a relação ajudou a curar?"),
-    conexaoPergunta("Qual foi a vez que você quase estragou tudo sem querer?")
+    conexaoPergunta("Qual foi a vez que você quase estragou tudo sem querer?"),
+    conexaoPergunta("Qual mania sua você acha que mais irrita o outro?", ['casal']),
+    conexaoPergunta("Qual foi uma coisa que você demorou para admitir para o outro?", ['casal']),
+    conexaoPergunta("Qual é uma opinião sua sobre o relacionamento que você evita falar sem ser perguntado(a)?", ['casal']),
+    conexaoPergunta("Qual foi a maior bobagem que você já fez para impressionar o outro?", ['casal']),
+    conexaoPergunta("Qual foi a desculpa mais absurda que você já inventou para não sair?", ['resenha']),
+    conexaoPergunta("Qual segredo bobo você já escondeu dos seus amigos?", ['resenha']),
+    conexaoPergunta("Qual foi a maior vergonha que você já passou tentando parecer descolado(a)?", ['resenha']),
+    conexaoPergunta("Qual foi a pior ideia que você já topou porque seus amigos insistiram?", ['resenha']),
+    conexaoPergunta("Qual hábito seu seus amigos mais zoam?", ['resenha']),
+    conexaoPergunta("Qual foi a maior furada em que você já entrou por causa de um amigo?", ['resenha'])
   ]},
   { nome:"Só rindo", cor:"var(--lav)", perguntas:[
     conexaoPergunta("Se o outro fosse um desenho animado, qual seria?"),
@@ -43,7 +73,17 @@ window.DATA.conexao = [
     conexaoPergunta("Se seu par fosse um prato de comida, qual seria?"),
     conexaoPergunta("Qual seria o hit que tocaria toda vez que vocês entrassem numa festa juntos?"),
     conexaoPergunta("Se a relação de vocês fosse um filme, que gênero seria?"),
-    conexaoPergunta("Qual seria a profissão mais improvável pro outro?")
+    conexaoPergunta("Qual seria a profissão mais improvável pro outro?"),
+    conexaoPergunta("Se o outro fosse um personagem de videogame, qual seria?", ['casal']),
+    conexaoPergunta("Qual seria o nome de uma banda formada por vocês dois?", ['casal']),
+    conexaoPergunta("Se vocês tivessem um reality show, qual seria o nome?", ['casal']),
+    conexaoPergunta("Qual mania do outro daria um ótimo meme?", ['casal']),
+    conexaoPergunta("Qual amigo seu sobreviveria melhor a um apocalipse?", ['resenha']),
+    conexaoPergunta("Qual pessoa da sua turma seria mais provável de virar famosa?", ['resenha']),
+    conexaoPergunta("Qual foi a coisa mais absurda que alguém da sua turma já fez?", ['resenha']),
+    conexaoPergunta("Quem do seu grupo seria o pior companheiro de viagem?", ['resenha']),
+    conexaoPergunta("Qual seria o nome de um grupo musical formado pelos seus amigos?", ['resenha']),
+    conexaoPergunta("Quem dos seus amigos provavelmente esqueceria o próprio aniversário?", ['resenha'])
   ]},
   { nome:"Se pudesse", cor:"var(--coral)", perguntas:[
     conexaoPergunta("Se pudesse trocar de corpo com o outro por um dia, o que você faria?"),
@@ -53,7 +93,17 @@ window.DATA.conexao = [
     conexaoPergunta("Se ganhassem um dinheiro alto hoje, no que gastariam primeiro?"),
     conexaoPergunta("Se pudessem reviver um dia da relação, qual escolheriam?"),
     conexaoPergunta("Se tivessem que criar uma regra nova pro relacionamento, qual seria?"),
-    conexaoPergunta("Se pudessem ter um superpoder como casal, qual seria?")
+    conexaoPergunta("Se pudessem ter um superpoder como casal, qual seria?"),
+    conexaoPergunta("Se vocês pudessem repetir uma única viagem juntos, qual escolheriam?", ['casal']),
+    conexaoPergunta("Se pudessem trocar de rotina por um dia, quem teria a vida mais difícil?", ['casal']),
+    conexaoPergunta("Se pudessem apagar uma pequena discussão da história de vocês, qual seria?", ['casal']),
+    conexaoPergunta("Se pudessem criar uma tradição só de vocês, qual seria?", ['casal']),
+    conexaoPergunta("Se pudesse escolher qualquer famoso para entrar na sua turma por um dia, quem seria?", ['resenha']),
+    conexaoPergunta("Se sua turma ganhasse um prêmio enorme, no que vocês gastariam?", ['resenha']),
+    conexaoPergunta("Se pudesse trocar de vida com qualquer amigo por um dia, quem escolheria?", ['resenha']),
+    conexaoPergunta("Se pudesse reviver um único rolê com seus amigos, qual seria?", ['resenha']),
+    conexaoPergunta("Se sua turma tivesse que morar junta por um mês, quem organizaria a casa?", ['resenha']),
+    conexaoPergunta("Se pudesse dar um superpoder para cada amigo, qual seria o mais útil?", ['resenha'])
   ]},
   { nome:"Daqui a 10 anos", cor:"var(--sage)", perguntas:[
     conexaoPergunta("Como vocês imaginam a vida de vocês daqui a 10 anos?"),
@@ -63,6 +113,16 @@ window.DATA.conexao = [
     conexaoPergunta("Que conselho vocês dariam pro casal que eram no início do relacionamento?"),
     conexaoPergunta("Qual hábito de hoje vocês quer manter para sempre?"),
     conexaoPergunta("Onde vocês imaginam passar as férias quando forem mais velhos?"),
-    conexaoPergunta("O que vocês esperam que nunca mude entre vocês dois?")
+    conexaoPergunta("O que vocês esperam que nunca mude entre vocês dois?"),
+    conexaoPergunta("Como vocês imaginam que vai ser um domingo comum na vida de vocês daqui a 10 anos?", ['casal']),
+    conexaoPergunta("Que lugar vocês gostariam de conhecer juntos antes de completar 10 anos de relação?", ['casal']),
+    conexaoPergunta("Qual hábito de hoje vocês gostariam que continuasse fazendo parte da vida de vocês?", ['casal']),
+    conexaoPergunta("Que conquista pessoal do outro você espera estar comemorando daqui a 10 anos?", ['casal']),
+    conexaoPergunta("Como você imagina sua turma de amigos daqui a 10 anos?", ['resenha']),
+    conexaoPergunta("Qual amigo você acha que vai mudar menos ao longo dos anos?", ['resenha']),
+    conexaoPergunta("Quem da sua turma provavelmente vai morar mais longe no futuro?", ['resenha']),
+    conexaoPergunta("Qual tradição você gostaria que sua turma mantivesse por muitos anos?", ['resenha']),
+    conexaoPergunta("Qual amigo você imagina que vai continuar fazendo exatamente o mesmo rolê daqui a 10 anos?", ['resenha']),
+    conexaoPergunta("Como você imagina um reencontro da sua turma daqui a 10 anos?", ['resenha'])
   ]}
 ];
