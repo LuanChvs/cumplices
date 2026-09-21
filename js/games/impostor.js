@@ -960,6 +960,10 @@ function renderImpostor() {
         <button type="button" class="btn btn-primary impostor__new-round">
           Nova rodada →
         </button>
+
+        <button type="button" class="btn btn-secondary impostor__back-to-config">
+          ← Voltar para configurações
+        </button>
       </div>
     `;
 
@@ -974,6 +978,11 @@ function renderImpostor() {
       state.judgmentPlayerIndex = 0;
       state.judgments = [null, null];
       state.screen = 'theme';
+      render();
+    };
+
+    root.querySelector('.impostor__back-to-config').onclick = () => {
+      state.screen = 'duoSetup';
       render();
     };
   };
@@ -1391,6 +1400,10 @@ function renderImpostor() {
         <button type="button" class="btn btn-primary impostor__classic-new-round">
           Nova rodada →
         </button>
+
+        <button type="button" class="btn btn-secondary impostor__classic-back-to-config">
+          ← Voltar para configurações
+        </button>
       </div>
     `;
 
@@ -1432,6 +1445,11 @@ function renderImpostor() {
     root.querySelector('.impostor__classic-new-round').onclick = () => {
       if (!pickClassicRound()) return;
       state.screen = 'classicTheme';
+      render();
+    };
+
+    root.querySelector('.impostor__classic-back-to-config').onclick = () => {
+      state.screen = 'classicSetup';
       render();
     };
   };
