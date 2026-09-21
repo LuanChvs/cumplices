@@ -23,6 +23,7 @@
 .em-sintonia__choice span { display:block; margin-top:4px; font-size:.66rem; line-height:1.35; opacity:.58; }
 .em-sintonia__choice:hover { border-color:var(--line-strong); }
 .em-sintonia__choice.is-selected { border-color:var(--rose); box-shadow:0 0 0 2px color-mix(in srgb,var(--rose) 14%,transparent); background:color-mix(in srgb,var(--rose) 5%,var(--panel)); }
+.em-sintonia__choice-grid--compact { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .em-sintonia__choice-grid--compact .em-sintonia__choice { min-height:60px; }
 .em-sintonia__select { width:100%; min-height:42px; padding:0 11px; border:1px solid var(--line); border-radius:10px; background:var(--panel-2); color:var(--text); font:inherit; font-size:.76rem; }
 .em-sintonia__setup-roster { display:grid; gap:6px; }
@@ -119,6 +120,7 @@
   .em-sintonia__setup-heading p { font-size:.67rem; }
   .em-sintonia__setup-section { margin-top:13px; }
   .em-sintonia__choice-grid { gap:6px; }
+  .em-sintonia__choice-grid--compact { grid-template-columns:repeat(3,minmax(0,1fr)); }
   .em-sintonia__choice { min-height:66px; padding:9px; }
   .em-sintonia__choice strong { font-size:.7rem; }
   .em-sintonia__choice span { font-size:.58rem; }
