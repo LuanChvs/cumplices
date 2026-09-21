@@ -608,3 +608,184 @@
   opacity: .55;
   cursor: default;
 }
+
+
+/* =========================================================
+   IMPOSTOR CLÁSSICO — cartas e jogadores
+========================================================= */
+
+.impostor__classic-player-input {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: .5rem;
+}
+
+.impostor__classic-player-input label {
+  min-width: 0;
+}
+
+.impostor__classic-player-remove {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 0;
+  color: var(--danger);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--danger) 45%, transparent);
+  border-radius: 10px;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.impostor__classic-player-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin: -.4rem 0 1.25rem;
+}
+
+.impostor__classic-player-add {
+  padding: .55rem .8rem;
+  color: var(--teal);
+  background: transparent;
+  border: 1px dashed color-mix(in srgb, var(--teal) 55%, transparent);
+  border-radius: 10px;
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.impostor__classic-player-add:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+.impostor__classic-player-actions small {
+  color: var(--muted);
+}
+
+.impostor__classic-secret-card {
+  position: relative;
+  display: grid;
+  width: 100%;
+  min-height: 260px;
+  margin: 2rem 0 1rem;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 1.25rem;
+  font: inherit;
+  cursor: pointer;
+  perspective: 1000px;
+  text-align: center;
+}
+
+.impostor__classic-card-cover,
+.impostor__classic-card-content {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: .55rem;
+  width: 100%;
+  min-height: 260px;
+  padding: 2rem 1.5rem;
+  border-radius: 1.25rem;
+  backface-visibility: hidden;
+  transition: transform .45s ease, opacity .25s ease;
+}
+
+.impostor__classic-card-cover {
+  background:
+    radial-gradient(circle at 50% 25%, color-mix(in srgb, var(--lav) 20%, transparent), transparent 55%),
+    var(--panel);
+  border: 1px solid var(--line-strong);
+}
+
+.impostor__classic-card-cover strong {
+  font-size: 3.5rem;
+}
+
+.impostor__classic-card-cover b {
+  font-size: 1.05rem;
+}
+
+.impostor__classic-card-cover small {
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.impostor__classic-card-content {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: rotateY(180deg);
+  border: 2px solid var(--sage);
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--sage) 20%, transparent), transparent 60%),
+    var(--panel);
+}
+
+.impostor__classic-secret-card.is-impostor .impostor__classic-card-content {
+  border-color: var(--danger);
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--danger) 24%, transparent), transparent 60%),
+    var(--panel);
+}
+
+.impostor__classic-secret-card.is-revealed .impostor__classic-card-cover {
+  opacity: 0;
+  transform: rotateY(-180deg);
+}
+
+.impostor__classic-secret-card.is-revealed .impostor__classic-card-content {
+  opacity: 1;
+  transform: rotateY(0);
+}
+
+.impostor__classic-role {
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+
+.impostor__classic-secret-card.is-player .impostor__classic-role {
+  color: var(--sage);
+}
+
+.impostor__classic-secret-card.is-impostor .impostor__classic-role {
+  color: var(--danger);
+}
+
+.impostor__classic-card-content > strong {
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.impostor__classic-card-content .impostor__secret-word {
+  margin-top: .15rem;
+  font-size: clamp(2rem, 9vw, 3rem);
+}
+
+.impostor__classic-secret-card.is-impostor .impostor__classic-info-label {
+  margin: .2rem 0 0;
+}
+
+.impostor__classic-secret-hide:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.impostor__result-card--impostor {
+  border-color: color-mix(in srgb, var(--danger) 55%, var(--line));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .impostor__classic-card-cover,
+  .impostor__classic-card-content {
+    transition: none;
+  }
+}
