@@ -116,21 +116,53 @@
 
 .impostor__statement-options {
   display: grid;
-  gap: .75rem;
+  gap: 1.25rem;
   margin: 2rem 0 1rem;
 }
 
+.impostor__statement-group {
+  display: grid;
+  gap: .65rem;
+}
+
+.impostor__statement-group-label {
+  font-weight: 700;
+}
+
+.impostor__statement-group--truth {
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.impostor__statement-bluffs {
+  display: grid;
+  gap: .65rem;
+}
+
 .impostor__statement-option {
+  display: grid;
+  gap: .25rem;
   width: 100%;
   padding: 1rem 1.1rem;
-  text-align: center;
+  text-align: left;
   color: inherit;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: .85rem;
   font: inherit;
-  font-weight: 700;
   cursor: pointer;
+}
+
+.impostor__statement-option span {
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 600;
+}
+
+.impostor__statement-option strong {
+  font-size: 1.05rem;
 }
 
 .impostor__statement-option:hover {
