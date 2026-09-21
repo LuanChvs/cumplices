@@ -18,7 +18,9 @@ function renderImpostor() {
     statementPlayerIndex: 0,
     questionIndex: 0,
     questionText: '',
-    questions: []
+    questions: [],
+    judgmentPlayerIndex: 0,
+    judgments: [null, null]
   };
 
   const themes = () => window.DATA?.impostor?.themes || [];
@@ -94,6 +96,11 @@ function renderImpostor() {
 
     if (state.screen === 'answer') {
       renderAnswer();
+      return;
+    }
+
+    if (state.screen === 'judgment') {
+      renderJudgment();
     }
   };
 
@@ -458,7 +465,9 @@ function renderImpostor() {
         state.questionText = '';
 
         if (state.questionIndex === 5) {
-          state.screen = 'declarations';
+          state.judgmentPlayerIndex = 0;
+          state.judgments = [null, null];
+          state.screen = 'judgment';
           render();
           return;
         }
@@ -468,6 +477,106 @@ function renderImpostor() {
         render();
       };
     });
+  };
+
+  const renderJudgment = () => {
+    const playerIndex = state.judgmentPlayerIndex;
+    const opponentIndex = playerIndex === 0 ? 1 : 0;
+    const player = state.players[playerIndex];
+    const opponent = state.players[opponentIndex];
+    const opponentOptions = [...new Set(
+      (state.theme?.pairs || []).flat()
+    )];
+
+    let selectedBluff = null;
+    let selectedWord = null;
+
+    root.innerHTML = `
+      <div class="impostor__intro impostor__judgment">
+        <span class="eyebrow">Julgamento final · ${player}</span>
+        <h2>O que você acha de ${opponent}?</h2>
+        <p>
+          Faça suas duas escolhas em segredo. O outro jogador não verá suas respostas
+          até os dois terminarem.
+        </p>
+
+        <div class="impostor__judgment-section">
+          <span class="impostor__judgment-label">A declaração de ${opponent} era:</span>
+
+          <div class="impostor__judgment-options" role="group" aria-label="Verdade ou blefe">
+            <button type="button" class="impostor__judgment-option" data-judgment-bluff="true">
+              Verdadeira
+            </button>
+            <button type="button" class="impostor__judgment-option" data-judgment-bluff="false">
+              Blefe
+            </button>
+          </div>
+        </div>
+
+        <div class="impostor__judgment-section">
+          <span class="impostor__judgment-label">Qual era a palavra secreta verdadeira de ${opponent}?</span>
+
+          <div class="impostor__statement-options" role="group" aria-label="Palavra secreta verdadeira">
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary impostor__judgment-submit" disabled>
+          Confirmar julgamento →
+        </button>
+
+        <p class="impostor__feedback" aria-live="polite"></p>
+      </div>
+    `;
+
+    const bluffButtons = [...root.querySelectorAll('[data-judgment-bluff]')];
+    const wordOptions = root.querySelector('.impostor__statement-options');
+    const submit = root.querySelector('.impostor__judgment-submit');
+
+    bluffButtons.forEach((button) => {
+      button.onclick = () => {
+        selectedBluff = button.dataset.judgmentBluff === 'true';
+
+        bluffButtons.forEach((item) => item.classList.remove('is-selected'));
+        button.classList.add('is-selected');
+        submit.disabled = selectedBluff === null || selectedWord === null;
+      };
+    });
+
+    opponentOptions.forEach((word) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'impostor__statement-option';
+      button.textContent = word;
+      button.onclick = () => {
+        selectedWord = word;
+
+        wordOptions.querySelectorAll('button').forEach((item) => {
+          item.classList.remove('is-selected');
+        });
+        button.classList.add('is-selected');
+        submit.disabled = selectedBluff === null || selectedWord === null;
+      };
+
+      wordOptions.append(button);
+    });
+
+    submit.onclick = () => {
+      if (selectedBluff === null || selectedWord === null) return;
+
+      state.judgments[playerIndex] = {
+        bluff: selectedBluff,
+        word: selectedWord
+      };
+
+      if (playerIndex === 0) {
+        state.judgmentPlayerIndex = 1;
+        render();
+        return;
+      }
+
+      state.screen = 'judgment';
+      render();
+    };
   };
 
   render();
