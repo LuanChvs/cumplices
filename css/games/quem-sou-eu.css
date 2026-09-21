@@ -118,8 +118,23 @@
 ========================================================= */
 
 .whoami-curtain-screen {
-  position: fixed;
-  inset: 0;
+  /*
+    A cortina não pode ser position: fixed aqui.
+    O router aplica .view-enter ao #view, e transform/filter
+    nesse ancestral fazem o fixed usar o #view como containing
+    block. Como a cortina sai do fluxo, o #view pode ter altura
+    zero e a tela fica aparentemente vazia.
+
+    Mantemos a cortina fora do fluxo, mas com viewport explícita,
+    funcionando corretamente mesmo dentro da animação da view.
+  */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100vw;
+  height: 100svh;
+  min-height: 100svh;
+  margin-left: -50vw;
   z-index: 1000;
   overflow: hidden;
   display: flex;
