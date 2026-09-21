@@ -28,14 +28,17 @@ window.DATA.emSintonia = {
     },
 
     opinioes: {
-      nome: '🧠 Opiniões e julgamentos',
+      nome: '🧠 Opiniões e escolhas',
       espectros: [
         ['Ruim', 'Ótimo'],
         ['Comum', 'Raro'],
         ['Talento superestimado', 'Talento subestimado'],
         ['Decisão impulsiva', 'Decisão calculada'],
         ['Pouco questionável', 'Extremamente questionável'],
-        ['Escolha defensável', 'Escolha indefensável']
+        ['Escolha defensável', 'Escolha indefensável'],
+        ['Pequeno luxo', 'Luxo absurdo'],
+        ['Habilidade inútil', 'Habilidade incrível'],
+        ['Animal assustador', 'Animal adorável']
       ]
     },
 
@@ -81,18 +84,5 @@ window.DATA.emSintonia = {
       ]
     },
 
-    luxo: {
-      nome: '💰 Dinheiro e consumo',
-      espectros: [
-        ['Pequeno luxo', 'Luxo absurdo']
-      ]
-    },
-
-    habilidades: {
-      nome: '🎯 Habilidades e escolhas',
-      espectros: [
-        ['Habilidade inútil', 'Habilidade incrível']
-      ]
-    }
   }
 };
