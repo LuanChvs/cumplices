@@ -694,8 +694,7 @@
   min-height: 260px;
   padding: 2rem 1.5rem;
   border-radius: 1.25rem;
-  backface-visibility: hidden;
-  transition: transform .45s ease, opacity .25s ease;
+  transition: transform .45s ease, opacity .25s ease, visibility .45s ease;
 }
 
 .impostor__classic-card-cover {
@@ -721,6 +720,7 @@
 .impostor__classic-card-content {
   position: absolute;
   inset: 0;
+  visibility: hidden;
   opacity: 0;
   transform: rotateY(180deg);
   border: 2px solid var(--sage);
@@ -742,6 +742,7 @@
 }
 
 .impostor__classic-secret-card.is-revealed .impostor__classic-card-content {
+  visibility: visible;
   opacity: 1;
   transform: rotateY(0);
 }
