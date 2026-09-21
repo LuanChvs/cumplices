@@ -242,3 +242,106 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+.impostor__judgment-section {
+  display: grid;
+  gap: .75rem;
+  margin: 1.5rem 0;
+}
+
+.impostor__judgment-label {
+  font-weight: 700;
+}
+
+.impostor__judgment-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .75rem;
+}
+
+.impostor__judgment-option,
+.impostor__guess {
+  padding: 1rem;
+  color: inherit;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .85rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.impostor__judgment-option.is-selected {
+  border-color: currentColor;
+  box-shadow: 0 0 0 1px currentColor;
+}
+
+.impostor__guess {
+  width: 100%;
+  box-sizing: border-box;
+  font-weight: 500;
+}
+
+.impostor__judgment-submit:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.impostor__result-words,
+.impostor__result-judgments {
+  display: grid;
+  gap: .75rem;
+  margin: 1.5rem 0;
+}
+
+.impostor__result-card {
+  display: grid;
+  gap: .3rem;
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .85rem;
+}
+
+.impostor__result-card span {
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.impostor__result-card b {
+  font-size: 1.1rem;
+}
+
+.impostor__result-card em {
+  font-style: normal;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.impostor__scores {
+  display: grid;
+  gap: .65rem;
+  margin: 2rem 0;
+}
+
+.impostor__score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .85rem;
+}
+
+.impostor__score strong {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 520px) {
+  .impostor__judgment-options {
+    grid-template-columns: 1fr;
+  }
+}
