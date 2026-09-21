@@ -180,7 +180,7 @@ function renderImpostor() {
   const renderDuoSetup = () => {
     let configTab = 'players';
 
-    root.innerHTML = \`
+    root.innerHTML = `
       <div class="impostor__intro">
         <span class="eyebrow">Modo Duo</span>
         <h2>Preparem a partida</h2>
@@ -196,7 +196,7 @@ function renderImpostor() {
         <button type="button" class="btn btn-primary impostor__continue">Começar partida →</button>
         <p class="impostor__feedback" aria-live="polite"></p>
       </div>
-    \`;
+    `;
 
     const content = root.querySelector('.impostor__config-content');
     const tabs = [...root.querySelectorAll('.impostor__config-tab')];
@@ -211,15 +211,15 @@ function renderImpostor() {
 
         state.players.forEach((player, index) => {
           const label = document.createElement('label');
-          label.textContent = \`Jogador ${index + 1}\`;
+          label.textContent = `Jogador ${index + 1}`;
 
           const input = document.createElement('input');
           input.type = 'text';
           input.maxLength = 30;
-          input.placeholder = \`Nome do jogador ${index + 1}\`;
+          input.placeholder = `Nome do jogador ${index + 1}`;
           input.value = player;
           input.oninput = () => {
-            state.players[index] = input.value || \`Jogador ${index + 1}\`;
+            state.players[index] = input.value || `Jogador ${index + 1}`;
           };
 
           label.append(input);
