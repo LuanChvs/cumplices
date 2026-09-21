@@ -234,6 +234,10 @@ function renderImpostor() {
         <div class="impostor__config-content"></div>
 
         <button type="button" class="btn btn-primary impostor__continue">Começar partida →</button>
+
+        <button type="button" class="btn btn-secondary impostor__back-to-mode">
+          ← Selecionar modo de jogo
+        </button>
         <p class="impostor__feedback" aria-live="polite"></p>
       </div>
     `;
@@ -357,6 +361,11 @@ function renderImpostor() {
       }
 
       state.screen = 'theme';
+      render();
+    };
+
+    root.querySelector('.impostor__back-to-mode').onclick = () => {
+      state.screen = 'mode';
       render();
     };
 
@@ -1025,6 +1034,10 @@ function renderImpostor() {
         <div class="impostor__config-content"></div>
 
         <button type="button" class="btn btn-primary impostor__classic-continue">Começar partida →</button>
+
+        <button type="button" class="btn btn-secondary impostor__back-to-mode">
+          ← Selecionar modo de jogo
+        </button>
         <p class="impostor__feedback" aria-live="polite"></p>
       </div>
     `;
@@ -1188,6 +1201,11 @@ function renderImpostor() {
       }
 
       state.screen = 'classicTheme';
+      render();
+    };
+
+    root.querySelector('.impostor__back-to-mode').onclick = () => {
+      state.screen = 'mode';
       render();
     };
 
