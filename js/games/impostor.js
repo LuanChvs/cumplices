@@ -31,24 +31,42 @@ function renderImpostor() {
     if (!availableThemes.length) return false;
 
     const theme = availableThemes[Math.floor(Math.random() * availableThemes.length)];
-    const pairs = theme.pairs || [];
+    const words = theme.words || [];
 
-    if (!pairs.length) return false;
+    if (words.length < 2) return false;
 
-    const pair = pairs[Math.floor(Math.random() * pairs.length)];
+    const wordPool = words.map((entry) => entry.word);
+    const selectedWords = [
+      wordPool[Math.floor(Math.random() * wordPool.length)],
+      wordPool[Math.floor(Math.random() * wordPool.length)]
+    ];
 
     state.theme = theme;
-    state.words = [...pair];
+    state.words = selectedWords;
 
-    const allWords = [...new Set(pairs.flat())];
     state.statementOptions = state.words.map((secretWord, playerIndex) => {
       const opponentWord = state.words[playerIndex === 0 ? 1 : 0];
-      const falseOptions = allWords
-        .filter((word) => word !== secretWord && word !== opponentWord)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 2);
+      const entry = words.find((item) => item.word === secretWord);
 
-      return [secretWord, ...falseOptions]
+      if (!entry) return [secretWord];
+
+      const strongCandidates = (entry.strong || [])
+        .filter((word) => word !== secretWord && word !== opponentWord);
+      const weakCandidates = (entry.weak || [])
+        .filter((word) => word !== secretWord && word !== opponentWord);
+
+      const strong = strongCandidates[Math.floor(Math.random() * strongCandidates.length)];
+      const weak = weakCandidates[Math.floor(Math.random() * weakCandidates.length)];
+
+      if (!strong || !weak) return [secretWord];
+
+      const blocked = new Set([secretWord, opponentWord, strong, weak]);
+      const randomCandidates = wordPool.filter((word) => !blocked.has(word));
+      const randomWord = randomCandidates[Math.floor(Math.random() * randomCandidates.length)];
+
+      if (!randomWord) return [secretWord, strong, weak];
+
+      return [secretWord, strong, weak, randomWord]
         .sort(() => Math.random() - 0.5);
     });
 
