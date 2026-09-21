@@ -668,6 +668,25 @@ function renderImpostor() {
 
     searchInput.addEventListener('input', renderWordOptions);
 
+    submit.onclick = () => {
+      if (selectedBluff === null || selectedWord === null) return;
+
+      state.judgments[playerIndex] = {
+        bluff: selectedBluff,
+        word: selectedWord
+      };
+
+      if (playerIndex === 0) {
+        state.judgmentPlayerIndex = 1;
+        state.screen = 'judgment';
+        render();
+        return;
+      }
+
+      state.screen = 'result';
+      render();
+    };
+
     updateSubmit();
   };
 
