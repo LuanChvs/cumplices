@@ -335,7 +335,7 @@ window.DATA.quizPerguntas = [
   quizPergunta("Qual personagem de desenho seria o pior colega de quarto para ele(a)?", ['resenha']),
   quizPergunta("Qual seria o maior desastre se ele(a) tivesse que cozinhar para dez pessoas?", ['resenha']),
   quizPergunta("Qual seria o pior emprego possível para ele(a)?", ['resenha']),
-  quizPergunta("Qual seria a coisa mais aleatória que ele(a) faria com um dia completamente livre?", ['casal', 'resenha'] )
+  quizPergunta("Qual seria a coisa mais aleatória que ele(a) faria com um dia completamente livre?", ['casal', 'resenha']),
   quizPergunta("Qual seria a primeira regra que ele(a) criaria se mandasse no mundo por um dia?", ['resenha']),
   quizPergunta("Qual seria o reality show perfeito para ele(a) participar?", ['resenha']),
   quizPergunta("Qual personagem fictício ele(a) provavelmente escolheria para ser seu melhor amigo?", ['resenha']),
