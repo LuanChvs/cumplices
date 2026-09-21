@@ -345,3 +345,51 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+.impostor__judgment-search {
+  display: grid;
+  gap: .45rem;
+  font-weight: 600;
+}
+
+.impostor__judgment-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: .9rem 1rem;
+  color: inherit;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .8rem;
+  font: inherit;
+}
+
+.impostor__judgment-word-list {
+  display: grid;
+  gap: .55rem;
+  max-height: 12rem;
+  overflow-y: auto;
+  padding: .15rem;
+  scrollbar-gutter: stable;
+}
+
+.impostor__judgment-word-list .impostor__statement-option {
+  margin: 0;
+}
+
+.impostor__judgment-word-empty {
+  padding: 1rem;
+  color: var(--muted);
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: .8rem;
+}
+
+.impostor__judgment-auto-word {
+  margin: 0 0 1rem;
+  padding: .9rem 1rem;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .8rem;
+}
