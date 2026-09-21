@@ -36,10 +36,7 @@ window.DATA.emSintonia = {
     ['Animal assustador', 'Animal adorável'],
     ['Festa sem graça', 'Festa lendária'],
     ['Ideia absurda', 'Ideia genial'],
-    ['Pouco importante', 'Essencial']
-  ],
-
-  advanced: [
+    ['Pouco importante', 'Essencial'],
     ['Pouco questionável', 'Extremamente questionável'],
     ['Escolha defensável', 'Escolha indefensável'],
     ['Pessoa que você evitaria', 'Pessoa que você procuraria'],
