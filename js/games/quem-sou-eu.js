@@ -331,7 +331,32 @@ function renderQuemSouEu() {
   }
 
   function prepareRound() {
-    state.currentName = drawName();
+    // Valida tudo antes de trocar a tela. Assim, um estado antigo ou
+    // um catálogo inválido nunca deixa o jogo com a view vazia.
+    if (state.time === null) return;
+
+    if (state.mode === 'theme') {
+      const names = Array.isArray(state.theme?.nomes)
+        ? state.theme.nomes.filter((name) => typeof name === 'string' && name.trim())
+        : [];
+
+      if (!state.theme || !names.length) {
+        renderThemeChoice();
+        return;
+      }
+
+      // Mantém o objeto do tema sincronizado com o catálogo atual.
+      state.theme = {
+        ...state.theme,
+        nomes: names
+      };
+    }
+
+    const name = drawName();
+
+    if (!name) return;
+
+    state.currentName = name;
     state.remainingTime = state.time;
     state.roundNumber += 1;
     state.status = 'curtain';
@@ -636,10 +661,12 @@ function renderQuemSouEu() {
       return state.customName;
     }
 
-    const names = state.theme?.nomes || [];
+    const names = Array.isArray(state.theme?.nomes)
+      ? state.theme.nomes.filter((name) => typeof name === 'string' && name.trim())
+      : [];
 
     if (!names.length) {
-      return 'Sem nome cadastrado';
+      return '';
     }
 
     const available = names.filter(
@@ -652,8 +679,10 @@ function renderQuemSouEu() {
     }
 
     const name = available[Math.floor(Math.random() * available.length)];
-    state.usedNames.push(name);
 
+    if (!name) return '';
+
+    state.usedNames.push(name);
     return name;
   }
 
