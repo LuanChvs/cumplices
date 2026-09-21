@@ -765,6 +765,7 @@ window.DATA.impostor = {
         { word: 'cratera', strong: ['pradaria', 'meteoro'], weak: ['selva', 'savanna'] },
         { word: 'meteoro', strong: ['pradaria', 'cratera'], weak: ['selva', 'savanna'] },
         { word: 'cometa', strong: ['pradaria', 'cratera'], weak: ['selva', 'savanna'] },
+        { word: 'aurora', strong: ['arco-iris', 'estrela'], weak: ['deserto', 'vulcao'] },
       ]
     },
     {
