@@ -15,7 +15,10 @@ function renderImpostor() {
     revealedPlayerIndex: 0,
     statementOptions: [[], []],
     statements: [null, null],
-    statementPlayerIndex: 0
+    statementPlayerIndex: 0,
+    questionIndex: 0,
+    questionText: '',
+    questions: []
   };
 
   const themes = () => window.DATA?.impostor?.themes || [];
@@ -81,6 +84,16 @@ function renderImpostor() {
 
     if (state.screen === 'declarations') {
       renderDeclarations();
+      return;
+    }
+
+    if (state.screen === 'question') {
+      renderQuestion();
+      return;
+    }
+
+    if (state.screen === 'answer') {
+      renderAnswer();
     }
   };
 
@@ -316,12 +329,145 @@ function renderImpostor() {
     });
 
     root.querySelector('.impostor__start-interrogation').onclick = () => {
-      root.querySelector('.impostor__feedback')?.remove();
-      const message = document.createElement('p');
-      message.className = 'impostor__feedback';
-      message.textContent = 'Próxima etapa: interrogatório.';
-      root.querySelector('.impostor__declarations').append(message);
+      state.questionIndex = 0;
+      state.questionText = '';
+      state.questions = [];
+      state.screen = 'question';
+      render();
     };
+  };
+
+  const isProhibitedQuestion = (question) => {
+    const normalized = question
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    return (
+      /primeira? letra|letra inicial|comeca com|comeca pela/.test(normalized) ||
+      /quantas letras|numero de letras|quantidade de letras|tem quantas letras/.test(normalized) ||
+      /^((e|eh|é)\s*)?(a|o)?\s*palavra\s+/.test(normalized) ||
+      /exatamente\s+/.test(normalized) ||
+      /(?:a palavra|palavra)\s+(e|eh|é)\s+/.test(normalized)
+    );
+  };
+
+  const renderQuestionHistory = () => {
+    if (!state.questions.length) return '';
+
+    return \`
+      <div class="impostor__question-history">
+        \${state.questions.map((item, index) => \`
+          <div class="impostor__question-item">
+            <strong>\${state.players[item.askerIndex]}</strong>
+            <span>Pergunta \${index + 1}: \${item.question}</span>
+            <em>\${item.answer}</em>
+          </div>
+        \`).join('')}
+      </div>
+    \`;
+  };
+
+  const renderQuestion = () => {
+    const askerIndex = state.questionIndex % 2;
+    const respondentIndex = askerIndex === 0 ? 1 : 0;
+
+    root.innerHTML = \`
+      <div class="impostor__intro impostor__question">
+        <span class="eyebrow">Interrogatório · \${state.questionIndex + 1} de 6</span>
+        <h2>Vez de \${state.players[askerIndex]}</h2>
+        <p>Faça uma pergunta para \${state.players[respondentIndex]}. Não peça uma informação que revele diretamente a palavra.</p>
+
+        \${renderQuestionHistory()}
+
+        <label class="impostor__question-field">
+          Sua pergunta
+          <textarea class="impostor__question-input" rows="3" maxlength="180" placeholder="Ex.: Essa coisa costuma ser encontrada em casa?"></textarea>
+        </label>
+
+        <button type="button" class="btn btn-primary impostor__question-submit">
+          Enviar pergunta →
+        </button>
+        <p class="impostor__feedback" aria-live="polite"></p>
+      </div>
+    \`;
+
+    const input = root.querySelector('.impostor__question-input');
+    const feedback = root.querySelector('.impostor__feedback');
+
+    root.querySelector('.impostor__question-submit').onclick = () => {
+      const question = input.value.trim();
+
+      if (!question) {
+        feedback.textContent = 'Escreva uma pergunta para continuar.';
+        input.focus();
+        return;
+      }
+
+      if (isProhibitedQuestion(question)) {
+        feedback.textContent = 'Essa pergunta revela informação diretamente. Pergunte sobre características, usos ou contexto da palavra.';
+        input.focus();
+        return;
+      }
+
+      state.questionText = question;
+      state.screen = 'answer';
+      render();
+    };
+
+    requestAnimationFrame(() => input.focus());
+  };
+
+  const renderAnswer = () => {
+    const askerIndex = state.questionIndex % 2;
+    const respondentIndex = askerIndex === 0 ? 1 : 0;
+
+    root.innerHTML = \`
+      <div class="impostor__intro impostor__answer">
+        <span class="eyebrow">Interrogatório · resposta</span>
+        <h2>Vez de \${state.players[respondentIndex]}</h2>
+        <p>\${state.players[askerIndex]} perguntou:</p>
+
+        <div class="impostor__question-card">
+          <strong></strong>
+        </div>
+
+        <p>Responda pensando apenas na sua palavra secreta.</p>
+
+        <div class="impostor__answer-options" role="group" aria-label="Resposta">
+          <button type="button" class="impostor__answer-option" data-answer="Sim">Sim</button>
+          <button type="button" class="impostor__answer-option" data-answer="Não">Não</button>
+          <button type="button" class="impostor__answer-option" data-answer="Talvez">Talvez</button>
+        </div>
+      </div>
+    \`;
+
+    root.querySelector('.impostor__question-card strong').textContent = state.questionText;
+
+    root.querySelectorAll('[data-answer]').forEach((button) => {
+      button.onclick = () => {
+        state.questions.push({
+          askerIndex,
+          respondentIndex,
+          question: state.questionText,
+          answer: button.dataset.answer
+        });
+
+        state.questionText = '';
+
+        if (state.questionIndex === 5) {
+          state.screen = 'declarations';
+          render();
+          return;
+        }
+
+        state.questionIndex += 1;
+        state.screen = 'question';
+        render();
+      };
+    });
   };
 
   render();
