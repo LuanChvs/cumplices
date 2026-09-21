@@ -11,6 +11,8 @@ function renderImpostor() {
     screen: 'mode',
     players: ['Jogador 1', 'Jogador 2'],
     theme: null,
+    selectedTheme: 'random',
+    questionCount: 3,
     words: [null, null],
     revealedPlayerIndex: 0,
     statementOptions: [[], []],
@@ -30,7 +32,12 @@ function renderImpostor() {
 
     if (!availableThemes.length) return false;
 
-    const theme = availableThemes[Math.floor(Math.random() * availableThemes.length)];
+    const theme = state.selectedTheme === 'random'
+      ? availableThemes[Math.floor(Math.random() * availableThemes.length)]
+      : availableThemes.find((item) => item.id === state.selectedTheme);
+
+    if (!theme) return false;
+
     const words = theme.words || [];
 
     if (words.length < 2) return false;
@@ -171,50 +178,137 @@ function renderImpostor() {
   };
 
   const renderDuoSetup = () => {
-    root.innerHTML = `
+    let configTab = 'players';
+
+    root.innerHTML = \`
       <div class="impostor__intro">
         <span class="eyebrow">Modo Duo</span>
         <h2>Preparem a partida</h2>
-        <p>Definam os nomes dos dois jogadores para continuar.</p>
+        <p>Definam os jogadores e as regras da rodada.</p>
 
-        <div class="impostor__players">
-          <label>
-            Jogador 1
-            <input type="text" data-impostor-player="0" maxlength="30" placeholder="Nome do jogador 1">
-          </label>
-          <label>
-            Jogador 2
-            <input type="text" data-impostor-player="1" maxlength="30" placeholder="Nome do jogador 2">
-          </label>
+        <div class="impostor__config-tabs" role="tablist">
+          <button type="button" class="impostor__config-tab" data-tab="players">👥 Jogadores</button>
+          <button type="button" class="impostor__config-tab" data-tab="settings">⚙️ Configuração</button>
         </div>
 
-        <button type="button" class="btn btn-primary impostor__continue">Continuar</button>
+        <div class="impostor__config-content"></div>
+
+        <button type="button" class="btn btn-primary impostor__continue">Começar partida →</button>
         <p class="impostor__feedback" aria-live="polite"></p>
       </div>
-    `;
+    \`;
 
-    const inputs = [...root.querySelectorAll('[data-impostor-player]')];
+    const content = root.querySelector('.impostor__config-content');
+    const tabs = [...root.querySelectorAll('.impostor__config-tab')];
 
-    inputs.forEach((input, index) => {
-      input.value = state.players[index];
+    const renderTab = () => {
+      tabs.forEach((tab) => tab.classList.toggle('is-active', tab.dataset.tab === configTab));
+      content.innerHTML = '';
+
+      if (configTab === 'players') {
+        const players = document.createElement('div');
+        players.className = 'impostor__players';
+
+        state.players.forEach((player, index) => {
+          const label = document.createElement('label');
+          label.textContent = \`Jogador ${index + 1}\`;
+
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.maxLength = 30;
+          input.placeholder = \`Nome do jogador ${index + 1}\`;
+          input.value = player;
+          input.oninput = () => {
+            state.players[index] = input.value || \`Jogador ${index + 1}\`;
+          };
+
+          label.append(input);
+          players.append(label);
+        });
+
+        content.append(players);
+        return;
+      }
+
+      const settings = document.createElement('div');
+      settings.className = 'impostor__settings';
+
+      const themeField = document.createElement('label');
+      themeField.className = 'impostor__settings-field';
+      themeField.innerHTML = '<span>Tema das palavras</span>';
+
+      const themeSelect = document.createElement('select');
+      themeSelect.className = 'impostor__settings-select';
+
+      const randomOption = document.createElement('option');
+      randomOption.value = 'random';
+      randomOption.textContent = '🎲 Aleatório';
+      themeSelect.append(randomOption);
+
+      themes().forEach((theme) => {
+        const option = document.createElement('option');
+        option.value = theme.id;
+        option.textContent = theme.name;
+        themeSelect.append(option);
+      });
+
+      themeSelect.value = state.selectedTheme;
+      themeSelect.onchange = () => {
+        state.selectedTheme = themeSelect.value;
+      };
+      themeField.append(themeSelect);
+
+      const questionField = document.createElement('div');
+      questionField.className = 'impostor__settings-field';
+      questionField.innerHTML = '<span>Perguntas por jogador</span><small>As perguntas serão alternadas entre os dois jogadores.</small>';
+
+      const questionOptions = document.createElement('div');
+      questionOptions.className = 'impostor__question-count-options';
+
+      [1, 2, 3, 4, 5].forEach((count) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'impostor__question-count';
+        button.classList.toggle('is-active', state.questionCount === count);
+        button.textContent = count;
+        button.onclick = () => {
+          state.questionCount = count;
+          renderTab();
+        };
+        questionOptions.append(button);
+      });
+
+      questionField.append(questionOptions);
+      settings.append(themeField, questionField);
+      content.append(settings);
+    };
+
+    tabs.forEach((tab) => {
+      tab.onclick = () => {
+        configTab = tab.dataset.tab;
+        renderTab();
+      };
     });
 
     root.querySelector('.impostor__continue').onclick = () => {
-      const players = inputs.map((input) => input.value.trim());
+      if (configTab === 'players') {
+        const inputs = [...root.querySelectorAll('.impostor__players input')];
+        const names = inputs.map((input) => input.value.trim());
 
-      if (players.some((name) => !name)) {
-        root.querySelector('.impostor__feedback').textContent =
-          'Preencham os nomes dos dois jogadores para continuar.';
-        return;
+        if (names.some((name) => !name)) {
+          root.querySelector('.impostor__feedback').textContent =
+            'Preencham os nomes dos dois jogadores para continuar.';
+          return;
+        }
+
+        if (names[0].toLowerCase() === names[1].toLowerCase()) {
+          root.querySelector('.impostor__feedback').textContent =
+            'Os jogadores precisam ter nomes diferentes.';
+          return;
+        }
+
+        state.players = names;
       }
-
-      if (players[0].toLowerCase() === players[1].toLowerCase()) {
-        root.querySelector('.impostor__feedback').textContent =
-          'Os jogadores precisam ter nomes diferentes.';
-        return;
-      }
-
-      state.players = players;
 
       if (!pickRound()) {
         root.querySelector('.impostor__feedback').textContent =
@@ -226,7 +320,7 @@ function renderImpostor() {
       render();
     };
 
-    requestAnimationFrame(() => inputs[0]?.focus());
+    renderTab();
   };
 
   const renderTheme = () => {
@@ -242,6 +336,7 @@ function renderImpostor() {
         <p>
           Os dois jogadores conhecem o tema.
           Cada um receberá uma palavra secreta dentro dele — elas podem ser iguais.
+          Serão feitas ${state.questionCount} perguntas por jogador.
         </p>
 
         <button type="button" class="btn btn-primary impostor__theme-continue">
@@ -403,6 +498,7 @@ function renderImpostor() {
 
     bluffSection.append(bluffLabel, bluffGrid);
     optionsRoot.append(bluffSection);
+  };
 
   const renderDeclarations = () => {
     root.innerHTML = `
@@ -479,7 +575,7 @@ function renderImpostor() {
 
     root.innerHTML = `
       <div class="impostor__intro impostor__question">
-        <span class="eyebrow">Interrogatório · ${state.questionIndex + 1} de 6</span>
+        <span class="eyebrow">Interrogatório · pergunta ${state.questionIndex + 1} de ${state.questionCount * 2}</span>
         <h2>Vez de ${state.players[askerIndex]}</h2>
         <p>Faça uma pergunta para ${state.players[respondentIndex]}. Não peça uma informação que revele diretamente a palavra.</p>
 
@@ -560,7 +656,7 @@ function renderImpostor() {
 
         state.questionText = '';
 
-        if (state.questionIndex === 5) {
+        if (state.questionIndex === (state.questionCount * 2) - 1) {
           state.judgmentPlayerIndex = 0;
           state.judgments = [null, null];
           state.screen = 'judgment';
