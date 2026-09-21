@@ -74,6 +74,11 @@ function renderImpostor() {
       return;
     }
 
+    if (state.screen === 'secretPrep') {
+      renderSecretPrep();
+      return;
+    }
+
     if (state.screen === 'secret') {
       renderSecret();
       return;
@@ -226,6 +231,32 @@ function renderImpostor() {
 
     root.querySelector('.impostor__theme-continue').onclick = () => {
       state.revealedPlayerIndex = 0;
+      state.screen = 'secretPrep';
+      render();
+    };
+  };
+
+  const renderSecretPrep = () => {
+    const player = state.players[state.revealedPlayerIndex];
+
+    root.innerHTML = `
+      <div class="impostor__intro impostor__secret-prep">
+        <span class="eyebrow">Informação secreta</span>
+        <h2>Vez de ${player}</h2>
+        <p>Entreguem o celular somente para este jogador.</p>
+
+        <div class="impostor__next-card">
+          <strong>Pronto para revelar sua palavra?</strong>
+          <span>Toque abaixo quando somente você estiver olhando para a tela.</span>
+        </div>
+
+        <button type="button" class="btn btn-primary impostor__secret-reveal">
+          Revelar minha palavra →
+        </button>
+      </div>
+    `;
+
+    root.querySelector('.impostor__secret-reveal').onclick = () => {
       state.screen = 'secret';
       render();
     };
@@ -238,9 +269,9 @@ function renderImpostor() {
 
     root.innerHTML = `
       <div class="impostor__intro impostor__secret">
-        <span class="eyebrow">Informação secreta</span>
-        <h2>Vez de ${player}</h2>
-        <p>Entreguem o celular somente para este jogador.</p>
+        <span class="eyebrow">Sua palavra secreta</span>
+        <h2>${player}</h2>
+        <p>Memorize a palavra. O outro jogador não deve vê-la.</p>
 
         <div class="impostor__secret-card" aria-live="polite">
           <span>Sua palavra secreta</span>
@@ -260,13 +291,7 @@ function renderImpostor() {
     root.querySelector('.impostor__secret-word').textContent = word;
 
     root.querySelector('.impostor__secret-hide').onclick = () => {
-      if (playerIndex === 0) {
-        state.revealedPlayerIndex = 1;
-        render();
-        return;
-      }
-
-      state.statementPlayerIndex = 0;
+      state.statementPlayerIndex = playerIndex;
       state.screen = 'statement';
       render();
     };
@@ -300,7 +325,8 @@ function renderImpostor() {
         state.statements[playerIndex] = option;
 
         if (playerIndex === 0) {
-          state.statementPlayerIndex = 1;
+          state.revealedPlayerIndex = 1;
+          state.screen = 'secretPrep';
           render();
           return;
         }
@@ -518,12 +544,28 @@ function renderImpostor() {
           </div>
         </div>
 
-        <div class="impostor__judgment-section">
+        <div class="impostor__judgment-section impostor__judgment-word-section" hidden>
           <span class="impostor__judgment-label">Qual era a palavra secreta verdadeira de ${opponent}?</span>
 
-          <div class="impostor__statement-options" role="group" aria-label="Palavra secreta verdadeira">
-          </div>
+          <label class="impostor__judgment-search">
+            <span>Pesquisar palavra</span>
+            <input
+              type="search"
+              class="impostor__judgment-search-input"
+              placeholder="Digite para pesquisar..."
+              autocomplete="off"
+              maxlength="40"
+            >
+          </label>
+
+          <div
+            class="impostor__judgment-word-list"
+            role="listbox"
+            aria-label="Palavras possíveis"
+          ></div>
         </div>
+
+        <p class="impostor__judgment-auto-word" hidden></p>
 
         <button type="button" class="btn btn-primary impostor__judgment-submit" disabled>
           Confirmar julgamento →
@@ -534,8 +576,70 @@ function renderImpostor() {
     `;
 
     const bluffButtons = [...root.querySelectorAll('[data-judgment-bluff]')];
-    const wordOptions = root.querySelector('.impostor__statement-options');
+    const wordSection = root.querySelector('.impostor__judgment-word-section');
+    const searchInput = root.querySelector('.impostor__judgment-search-input');
+    const wordList = root.querySelector('.impostor__judgment-word-list');
+    const autoWord = root.querySelector('.impostor__judgment-auto-word');
     const submit = root.querySelector('.impostor__judgment-submit');
+
+    const updateSubmit = () => {
+      submit.disabled = selectedBluff === null || selectedWord === null;
+    };
+
+    const renderWordOptions = () => {
+      const query = searchInput.value
+        .trim()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+
+      const matches = opponentOptions.filter((word) => {
+        const normalizedWord = word
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+
+        return normalizedWord.includes(query);
+      });
+
+      wordList.innerHTML = '';
+
+      if (!matches.length) {
+        const empty = document.createElement('span');
+        empty.className = 'impostor__judgment-word-empty';
+        empty.textContent = 'Nenhuma palavra encontrada.';
+        wordList.append(empty);
+        return;
+      }
+
+      matches.forEach((word) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'impostor__statement-option';
+        button.textContent = word;
+        button.setAttribute('role', 'option');
+
+        if (word === selectedWord) {
+          button.classList.add('is-selected');
+          button.setAttribute('aria-selected', 'true');
+        }
+
+        button.onclick = () => {
+          selectedWord = word;
+
+          wordList.querySelectorAll('button').forEach((item) => {
+            item.classList.remove('is-selected');
+            item.setAttribute('aria-selected', 'false');
+          });
+
+          button.classList.add('is-selected');
+          button.setAttribute('aria-selected', 'true');
+          updateSubmit();
+        };
+
+        wordList.append(button);
+      });
+    };
 
     bluffButtons.forEach((button) => {
       button.onclick = () => {
@@ -543,45 +647,28 @@ function renderImpostor() {
 
         bluffButtons.forEach((item) => item.classList.remove('is-selected'));
         button.classList.add('is-selected');
-        submit.disabled = selectedBluff === null || selectedWord === null;
+
+        if (selectedBluff) {
+          selectedWord = state.statements[opponentIndex];
+          wordSection.hidden = true;
+          autoWord.hidden = false;
+          autoWord.textContent = `Como você marcou “Verdadeira”, a palavra verdadeira é automaticamente “${selectedWord}”.`;
+        } else {
+          selectedWord = null;
+          wordSection.hidden = false;
+          autoWord.hidden = true;
+          searchInput.value = '';
+          renderWordOptions();
+          searchInput.focus();
+        }
+
+        updateSubmit();
       };
     });
 
-    opponentOptions.forEach((word) => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'impostor__statement-option';
-      button.textContent = word;
-      button.onclick = () => {
-        selectedWord = word;
+    searchInput.addEventListener('input', renderWordOptions);
 
-        wordOptions.querySelectorAll('button').forEach((item) => {
-          item.classList.remove('is-selected');
-        });
-        button.classList.add('is-selected');
-        submit.disabled = selectedBluff === null || selectedWord === null;
-      };
-
-      wordOptions.append(button);
-    });
-
-    submit.onclick = () => {
-      if (selectedBluff === null || selectedWord === null) return;
-
-      state.judgments[playerIndex] = {
-        bluff: selectedBluff,
-        word: selectedWord
-      };
-
-      if (playerIndex === 0) {
-        state.judgmentPlayerIndex = 1;
-        render();
-        return;
-      }
-
-      state.screen = 'result';
-      render();
-    };
+    updateSubmit();
   };
 
   const renderResult = () => {
