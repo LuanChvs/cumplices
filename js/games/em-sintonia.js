@@ -226,11 +226,26 @@ function renderEmSintonia() {
       rightLabel.textContent = state.customRight;
       return;
     }
+
     const cards = getAvailableCards();
-    if (state.currentClueIndex < 0 || !cards.length) return;
-    const [left, right] = cards[state.currentClueIndex];
-    leftLabel.textContent = left;
-    rightLabel.textContent = right;
+    if (!cards.length) return;
+
+    const card = cards[state.currentClueIndex];
+
+    // O estado salvo pode apontar para uma pista que não existe mais
+    // (por exemplo, depois de trocar a família ou atualizar o catálogo).
+    // Nesse caso, recupera uma pista válida antes de tentar renderizar.
+    if (!Array.isArray(card) || card.length < 2) {
+      setRandomClue();
+      const fallbackCard = cards[state.currentClueIndex];
+      if (!Array.isArray(fallbackCard) || fallbackCard.length < 2) return;
+      leftLabel.textContent = fallbackCard[0];
+      rightLabel.textContent = fallbackCard[1];
+      return;
+    }
+
+    leftLabel.textContent = card[0];
+    rightLabel.textContent = card[1];
   }
 
   function setRandomClue() {
