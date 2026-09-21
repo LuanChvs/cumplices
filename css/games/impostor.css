@@ -533,3 +533,78 @@
     grid-template-columns: repeat(5, 1fr);
   }
 }
+
+
+.impostor__difficulty-options {
+  display: grid;
+  gap: .65rem;
+}
+
+.impostor__difficulty-option {
+  display: grid;
+  gap: .2rem;
+  width: 100%;
+  padding: .8rem .9rem;
+  text-align: left;
+  color: inherit;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .85rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.impostor__difficulty-option strong {
+  font-size: .95rem;
+}
+
+.impostor__difficulty-option span {
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.4;
+}
+
+.impostor__difficulty-option.is-active {
+  border-color: currentColor;
+  box-shadow: 0 0 0 1px currentColor;
+}
+
+.impostor__classic-players {
+  display: grid;
+  gap: .65rem;
+  margin: 1.5rem 0;
+}
+
+.impostor__classic-player-card {
+  padding: .9rem 1rem;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .85rem;
+  font-weight: 700;
+}
+
+.impostor__classic-info-label {
+  margin: -1rem 0 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.impostor__classic-reveal-actions {
+  display: grid;
+  gap: .75rem;
+  margin: 2rem 0 1rem;
+}
+
+.impostor__classic-reveal-result {
+  display: grid;
+  gap: .75rem;
+  margin: 1rem 0 2rem;
+}
+
+.impostor__classic-reveal-impostor:disabled,
+.impostor__classic-reveal-word:disabled {
+  opacity: .55;
+  cursor: default;
+}
