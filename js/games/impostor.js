@@ -571,9 +571,10 @@ function renderImpostor() {
     const truthHits = state.judgments.map((judgment, index) =>
       judgment.statementTruth === statementTruth[index === 0 ? 1 : 0]
     );
-    const bonusHits = state.judgments.map((judgment, index) =>
-      judgment.statementTruth !== statementTruth[index]
-    );
+    const bonusHits = state.judgments.map((judgment, index) => {
+      const opponentIndex = index === 0 ? 1 : 0;
+      return state.judgments[opponentIndex].statementTruth !== statementTruth[index];
+    });
     const scores = state.players.map((_, index) =>
       (truthHits[index] ? 1 : 0) +
       (wordHits[index] ? 2 : 0) +
