@@ -1286,7 +1286,7 @@ const FORCA_ANIME = {
     "arena-celestial",
     "greed-island",
     "formigas-quimera",
-    "trupa-fantasma",
+    "trupe-fantasma",
     "yorknew"
   ],
   "Naruto": [
