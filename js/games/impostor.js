@@ -98,7 +98,7 @@ function renderImpostor() {
   };
 
   const renderMode = () => {
-    root.innerHTML = \`
+    root.innerHTML = `
       <div class="impostor__intro">
         <span class="eyebrow">Novo jogo</span>
         <h1>Impostor</h1>
@@ -117,7 +117,7 @@ function renderImpostor() {
 
         <p class="impostor__feedback impostor__mode-feedback" aria-live="polite"></p>
       </div>
-    \`;
+    `;
 
     root.querySelector('[data-impostor-mode="duo"]').onclick = () => {
       state.screen = 'duoSetup';
@@ -131,7 +131,7 @@ function renderImpostor() {
   };
 
   const renderDuoSetup = () => {
-    root.innerHTML = \`
+    root.innerHTML = `
       <div class="impostor__intro">
         <span class="eyebrow">Modo Duo</span>
         <h2>Preparem a partida</h2>
@@ -151,7 +151,7 @@ function renderImpostor() {
         <button type="button" class="btn btn-primary impostor__continue">Continuar</button>
         <p class="impostor__feedback" aria-live="polite"></p>
       </div>
-    \`;
+    `;
 
     const inputs = [...root.querySelectorAll('[data-impostor-player]')];
 
@@ -190,7 +190,7 @@ function renderImpostor() {
   };
 
   const renderTheme = () => {
-    root.innerHTML = \`
+    root.innerHTML = `
       <div class="impostor__intro impostor__theme">
         <span class="eyebrow">Modo Duo · preparação</span>
         <h2>O tema da rodada é</h2>
@@ -208,7 +208,7 @@ function renderImpostor() {
           Continuar →
         </button>
       </div>
-    \`;
+    `;
 
     root.querySelector('.impostor__theme-card strong').textContent = state.theme.name;
 
@@ -224,10 +224,10 @@ function renderImpostor() {
     const player = state.players[playerIndex];
     const word = state.words[playerIndex];
 
-    root.innerHTML = \`
+    root.innerHTML = `
       <div class="impostor__intro impostor__secret">
         <span class="eyebrow">Informação secreta</span>
-        <h2>Vez de \${player}</h2>
+        <h2>Vez de ${player}</h2>
         <p>Entreguem o celular somente para este jogador.</p>
 
         <div class="impostor__secret-card" aria-live="polite">
@@ -243,7 +243,7 @@ function renderImpostor() {
           Já vi minha palavra →
         </button>
       </div>
-    \`;
+    `;
 
     root.querySelector('.impostor__secret-word').textContent = word;
 
@@ -357,30 +357,30 @@ function renderImpostor() {
   const renderQuestionHistory = () => {
     if (!state.questions.length) return '';
 
-    return \`
+    return `
       <div class="impostor__question-history">
-        \${state.questions.map((item, index) => \`
+        ${state.questions.map((item, index) => `
           <div class="impostor__question-item">
-            <strong>\${state.players[item.askerIndex]}</strong>
-            <span>Pergunta \${index + 1}: \${item.question}</span>
-            <em>\${item.answer}</em>
+            <strong>${state.players[item.askerIndex]}</strong>
+            <span>Pergunta ${index + 1}: ${item.question}</span>
+            <em>${item.answer}</em>
           </div>
-        \`).join('')}
+        `).join('')}
       </div>
-    \`;
+    `;
   };
 
   const renderQuestion = () => {
     const askerIndex = state.questionIndex % 2;
     const respondentIndex = askerIndex === 0 ? 1 : 0;
 
-    root.innerHTML = \`
+    root.innerHTML = `
       <div class="impostor__intro impostor__question">
-        <span class="eyebrow">Interrogatório · \${state.questionIndex + 1} de 6</span>
-        <h2>Vez de \${state.players[askerIndex]}</h2>
-        <p>Faça uma pergunta para \${state.players[respondentIndex]}. Não peça uma informação que revele diretamente a palavra.</p>
+        <span class="eyebrow">Interrogatório · ${state.questionIndex + 1} de 6</span>
+        <h2>Vez de ${state.players[askerIndex]}</h2>
+        <p>Faça uma pergunta para ${state.players[respondentIndex]}. Não peça uma informação que revele diretamente a palavra.</p>
 
-        \${renderQuestionHistory()}
+        ${renderQuestionHistory()}
 
         <label class="impostor__question-field">
           Sua pergunta
@@ -392,7 +392,7 @@ function renderImpostor() {
         </button>
         <p class="impostor__feedback" aria-live="polite"></p>
       </div>
-    \`;
+    `;
 
     const input = root.querySelector('.impostor__question-input');
     const feedback = root.querySelector('.impostor__feedback');
@@ -424,11 +424,11 @@ function renderImpostor() {
     const askerIndex = state.questionIndex % 2;
     const respondentIndex = askerIndex === 0 ? 1 : 0;
 
-    root.innerHTML = \`
+    root.innerHTML = `
       <div class="impostor__intro impostor__answer">
         <span class="eyebrow">Interrogatório · resposta</span>
-        <h2>Vez de \${state.players[respondentIndex]}</h2>
-        <p>\${state.players[askerIndex]} perguntou:</p>
+        <h2>Vez de ${state.players[respondentIndex]}</h2>
+        <p>${state.players[askerIndex]} perguntou:</p>
 
         <div class="impostor__question-card">
           <strong></strong>
@@ -442,7 +442,7 @@ function renderImpostor() {
           <button type="button" class="impostor__answer-option" data-answer="Talvez">Talvez</button>
         </div>
       </div>
-    \`;
+    `;
 
     root.querySelector('.impostor__question-card strong').textContent = state.questionText;
 
