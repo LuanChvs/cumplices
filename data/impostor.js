@@ -279,7 +279,7 @@ window.DATA.impostor = {
         { word: 'O-Rei-Leao', strong: ['Aladdin', 'Jurassic-Park'], weak: ['Harry Potter', 'Senhor dos Aneis'] },
         { word: 'Jurassic-Park', strong: ['Aladdin', 'O-Rei-Leao'], weak: ['Harry Potter', 'Senhor dos Aneis'] },
         { word: 'Star-Wars', strong: ['Aladdin', 'O-Rei-Leao'], weak: ['Harry Potter', 'Senhor dos Aneis'] },
-        { word: 'Senhor dos Aneis', strong: ['Harry Potter', 'Pantera-Negra'], weak: ['Coringa', 'Vingadores'] },
+        
         { word: 'Pantera-Negra', strong: ['Harry Potter', 'Senhor dos Aneis'], weak: ['Coringa', 'Vingadores'] },
         { word: 'Homem-de-Ferro', strong: ['Harry Potter', 'Senhor dos Aneis'], weak: ['Coringa', 'Vingadores'] },
         { word: 'Forrest-Gump', strong: ['Rocky', 'Crepusculo'], weak: ['Duna', 'Duna-2'] },
@@ -295,7 +295,7 @@ window.DATA.impostor = {
         { word: 'Madagascar', strong: ['Super-Mario', 'Kung-Fu-Panda'], weak: ['Forrest-Gump', 'Rocky'] },
         { word: 'O-Pianista', strong: ['Forrest-Gump', 'Rocky'], weak: ['Frozen', 'Barbie'] },
         { word: 'Parasita', strong: ['O-Pianista', 'Barbie'], weak: ['Shrek', 'Moana'] },
-        { word: 'Jurassic-Park', strong: ['Avatar', 'Senhor dos Aneis'], weak: ['Toy Story', 'Moana'] },
+        
         { word: 'La-La-Land', strong: ['O-Pianista', 'Barbie'], weak: ['Shrek', 'Moana'] },
       ]
     },
