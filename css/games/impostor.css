@@ -112,3 +112,47 @@
 .impostor__next-card.is-ready {
   border-color: currentColor;
 }
+
+
+.impostor__statement-options {
+  display: grid;
+  gap: .75rem;
+  margin: 2rem 0 1rem;
+}
+
+.impostor__statement-option {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  text-align: center;
+  color: inherit;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .85rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.impostor__statement-option:hover {
+  border-color: currentColor;
+}
+
+.impostor__declaration-list {
+  display: grid;
+  gap: .75rem;
+  margin: 2rem 0;
+}
+
+.impostor__declaration-item {
+  display: grid;
+  gap: .3rem;
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .85rem;
+}
+
+.impostor__declaration-item span {
+  color: var(--muted);
+  font-size: .9rem;
+}
