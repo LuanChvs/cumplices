@@ -1223,7 +1223,7 @@ function renderImpostor() {
   };
 
   const renderClassicSecretPrep = () => {
-    const player = state.classicPlayers[state.classicRevealIndex];
+    const player = state.classicPlayers[state.classicRevealIndex] || `Jogador ${state.classicRevealIndex + 1}`;
 
     root.innerHTML = `
       <div class="impostor__intro impostor__secret-prep">
@@ -1250,7 +1250,7 @@ function renderImpostor() {
 
   const renderClassicSecret = () => {
     const index = state.classicRevealIndex;
-    const player = state.classicPlayers[index];
+    const player = state.classicPlayers[index] || `Jogador ${index + 1}`;
     const isImpostor = index === state.classicImpostorIndex;
     const value = isImpostor
       ? (state.classicDifficulty !== 'none' && state.classicImpostorInfo
@@ -1386,7 +1386,8 @@ function renderImpostor() {
       if (state.classicRevealedImpostor) {
         const card = document.createElement('div');
         card.className = 'impostor__result-card impostor__result-card--impostor';
-        card.innerHTML = `<span>👻 O Impostor era</span><b>${state.classicPlayers[state.classicImpostorIndex]}</b>`;
+        const impostorName = state.classicPlayers[state.classicImpostorIndex] || `Jogador ${state.classicImpostorIndex + 1}`;
+        card.innerHTML = `<span>👻 O Impostor era</span><b>${impostorName}</b>`;
         result.append(card);
       }
 
