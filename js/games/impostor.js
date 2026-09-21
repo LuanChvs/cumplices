@@ -12,7 +12,10 @@ function renderImpostor() {
     players: ['Jogador 1', 'Jogador 2'],
     theme: null,
     words: [null, null],
-    revealedPlayerIndex: 0
+    revealedPlayerIndex: 0,
+    statementOptions: [[], []],
+    statements: [null, null],
+    statementPlayerIndex: 0
   };
 
   const themes = () => window.DATA?.impostor?.themes || [];
@@ -31,6 +34,20 @@ function renderImpostor() {
 
     state.theme = theme;
     state.words = [...pair];
+
+    const allWords = [...new Set(pairs.flat())];
+    state.statementOptions = state.words.map((secretWord, playerIndex) => {
+      const opponentWord = state.words[playerIndex === 0 ? 1 : 0];
+      const falseOptions = allWords
+        .filter((word) => word !== secretWord && word !== opponentWord)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 2);
+
+      return [secretWord, ...falseOptions]
+        .sort(() => Math.random() - 0.5);
+    });
+
+    state.statements = [null, null];
     return true;
   };
 
@@ -59,6 +76,11 @@ function renderImpostor() {
 
     if (state.screen === 'statement') {
       renderStatement();
+      return;
+    }
+
+    if (state.screen === 'declarations') {
+      renderDeclarations();
     }
   };
 
@@ -219,31 +241,86 @@ function renderImpostor() {
         return;
       }
 
+      state.statementPlayerIndex = 0;
       state.screen = 'statement';
       render();
     };
   };
 
   const renderStatement = () => {
-    root.innerHTML = \`
-      <div class="impostor__intro">
-        <span class="eyebrow">Próxima etapa</span>
-        <h2>Palavras recebidas</h2>
-        <p>As duas palavras já foram distribuídas. Agora vamos preparar as declarações de cada jogador.</p>
+    const playerIndex = state.statementPlayerIndex;
+    const player = state.players[playerIndex];
+    const options = state.statementOptions[playerIndex];
 
-        <div class="impostor__next-card">
-          <strong>Declarações</strong>
-          <span>1 palavra verdadeira + 2 blefes plausíveis para cada jogador.</span>
-        </div>
+    root.innerHTML = `
+      <div class="impostor__intro impostor__statement">
+        <span class="eyebrow">Declaração secreta</span>
+        <h2>Vez de ${player}</h2>
+        <p>Escolha uma opção e depois diga a palavra em voz alta. O aplicativo não contará ao outro jogador se ela é verdadeira.</p>
 
-        <button type="button" class="btn btn-primary impostor__continue-statements">
-          Continuar →
+        <div class="impostor__statement-options" role="group" aria-label="Opções de declaração"></div>
+
+        <p class="impostor__feedback" aria-live="polite"></p>
+      </div>
+    `;
+
+    const optionsRoot = root.querySelector('.impostor__statement-options');
+
+    options.forEach((option) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'impostor__statement-option';
+      button.textContent = option;
+      button.onclick = () => {
+        state.statements[playerIndex] = option;
+
+        if (playerIndex === 0) {
+          state.statementPlayerIndex = 1;
+          render();
+          return;
+        }
+
+        state.screen = 'declarations';
+        render();
+      };
+
+      optionsRoot.append(button);
+    });
+  };
+
+  const renderDeclarations = () => {
+    root.innerHTML = `
+      <div class="impostor__intro impostor__declarations">
+        <span class="eyebrow">Declarações</span>
+        <h2>Agora é no cara a cara</h2>
+        <p>Digam em voz alta a palavra que cada um escolheu. O aplicativo não vai revelar quem falou a verdade.</p>
+
+        <div class="impostor__declaration-list"></div>
+
+        <button type="button" class="btn btn-primary impostor__start-interrogation">
+          Começar interrogatório →
         </button>
       </div>
-    \`;
+    `;
 
-    root.querySelector('.impostor__continue-statements').onclick = () => {
-      root.querySelector('.impostor__next-card').classList.add('is-ready');
+    const list = root.querySelector('.impostor__declaration-list');
+
+    state.players.forEach((player, index) => {
+      const item = document.createElement('div');
+      item.className = 'impostor__declaration-item';
+      item.innerHTML = `
+        <strong>${player}</strong>
+        <span>Declare sua palavra em voz alta.</span>
+      `;
+      list.append(item);
+    });
+
+    root.querySelector('.impostor__start-interrogation').onclick = () => {
+      root.querySelector('.impostor__feedback')?.remove();
+      const message = document.createElement('p');
+      message.className = 'impostor__feedback';
+      message.textContent = 'Próxima etapa: interrogatório.';
+      root.querySelector('.impostor__declarations').append(message);
     };
   };
 
