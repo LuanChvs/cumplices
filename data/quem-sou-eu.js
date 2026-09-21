@@ -228,7 +228,7 @@ window.DATA.quemSouEu = {
         'Nathan Drake','Steve','Creeper','Sub-Zero','Scorpion',
         'Ryu','Ken','Chun-Li','Crash Bandicoot','Spyro',
         'Wario','Waluigi','Yoshi','Daisy','Toad',
-        'Fox McCloud','Captain Falcon','Jigglypuff','Mortal Kombat'
+        'Fox McCloud','Captain Falcon','Jigglypuff','Mortal Kombat','Sackboy'
       ]
     },
     {
@@ -252,4 +252,68 @@ window.DATA.quemSouEu = {
         'Michael Jackson','Madonna','Elvis Presley','Freddie Mercury','Beyoncé',
         'Rihanna','Lady Gaga','Taylor Swift','Adele','Bruno Mars',
         'Justin Bieber','The Weeknd','Ed Sheeran','Ariana Grande','Katy Perry',
-        'Anitta','Ivet
+        'Anitta','Ivete Sangalo','Caetano Veloso','Gilberto Gil','Roberto Carlos',
+        'Tim Maia','Cazuza','Renato Russo','Legião Urbana','Charlie Brown Jr.',
+        'Mamonas Assassinas','Marília Mendonça','Gustavo Lima','Luan Santana','Jorge e Mateus',
+        'Elton John','David Bowie','Prince','Bob Marley','Amy Winehouse',
+        'Justin Timberlake','Sia','Miley Cyrus','Olivia Rodrigo','Post Malone'
+      ]
+    },
+    {
+      id: 'internet',
+      nome: 'Internet e famosos',
+      nomes: [
+        'Whindersson Nunes','Felipe Neto','Casimiro','Bruno PlayHard','Cellbit',
+        'Nobru','Gaules','Alanzoka','Cocielo','KondZilla',
+        'Luccas Neto','Enaldinho','Virginia Fonseca','Bianca Andrade','Camila Loures',
+        'Kéfera','Rezende','AuthenticGames','BRKsEDU','Manual do Mundo',
+        'MrBeast','PewDiePie','Markiplier','Ninja','Logan Paul',
+        'KSI','Charli D’Amelio','Khaby Lame','Mrwhosetheboss','IShowSpeed',
+        'Podpah','Igão','Mítico','Bruno Correa','CazéTV',
+        'Rato Borrachudo','Jovem Nerd','Azaghal','Rafinha Bastos'
+      ]
+    },
+    {
+      id: 'historia',
+      nome: 'História',
+      nomes: [
+        'Dom Pedro I','Dom Pedro II','Tiradentes','Getúlio Vargas','Juscelino Kubitschek',
+        'Santos Dumont','Princesa Isabel','Marechal Deodoro','Machado de Assis','Zumbi dos Palmares',
+        'Cleópatra','Júlio César','Alexandre o Grande','Napoleão Bonaparte','Joana d’Arc',
+        'Leonardo da Vinci','Michelangelo','Galileu Galilei','Isaac Newton','Marie Curie',
+        'Charles Darwin','Mahatma Gandhi','Nelson Mandela','Martin Luther King Jr.','Abraham Lincoln',
+        'George Washington','Cristóvão Colombo','Marco Polo','Rainha Elizabeth II','Vasco da Gama',
+        'Simón Bolívar','Che Guevara','Fidel Castro','Winston Churchill','Adolf Hitler',
+        'Karl Marx','Vladimir Lenin','Rainha Vitória','Confúcio','Sun Tzu'
+      ]
+    },
+    {
+      id: 'mitologia',
+      nome: 'Mitologia',
+      nomes: [
+        'Zeus','Hera','Poseidon','Hades','Atena',
+        'Ares','Afrodite','Apolo','Ártemis','Hermes',
+        'Hefesto','Dionísio','Medusa','Minotauro','Hércules',
+        'Aquiles','Odisseu','Perseu','Teseu','Prometeu',
+        'Thor','Loki','Odin','Freya','Anúbis',
+        'Rá','Ísis','Osíris','Quetzalcóatl','Fenrir',
+        'Jörmungandr','Hel','Balder','Valquíria','Cérbero',
+        'Hidra de Lerna','Esfinge','Ícaro','Midas'
+      ]
+    },
+    {
+      id: 'brasil',
+      nome: 'Brasil',
+      nomes: [
+        'Ayrton Senna','Pelé','Silvio Santos','Xuxa','Anitta',
+        'Ivete Sangalo','Roberto Carlos','Chacrinha','Jô Soares','Faustão',
+        'Ratinho','Luciano Huck','Sabrina Sato','Tatá Werneck','Paulo Gustavo',
+        'Whindersson Nunes','Neymar','Marta','Ronaldinho Gaúcho','Gisele Bündchen',
+        'Fernanda Montenegro','Wagner Moura','Selton Mello','Rodrigo Santoro','Lázaro Ramos',
+        'Caetano Veloso','Gilberto Gil','Renato Russo','Marília Mendonça','Santos Dumont',
+        'Renata Fan','Galvão Bueno','Ana Maria Braga','Regina Casé','Marcos Mion',
+        'Fátima Bernardes','Glória Maria','Cássia Kis','Leandro Hassum','Tiririca'
+      ]
+    }
+  ]
+};
