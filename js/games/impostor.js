@@ -22,7 +22,17 @@ function renderImpostor() {
     questionText: '',
     questions: [],
     judgmentPlayerIndex: 0,
-    judgments: [null, null]
+    judgments: [null, null],
+    classicPlayers: ['Jogador 1', 'Jogador 2', 'Jogador 3'],
+    classicSelectedTheme: 'random',
+    classicDifficulty: 'none',
+    classicTheme: null,
+    classicSecretWord: null,
+    classicImpostorIndex: null,
+    classicImpostorInfo: null,
+    classicRevealIndex: 0,
+    classicRevealedImpostor: false,
+    classicRevealedWord: false
   };
 
   const themes = () => window.DATA?.impostor?.themes || [];
@@ -99,6 +109,36 @@ function renderImpostor() {
       return;
     }
 
+    if (state.screen === 'classicSetup') {
+      renderClassicSetup();
+      return;
+    }
+
+    if (state.screen === 'classicTheme') {
+      renderClassicTheme();
+      return;
+    }
+
+    if (state.screen === 'classicSecretPrep') {
+      renderClassicSecretPrep();
+      return;
+    }
+
+    if (state.screen === 'classicSecret') {
+      renderClassicSecret();
+      return;
+    }
+
+    if (state.screen === 'classicDiscussion') {
+      renderClassicDiscussion();
+      return;
+    }
+
+    if (state.screen === 'classicResult') {
+      renderClassicResult();
+      return;
+    }
+
     if (state.screen === 'theme') {
       renderTheme();
       return;
@@ -172,8 +212,8 @@ function renderImpostor() {
     };
 
     root.querySelector('[data-impostor-mode="normal"]').onclick = () => {
-      root.querySelector('.impostor__mode-feedback').textContent =
-        'O Modo Normal será disponibilizado em uma próxima etapa.';
+      state.screen = 'classicSetup';
+      render();
     };
   };
 
@@ -925,6 +965,400 @@ function renderImpostor() {
       state.judgmentPlayerIndex = 0;
       state.judgments = [null, null];
       state.screen = 'theme';
+      render();
+    };
+  };
+
+
+  const pickClassicRound = () => {
+    const availableThemes = themes();
+
+    if (!availableThemes.length) return false;
+
+    const theme = state.classicSelectedTheme === 'random'
+      ? availableThemes[Math.floor(Math.random() * availableThemes.length)]
+      : availableThemes.find((item) => item.id === state.classicSelectedTheme);
+
+    if (!theme || (theme.words || []).length < 3) return false;
+
+    const words = theme.words;
+    const secretEntry = words[Math.floor(Math.random() * words.length)];
+    const impostorIndex = Math.floor(Math.random() * state.classicPlayers.length);
+
+    let impostorInfo = null;
+
+    if (state.classicDifficulty === 'strong') {
+      const options = secretEntry.strong || [];
+      impostorInfo = options[Math.floor(Math.random() * options.length)] || null;
+    }
+
+    if (state.classicDifficulty === 'weak') {
+      const options = secretEntry.weak || [];
+      impostorInfo = options[Math.floor(Math.random() * options.length)] || null;
+    }
+
+    state.classicTheme = theme;
+    state.classicSecretWord = secretEntry.word;
+    state.classicImpostorIndex = impostorIndex;
+    state.classicImpostorInfo = impostorInfo;
+    state.classicRevealIndex = 0;
+    state.classicRevealedImpostor = false;
+    state.classicRevealedWord = false;
+
+    return true;
+  };
+
+  const renderClassicSetup = () => {
+    let configTab = 'players';
+
+    root.innerHTML = `
+      <div class="impostor__intro">
+        <span class="eyebrow">Modo Clássico</span>
+        <h2>Preparem a partida</h2>
+        <p>Cadastrem os jogadores e escolham o nível de informação do Impostor.</p>
+
+        <div class="impostor__config-tabs" role="tablist">
+          <button type="button" class="impostor__config-tab" data-tab="players">👥 Jogadores</button>
+          <button type="button" class="impostor__config-tab" data-tab="settings">⚙️ Configuração</button>
+        </div>
+
+        <div class="impostor__config-content"></div>
+
+        <button type="button" class="btn btn-primary impostor__classic-continue">Começar partida →</button>
+        <p class="impostor__feedback" aria-live="polite"></p>
+      </div>
+    `;
+
+    const content = root.querySelector('.impostor__config-content');
+    const tabs = [...root.querySelectorAll('.impostor__config-tab')];
+
+    const renderTab = () => {
+      tabs.forEach((tab) => tab.classList.toggle('is-active', tab.dataset.tab === configTab));
+      content.innerHTML = '';
+
+      if (configTab === 'players') {
+        const players = document.createElement('div');
+        players.className = 'impostor__players';
+
+        state.classicPlayers.forEach((player, index) => {
+          const label = document.createElement('label');
+          label.textContent = `Jogador ${index + 1}`;
+
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.maxLength = 30;
+          input.placeholder = `Nome do jogador ${index + 1}`;
+          input.value = player;
+          input.oninput = () => {
+            state.classicPlayers[index] = input.value;
+          };
+
+          label.append(input);
+          players.append(label);
+        });
+
+        content.append(players);
+        return;
+      }
+
+      const settings = document.createElement('div');
+      settings.className = 'impostor__settings';
+
+      const themeField = document.createElement('label');
+      themeField.className = 'impostor__settings-field';
+      themeField.innerHTML = '<span>Tema das palavras</span>';
+
+      const themeSelect = document.createElement('select');
+      themeSelect.className = 'impostor__settings-select';
+
+      const randomOption = document.createElement('option');
+      randomOption.value = 'random';
+      randomOption.textContent = '🎲 Aleatório';
+      themeSelect.append(randomOption);
+
+      themes().forEach((theme) => {
+        const option = document.createElement('option');
+        option.value = theme.id;
+        option.textContent = theme.name;
+        themeSelect.append(option);
+      });
+
+      themeSelect.value = state.classicSelectedTheme;
+      themeSelect.onchange = () => {
+        state.classicSelectedTheme = themeSelect.value;
+      };
+      themeField.append(themeSelect);
+
+      const difficultyField = document.createElement('div');
+      difficultyField.className = 'impostor__settings-field';
+      difficultyField.innerHTML = '<span>Nível de dificuldade do Impostor</span><small>O Impostor recebe a palavra secreta, uma ligação ou nenhuma informação.</small>';
+
+      const difficultyOptions = document.createElement('div');
+      difficultyOptions.className = 'impostor__difficulty-options';
+
+      [
+        ['none', '0 infos', 'Não recebe nenhuma informação.'],
+        ['strong', 'Info forte', 'Recebe uma ligação forte da palavra.'],
+        ['weak', 'Info fraca', 'Recebe uma ligação fraca da palavra.']
+      ].forEach(([value, label, description]) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'impostor__difficulty-option';
+        button.classList.toggle('is-active', state.classicDifficulty === value);
+        button.innerHTML = `<strong>${label}</strong><span>${description}</span>`;
+        button.onclick = () => {
+          state.classicDifficulty = value;
+          renderTab();
+        };
+        difficultyOptions.append(button);
+      });
+
+      difficultyField.append(difficultyOptions);
+      settings.append(themeField, difficultyField);
+      content.append(settings);
+    };
+
+    tabs.forEach((tab) => {
+      tab.onclick = () => {
+        configTab = tab.dataset.tab;
+        renderTab();
+      };
+    });
+
+    root.querySelector('.impostor__classic-continue').onclick = () => {
+      const inputs = [...root.querySelectorAll('.impostor__players input')];
+      const names = inputs.map((input) => input.value.trim());
+
+      if (names.some((name) => !name)) {
+        root.querySelector('.impostor__feedback').textContent =
+          'Preencham os nomes dos três jogadores para continuar.';
+        return;
+      }
+
+      if (new Set(names.map((name) => name.toLowerCase())).size !== names.length) {
+        root.querySelector('.impostor__feedback').textContent =
+          'Os jogadores precisam ter nomes diferentes.';
+        return;
+      }
+
+      state.classicPlayers = names;
+
+      if (!pickClassicRound()) {
+        root.querySelector('.impostor__feedback').textContent =
+          'Não foi possível preparar a rodada. Verifiquem o banco de palavras.';
+        return;
+      }
+
+      state.screen = 'classicTheme';
+      render();
+    };
+
+    renderTab();
+  };
+
+  const renderClassicTheme = () => {
+    root.innerHTML = `
+      <div class="impostor__intro impostor__theme">
+        <span class="eyebrow">Modo Clássico · preparação</span>
+        <h2>O tema da rodada é</h2>
+
+        <div class="impostor__theme-card">
+          <strong>${state.classicTheme.name}</strong>
+        </div>
+
+        <p>
+          Todos receberão a palavra secreta individualmente.
+          O Impostor receberá apenas o nível de informação escolhido.
+        </p>
+
+        <button type="button" class="btn btn-primary impostor__classic-theme-continue">
+          Começar distribuição →
+        </button>
+      </div>
+    `;
+
+    root.querySelector('.impostor__classic-theme-continue').onclick = () => {
+      state.classicRevealIndex = 0;
+      state.screen = 'classicSecretPrep';
+      render();
+    };
+  };
+
+  const renderClassicSecretPrep = () => {
+    const player = state.classicPlayers[state.classicRevealIndex];
+
+    root.innerHTML = `
+      <div class="impostor__intro impostor__secret-prep">
+        <span class="eyebrow">Informação secreta</span>
+        <h2>Vez de ${player}</h2>
+        <p>Entreguem o celular somente para este jogador.</p>
+
+        <div class="impostor__next-card">
+          <strong>Pronto para ver sua informação?</strong>
+          <span>Ninguém além de ${player} deve olhar para a tela.</span>
+        </div>
+
+        <button type="button" class="btn btn-primary impostor__classic-secret-reveal">
+          Revelar minha informação →
+        </button>
+      </div>
+    `;
+
+    root.querySelector('.impostor__classic-secret-reveal').onclick = () => {
+      state.screen = 'classicSecret';
+      render();
+    };
+  };
+
+  const renderClassicSecret = () => {
+    const index = state.classicRevealIndex;
+    const player = state.classicPlayers[index];
+    const isImpostor = index === state.classicImpostorIndex;
+
+    let title = 'Sua palavra secreta';
+    let value = state.classicSecretWord;
+    let description = 'Memorize a palavra. Depois passe o celular para o próximo jogador.';
+
+    if (isImpostor) {
+      title = 'Você é o Impostor';
+      description = state.classicDifficulty === 'none'
+        ? 'Você não recebeu nenhuma informação. Tente descobrir a palavra ouvindo as pistas.'
+        : 'Você recebeu uma informação sobre a palavra. Tente descobrir qual é a palavra verdadeira durante a rodada.';
+
+      if (state.classicDifficulty !== 'none' && state.classicImpostorInfo) {
+        value = state.classicImpostorInfo;
+      } else {
+        value = 'Nenhuma informação';
+      }
+    }
+
+    root.innerHTML = `
+      <div class="impostor__intro impostor__secret">
+        <span class="eyebrow">${isImpostor ? 'Papel secreto' : 'Sua palavra secreta'}</span>
+        <h2>${player}</h2>
+        <p>${description}</p>
+
+        <div class="impostor__secret-card">
+          <span>${title}</span>
+          <strong class="impostor__secret-word"></strong>
+        </div>
+
+        ${isImpostor && state.classicDifficulty !== 'none' ? '<p class="impostor__classic-info-label">Sua pista inicial</p>' : ''}
+
+        <p class="impostor__secret-warning">
+          Não deixe outro jogador ver esta tela.
+        </p>
+
+        <button type="button" class="btn btn-primary impostor__classic-secret-hide">
+          Já vi minha informação →
+        </button>
+      </div>
+    `;
+
+    root.querySelector('.impostor__secret-word').textContent = value;
+
+    root.querySelector('.impostor__classic-secret-hide').onclick = () => {
+      if (index < state.classicPlayers.length - 1) {
+        state.classicRevealIndex += 1;
+        state.screen = 'classicSecretPrep';
+      } else {
+        state.screen = 'classicDiscussion';
+      }
+      render();
+    };
+  };
+
+  const renderClassicDiscussion = () => {
+    root.innerHTML = `
+      <div class="impostor__intro impostor__classic-discussion">
+        <span class="eyebrow">Agora é com vocês</span>
+        <h2>Conversem e votem</h2>
+        <p>
+          Deem suas pistas, discutam entre vocês e decidam quem é o Impostor.
+          O aplicativo não vai registrar nem conduzir a votação.
+        </p>
+
+        <div class="impostor__classic-players">
+          ${state.classicPlayers.map((player) => `
+            <div class="impostor__classic-player-card">${player}</div>
+          `).join('')}
+        </div>
+
+        <button type="button" class="btn btn-primary impostor__classic-finish-discussion">
+          Já decidiram → revelar resultado
+        </button>
+      </div>
+    `;
+
+    root.querySelector('.impostor__classic-finish-discussion').onclick = () => {
+      state.classicRevealedImpostor = false;
+      state.classicRevealedWord = false;
+      state.screen = 'classicResult';
+      render();
+    };
+  };
+
+  const renderClassicResult = () => {
+    root.innerHTML = `
+      <div class="impostor__intro impostor__classic-result">
+        <span class="eyebrow">Fim da rodada</span>
+        <h2>Hora da verdade</h2>
+        <p>Revelem primeiro quem era o Impostor. Depois descubram a palavra.</p>
+
+        <div class="impostor__classic-reveal-actions">
+          <button type="button" class="btn btn-primary impostor__classic-reveal-impostor">
+            Revelar o Impostor
+          </button>
+          <button type="button" class="btn btn-primary impostor__classic-reveal-word">
+            Revelar palavra
+          </button>
+        </div>
+
+        <div class="impostor__classic-reveal-result" aria-live="polite"></div>
+
+        <button type="button" class="btn btn-primary impostor__classic-new-round">
+          Nova rodada →
+        </button>
+      </div>
+    `;
+
+    const result = root.querySelector('.impostor__classic-reveal-result');
+    const revealImpostor = root.querySelector('.impostor__classic-reveal-impostor');
+    const revealWord = root.querySelector('.impostor__classic-reveal-word');
+
+    const renderReveals = () => {
+      result.innerHTML = '';
+
+      if (state.classicRevealedImpostor) {
+        const card = document.createElement('div');
+        card.className = 'impostor__result-card';
+        card.innerHTML = `<span>O Impostor era</span><b>${state.classicPlayers[state.classicImpostorIndex]}</b>`;
+        result.append(card);
+      }
+
+      if (state.classicRevealedWord) {
+        const card = document.createElement('div');
+        card.className = 'impostor__result-card';
+        card.innerHTML = `<span>A palavra era</span><b>${state.classicSecretWord}</b>`;
+        result.append(card);
+      }
+    };
+
+    revealImpostor.onclick = () => {
+      state.classicRevealedImpostor = true;
+      revealImpostor.disabled = true;
+      renderReveals();
+    };
+
+    revealWord.onclick = () => {
+      state.classicRevealedWord = true;
+      revealWord.disabled = true;
+      renderReveals();
+    };
+
+    root.querySelector('.impostor__classic-new-round').onclick = () => {
+      if (!pickClassicRound()) return;
+      state.screen = 'classicTheme';
       render();
     };
   };
