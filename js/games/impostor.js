@@ -67,8 +67,12 @@ function renderImpostor() {
 
       const randomWord = randomCandidates[Math.floor(Math.random() * randomCandidates.length)];
 
-      return [secretWord, strong, weak, randomWord]
-        .sort(() => Math.random() - 0.5);
+      return [
+        { word: secretWord, type: 'truth' },
+        { word: strong, type: 'strong' },
+        { word: weak, type: 'weak' },
+        { word: randomWord, type: 'random' }
+      ].sort(() => Math.random() - 0.5);
     });
 
     state.statements = [null, null];
@@ -335,13 +339,28 @@ function renderImpostor() {
 
     const optionsRoot = root.querySelector('.impostor__statement-options');
 
-    options.forEach((option) => {
+    const truthOption = options.find((option) => option.type === 'truth');
+    const bluffOptions = [
+      { type: 'strong', label: 'Blefe forte' },
+      { type: 'weak', label: 'Blefe fraco' },
+      { type: 'random', label: 'Blefe aleatório' }
+    ];
+
+    const createOptionButton = (option, label) => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'impostor__statement-option';
-      button.textContent = option;
+
+      const labelElement = document.createElement('span');
+      labelElement.textContent = label;
+
+      const wordElement = document.createElement('strong');
+      wordElement.textContent = option.word;
+
+      button.append(labelElement, wordElement);
+
       button.onclick = () => {
-        state.statements[playerIndex] = option;
+        state.statements[playerIndex] = option.word;
 
         if (playerIndex === 0) {
           state.revealedPlayerIndex = 1;
@@ -354,9 +373,36 @@ function renderImpostor() {
         render();
       };
 
-      optionsRoot.append(button);
+      return button;
+    };
+
+    const truthSection = document.createElement('div');
+    truthSection.className = 'impostor__statement-group impostor__statement-group--truth';
+
+    const truthLabel = document.createElement('span');
+    truthLabel.className = 'impostor__statement-group-label';
+    truthLabel.textContent = 'Falar a verdade';
+
+    truthSection.append(truthLabel, createOptionButton(truthOption, 'Verdade'));
+    optionsRoot.append(truthSection);
+
+    const bluffSection = document.createElement('div');
+    bluffSection.className = 'impostor__statement-group impostor__statement-group--bluffs';
+
+    const bluffLabel = document.createElement('span');
+    bluffLabel.className = 'impostor__statement-group-label';
+    bluffLabel.textContent = 'Escolha um blefe';
+
+    const bluffGrid = document.createElement('div');
+    bluffGrid.className = 'impostor__statement-bluffs';
+
+    bluffOptions.forEach(({ type, label }) => {
+      const option = options.find((item) => item.type === type);
+      if (option) bluffGrid.append(createOptionButton(option, label));
     });
-  };
+
+    bluffSection.append(bluffLabel, bluffGrid);
+    optionsRoot.append(bluffSection);
 
   const renderDeclarations = () => {
     root.innerHTML = `
