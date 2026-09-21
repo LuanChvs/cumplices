@@ -273,3 +273,103 @@ window.DATA.quemSouEu = {
     }
   ]
 };
+/* =========================================================
+   EXPANSÃO DO CATÁLOGO — mínimo de 40 itens por tema
+========================================================= */
+
+const QUEM_SOU_EU_EXTRAS = {
+  pessoas: [
+    'Gal Gadot','Chris Hemsworth','Robert Downey Jr.','Ryan Reynolds','Emma Watson',
+    'Dua Lipa','Selena Gomez','Jennifer Lopez','Shakira','Alok'
+  ],
+  personagens: [
+    'Elsa','Olaf','Woody','Buzz Lightyear','Simba',
+    'Timão','Pumba','Stitch','Mike Wazowski','Sulley'
+  ],
+  profissoes: [
+    'Biólogo','Químico','Físico','Cientista','Psicólogo',
+    'Nutricionista','Fisioterapeuta','Farmacêutico','Bancário','Contador'
+  ],
+  animais: [
+    'Hipopótamo','Rinoceronte','Camelo','Hiena','Morcego',
+    'Lontra','Castor','Esquilo','Tucano','Tamanduá'
+  ],
+  'super-herois': [
+    'Homem-Formiga','Vespa','Gavião Arqueiro','Feiticeira','Elektra',
+    'Senhor Fantástico','Tocha Humana','Coisa','Jean Grey','Noturno'
+  ],
+  viloes: [
+    'Mysterio','Abutre','Rei do Crime','Hela','Ego',
+    'Killmonger','Mística','Apocalipse','Ronan','Mandarim'
+  ],
+  filmes: [
+    'O Iluminado','Forrest Gump','Clube da Luta','O Cavaleiro das Trevas','Jurassic World',
+    'Velozes e Furiosos','O Exterminador do Futuro','Rocky','Creed','O Máskara'
+  ],
+  series: [
+    'Supernatural','The Witcher','Peaky Blinders','Suits','Vikings',
+    'Better Call Saul','Ozark','The Umbrella Academy','Alice in Borderland','Reacher'
+  ],
+  desenhos: [
+    'O Máskara','As Aventuras de Jackie Chan','Du, Dudu e Edu','O Laboratório de Dexter','Kim Possible',
+    'Phineas e Ferb','Hora de Aventura','Steven Universo','Jovens Titãs','Avatar: A Lenda de Aang'
+  ],
+  anime: [
+    'Sasori','Itachi Uchiha','Frieza','Piccolo','Vegeta',
+    'Nico Robin','Boa Hancock','Rukia Kuchiki','Killua Zoldyck','Satoru Gojo'
+  ],
+  naruto: [
+    'Sai','Yamato','Kurenai Yuhi','Asuma Sarutobi','Might Guy',
+    'Konohamaru Sarutobi','Kisame Hoshigaki','Hidan','Kakuzu','Zabuza Momochi'
+  ],
+  'hunter-x-hunter': [
+    'Leorio Paradinight','Morel Mackernasey','Knov','Shoot McMahon','Genthru',
+    'Razor','Gotoh','Canary','Amane','Mito Freecss'
+  ],
+  'dragon-ball': [
+    'Uub','Android 19','Android 20','Dabura','Majin Vegeta',
+    'Kibito','Supremo Kaioh','Kaioshin','Raditz','Zamasu'
+  ],
+  'one-piece': [
+    'Vivi','Perona','Rebecca','Yamato','Kozuki Oden',
+    'Donquixote Rosinante','Enel','Arlong','Boa Hancock','Momonosuke'
+  ],
+  bleach: [
+    'Riruka Dokugamine','Tsukishima','Giselle Gewelle','Bambietta Basterbine','Jugram Haschwalth',
+    'Yhwach','Askin Nakk Le Vaar','Bazz-B','Retsu Unohana','Kensei Muguruma'
+  ],
+  jogos: [
+    'Wario','Waluigi','Yoshi','Daisy','Toad',
+    'Fox McCloud','Captain Falcon','Jigglypuff','Pikachu','Mortal Kombat'
+  ],
+  futebol: [
+    'Romelu Lukaku','Kevin De Bruyne','Mohamed Salah','Sadio Mané','Neymar Jr.',
+    'Gabriel Martinelli','Endrick','Casemiro','Thiago Silva','Alisson'
+  ],
+  musica: [
+    'Elton John','David Bowie','Prince','Bob Marley','Amy Winehouse',
+    'Justin Timberlake','Sia','Miley Cyrus','Olivia Rodrigo','Post Malone'
+  ],
+  internet: [
+    'Felipe Neto','Podpah','Igão','Mítico','Bruno Correa',
+    'CazéTV','Rato Borrachudo','Jovem Nerd','Azaghal','Rafinha Bastos'
+  ],
+  historia: [
+    'Simón Bolívar','Che Guevara','Fidel Castro','Winston Churchill','Adolf Hitler',
+    'Karl Marx','Vladimir Lenin','Rainha Vitória','Cleópatra','Confúcio'
+  ],
+  mitologia: [
+    'Fenrir','Jörmungandr','Hel','Balder','Valquíria',
+    'Cérbero','Hidra de Lerna','Esfinge','Ícaro','Midas'
+  ],
+  brasil: [
+    'Renata Fan','Galvão Bueno','Ana Maria Braga','Regina Casé','Marcos Mion',
+    'Fátima Bernardes','Glória Maria','Cássia Kis','Leandro Hassum','Tiririca'
+  ]
+};
+
+Object.entries(QUEM_SOU_EU_EXTRAS).forEach(([id, extras]) => {
+  const tema = window.DATA.quemSouEu.temas.find(item => item.id === id);
+  if (!tema) return;
+  tema.nomes = [...new Set([...tema.nomes, ...extras])];
+});
