@@ -44,12 +44,13 @@ function renderTermo() {
     .replace(/ç/gi, 'c')
     .toLowerCase();
 
-  const getWords = () => (window.DATA?.termo?.words || [])
+  const getAnswerWords = () => (window.DATA?.termo?.answers || [])
     .map(normalize)
     .filter(word => word.length === WORD_LENGTH);
 
-  const getOriginalWords = () => (window.DATA?.termo?.words || [])
-    .filter(word => normalize(word).length === WORD_LENGTH);
+  const getGuessWords = () => (window.DATA?.termo?.guesses || [])
+    .map(normalize)
+    .filter(word => word.length === WORD_LENGTH);
 
   const getDailyIndex = (length) => {
     const start = Date.UTC(2026, 0, 1);
@@ -60,7 +61,7 @@ function renderTermo() {
   };
 
   const chooseWord = () => {
-    const originals = getOriginalWords();
+    const originals = getAnswerWords();
     if (!originals.length) return '';
     if (IS_RANDOM_MODE) return originals[Math.floor(Math.random() * originals.length)];
     return originals[getDailyIndex(originals.length)];
@@ -338,8 +339,8 @@ function renderTermo() {
       return;
     }
 
-    if (!getWords().includes(guess)) {
-      setMessage('Essa palavra não está na lista.');
+    if (!getGuessWords().includes(guess)) {
+      setMessage('Essa palavra não pode ser usada como tentativa.');
       return;
     }
 
