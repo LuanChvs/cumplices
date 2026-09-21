@@ -41,7 +41,7 @@ window.DATA.impostor = {
         { word: 'cavalo', strong: ['zebra', 'camelo'], weak: ['cachorro', 'girafa'] },
         { word: 'dromedario', strong: ['camelo', 'cavalo'], weak: ['girafa', 'elefante'] },
         { word: 'crocodilo', strong: ['tubarao', 'hipopotamo'], weak: ['tartaruga', 'elefante'] },
-        { word: 'preguica', strong: ['coala', 'panda'], weak: ['coelho', 'urso'] }
+        { word: 'preguica', strong: ['coala', 'panda'], weak: ['coelho', 'urso'] },
         { word: 'macaco', strong: ['gorila', 'vaca'], weak: ['ovelha', 'galinha'] },
         { word: 'gorila', strong: ['macaco', 'vaca'], weak: ['ovelha', 'galinha'] },
         { word: 'vaca', strong: ['macaco', 'gorila'], weak: ['ovelha', 'galinha'] },
@@ -81,7 +81,7 @@ window.DATA.impostor = {
         { word: 'cocada', strong: ['beijinho', 'docinho'], weak: ['bolo', 'brigadeiro'] },
         { word: 'empada', strong: ['pastel', 'coxinha'], weak: ['esfiha', 'sanduiche'] },
         { word: 'esfiha', strong: ['pastel', 'coxinha'], weak: ['empada', 'pizza'] },
-        { word: 'cookie', strong: ['brownie', 'bolo'], weak: ['brigadeiro', 'cocada'] }
+        { word: 'cookie', strong: ['brownie', 'bolo'], weak: ['brigadeiro', 'cocada'] },
         { word: 'arroz', strong: ['feijao', 'tapioca'], weak: ['omelete', 'salada'] },
         { word: 'feijao', strong: ['arroz', 'tapioca'], weak: ['omelete', 'salada'] },
         { word: 'tapioca', strong: ['arroz', 'feijao'], weak: ['omelete', 'salada'] },
@@ -94,8 +94,8 @@ window.DATA.impostor = {
         { word: 'churrasco', strong: ['strogonoff', 'feijoada'], weak: ['espetinho', 'nhoque'] },
         { word: 'feijoada', strong: ['strogonoff', 'churrasco'], weak: ['espetinho', 'nhoque'] },
         { word: 'acaraje', strong: ['strogonoff', 'churrasco'], weak: ['espetinho', 'nhoque'] },
-        { word: 'espetinho', strong: ['nhoque', 'raviole'], weak: ['pao-de-queijo', 'arroz'] },
-        { word: 'nhoque', strong: ['espetinho', 'raviole'], weak: ['pao-de-queijo', 'arroz'] },
+        { word: 'espetinho', strong: ['nhoque', 'ravioli'], weak: ['pao-de-queijo', 'arroz'] },
+        { word: 'nhoque', strong: ['espetinho', 'ravioli'], weak: ['pao-de-queijo', 'arroz'] },
                 { word: 'cuscuz', strong: ['espetinho', 'nhoque'], weak: ['pao-de-queijo', 'arroz'] },
         { word: 'pao-de-queijo', strong: ['espetinho', 'nhoque'], weak: ['arroz', 'feijao'] },
         { word: 'escondidinho', strong: ['feijoada', 'strogonoff'], weak: ['sushi', 'cookie'] },
@@ -140,7 +140,7 @@ window.DATA.impostor = {
         { word: 'cortina', strong: ['tapete', 'toalha'], weak: ['almofada', 'quadro'] },
         { word: 'almofada', strong: ['travesseiro', 'puff'], weak: ['sofa', 'cortina'] },
         { word: 'televisao', strong: ['quadro', 'relogio'], weak: ['espelho', 'abajur'] },
-        { word: 'porta-retrato', strong: ['quadro', 'espelho'], weak: ['relogio', 'televisao'] }
+        { word: 'porta-retrato', strong: ['quadro', 'espelho'], weak: ['relogio', 'televisao'] },
         { word: 'mesa', strong: ['armario', 'guarda-roupa'], weak: ['televisao', 'lampada'] },
         { word: 'armario', strong: ['mesa', 'guarda-roupa'], weak: ['televisao', 'lampada'] },
         { word: 'guarda-roupa', strong: ['mesa', 'armario'], weak: ['televisao', 'lampada'] },
@@ -271,7 +271,7 @@ window.DATA.impostor = {
         { word: 'Narnia', strong: ['Harry Potter', 'Senhor dos Aneis'], weak: ['Frozen', 'Shrek'] },
         { word: 'Inception', strong: ['Matrix', 'Interestelar'], weak: ['Avatar', 'Batman'] },
         { word: '300', strong: ['Gladiador', 'Troia'], weak: ['Batman', 'Superman'] },
-        { word: 'Homem-Aranha', strong: ['Batman', 'Superman'], weak: ['Matrix', 'Avatar'] }
+        { word: 'Homem-Aranha', strong: ['Batman', 'Superman'], weak: ['Matrix', 'Avatar'] },
         { word: 'Coringa', strong: ['Vingadores', 'Toy-Story'], weak: ['Aladdin', 'O-Rei-Leao'] },
         { word: 'Vingadores', strong: ['Coringa', 'Toy-Story'], weak: ['Aladdin', 'O-Rei-Leao'] },
         { word: 'Toy-Story', strong: ['Coringa', 'Vingadores'], weak: ['Aladdin', 'O-Rei-Leao'] },
@@ -327,7 +327,7 @@ window.DATA.impostor = {
         { word: 'barco', strong: ['navio', 'balsa'], weak: ['iate', 'submarino'] },
         { word: 'balsa', strong: ['navio', 'barco'], weak: ['iate', 'submarino'] },
         { word: 'iate', strong: ['barco', 'navio'], weak: ['balsa', 'submarino'] },
-        { word: 'torpedeiro', strong: ['submarino', 'navio'], weak: ['helicoptero', 'balsa'] }
+        { word: 'torpedeiro', strong: ['submarino', 'navio'], weak: ['helicoptero', 'balsa'] },
         { word: 'canoa', strong: ['van', 'ambulancia'], weak: ['kart', 'skate'] },
         { word: 'van', strong: ['canoa', 'ambulancia'], weak: ['kart', 'skate'] },
         { word: 'ambulancia', strong: ['canoa', 'van'], weak: ['kart', 'skate'] },
@@ -376,7 +376,7 @@ window.DATA.impostor = {
         { word: 'judo', strong: ['karate', 'taekwondo'], weak: ['boxe', 'esgrima'] },
         { word: 'esgrima', strong: ['boxe', 'karate'], weak: ['judo', 'taekwondo'] },
         { word: 'mountain-bike', strong: ['ciclismo', 'skate'], weak: ['corrida', 'surfe'] },
-        { word: 'maratona', strong: ['corrida', 'ciclismo'], weak: ['natacao', 'futebol'] }
+        { word: 'maratona', strong: ['corrida', 'ciclismo'], weak: ['natacao', 'futebol'] },
         { word: 'atletismo', strong: ['ginastica', 'golfe'], weak: ['rugby', 'formula-1'] },
         { word: 'ginastica', strong: ['atletismo', 'golfe'], weak: ['rugby', 'formula-1'] },
         { word: 'golfe', strong: ['atletismo', 'ginastica'], weak: ['rugby', 'formula-1'] },
@@ -416,7 +416,7 @@ window.DATA.impostor = {
         { word: 'ameixa', strong: ['cereja', 'pessego'], weak: ['uva', 'maca'] },
         { word: 'pera', strong: ['maca', 'pessego'], weak: ['banana', 'uva'] },
         { word: 'pessego', strong: ['ameixa', 'pera'], weak: ['maca', 'manga'] },
-        { word: 'kiwi', strong: ['limao', 'uva'], weak: ['banana', 'melancia'] }
+        { word: 'kiwi', strong: ['limao', 'uva'], weak: ['banana', 'melancia'] },
         { word: 'abacate', strong: ['acerola', 'caju'], weak: ['jabuticaba', 'lima'] },
         { word: 'acerola', strong: ['abacate', 'caju'], weak: ['jabuticaba', 'lima'] },
         { word: 'caju', strong: ['abacate', 'acerola'], weak: ['jabuticaba', 'lima'] },
@@ -463,7 +463,7 @@ window.DATA.impostor = {
         { word: 'chocolate-quente', strong: ['capuccino', 'cafe'], weak: ['suco', 'agua'] },
         { word: 'achocolatado', strong: ['chocolate-quente', 'leite'], weak: ['suco', 'agua'] },
         { word: 'mate', strong: ['cha', 'chimarrao'], weak: ['refrigerante', 'suco'] },
-        { word: 'leite', strong: ['vitamina', 'achocolatado'], weak: ['cafe', 'suco'] }
+        { word: 'leite', strong: ['vitamina', 'achocolatado'], weak: ['cafe', 'suco'] },
         { word: 'milkshake', strong: ['limonada', 'caldo-de-cana'], weak: ['mojito', 'limonada-suica'] },
         { word: 'limonada', strong: ['milkshake', 'caldo-de-cana'], weak: ['mojito', 'limonada-suica'] },
         { word: 'caldo-de-cana', strong: ['milkshake', 'limonada'], weak: ['mojito', 'limonada-suica'] },
@@ -510,7 +510,7 @@ window.DATA.impostor = {
         { word: 'canada', strong: ['estados-unidos', 'alemanha'], weak: ['brasil', 'japao'] },
         { word: 'estados-unidos', strong: ['canada', 'mexico'], weak: ['brasil', 'japao'] },
         { word: 'australia', strong: ['nova-zelandia', 'canada'], weak: ['japao', 'brasil'] },
-        { word: 'india', strong: ['china', 'japao'], weak: ['brasil', 'australia'] }
+        { word: 'india', strong: ['china', 'japao'], weak: ['brasil', 'australia'] },
         { word: 'chile', strong: ['peru', 'bolivia'], weak: ['irlanda', 'escocia'] },
         { word: 'peru', strong: ['chile', 'bolivia'], weak: ['irlanda', 'escocia'] },
         { word: 'bolivia', strong: ['chile', 'peru'], weak: ['irlanda', 'escocia'] },
@@ -557,7 +557,7 @@ window.DATA.impostor = {
         { word: 'caixa-de-som', strong: ['fone-de-ouvido', 'microfone'], weak: ['impressora', 'smartwatch'] },
         { word: 'smartwatch', strong: ['smartphone', 'tablet'], weak: ['monitor', 'teclado'] },
         { word: 'camera', strong: ['webcam', 'webcam'], weak: ['celular', 'monitor'] },
-        { word: 'webcam', strong: ['camera', 'impressora'], weak: ['celular', 'smartwatch'] }
+        { word: 'webcam', strong: ['camera', 'impressora'], weak: ['celular', 'smartwatch'] },
         { word: 'impressora', strong: ['roteador', 'wifi'], weak: ['aplicativo', 'processador'] },
         { word: 'roteador', strong: ['impressora', 'wifi'], weak: ['aplicativo', 'processador'] },
         { word: 'wifi', strong: ['impressora', 'roteador'], weak: ['aplicativo', 'processador'] },
@@ -604,7 +604,7 @@ window.DATA.impostor = {
         { word: 'Coca-Cola', strong: ['Pepsi', 'Subway'], weak: ['Nike', 'Apple'] },
         { word: 'Pepsi', strong: ['Coca-Cola', 'McDonalds'], weak: ['Apple', 'Toyota'] },
         { word: 'McDonalds', strong: ['Burger-King', 'Subway'], weak: ['Apple', 'Nike'] },
-        { word: 'Burger-King', strong: ['McDonalds', 'Subway'], weak: ['Samsung', 'Toyota'] }
+        { word: 'Burger-King', strong: ['McDonalds', 'Subway'], weak: ['Samsung', 'Toyota'] },
         { word: 'Subway', strong: ['Amazon', 'Netflix'], weak: ['Nintendo', 'PlayStation'] },
         { word: 'Amazon', strong: ['Subway', 'Netflix'], weak: ['Nintendo', 'PlayStation'] },
         { word: 'Netflix', strong: ['Subway', 'Amazon'], weak: ['Nintendo', 'PlayStation'] },
@@ -651,13 +651,13 @@ window.DATA.impostor = {
         { word: 'Mario', strong: ['Zelda', 'Sonic'], weak: ['Naruto', 'Harry-Potter'] },
         { word: 'Sonic', strong: ['Mario', 'Mario'], weak: ['Goku', 'Frozen'] },
         { word: 'Bob-Esponja', strong: ['Mickey', 'Chaves'], weak: ['Batman', 'Goku'] },
-        { word: 'Chaves', strong: ['Homer-Simpson', 'Bob-Esponja'], weak: ['Naruto', 'Superman'] }
+        { word: 'Chaves', strong: ['Homer-Simpson', 'Bob-Esponja'], weak: ['Naruto', 'Superman'] },
         { word: 'Pokemon', strong: ['Superman', 'Capitao-America'], weak: ['Vegeta', 'Zelda'] },
         { word: 'Superman', strong: ['Pokemon', 'Capitao-America'], weak: ['Vegeta', 'Zelda'] },
         { word: 'Capitao-America', strong: ['Pokemon', 'Superman'], weak: ['Vegeta', 'Zelda'] },
         { word: 'Elsa', strong: ['Pokemon', 'Superman'], weak: ['Vegeta', 'Zelda'] },
-        { word: 'Vegeta', strong: ['Zelda', 'Pokemon'], weak: ['SpongeBob', 'Ben-10'] },
-        { word: 'Zelda', strong: ['Vegeta', 'Pokemon'], weak: ['SpongeBob', 'Ben-10'] },
+        { word: 'Vegeta', strong: ['Zelda', 'Pokemon'], weak: ['Bob-Esponja', 'Ben-10'] },
+        { word: 'Zelda', strong: ['Vegeta', 'Pokemon'], weak: ['Bob-Esponja', 'Ben-10'] },
         { word: 'Mickey', strong: ['Donald', 'Pateta'], weak: ['Homer-Simpson', 'Bart-Simpson'] },
         { word: 'Donald', strong: ['Mickey', 'Pateta'], weak: ['Homer-Simpson', 'Bart-Simpson'] },
         { word: 'Pateta', strong: ['Mickey', 'Donald'], weak: ['Homer-Simpson', 'Bart-Simpson'] },
@@ -698,7 +698,7 @@ window.DATA.impostor = {
         { word: 'funk', strong: ['rap', 'trap'], weak: ['jazz', 'classica'] },
         { word: 'classica', strong: ['opera', 'jazz'], weak: ['funk', 'rock'] },
         { word: 'opera', strong: ['classica', 'jazz'], weak: ['rap', 'pop'] },
-        { word: 'punk', strong: ['rock', 'grunge'], weak: ['sertanejo', 'samba'] }
+        { word: 'punk', strong: ['rock', 'grunge'], weak: ['sertanejo', 'samba'] },
         { word: 'axe', strong: ['country', 'soul'], weak: ['bossa-nova', 'k-pop'] },
         { word: 'country', strong: ['axe', 'soul'], weak: ['bossa-nova', 'k-pop'] },
         { word: 'soul', strong: ['axe', 'country'], weak: ['bossa-nova', 'k-pop'] },
@@ -745,7 +745,7 @@ window.DATA.impostor = {
         { word: 'lago', strong: ['rio', 'oceano'], weak: ['deserto', 'furacao'] },
         { word: 'deserto', strong: ['duna', 'savanna'], weak: ['neve', 'cachoeira'] },
         { word: 'duna', strong: ['deserto', 'savanna'], weak: ['cachoeira', 'neve'] },
-        { word: 'arco-iris', strong: ['chuva', 'nuvem'], weak: ['deserto', 'vulcao'] }
+        { word: 'arco-iris', strong: ['chuva', 'nuvem'], weak: ['deserto', 'vulcao'] },
         { word: 'floresta', strong: ['montanha', 'oceano'], weak: ['tornado', 'neblina'] },
         { word: 'montanha', strong: ['floresta', 'oceano'], weak: ['tornado', 'neblina'] },
         { word: 'oceano', strong: ['floresta', 'montanha'], weak: ['tornado', 'neblina'] },
@@ -792,7 +792,7 @@ window.DATA.impostor = {
         { word: 'recreio', strong: ['intervalo', 'quadra'], weak: ['prova', 'exame'] },
         { word: 'intervalo', strong: ['recreio', 'biblioteca'], weak: ['prova', 'simulado'] },
         { word: 'biblioteca', strong: ['livro', 'livro'], weak: ['recreio', 'quadra'] },
-        { word: 'quadra', strong: ['recreio', 'intervalo'], weak: ['biblioteca', 'prova'] }
+        { word: 'quadra', strong: ['recreio', 'intervalo'], weak: ['biblioteca', 'prova'] },
         { word: 'matematica', strong: ['historia', 'geografia'], weak: ['fisica', 'filosofia'] },
         { word: 'historia', strong: ['matematica', 'geografia'], weak: ['fisica', 'filosofia'] },
         { word: 'geografia', strong: ['matematica', 'historia'], weak: ['fisica', 'filosofia'] },
@@ -839,7 +839,7 @@ window.DATA.impostor = {
         { word: 'mascara', strong: ['snorkel', 'oculos-de-mergulho'], weak: ['toalha', 'guarda-sol'] },
         { word: 'sorvete', strong: ['picole', 'agua-de-coco'], weak: ['marisco', 'farol'] },
         { word: 'picole', strong: ['sorvete', 'agua-de-coco'], weak: ['marisco', 'farol'] },
-        { word: 'coqueiro', strong: ['palmeira', 'agua-de-coco'], weak: ['barco', 'farol'] }
+        { word: 'coqueiro', strong: ['palmeira', 'agua-de-coco'], weak: ['barco', 'farol'] },
         { word: 'palmeira', strong: ['agua-de-coco', 'barraca'], weak: ['concha', 'protetor-solar'] },
         { word: 'agua-de-coco', strong: ['palmeira', 'barraca'], weak: ['concha', 'protetor-solar'] },
         { word: 'barraca', strong: ['palmeira', 'agua-de-coco'], weak: ['concha', 'protetor-solar'] },
@@ -886,7 +886,7 @@ window.DATA.impostor = {
         { word: 'batedeira', strong: ['liquidificador', 'processador'], weak: ['frigideira', 'garfo'] },
         { word: 'processador', strong: ['liquidificador', 'batedeira'], weak: ['panela', 'copo'] },
         { word: 'forno', strong: ['fogao', 'micro-ondas'], weak: ['geladeira', 'pia'] },
-        { word: 'pia', strong: ['garrafa', 'escorredor'], weak: ['forno', 'fogao'] }
+        { word: 'pia', strong: ['garrafa', 'escorredor'], weak: ['forno', 'fogao'] },
         { word: 'fogao', strong: ['micro-ondas', 'geladeira'], weak: ['cafeteira', 'jarra'] },
         { word: 'micro-ondas', strong: ['fogao', 'geladeira'], weak: ['cafeteira', 'jarra'] },
         { word: 'geladeira', strong: ['fogao', 'micro-ondas'], weak: ['cafeteira', 'jarra'] },
@@ -919,8 +919,8 @@ window.DATA.impostor = {
         { word: 'rua', strong: ['avenida', 'calcada'], weak: ['museu', 'parque'] },
         { word: 'avenida', strong: ['rua', 'calcada'], weak: ['museu', 'praca'] },
         { word: 'calcada', strong: ['rua', 'ciclovia'], weak: ['shopping', 'hospital'] },
-        { word: 'praca', strong: ['parque', 'jardim'], weak: ['hospital', 'avenida'] },
-        { word: 'parque', strong: ['praca', 'jardim'], weak: ['hospital', 'shopping'] },
+        { word: 'praca', strong: ['parque', 'praca'], weak: ['hospital', 'avenida'] },
+        { word: 'parque', strong: ['praca', 'praca'], weak: ['hospital', 'shopping'] },
         { word: 'shopping', strong: ['mercado', 'cinema'], weak: ['parque', 'museu'] },
         { word: 'mercado', strong: ['supermercado', 'feira'], weak: ['cinema', 'praca'] },
         { word: 'supermercado', strong: ['mercado', 'feira'], weak: ['cinema', 'parque'] },
@@ -933,7 +933,7 @@ window.DATA.impostor = {
         { word: 'biblioteca', strong: ['escola', 'faculdade'], weak: ['shopping', 'aeroporto'] },
         { word: 'cinema', strong: ['teatro', 'shopping'], weak: ['hospital', 'parque'] },
         { word: 'teatro', strong: ['cinema', 'museu'], weak: ['hospital', 'mercado'] },
-        { word: 'aeroporto', strong: ['rodoviaria', 'estacao'], weak: ['shopping', 'parque'] }
+        { word: 'aeroporto', strong: ['rodoviaria', 'estacao'], weak: ['shopping', 'parque'] },
         { word: 'rodoviaria', strong: ['estacao', 'restaurante'], weak: ['museu', 'estadio'] },
         { word: 'estacao', strong: ['rodoviaria', 'restaurante'], weak: ['museu', 'estadio'] },
         { word: 'restaurante', strong: ['rodoviaria', 'estacao'], weak: ['museu', 'estadio'] },
