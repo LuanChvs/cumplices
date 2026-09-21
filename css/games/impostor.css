@@ -44,3 +44,71 @@
   color: var(--muted);
   font-size: .9rem;
 }
+
+
+.impostor__players {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.impostor__players label {
+  display: grid;
+  gap: .45rem;
+  font-weight: 600;
+}
+
+.impostor__players input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: .9rem 1rem;
+  color: inherit;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .8rem;
+  font: inherit;
+}
+
+.impostor__feedback {
+  min-height: 1.5em;
+}
+
+.impostor__theme-card,
+.impostor__secret-card,
+.impostor__next-card {
+  display: grid;
+  gap: .45rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.impostor__theme-card strong {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+}
+
+.impostor__secret-card {
+  padding: 2rem 1.5rem;
+}
+
+.impostor__secret-card span,
+.impostor__next-card span {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.impostor__secret-word {
+  font-size: clamp(2rem, 8vw, 3rem);
+}
+
+.impostor__secret-warning {
+  text-align: center;
+  font-size: .9rem;
+}
+
+.impostor__next-card.is-ready {
+  border-color: currentColor;
+}
