@@ -194,7 +194,7 @@ function renderImpostor() {
         <div class="impostor__modes" aria-label="Modos de jogo">
           <button type="button" class="impostor__mode" data-impostor-mode="normal">
             <strong>Modo Normal</strong>
-            <span>Para 3 ou mais jogadores · em breve</span>
+            <span>3 a 6 jogadores · descubram quem é o Impostor</span>
           </button>
           <button type="button" class="impostor__mode" data-impostor-mode="duo">
             <strong>Modo Duo</strong>
@@ -1041,6 +1041,9 @@ function renderImpostor() {
         players.className = 'impostor__players';
 
         state.classicPlayers.forEach((player, index) => {
+          const row = document.createElement('div');
+          row.className = 'impostor__classic-player-input';
+
           const label = document.createElement('label');
           label.textContent = `Jogador ${index + 1}`;
 
@@ -1053,11 +1056,46 @@ function renderImpostor() {
             state.classicPlayers[index] = input.value;
           };
 
+          row.append(label);
+
+          if (state.classicPlayers.length > 3) {
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'impostor__classic-player-remove';
+            remove.textContent = '×';
+            remove.setAttribute('aria-label', `Remover ${player || `jogador ${index + 1}`}`);
+            remove.onclick = () => {
+              state.classicPlayers.splice(index, 1);
+              renderTab();
+            };
+            row.append(remove);
+          }
+
           label.append(input);
-          players.append(label);
+          players.append(row);
         });
 
-        content.append(players);
+        const playerActions = document.createElement('div');
+        playerActions.className = 'impostor__classic-player-actions';
+
+        const add = document.createElement('button');
+        add.type = 'button';
+        add.className = 'impostor__classic-player-add';
+        add.textContent = '+ Adicionar jogador';
+        add.disabled = state.classicPlayers.length >= 6;
+        add.onclick = () => {
+          if (state.classicPlayers.length >= 6) return;
+          state.classicPlayers.push(`Jogador ${state.classicPlayers.length + 1}`);
+          renderTab();
+        };
+
+        playerActions.append(add);
+
+        const counter = document.createElement('small');
+        counter.textContent = `${state.classicPlayers.length}/6 jogadores`;
+        playerActions.append(counter);
+
+        content.append(players, playerActions);
         return;
       }
 
@@ -1214,50 +1252,66 @@ function renderImpostor() {
     const index = state.classicRevealIndex;
     const player = state.classicPlayers[index];
     const isImpostor = index === state.classicImpostorIndex;
+    const value = isImpostor
+      ? (state.classicDifficulty !== 'none' && state.classicImpostorInfo
+        ? state.classicImpostorInfo
+        : 'Nenhuma informação')
+      : state.classicSecretWord;
 
-    let title = 'Sua palavra secreta';
-    let value = state.classicSecretWord;
-    let description = 'Memorize a palavra. Depois passe o celular para o próximo jogador.';
-
-    if (isImpostor) {
-      title = 'Você é o Impostor';
-      description = state.classicDifficulty === 'none'
-        ? 'Você não recebeu nenhuma informação. Tente descobrir a palavra ouvindo as pistas.'
-        : 'Você recebeu uma informação sobre a palavra. Tente descobrir qual é a palavra verdadeira durante a rodada.';
-
-      if (state.classicDifficulty !== 'none' && state.classicImpostorInfo) {
-        value = state.classicImpostorInfo;
-      } else {
-        value = 'Nenhuma informação';
-      }
-    }
+    const roleLabel = isImpostor ? '👻 VOCÊ É O IMPOSTOR' : '😇 VOCÊ NÃO É O IMPOSTOR';
+    const roleTitle = isImpostor
+      ? (state.classicDifficulty === 'none' ? 'Você não recebeu a palavra' : 'Sua informação secreta')
+      : 'Sua palavra secreta';
+    const description = isImpostor
+      ? (state.classicDifficulty === 'none'
+        ? 'Descubra a palavra pelas pistas sem deixar ninguém perceber.'
+        : 'Use esta informação para tentar descobrir a palavra durante a rodada.')
+      : 'Memorize a palavra e passe o celular quando terminar.';
 
     root.innerHTML = `
       <div class="impostor__intro impostor__secret">
-        <span class="eyebrow">${isImpostor ? 'Papel secreto' : 'Sua palavra secreta'}</span>
+        <span class="eyebrow">${isImpostor ? 'Papel secreto' : 'Carta secreta'}</span>
         <h2>${player}</h2>
         <p>${description}</p>
 
-        <div class="impostor__secret-card">
-          <span>${title}</span>
-          <strong class="impostor__secret-word"></strong>
-        </div>
-
-        ${isImpostor && state.classicDifficulty !== 'none' ? '<p class="impostor__classic-info-label">Sua pista inicial</p>' : ''}
+        <button type="button" class="impostor__classic-secret-card ${isImpostor ? 'is-impostor' : 'is-player'}" aria-expanded="false">
+          <span class="impostor__classic-card-cover">
+            <strong>${isImpostor ? '👻' : '🎭'}</strong>
+            <b>Toque para revelar</b>
+            <small>Somente ${player}</small>
+          </span>
+          <span class="impostor__classic-card-content">
+            <span class="impostor__classic-role">${roleLabel}</span>
+            <strong>${roleTitle}</strong>
+            <b class="impostor__secret-word"></b>
+            ${isImpostor && state.classicDifficulty !== 'none'
+              ? '<small class="impostor__classic-info-label">Sua pista inicial</small>'
+              : ''}
+          </span>
+        </button>
 
         <p class="impostor__secret-warning">
-          Não deixe outro jogador ver esta tela.
+          Não deixe outro jogador ver a carta revelada.
         </p>
 
-        <button type="button" class="btn btn-primary impostor__classic-secret-hide">
-          Já vi minha informação →
+        <button type="button" class="btn btn-primary impostor__classic-secret-hide" disabled>
+          Já vi minha carta →
         </button>
       </div>
     `;
 
+    const card = root.querySelector('.impostor__classic-secret-card');
+    const hide = root.querySelector('.impostor__classic-secret-hide');
     root.querySelector('.impostor__secret-word').textContent = value;
 
-    root.querySelector('.impostor__classic-secret-hide').onclick = () => {
+    card.onclick = () => {
+      card.classList.add('is-revealed');
+      card.setAttribute('aria-expanded', 'true');
+      hide.disabled = false;
+      card.onclick = null;
+    };
+
+    hide.onclick = () => {
       if (index < state.classicPlayers.length - 1) {
         state.classicRevealIndex += 1;
         state.screen = 'classicSecretPrep';
@@ -1331,8 +1385,8 @@ function renderImpostor() {
 
       if (state.classicRevealedImpostor) {
         const card = document.createElement('div');
-        card.className = 'impostor__result-card';
-        card.innerHTML = `<span>O Impostor era</span><b>${state.classicPlayers[state.classicImpostorIndex]}</b>`;
+        card.className = 'impostor__result-card impostor__result-card--impostor';
+        card.innerHTML = `<span>👻 O Impostor era</span><b>${state.classicPlayers[state.classicImpostorIndex]}</b>`;
         result.append(card);
       }
 
