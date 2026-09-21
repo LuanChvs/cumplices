@@ -24,18 +24,18 @@ window.DATA.quizPerguntas = [
   quizPergunta("Ele(a) costuma chegar cedo ou em cima da hora?"),
   quizPergunta("Ele(a) guarda rancor ou esquece rápido?"),
   quizPergunta("Ele(a) prefere conversar ou ficar quieto(a) quando está chateado(a)?"),
-  quizPergunta("Qual é a qualidade dele(a) que você mais admira?"),
-  quizPergunta("Qual é o defeito dele(a) que mais aparece no dia a dia?"),
+  quizPergunta("Qual é a qualidade dele(a) que você mais admira?", ['casal', 'resenha']),
+  quizPergunta("Qual é o defeito dele(a) que mais aparece no dia a dia?", ['casal', 'resenha']),
   quizPergunta("O que faz ele(a) perder a paciência mais rápido?"),
   quizPergunta("Em uma discussão, quem costuma procurar resolver primeiro: ele(a) ou você?"),
   quizPergunta("Ele(a) prefere receber uma surpresa ou saber tudo com antecedência?"),
   quizPergunta("Ele(a) é mais competitivo(a) ou tranquilo(a) em jogos?"),
   quizPergunta("Ele(a) costuma pensar muito antes de tomar decisões?"),
   quizPergunta("O que ele(a) faria se tivesse um dia inteiro completamente livre?"),
-  quizPergunta("Qual é uma coisa que ele(a) nunca admite facilmente que gosta?"),
+  quizPergunta("Qual é uma coisa que ele(a) nunca admite facilmente que gosta?", ['casal', 'resenha']),
   quizPergunta("Qual é uma mania dele(a) que você já percebeu?"),
-  quizPergunta("Qual é uma frase ou expressão que ele(a) fala muito?"),
-  quizPergunta("Qual é a coisa mais aleatória que consegue deixar ele(a) feliz?"),
+  quizPergunta("Qual é uma frase ou expressão que ele(a) fala muito?", ['casal', 'resenha']),
+  quizPergunta("Qual é a coisa mais aleatória que consegue deixar ele(a) feliz?", ['casal', 'resenha']),
   quizPergunta("O que ele(a) costuma fazer quando está nervoso(a)?"),
   quizPergunta("Ele(a) prefere resolver um problema sozinho(a) ou pedir ajuda?"),
   quizPergunta("Qual situação faz ele(a) ficar imediatamente animado(a)?"),
@@ -73,14 +73,14 @@ window.DATA.quizPerguntas = [
   quizPergunta("Qual comida ele(a) escolheria para comer em um dia frio?"),
   quizPergunta("Qual comida ele(a) escolheria para comemorar alguma coisa?"),
   quizPergunta("Qual é o sabor de bolo favorito dele(a)?"),
-  quizPergunta("Qual é o doce que mais lembra a infância dele(a)?"),
+  quizPergunta("Qual é o doce que mais lembra a infância dele(a)?", ['casal', 'resenha']),
 
   // =========================================================
   // FILMES, SÉRIES, ANIMES E TV
   // =========================================================
-  quizPergunta("Qual é o filme favorito dele(a)?"),
-  quizPergunta("Qual é a série favorita dele(a)?"),
-  quizPergunta("Qual é o anime favorito dele(a), se assistir anime?"),
+  quizPergunta("Qual é o filme favorito dele(a)?", ['casal', 'resenha']),
+  quizPergunta("Qual é a série favorita dele(a)?", ['casal', 'resenha']),
+  quizPergunta("Qual é o anime favorito dele(a), se assistir anime?", ['casal', 'resenha']),
   quizPergunta("Qual filme ele(a) consegue assistir várias vezes?"),
   quizPergunta("Qual série ele(a) gostaria de esquecer para assistir novamente?"),
   quizPergunta("Qual personagem de filme ou série ele(a) mais gosta?"),
@@ -131,7 +131,7 @@ window.DATA.quizPerguntas = [
   // =========================================================
   // JOGOS, INTERNET E TECNOLOGIA
   // =========================================================
-  quizPergunta("Qual é o jogo favorito dele(a)?"),
+  quizPergunta("Qual é o jogo favorito dele(a)?", ['casal', 'resenha']),
   quizPergunta("Qual jogo ele(a) jogou por mais tempo na vida?"),
   quizPergunta("Qual jogo ele(a) gostaria de aprender a jogar melhor?"),
   quizPergunta("Qual personagem de jogo ele(a) mais gosta?"),
@@ -155,7 +155,7 @@ window.DATA.quizPerguntas = [
   // =========================================================
   // VIAGENS E LUGARES
   // =========================================================
-  quizPergunta("Qual é o destino dos sonhos dele(a)?"),
+  quizPergunta("Qual é o destino dos sonhos dele(a)?", ['casal', 'resenha']),
   quizPergunta("Qual lugar do Brasil ele(a) mais gostaria de conhecer?"),
   quizPergunta("Qual país ele(a) mais gostaria de visitar?"),
   quizPergunta("Ele(a) prefere praia, campo ou cidade?"),
@@ -180,9 +180,9 @@ window.DATA.quizPerguntas = [
   // SONHOS, FUTURO E VIDA
   // =========================================================
   quizPergunta("Qual é o maior sonho dele(a) atualmente?"),
-  quizPergunta("Qual é o maior sonho profissional dele(a)?"),
-  quizPergunta("Qual é o maior sonho de consumo dele(a) agora?"),
-  quizPergunta("Qual lugar ele(a) gostaria de morar no futuro?"),
+  quizPergunta("Qual é o maior sonho profissional dele(a)?", ['casal', 'resenha']),
+  quizPergunta("Qual é o maior sonho de consumo dele(a) agora?", ['casal', 'resenha']),
+  quizPergunta("Qual lugar ele(a) gostaria de morar no futuro?", ['casal', 'resenha']),
   quizPergunta("Qual profissão ele(a) teria se pudesse experimentar outra carreira?"),
   quizPergunta("Qual habilidade ele(a) gostaria muito de aprender?"),
   quizPergunta("Qual idioma ele(a) gostaria de aprender?"),
@@ -195,7 +195,7 @@ window.DATA.quizPerguntas = [
   quizPergunta("Qual seria o primeiro grande gasto dele(a) se ganhasse muito dinheiro?"),
   quizPergunta("Qual causa ele(a) gostaria de apoiar mais?"),
   quizPergunta("Como seria um dia perfeito para ele(a) daqui a alguns anos?"),
-  quizPergunta("O que ele(a) gostaria que as pessoas lembrassem sobre ele(a)?"),
+  quizPergunta("O que ele(a) gostaria que as pessoas lembrassem sobre ele(a)?", ['casal', 'resenha']),
   quizPergunta("Qual experiência ele(a) gostaria de viver pelo menos uma vez?"),
   quizPergunta("Qual desafio pessoal ele(a) gostaria de superar?"),
   quizPergunta("Qual coisa ele(a) gostaria de aprender a fazer sozinho(a)?"),
@@ -266,8 +266,8 @@ window.DATA.quizPerguntas = [
   quizPergunta("Qual objeto ele(a) quase sempre carrega consigo?"),
   quizPergunta("Qual coisa ele(a) sempre esquece?"),
   quizPergunta("Qual coisa ele(a) sempre confere antes de sair de casa?"),
-  quizPergunta("Qual é a mania mais estranha dele(a)?"),
-  quizPergunta("Qual é a mania mais fofa dele(a)?"),
+  quizPergunta("Qual é a mania mais estranha dele(a)?", ['casal', 'resenha']),
+  quizPergunta("Qual é a mania mais fofa dele(a)?", ['casal', 'resenha']),
   quizPergunta("Qual é a coisa que ele(a) mais demora para escolher?"),
   quizPergunta("Qual é a coisa que ele(a) decide mais rápido?"),
   quizPergunta("Ele(a) prefere trabalhar ou estudar com música ou em silêncio?"),
@@ -280,11 +280,11 @@ window.DATA.quizPerguntas = [
   // =========================================================
   // MEDOS, PREFERÊNCIAS E CURIOSIDADES
   // =========================================================
-  quizPergunta("Qual é o maior medo dele(a)?"),
-  quizPergunta("Qual situação ele(a) evitaria a qualquer custo?"),
+  quizPergunta("Qual é o maior medo dele(a)?", ['casal', 'resenha']),
+  quizPergunta("Qual situação ele(a) evitaria a qualquer custo?", ['casal', 'resenha']),
   quizPergunta("Qual animal ele(a) teria medo de encontrar de perto?"),
   quizPergunta("Qual situação faria ele(a) perder completamente a coragem?"),
-  quizPergunta("Qual é uma coisa que ele(a) jamais faria por dinheiro?"),
+  quizPergunta("Qual é uma coisa que ele(a) jamais faria por dinheiro?", ['casal', 'resenha']),
   quizPergunta("Qual é uma coisa que ele(a) teria coragem de fazer sem pensar muito?"),
   quizPergunta("Ele(a) prefere frio ou calor?"),
   quizPergunta("Ele(a) prefere chuva ou sol?"),
@@ -307,7 +307,7 @@ window.DATA.quizPerguntas = [
   quizPergunta("Se pudesse ter qualquer superpoder, qual ele(a) escolheria?"),
   quizPergunta("Se pudesse morar em qualquer universo fictício, qual escolheria?"),
   quizPergunta("Se ganhasse um milhão hoje, qual seria a primeira coisa que faria?"),
-  quizPergunta("Se pudesse jantar com qualquer pessoa famosa, quem escolheria?"),
+  quizPergunta("Se pudesse jantar com qualquer pessoa famosa, quem escolheria?", ['casal', 'resenha']),
   quizPergunta("Se pudesse aprender instantaneamente uma habilidade, qual escolheria?"),
   quizPergunta("Se pudesse voltar para qualquer época da história, qual escolheria?"),
   quizPergunta("Se pudesse viver um dia como qualquer personagem, quem escolheria?"),
@@ -321,7 +321,7 @@ window.DATA.quizPerguntas = [
   quizPergunta("Se pudesse escolher qualquer profissão por um ano, qual experimentaria?"),
   quizPergunta("Se pudesse trocar de vida com alguém por um dia, quem escolheria?"),
   quizPergunta("Se pudesse ter uma coleção de qualquer coisa, o que colecionaria?"),
-  quizPergunta("Se pudesse criar uma regra nova para o mundo, qual seria?"),
+  quizPergunta("Se pudesse criar uma regra nova para o mundo, qual seria?", ['casal', 'resenha']),
   quizPergunta("Se pudesse reviver um dia da própria vida, qual escolheria?"),
   quizPergunta("Se pudesse receber uma resposta definitiva sobre qualquer pergunta da vida, o que perguntaria?"),
 
@@ -331,11 +331,11 @@ window.DATA.quizPerguntas = [
   quizPergunta("Qual seria a pior desculpa que ele(a) inventaria para não sair?", ['resenha']),
   quizPergunta("Qual famoso ele(a) provavelmente convidaria para uma festa?", ['resenha']),
   quizPergunta("Qual seria o maior motivo para ele(a) ser expulso(a) de uma festa?", ['resenha']),
-  quizPergunta("Qual seria o primeiro objeto estranho que ele(a) compraria se ficasse rico(a)?", ['resenha']),
+  quizPergunta("Qual seria o primeiro objeto estranho que ele(a) compraria se ficasse rico(a)?", ['casal', 'resenha']),
   quizPergunta("Qual personagem de desenho seria o pior colega de quarto para ele(a)?", ['resenha']),
   quizPergunta("Qual seria o maior desastre se ele(a) tivesse que cozinhar para dez pessoas?", ['resenha']),
   quizPergunta("Qual seria o pior emprego possível para ele(a)?", ['resenha']),
-  quizPergunta("Qual seria a coisa mais aleatória que ele(a) faria com um dia completamente livre?", ['resenha']),
+  quizPergunta("Qual seria a coisa mais aleatória que ele(a) faria com um dia completamente livre?", ['casal', 'resenha'] )
   quizPergunta("Qual seria a primeira regra que ele(a) criaria se mandasse no mundo por um dia?", ['resenha']),
   quizPergunta("Qual seria o reality show perfeito para ele(a) participar?", ['resenha']),
   quizPergunta("Qual personagem fictício ele(a) provavelmente escolheria para ser seu melhor amigo?", ['resenha']),
@@ -355,9 +355,9 @@ window.DATA.quizPerguntas = [
   quizPergunta("Qual seria o maior motivo para ele(a) ser famoso(a) na internet?", ['resenha']),
   quizPergunta("Qual seria o personagem de filme que mais provavelmente perderia a paciência com ele(a)?", ['resenha']),
   quizPergunta("Qual seria a coisa mais estranha que ele(a) faria se ninguém estivesse olhando?", ['resenha']),
-  quizPergunta("Qual seria o primeiro pedido dele(a) se encontrasse um gênio da lâmpada?", ['resenha']),
+  quizPergunta("Qual seria o primeiro pedido dele(a) se encontrasse um gênio da lâmpada?", ['casal', 'resenha']),
   quizPergunta("Qual seria a pior música possível para tocar na entrada triunfal dele(a)?", ['resenha']),
-  quizPergunta("Qual seria a maior mentira inocente que ele(a) contaria para ganhar uma aposta?", ['resenha']),
+  quizPergunta("Qual seria a maior mentira inocente que ele(a) contaria para ganhar uma aposta?", ['casal', 'resenha']),
   quizPergunta("Qual seria o desafio de programa de TV que ele(a) mais provavelmente venceria?", ['resenha']),
   quizPergunta("Qual seria o desafio de programa de TV que ele(a) provavelmente perderia?", ['resenha']),
   quizPergunta("Qual seria a profissão mais aleatória que combinaria com ele(a)?", ['resenha']),
@@ -373,11 +373,11 @@ window.DATA.quizPerguntas = [
   quizPergunta("Qual seria a pior invenção possível que ele(a) conseguiria criar?", ['resenha']),
   quizPergunta("Qual seria o nome de um reality show sobre a vida dele(a)?", ['resenha']),
   quizPergunta("Qual seria a frase que poderia virar bordão dele(a)?", ['resenha']),
-  quizPergunta("Qual seria o maior motivo para ele(a) ganhar uma competição?", ['resenha']),
-  quizPergunta("Qual seria o maior motivo para ele(a) desistir de uma competição?", ['resenha']),
+  quizPergunta("Qual seria o maior motivo para ele(a) ganhar uma competição?", ['casal', 'resenha']),
+  quizPergunta("Qual seria o maior motivo para ele(a) desistir de uma competição?", ['casal', 'resenha']),
   quizPergunta("Qual seria o objeto mais aleatório que ele(a) teria em uma mochila?", ['resenha']),
   quizPergunta("Qual seria a primeira coisa que ele(a) faria se pudesse ficar invisível por um dia?", ['resenha']),
   quizPergunta("Qual seria o pior conselho que ele(a) poderia dar para alguém?", ['resenha']),
-  quizPergunta("Qual seria o melhor apelido para uma dupla formada por vocês dois?", ['resenha']),
-  quizPergunta("Qual seria a coisa mais provável de vocês dois discutirem por cinco minutos e depois esquecerem?", ['resenha'])
+  quizPergunta("Qual seria o melhor apelido para uma dupla formada por vocês dois?", ['casal', 'resenha']),
+  quizPergunta("Qual seria a coisa mais provável de vocês dois discutirem por cinco minutos e depois esquecerem?", ['casal', 'resenha'])
 ];
