@@ -101,6 +101,11 @@ function renderImpostor() {
 
     if (state.screen === 'judgment') {
       renderJudgment();
+      return;
+    }
+
+    if (state.screen === 'result') {
+      renderResult();
     }
   };
 
@@ -574,7 +579,85 @@ function renderImpostor() {
         return;
       }
 
-      state.screen = 'judgment';
+      state.screen = 'result';
+      render();
+    };
+  };
+
+  const renderResult = () => {
+    const actualTruth = state.statements.map((statement, index) => statement === state.words[index]);
+    const scores = [0, 0];
+
+    state.players.forEach((player, index) => {
+      const opponentIndex = index === 0 ? 1 : 0;
+      const judgment = state.judgments[index];
+
+      if (judgment.bluff === actualTruth[opponentIndex]) scores[index] += 1;
+      if (judgment.word === state.words[opponentIndex]) scores[index] += 2;
+
+      const opponentJudgment = state.judgments[opponentIndex];
+      if (opponentJudgment.bluff !== actualTruth[index]) scores[index] += 1;
+    });
+
+    root.innerHTML = `
+      <div class="impostor__intro impostor__result">
+        <span class="eyebrow">Resultado</span>
+        <h2>Hora da verdade</h2>
+        <p>Agora todas as informações da rodada podem ser reveladas.</p>
+
+        <div class="impostor__result-words">
+          ${state.players.map((player, index) => `
+            <div class="impostor__result-card">
+              <span>${player}</span>
+              <b>Palavra verdadeira: ${state.words[index]}</b>
+              <em>Declaração: ${state.statements[index]} · ${actualTruth[index] ? 'Verdadeira' : 'Blefe'}</em>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="impostor__result-judgments">
+          ${state.players.map((player, index) => {
+            const opponentIndex = index === 0 ? 1 : 0;
+            const judgment = state.judgments[index];
+            const bluffHit = judgment.bluff === actualTruth[opponentIndex];
+            const wordHit = judgment.word === state.words[opponentIndex];
+
+            return `
+              <div class="impostor__result-card">
+                <span>${player} julgou ${state.players[opponentIndex]}</span>
+                <b>${judgment.bluff ? 'Verdadeira' : 'Blefe'} · ${judgment.word}</b>
+                <em>Declaração: ${bluffHit ? 'acertou' : 'errou'} · Palavra: ${wordHit ? 'acertou' : 'errou'}</em>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <div class="impostor__scores">
+          ${state.players.map((player, index) => `
+            <div class="impostor__score">
+              <span>${player}</span>
+              <strong>${scores[index]} ponto${scores[index] === 1 ? '' : 's'}</strong>
+            </div>
+          `).join('')}
+        </div>
+
+        <button type="button" class="btn btn-primary impostor__new-round">
+          Nova rodada →
+        </button>
+      </div>
+    `;
+
+    root.querySelector('.impostor__new-round').onclick = () => {
+      if (!pickRound()) return;
+
+      state.revealedPlayerIndex = 0;
+      state.statementPlayerIndex = 0;
+      state.questionIndex = 0;
+      state.questionText = '';
+      state.questions = [];
+      state.judgmentPlayerIndex = 0;
+      state.judgments = [null, null];
+      state.screen = 'theme';
       render();
     };
   };
