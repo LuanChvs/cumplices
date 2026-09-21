@@ -2,10 +2,14 @@
   width: 100%;
 }
 
+.impostor button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .impostor__intro {
-  max-width: 760px;
+  max-width: 620px;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 1.5rem 0 2rem;
 }
 
 .impostor__intro h1 {
@@ -15,6 +19,11 @@
 .impostor__intro p {
   color: var(--muted);
   line-height: 1.7;
+}
+
+.impostor__intro > .btn {
+  width: 100%;
+  margin-top: .5rem;
 }
 
 .impostor__modes {
@@ -48,26 +57,30 @@
 
 .impostor__players {
   display: grid;
-  gap: 1rem;
-  margin: 1.5rem 0;
+  gap: 10px;
+  margin: 1rem 0 1.25rem;
 }
 
 .impostor__players label {
   display: grid;
-  gap: .45rem;
-  font-weight: 600;
+  gap: .35rem;
+  color: var(--text-dim, var(--muted));
+  font-size: .72rem;
+  font-weight: 800;
 }
 
 .impostor__players input {
   width: 100%;
   box-sizing: border-box;
-  padding: .9rem 1rem;
+  height: 42px;
+  padding: 0 12px;
   color: inherit;
-  background: var(--panel);
+  background: var(--panel-2, var(--panel));
   border: 1px solid var(--line);
-  border-radius: .8rem;
+  border-radius: 10px;
   font: inherit;
-}
+  font-size: .8rem;
+  outline: none;
 
 .impostor__feedback {
   min-height: 1.5em;
@@ -143,9 +156,10 @@
 
 .impostor__statement-option {
   display: grid;
-  gap: .25rem;
+  gap: .2rem;
   width: 100%;
-  padding: 1rem 1.1rem;
+  min-height: 58px;
+  padding: .7rem .85rem;
   text-align: left;
   color: inherit;
   background: var(--panel);
@@ -255,11 +269,12 @@
 }
 
 .impostor__answer-option {
-  padding: 1rem .75rem;
+  min-height: 46px;
+  padding: .65rem .75rem;
   color: inherit;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: .85rem;
+  border-radius: 10px;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -294,11 +309,12 @@
 
 .impostor__judgment-option,
 .impostor__guess {
-  padding: 1rem;
+  min-height: 46px;
+  padding: .65rem 1rem;
   color: inherit;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: .85rem;
+  border-radius: 10px;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -430,19 +446,20 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: .5rem;
-  margin: 1.5rem 0;
-  padding: .35rem;
+  margin: 1.25rem 0;
+  padding: 4px;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: .9rem;
 }
 
 .impostor__config-tab {
-  padding: .85rem 1rem;
-  color: var(--muted);
+  min-height: 40px;
+  padding: .55rem .7rem;
+  color: var(--text-dim, var(--muted));
   background: transparent;
   border: 0;
-  border-radius: .7rem;
+  border-radius: 9px;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -494,11 +511,12 @@
 }
 
 .impostor__question-count {
-  padding: .85rem .5rem;
+  min-height: 40px;
+  padding: .5rem;
   color: inherit;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: .75rem;
+  border-radius: 9px;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
