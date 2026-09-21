@@ -1233,7 +1233,7 @@ const FORCA_ANIME = {
     "evangelion",
     "akira",
     "pokémon"
-  ]
+  ],
   "HunterXHunter": [
     "gon",
     "killua",
@@ -1284,9 +1284,9 @@ const FORCA_ANIME = {
     "especializacao",
     "exame-hunter",
     "arena-celestial",
-    "ilha-greed",
+    "greed-island",
     "formigas-quimera",
-    "tropa-fantasma",
+    "trupa-fantasma",
     "yorknew"
   ],
   "Naruto": [
