@@ -72,7 +72,7 @@ function renderEmSintonia() {
           <label class="em-sintonia__setup-label">Extremos do espectro</label>
           <div class="em-sintonia__choice-grid em-sintonia__choice-grid--compact">
             <button type="button" class="em-sintonia__choice" data-theme-mode="random"><strong>🎲 Aleatório</strong><span>Qualquer espectro do jogo.</span></button>
-            <button type="button" class="em-sintonia__choice" data-theme-mode="family"><strong>🗂️ Por tema</strong><span>Escolha uma família de espectros.</span></button>
+            <button type="button" class="em-sintonia__choice" data-theme-mode="family"><strong>🗂️ Por família</strong><span>Escolha uma família de espectros.</span></button>
             <button type="button" class="em-sintonia__choice" data-theme-mode="custom"><strong>✏️ Livre</strong><span>Vocês escrevem os dois extremos.</span></button>
           </div>
           <div class="em-sintonia__family-field" data-role="family-field">
